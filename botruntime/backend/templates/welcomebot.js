@@ -1,0 +1,3 @@
+class WelcomeBot extends Bot {
+
+}
