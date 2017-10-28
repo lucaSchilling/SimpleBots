@@ -5,7 +5,7 @@ function timeout(ms = 3000) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-abstract class Bot {
+class Bot {
     /**
      * Creates a new bot that can join conversations via the specified agent.
      * @param {Agent} agent the agent object that underlies this bot

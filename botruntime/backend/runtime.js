@@ -12,22 +12,35 @@ const cors = require('cors');
 // Hash map module
 const hashMap = require('hashmap');
 
+var db = require('./db');
+
+var state = {
+    loadedBots: null,
+}
+
 config();
 var accountId = process.env.LP_ACCOUNT;
 var username = process.env.LP_USER;
 var password = process.env.LP_PASS;
 var csds = process.env.LP_CSDS;
+var port = process.env.PORT;
+var mongoURL = process.env.MONGOURL;
 
 var server = express();
 server.use(cors());
 server.use(bodyParser.json());
 
-var loadedBots = new HashMap();
-
-
-
-server.listen(3000, function () {
-    console.log('Bot Runtime listening on port 3000');
+db.connect(mongoURL, function(err) {
+    if (err) {
+        console.error(err);
+        process.exit(1);
+    }
+    else {
+        server.listen(port, function () {
+            console.log('Bot Runtime listening on port ${ port }');
+        });
+        state.loadedBots = new HashMap();
+    }
 });
 
 // Bot deployment interface. Expects valid JSON bot config file
@@ -50,7 +63,7 @@ server.post('/deploy', function (req, res) {
 // Turns bots on or off. Expects valid JSON
 server.post('/setStatus', function (req, res) {
     try {
-        let targetBot = loadedBots.get(req.body.id);
+        let targetBot = state.loadedBots.get(req.body.id);
         let status = req.body.status;
         
         // Invalid JSON
@@ -62,13 +75,13 @@ server.post('/setStatus', function (req, res) {
         // Bot does not exist
         if (!targetBot) {
             res.sendStatus(404); 
-            break;
+            return;
         }
 
         // No change
         if (status === targetBot.status) {
             res.sendStatus(200); 
-            break;
+            return;
         }
         // Start bot
         else if (status) {
@@ -107,7 +120,7 @@ server.delete('/delete', function (req, res) {
     }
 });
 
-server.get('/getAll') {
+server.get('/getAll', function(req, res) {
     try {
         // TODO: return all bots
         res.sendStatus(200);
@@ -117,4 +130,4 @@ server.get('/getAll') {
         console.error(e);
         res.sendStatus(500);
     }
-}
+});
