@@ -1,12 +1,22 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+     <Navigation> </Navigation>
     <router-view/>
   </div>
 </template>
 
 <script>
+import Navigation from './components/Navigation.vue'
+
 export default {
+  components: {
+    Navigation
+  },
+  methods: {
+    create: function () {
+      this.$router.push('/templates')
+    }
+  },
   name: 'app'
 }
 </script>
