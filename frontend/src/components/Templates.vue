@@ -28,7 +28,7 @@
             </div></div>
             
             <div data-v-2b6a83fc="" class="md-card md-theme-default"><div data-v-2b6a83fc="" class="md-card-media">
-              <img data-v-2b6a83fc="" src="assets/card-image-2.jpg" alt="People"></div> <div data-v-2b6a83fc="" class="md-card-header"><div data-v-2b6a83fc="" class="md-title">Hi I´m <br> the Consumer FAQ Bot</div> <div data-v-2b6a83fc="" class="md-subhead">Subtitle here</div></div> <div data-v-2b6a83fc="" class="md-card-actions"><button data-v-2b6a83fc="" type="button" class="md-button md-theme-default"> Action<div class="md-ink-ripple"><div class="md-ripple" style="width: 88px; height: 88px;"></div></div></button> <button data-v-2b6a83fc="" type="button" class="md-button md-theme-default"> Action<div class="md-ink-ripple"><div class="md-ripple" style="width: 88px; height: 88px;"></div></div></button></div></div></div>
+              <img data-v-2b6a83fc="" src="assets/card-image-2.jpg" alt="People"></div> <div data-v-2b6a83fc="" class="md-card-header"><div data-v-2b6a83fc="" class="md-title">Hi I´m <br> the Consumer FAQ Bot</div> <div data-v-2b6a83fc="" class="md-subhead">Subtitle here</div></div> <div data-v-2b6a83fc="" class="md-card-actions"><button data-v-2b6a83fc="" type="button" id="1" class="md-button md-theme-default" @click="test()"> Test<div class="md-ink-ripple"><div class="md-ripple" style="width: 88px; height: 88px;"></div></div></button> <button data-v-2b6a83fc="" type="button" class="md-button md-theme-default"> Action<div class="md-ink-ripple"><div class="md-ripple" style="width: 88px; height: 88px;"></div></div></button></div></div></div>
   </div>
 </template>
 
@@ -39,6 +39,11 @@ export default {
   name: 'Templates',
   components: {
     Template
+  },
+  methods: {
+    test: function () {
+      alert('Hallo Welt Dudumz')
+    }
   },
   data () {
     return {}

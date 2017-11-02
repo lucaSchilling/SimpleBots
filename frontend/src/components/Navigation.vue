@@ -6,7 +6,7 @@
   </md-tab>
 
   <md-tab id="music" md-label="Clients">
-    <Clients></Clients>
+  <Clients></Clients>
   </md-tab>
 
   <md-tab id="books" md-label="Bots Status">
@@ -27,12 +27,12 @@ export default {
     }
   },
   components: {
-    Templates, Clients
+    Templates,
+    Clients
   },
   name: 'Navigation',
   data () {
-    return {
-    }
+    return {}
   }
 }
 </script>
