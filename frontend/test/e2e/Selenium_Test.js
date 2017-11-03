@@ -4,4 +4,8 @@ var By = webdriver.By
 var driver = new webdriver.Builder().forBrowser('chrome').build()
 
 driver.get('localhost:8080')
-driver.findElement(By.id('1')).click()
+driver.findElement(By.className('md-icon-button')).click()
+for (var i = 0; i < 10; i++) {
+  driver.findElement(By.id('HomeButton')).click()
+  driver.findElement(By.id('TemplatesButton')).click()
+}

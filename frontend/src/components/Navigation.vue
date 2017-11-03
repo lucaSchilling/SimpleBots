@@ -15,10 +15,10 @@
       </div>
     </md-toolbar>
     <md-list>
-       <md-list-item>
+       <md-list-item id='HomeButton'>
     <router-link to="/" exact>Home</router-link>
       </md-list-item>
-      <md-list-item>
+      <md-list-item id='TemplatesButton'>
     <router-link to="Templates">Templates</router-link>
       </md-list-item>
     </md-list>
