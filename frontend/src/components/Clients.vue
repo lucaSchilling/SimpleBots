@@ -11,8 +11,7 @@
 export default {
   name: 'Clients',
   data () {
-    return {
-    }
+    return {}
   }
 }
 </script>
@@ -20,15 +19,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .md-whiteframe {
-    width: 100px;
-    height: 100px;
-    margin: 24px 12px 12px 24px;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -ms-flex-align: center;
-    align-items: center;
+  width: 100px;
+  height: 100px;
+  margin: 24px 12px 12px 24px;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
-
 </style>

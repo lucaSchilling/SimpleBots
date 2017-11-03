@@ -5,11 +5,11 @@
 
 <script>
 export default {
-  name: "Clients",
-  data() {
-    return {};
+  name: 'Clients',
+  data () {
+    return {}
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

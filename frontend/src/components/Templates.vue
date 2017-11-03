@@ -23,8 +23,7 @@ import TemplatePresentation from './TemplatePresentation.vue'
 
 export default {
   name: 'Templates',
-  methods: {
-  },
+  methods: {},
   components: {
     TemplatePresentation
   },
@@ -36,14 +35,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.card-holder, .md-card{
+.card-holder,
+.md-card {
   width: 100%;
   max-width: 320px;
   margin: 0 4px 16px;
   display: inline-block;
   vertical-align: top;
 }
-template-presentation{
-  display: inline-block
+template-presentation {
+  display: inline-block;
 }
 </style>
