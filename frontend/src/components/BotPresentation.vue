@@ -1,18 +1,16 @@
 <template>
- <div>
-<md-whiteframe md-elevation="2">Lieferheld</md-whiteframe>
-<md-whiteframe md-elevation="3">Bank</md-whiteframe>
-<md-whiteframe md-elevation="4">XY AMI</md-whiteframe>
-<md-whiteframe md-elevation="5">Add a Client</md-whiteframe>
+    <div>
+      <md-whiteframe>
+        {{botname}}</md-whiteframe>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'Clients',
+  props: ['botname'],
+  name: 'BotPresentation',
   data () {
-    return {
-    }
+    return {}
   }
 }
 </script>
@@ -20,8 +18,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .md-whiteframe {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     margin: 24px 12px 12px 24px;
     display: -ms-inline-flexbox;
     display: inline-flex;
@@ -30,5 +28,4 @@ export default {
     -ms-flex-align: center;
     align-items: center;
 }
-
 </style>

@@ -1,34 +1,43 @@
 <template>
- <div>
-<md-tabs md-fixed>
-  <md-tab id="movies" md-label="Launch">
-   <Templates></Templates>
-  </md-tab>
+<div>
+  <md-toolbar>
+    <md-button class="md-icon-button" @click="toggleLeftSidenav">
+      <md-icon>menu</md-icon>
+    </md-button>
 
-  <md-tab id="music" md-label="Clients">
-  <Clients></Clients>
-  </md-tab>
+    <h2 class="md-title">Bot Configuration</h2>
+  </md-toolbar>
 
-  <md-tab id="books" md-label="Bots Status">
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
-  </md-tab>
-</md-tabs>
-    </div>
+  <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
+    <md-toolbar class="md-small">
+      <div class="md-toolbar-container">
+        <h3 class="md-title">Navigation</h3>
+      </div>
+    </md-toolbar>
+    <md-list>
+       <md-list-item>
+    <router-link to="/" exact>Home</router-link>
+      </md-list-item>
+      <md-list-item>
+    <router-link to="Templates">Templates</router-link>
+      </md-list-item>
+    </md-list>
+  </md-sidenav>
+</div>
 </template>
 
 <script>
-import Templates from './Templates.vue'
-import Clients from './Clients.vue'
-
 export default {
   methods: {
-    create: function () {
-      this.$router.push('/templates')
+    toggleLeftSidenav () {
+      this.$refs.leftSidenav.toggle()
+    },
+    open (ref) {
+      console.log('Opened: ' + ref)
+    },
+    close (ref) {
+      console.log('Closed: ' + ref)
     }
-  },
-  components: {
-    Templates,
-    Clients
   },
   name: 'Navigation',
   data () {
@@ -38,23 +47,5 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>

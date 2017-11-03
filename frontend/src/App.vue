@@ -12,11 +12,6 @@ export default {
   components: {
     Navigation
   },
-  methods: {
-    create: function () {
-      this.$router.push('/templates')
-    }
-  },
   name: 'app'
 }
 </script>
