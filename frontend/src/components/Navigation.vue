@@ -21,6 +21,9 @@
       <md-list-item id='TemplatesButton'>
     <router-link to="Templates">Templates</router-link>
       </md-list-item>
+      <md-list-item id='TestButton'>
+    <router-link to="Test">Test</router-link>
+      </md-list-item>
     </md-list>
   </md-sidenav>
 </div>
