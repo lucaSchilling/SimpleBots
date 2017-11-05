@@ -1,16 +1,18 @@
 <template>
   <div id="app">
      <Navigation> </Navigation>
+     <History></History>
     <router-view/>
   </div>
 </template>
 
 <script>
 import Navigation from './components/Navigation.vue'
+import History from './components/History.vue'
 
 export default {
   components: {
-    Navigation
+    Navigation, History
   },
   name: 'app'
 }
