@@ -1,4 +1,3 @@
-const { Agent } = require('node-agent-sdk');
 // Used to transform the existing callback based functions into promise based functions
 // const { promisify } = require('util');
 // Loading .env File which contains all enviroment variables with values
@@ -11,12 +10,24 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 // Hash map module
 const HashMap = require('hashmap');
-
+// File system module
+const fs = require('fs');
+// MongoDB module
 var db = require('./db');
+
+// Load all registered templates
+var loadedTemplates = { };
+var installedTemplates = JSON.parse(fs.read(__dirname + '/templates.json'));
+
+for (key in installedTemplates) {
+    let name = installedTemplates[key];
+    let template = await require('../templates/' + name);
+    loadedTemplates[name] = template;
+}
 
 var state = {
     loadedBots: null,
-}
+};
 
 config();
 var accountId = process.env.LP_ACCOUNT;
@@ -30,6 +41,7 @@ var server = express();
 server.use(cors());
 server.use(bodyParser.json());
 
+// Connect to DB and start listening
 db.connect(mongoURL, function(err) {
     if (err) {
         console.error(err);
@@ -47,11 +59,10 @@ db.connect(mongoURL, function(err) {
 server.post('/deploy', function (req, res) {
     try {
         let id = req.body._id;
-        let botConfig = req.body.botConfig;
         let template = req.body.template;
 
         // Invalid JSON
-        if (!id || !botConfig || !template) {
+        if (!id || !template) {
             res.sendStatus(422); 
             return;
         }
@@ -64,8 +75,16 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
+        let botClass = installedTemplates[template];
+
+        // Template not installed
+        if (!botClass) {
+            res.sendStatus(501);
+            return;
+        }
+
         // Save bot in database
-        db.get().collection('runningBots').insertOne(req.body, function(err, res) {
+        db.get().collection('deployedBots').insertOne(req.body, function(err, res) {
             // Can't connect to database
             if (err) {
                 console.error(err);
@@ -73,7 +92,7 @@ server.post('/deploy', function (req, res) {
                 return;
             }
 
-            let deployedBot = new Bot(new Agent({ accountId: accountId, username: username, password: password, csdsDomain: csds }));
+            let deployedBot = new botClass(accountId, username, password, csds);
             state.loadedBots.set(id, deployedBot);
 
             res.sendStatus(201);
@@ -114,7 +133,6 @@ server.post('/setStatus', function (req, res) {
         }
         // Start bot
         else if (status) {
-            targetBot = new Bot(new Agent({ accountId: accountId, username: username, password: password, csdsDomain: csds })); // TODO: static factory for bots?
             targetBot.start();
         }
         // Stop bot
@@ -135,13 +153,48 @@ server.post('/setStatus', function (req, res) {
 // Deletes Bots from the runtime. Expects valid JSON
 server.delete('/delete', function (req, res) {
     try {
-        // TODO: delete bot
+        let id = req.body._id;
+
+        // Invalid JSON
+        if (!id) {
+            res.sendStatus(422); 
+            return;
+        }
+
+        // Get loaded bot
+        let bot = state.loadedBots.get(id);
+
+        // Bot does not exist
+        if (!bot) {
+            res.sendStatus(404);
+            return;
+        }
+
+        // Bot running
+        if (bot.isConnected) {
+            res.sendStatus(403);
+            return;
+        }
+
+        // Delete from hash map
+        loadedBots.remove(id);
+
+        // Delete from database
+        let querry = {
+            _id: id
+        };
+
+        db.get().collection('deployedBots').deleteOne(querry, function(err, obj) {
+            // Can't connect to database
+            if (err) {
+                console.error(err);
+                res.sendStatus(503);
+                return;
+            }
+        });
+
         res.sendStatus(200);
         // res.sendStatus(400); // TODO: No JSON -> Bad request
-        // res.sendStatus(403); // TODO: Bot running -> forbidden
-        // res.sendStatus(404); // TODO: Bot does not exist -> Not found
-        // res.sendStatus(422); // TODO: Invalid JSON -> Unprocessable entity
-        // res.sendStatus(503); // TODO: Can't connect to database
     }
     catch (e) {
         console.error(e);
@@ -151,7 +204,7 @@ server.delete('/delete', function (req, res) {
 
 server.get('/getAll', function(req, res) {
     try {
-        let bots = db.get().collection('runningBots').find({}).toArray(function(err, res) {
+        let bots = db.get().collection('deployedBots').find({}).toArray(function(err, res) {
             // Can't connect to database
             if (err) {
                 console.error(err);

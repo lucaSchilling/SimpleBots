@@ -10,8 +10,12 @@ class Bot {
      * Creates a new bot that can join conversations via the specified agent.
      * @param {Agent} agent the agent object that underlies this bot
      */
-    constructor(agent) {
-        this.agent = agent;
+    constructor(accountId, username, password, csds) {
+        this.accountId = accountId;
+        this.username = username;
+        this.password = password;
+        this.csds = csds;
+        this.agent = new Agent({ accountId: accountId, username: username, password: password, csdsDomain: csds });
         this.isConnected = false;
         
         this.init();
@@ -35,22 +39,6 @@ class Bot {
             console.error('Connection to UMS closed with reason', reason); // TODO: mail to admin
             this.agent.reconnect(reason !== 4401 || reason !== 4407);
         });
-
-        /* TODO: analyze how this works exactly
-        
-        this.agent.on('cqm.ExConversationChangeNotification', body => {
-            body.changes
-                //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert
-                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
-                .forEach(async change => {
-                    this.openConversations[change.result.convId] = change.result.conversationDetails;
-                    await this.joinConversation(change.result.convId, 'MANAGER');
-                    await this.sendMessage(change.result.convId);
-                });
-            body.changes
-                .filter(change => change.type === 'DELETE' && this.openConversations[change.result.convId])
-                .forEach(change => delete this.openConversations[change.result.convId]);
-        });*/
 
         this.promisifyFunctions();
     }
@@ -145,7 +133,7 @@ class Bot {
      * @param {string} conversationId id of the conversation that the message is sent to
      * @param {string} message text message that is sent to the client
      */
-    async sendMessage(conversationId, message = loadedMessage) {
+    async sendMessage(conversationId, message) {
         if (!this.isConnected) return;
         return await this.core.publishEvent({
             dialogId: conversationId,
@@ -157,3 +145,5 @@ class Bot {
         });
     }
 }
+
+module.exports = Bot;
