@@ -39,9 +39,17 @@
 
 <script>
 import tablerow from './tablerow'
+var axios = require('axios')
 
 export default {
   name: 'Table',
+  methods: {
+    getAll () {
+      axios.get('http://localhost:3000/getAll').then((response) => {
+        console.log(response)
+      })
+    }
+  },
   data () {
     return {
     }

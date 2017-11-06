@@ -16,8 +16,10 @@
     "lintfix": "eslint --fix src/components/Table.vue src/components/tablerow.vue"
   },
   "dependencies": {
+    "axios": "^0.17.0",
     "selenium-webdriver": "^3.6.0",
     "vue": "^2.5.2",
+    "vue-js-toggle-button": "^1.2.0",
     "vue-material": "^0.8.1",
     "vue-router": "^3.0.1"
   },

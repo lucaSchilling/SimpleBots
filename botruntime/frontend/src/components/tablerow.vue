@@ -1,6 +1,6 @@
 <template>
     <md-table-row>
-      <md-table-cell><toggle-button @change="bla"/></md-table-cell>
+      <md-table-cell><md-switch v-model="checked0" id="my-test0" name="my-test0"></md-switch></md-table-cell>
       <md-table-cell>{{status}}</md-table-cell>
       <md-table-cell>{{template}}</md-table-cell>
       <md-table-cell>{{name}}</md-table-cell>
