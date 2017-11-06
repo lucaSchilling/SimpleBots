@@ -14,12 +14,12 @@
 
 export default {
   name: 'tablerow',
-  data() {
+  data () {
     return {
-    };
+    }
   },
-  props: ['status', 'template', 'name', 'language', 'client', 'lastedit'],
-};
+  props: ['status', 'template', 'name', 'language', 'client', 'lastedit']
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

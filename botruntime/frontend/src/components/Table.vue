@@ -38,18 +38,18 @@
 </template>
 
 <script>
-import tablerow from './tablerow';
+import tablerow from './tablerow'
 
 export default {
   name: 'Table',
-  data() {
+  data () {
     return {
-    };
+    }
   },
   components: {
-    tablerow,
-  },
-};
+    tablerow
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
