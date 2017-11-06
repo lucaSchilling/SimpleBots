@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Templates from '@/components/Templates'
-import History from '@/components/History'
-import Test from '@/components/Test'
+import templates from '@/components/templates'
+import history from '@/components/history'
 
 Vue.use(Router)
 
@@ -11,17 +10,12 @@ export default new Router({
     {
       path: '/',
       name: '',
-      component: History
+      component: history
     },
     {
       path: '/templates',
       name: 'Templates',
-      component: Templates
-    },
-    {
-      path: '/test',
-      name: 'Test',
-      component: Test
+      component: templates
     }
   ]
 })

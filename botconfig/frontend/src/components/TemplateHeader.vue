@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'TemplateHeader',
+  name: 'templateheader',
   data () {
     return {}
   }

@@ -11,35 +11,35 @@
   moreContent='Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
   ></template-presentation>
 
-  <template-presentation 
+  <templatepresentation 
   title='Hi I´m the F.A.Q. Bot' 
   subtitle='I will answer the frequently asked questions for you'
   content='Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam'
   moreContent='Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
-  ></template-presentation>
-  <template-presentation 
+  ></templatepresentation>
+  <templatepresentation 
   title='Hi I´m the Task-Assist Bot'
   subtitle='I will execute a specific task for you'
   content='Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam'
     moreContent='Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
 >
   
-  </template-presentation>
+  </templatepresentation>
 
 </div>
 </div>
 </template>
 
 <script>
-import TemplatePresentation from './TemplatePresentation.vue'
-import TemplateHeader from './TemplateHeader.vue'
+import templatepresentation from './templatepresentation.vue'
+import templateheader from './templateheader.vue'
 
 export default {
-  name: 'Templates',
+  name: 'templates',
   methods: {},
   components: {
-    TemplatePresentation,
-    TemplateHeader
+    templatepresentation,
+    templateheader
   },
   data () {
     return {}

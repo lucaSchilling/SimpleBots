@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'Template',
+  name: 'template',
   data () {
     return {
       more: false

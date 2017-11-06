@@ -1,19 +1,19 @@
 <template>
     <div>
-      <bot-presentation botname='F.A.Q. Bot'></bot-presentation>
+      <botpresentation botname='F.A.Q. Bot'></botpresentation>
     </div>
 </template>
 
 <script>
-import BotPresentation from './BotPresentation.vue'
+import botpresentation from './botpresentation.vue'
 
 export default {
-  name: 'History',
+  name: 'history',
   data () {
     return {}
   },
   components: {
-    BotPresentation
+    botpresentation
   }
 }
 </script>

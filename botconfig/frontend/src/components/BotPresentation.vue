@@ -8,7 +8,7 @@
 <script>
 export default {
   props: ['botname'],
-  name: 'BotPresentation',
+  name: 'botpresentation',
   data () {
     return {}
   }
