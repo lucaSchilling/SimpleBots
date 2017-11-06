@@ -9,3 +9,7 @@ for (var i = 0; i < 10; i++) {
   driver.findElement(By.id('HomeButton')).click()
   driver.findElement(By.id('TemplatesButton')).click()
 }
+driver.findElement(By.className('md-sidenav-backdrop')).click()
+for (var j = 0; j < 10; j++) {
+  driver.findElement(By.id('showButton')).click()
+}

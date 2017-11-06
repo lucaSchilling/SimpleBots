@@ -9,7 +9,7 @@
      <div class="md-card-content" v-show="more"> {{moreContent}} </div> 
   <div class="md-card-actions">
 
-    <button type="button" class="md-button md-theme-default" v-on:click='show'> show/hide
+    <button type="button" id="showButton" class="md-button md-theme-default" v-on:click='show'> show/hide
       <div class="md-ink-ripple">
         <div class="md-ripple"></div></div></button>
       
