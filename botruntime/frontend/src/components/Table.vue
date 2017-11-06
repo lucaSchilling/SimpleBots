@@ -6,6 +6,9 @@
     <md-button class="md-icon-button">
       <md-icon>search</md-icon>
     </md-button>
+    <md-button class="md-icon-button" v-on:click='getAll'>
+      <md-icon>refresh</md-icon>
+    </md-button>
   </md-toolbar>
 <md-table md-sort="Status">
   <md-table-header>
@@ -39,15 +42,16 @@
 
 <script>
 import tablerow from './tablerow'
-var axios = require('axios')
+// var axios = require('axios')
 
 export default {
   name: 'Table',
   methods: {
     getAll () {
-      axios.get('http://localhost:3000/getAll').then((response) => {
-        console.log(response)
-      })
+      alert('hello')
+      // axios.get('http://localhost:3000/getAll').then((response) => {
+      //  console.log(response)
+     // })
     }
   },
   data () {
