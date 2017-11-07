@@ -204,22 +204,26 @@ server.delete('/delete', function (req, res) {
 
 server.get('/getAll', function(req, res) {
     try {
-        let bots = db.get().collection('deployedBots').find({}).toArray(function(err, res) {
+        db.get().collection('deployedBots').find({}).toArray(function(err, result) {
             // Can't connect to database
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
                 return;
             }
+            
+            // No bots deployed
+            if (!result) {
+                res.sendStatus(204);
+                return;
+            }
+            
+            res.status(200).send(result);
         });
 
-        // No bots deployed
-        if (!bots) {
-            res.sendStatus(204);
-            return;
-        }
+        
 
-        res.status(200).send(bots);
+        
     }
     catch (e) {
         console.error(e);
