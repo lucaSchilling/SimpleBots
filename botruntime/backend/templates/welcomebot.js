@@ -16,33 +16,46 @@ class WelcomeBot extends Bot {
     initDialogFunctions() {
         // 'UPSERT' apparently means that the chat user has sent a new message
         this.agent.on('cqm.ExConversationChangeNotification', body => {
-            body.changes
-                //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert
+           // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options
+           body.changes
+                        //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert (?)
                 .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
-                    this.conversationStates[change.result.convId] = {
-                        message: '',
-                        options: [],
-                        redirect
-                    };
+                    this.conversationStates[change.result.convId] = this.config.options;
+                    
                     await this.joinConversation(change.result.convId, 'MANAGER');
                     await this.sendMessage(change.result.convId, config.welcomeMessage);
                     await this.sendMessage(change.result.convId, generateOptionsMessage(change.result.convId));
                 });
 
-            body.changes
-                .filter(change => change.type === 'DELETE' && this.openConversations[change.result.convId])
-                .forEach(change => {
-                    delete this.openConversations[change.result.convId];
-                });
-
+            // If the bot has already joined the conversation and the user sends a message, send the next set of options or redirect them to another agent
             body.changes
                 .filter(change => change.type === 'UPSERT' && this.openConversations[change.result.convId])
-                .forEach(change => {
+                .forEach(async change => {
                     let userMessage = change.result.body;
-                    await this.sendMessage(change.result.convId, )
+                    let index = parseInt(userMessage) - 1;
+
+                    // TODO: index == NAN => human agent
+
+                    let convState = this.conversationStates[change.result.convId];
+
+                    if (convState[index].options) {
+                        convState = convState[index].options;
+                        await this.sendMessage(change.result.convId, generateOptionsMessage(change.result.convId));
+                    }
+                    else {
+                        // TODO: redirect to another agent
+                        await this.leaveConversation(change.result.convId);
+                    }
                 });
+
+            // On conversation termination, remove all temporary data about that conversation
+            body.changes
+            .filter(change => change.type === 'DELETE' && this.openConversations[change.result.convId])
+            .forEach(async change => {
+                await this.leaveConversation(change.result.convId);
+            });
         });
     }
 
@@ -51,36 +64,29 @@ class WelcomeBot extends Bot {
      * @param convId The Id of the conversation that the string should be generated for.
      */
     generateOptionsMessage(convId) {
-        let state = this.conversationStates[convId].options;
+        let state = this.conversationStates[convId];
 
         if (!state) {
             throw 'Conversation not found';
         }
         else {
-            return getCurrentOptions(this.config.options, state);
-        }
-    }
-
-    /**
-     * Recursively resolves the current options message and returns it.
-     * @param options The options array that should be used
-     * @param state An array of the indexes of the chosen options
-     */
-    getCurrentOptions(options, state) {
-        if (state.length == 0) {
             let message = '';
 
-            for (option in options) {
+            for (option in state) {
                 message += option.message + '\n';
             }
 
             return message;
         }
-        else {
-            let newState = state.slice();
-            newState.splice(0, 1);
-            getCurrentOptions(options[state[0]], newState);
-        }
+    }
+
+    /**
+     * @override
+     * @param {string} conversationId 
+     */
+    async leaveConversation(conversationId) {
+        delete this.conversationStates[conversationId];
+        return super.leaveConversation(conversationId);
     }
 }
 
