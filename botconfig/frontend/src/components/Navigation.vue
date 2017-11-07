@@ -22,7 +22,7 @@
     <router-link to="Templates">Templates</router-link>
       </md-list-item>
       <md-list-item id='Runtime'>
-    <router-link to="/dist/runtime/frontend">Runtime</router-link>
+    <router-link to="/dist/runtime/frontend" exact>Runtime</router-link>
       </md-list-item>
     </md-list>
   </md-sidenav>
