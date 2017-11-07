@@ -1,13 +1,28 @@
 <template>
     <div>
-      <md-whiteframe>
-        {{botname}}</md-whiteframe>
+      <md-list-item>
+      <md-avatar>
+        <img src="https://placeimg.com/40/40/people/1" alt="People">
+      </md-avatar>
+
+      <div class="md-list-text-container">
+        <span>{{botname}}</span>
+        <span>{{description}}</span>
+        <p>I'll be in your neighborhood doing errands...</p>
+      </div>
+
+      <md-button class="md-icon-button md-list-action">
+        <md-icon class="md-primary">edit</md-icon>
+      </md-button>
+
+      <md-divider class="md-inset"></md-divider>
+    </md-list-item>
     </div>
 </template>
 
 <script>
 export default {
-  props: ['botname'],
+  props: ['botname', 'description'],
   name: 'botpresentation',
   data () {
     return {}
