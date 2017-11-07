@@ -11,7 +11,7 @@
         <p>I'll be in your neighborhood doing errands...</p>
       </div>
 
-      <md-button class="md-icon-button md-list-action">
+      <md-button class="md-icon-button md-list-action" @click="edit">
         <md-icon class="md-primary">edit</md-icon>
       </md-button>
 
@@ -26,6 +26,11 @@ export default {
   name: 'botpresentation',
   data () {
     return {}
+  },
+  methods: {
+    edit () {
+      alert('edit')
+    }
   }
 }
 </script>
