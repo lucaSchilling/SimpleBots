@@ -51,6 +51,11 @@ export default {
     removeBots () {
       this.bots = []
     },
+    removeBot (id) {
+      this.bots.splice(this.bots.findIndex(function (bot) {
+        return bot.ID === id
+      }), 1)
+    },
     getAll () {
       axios.get('http://141.19.142.6:3000/getAll').then((response) => {
         this.removeBots()
