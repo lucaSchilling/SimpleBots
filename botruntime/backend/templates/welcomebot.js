@@ -5,16 +5,19 @@ class WelcomeBot extends Bot {
 
     constructor(accountId, username, password, csds, config) {
         super(accountId, username, password, csds);
+
         this.config = config;
-        this.initDialogFunctions();
-        this.conversationStates = [];
-        this.openConversations = [];
+        this.conversationStates = {};
+        this.openConversations = {};
     }
 
     /**
      * Initializes the bot's dialogs. Child classes must override this function to implement case specific responses.
+     * @override
      */
-    initDialogFunctions() {
+    init() {
+        super.init();
+
         // 'UPSERT' apparently means that the chat user has sent a new message
         this.agent.on('cqm.ExConversationChangeNotification', body => {
            // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options
@@ -26,8 +29,8 @@ class WelcomeBot extends Bot {
                     this.conversationStates[change.result.convId] = this.config.options;
                     
                     await this.joinConversation(change.result.convId, 'MANAGER');
-                    await this.sendMessage(change.result.convId, config.welcomeMessage);
-                    await this.sendMessage(change.result.convId, generateOptionsMessage(change.result.convId));
+                    await this.sendMessage(change.result.convId, this.config.welcomeMessage);
+                    await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
                 });
 
             // If the bot has already joined the conversation and the user sends a message, send the next set of options or redirect them to another agent
@@ -43,7 +46,7 @@ class WelcomeBot extends Bot {
 
                     if (convState[index].options) {
                         convState = convState[index].options;
-                        await this.sendMessage(change.result.convId, generateOptionsMessage(change.result.convId));
+                        await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
                     }
                     else {
                         // TODO: redirect to another agent
@@ -66,17 +69,17 @@ class WelcomeBot extends Bot {
      */
     generateOptionsMessage(convId) {
         let state = this.conversationStates[convId];
-
+        
         if (!state) {
             throw 'Conversation not found';
         }
         else {
             let message = '';
-
-            for (option in state) {
+            
+            for (let option of state) {
                 message += option.message + '\n';
             }
-
+            
             return message;
         }
     }
