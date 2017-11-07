@@ -1,4 +1,4 @@
-/ Used to transform the existing callback based functions into promise based functions
+// Used to transform the existing callback based functions into promise based functions
 const { promisify } = require('util');
 
 function timeout(ms = 3000) {
@@ -143,6 +143,18 @@ class Bot {
                 message: message
             }
         });
+    }
+
+    /**
+     * Deletes all temporary data of the specified conversation and leaves it.
+     * @param {string} conversationId 
+     */
+    async leaveConversation(conversationId) {
+        delete this.openConversations[conversationId];
+
+        // TODO: leave conversation via agent function
+        
+        return;
     }
 }
 
