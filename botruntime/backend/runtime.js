@@ -91,8 +91,7 @@ server.post('/deploy', function (req, res) {
                 res.sendStatus(503);
                 return;
             }
-            // TODO: ERROR: botClass is not a constructor
-            console.log(botClass);
+            
             let deployedBot = new botClass(accountId, username, password, csds);
             state.loadedBots.set(id, deployedBot);
 
@@ -219,7 +218,7 @@ server.get('/getAll', function(req, res) {
                 return;
             }
             
-            res.status(200).send(JSON.stringify(result));
+            res.status(200).send(result);
         });
     }
     catch (e) {
