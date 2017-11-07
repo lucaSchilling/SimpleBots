@@ -21,6 +21,9 @@
       <md-list-item id='TemplatesButton'>
     <router-link to="Templates">Templates</router-link>
       </md-list-item>
+      <md-list-item id='Runtime'>
+    <router-link to="/dist/runtime/frontend">Runtime</router-link>
+      </md-list-item>
     </md-list>
   </md-sidenav>
 </div>
