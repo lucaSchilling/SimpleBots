@@ -10,30 +10,32 @@
     <md-button class="md-icon-button" v-on:click='getAll'>
       <md-icon>refresh</md-icon>
     </md-button>
+    <md-button class="md-icon-button" v-on:click='addBot'>
+      <md-icon>add</md-icon>
+    </md-button>
+    <md-button class="md-icon-button">
+      <md-icon>delete</md-icon>
+    </md-button>
   </md-toolbar>
 <md-table md-sort="Status">
   <md-table-header>
     <md-table-row>
       <md-table-head></md-table-head>
-      <md-table-head md-sort-by="Status" class="tablehead">Status</md-table-head>
+      <md-table-head md-sort-by="Status">Status</md-table-head>
+      <md-table-head md-sort-by="id" class="tablehead">ID</md-table-head>
       <md-table-head md-sort-by="Template" class="tablehead">Template</md-table-head>
       <md-table-head md-sort-by="Name" class="tablehead">Name</md-table-head>
-      <md-table-head md-sort-by="Language" class="tablehead">Language</md-table-head>
-      <md-table-head md-sort-by="Client" class="tablehead">Client</md-table-head>
       <md-table-head md-sort-by="Last Edit" class="tablehead">Last Edit</md-table-head>
     </md-table-row>
   </md-table-header>
 
-  <md-table-body>
-    <tablerow 
-    toggle='on'
-    status='green'
-    template='Welcome Bot'
-    name='Botinator'
-    language='english'
-    client='Lieferheld'
-    lastedit='a few seconds ago'>
-
+  <md-table-body id="tablebody">
+    <tablerow v-for="bot in bots" v-bind:key="5" :toggle = "bot.toggle"
+              :ID = "bot.ID" 
+              :status = "bot.status" 
+              :template = "bot.template"
+              :name = "bot.name"  
+              :lastedit = "bot.lastedit">
     </tablerow>
   </md-table-body>
 </md-table>
@@ -48,15 +50,16 @@ import tablerow from './tablerow'
 export default {
   name: 'Table',
   methods: {
-    getAll () {
-      alert('hello')
-      // axios.get('http://localhost:3000/getAll').then((response) => {
-      //  console.log(response)
-     // })
+    addBot () {
+      this.bots.push({ID: '01', template: 'Welcome Bot', name: 'Botinator', lastedit: 'a few seconds ago'})
+    },
+    removeBot () {
+      this.bots.pop()
     }
   },
   data () {
     return {
+      bots: []
     }
   },
   components: {
