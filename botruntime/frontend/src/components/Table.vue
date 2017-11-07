@@ -43,16 +43,16 @@
 
 <script>
 import tablerow from './tablerow'
-// var axios = require('axios')
+var axios = require('axios')
 
 export default {
   name: 'Table',
   methods: {
     getAll () {
-      alert('hello')
-      // axios.get('http://localhost:3000/getAll').then((response) => {
-      //  console.log(response)
-     // })
+      axios.get('http://141.19.142.6:3000/getAll').then((response) => {
+        alert('Status :' + response.status + 'Body: ' + response.body)
+        console.log(response)
+      })
     }
   },
   data () {
