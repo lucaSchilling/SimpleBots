@@ -23,7 +23,7 @@
   </md-input-container>
 </form>
 
-<button v-on:click="deploy">Deploy</button>
+<button v-on:click="deploy" v-on:keyup.13="deploy">Deploy</button>
 </div>
 </template>
 
@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     deploy () {
+      alert('clicked')
       axios.post('http://141.19.142.6:3000/deploy', {
         '__id': this.__id,
         'template': this.template,
@@ -49,6 +50,12 @@ export default {
         'lastEdit': this.lastEdit
       }).then(function (response) {
         alert(response.status)
+        if (response.status === 200) {
+          this.__id = ''
+          this.template = ''
+          this.name = ''
+          this.lastEdit = ''
+        }
       })
     }
   }
