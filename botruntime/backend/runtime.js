@@ -84,16 +84,16 @@ server.post('/deploy', function (req, res) {
         }
 
         // Save bot in database
-        db.get().collection('deployedBots').insertOne(req.body, function(err, res) {
+        db.get().collection('deployedBots').insertOne(req.body, function(err) {
             // Can't connect to database
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
                 return;
             }
-
-            let deployedBot = new botClass(accountId, username, password, csds);
-            state.loadedBots.set(id, deployedBot);
+            // TODO: ERROR: botClass is not a constructor
+            //let deployedBot = new botClass(accountId, username, password, csds);
+            //state.loadedBots.set(id, deployedBot);
 
             res.sendStatus(201);
         });
