@@ -8,6 +8,7 @@ class WelcomeBot extends Bot {
         this.config = config;
         this.initDialogFunctions();
         this.conversationStates = [];
+        this.openConversations = [];
     }
 
     /**
