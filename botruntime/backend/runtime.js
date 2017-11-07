@@ -17,11 +17,11 @@ var db = require('./db');
 
 // Load all registered templates
 var loadedTemplates = { };
-var installedTemplates = JSON.parse(fs.readFileSync(__dirname + '/templates.json'));
+var installedTemplates = JSON.parse(fs.read(__dirname + '/templates.json'));
 
 for (key in installedTemplates) {
     let name = installedTemplates[key];
-    let template = require('./templates/' + name);
+    let template = await require('../templates/' + name);
     loadedTemplates[name] = template;
 }
 
