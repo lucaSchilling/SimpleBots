@@ -3,7 +3,7 @@
   <md-table-card>
   <md-toolbar>
     <h1 class="md-title">All Bots</h1>
-    <md-button href="/dist#/Test" class="md-raised md-primary">Config</md-button>
+    <md-button href="/dist/config/frontend" class="md-raised md-primary">Config</md-button>
     <md-button class="md-icon-button">
       <md-icon>search</md-icon>
     </md-button>
