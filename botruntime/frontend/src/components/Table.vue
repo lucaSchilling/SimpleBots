@@ -10,12 +10,7 @@
     <md-button class="md-icon-button" v-on:click='getAll'>
       <md-icon>refresh</md-icon>
     </md-button>
-    <md-button class="md-icon-button" v-on:click='addBot'>
-      <md-icon>add</md-icon>
-    </md-button>
-    <md-button class="md-icon-button">
-      <md-icon>delete</md-icon>
-    </md-button>
+
   </md-toolbar>
 <md-table md-sort="Status">
   <md-table-header>
@@ -50,17 +45,23 @@ var axios = require('axios')
 export default {
   name: 'Table',
   methods: {
-    addBot () {
-      this.bots.push({ID: '01', template: 'Welcome Bot', name: 'Botinator', lastedit: 'a few seconds ago'})
+    addBot (id, template, name, lastedit) {
+      this.bots.push({ID: id, template: template, name: name, lastedit: lastedit})
     },
-    removeBot () {
-      this.bots.pop()
+    removeBots () {
+      this.bots = []
     },
     getAll () {
       axios.get('http://141.19.142.6:3000/getAll').then((response) => {
-        alert('Status :' + response.status + 'All: ' + JSON.stringify(response.data[0]))
+        this.removeBots()
+        for (var i = 0; i < response.data.length; i++) {
+          this.addBot(response.data[i]._id, response.data[i].template)
+        }
       })
     }
+  },
+  beforeMount () {
+    this.getAll()
   },
   data () {
     return {
