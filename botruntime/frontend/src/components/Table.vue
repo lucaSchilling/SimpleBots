@@ -45,7 +45,7 @@
 
 <script>
 import tablerow from './tablerow'
-// var axios = require('axios')
+var axios = require('axios')
 
 export default {
   name: 'Table',
@@ -55,6 +55,10 @@ export default {
     },
     removeBot () {
       this.bots.pop()
+    getAll () {
+      axios.get('http://141.19.142.6:3000/getAll').then((response) => {
+        alert('Status :' + response.status + 'All: ' + JSON.stringify(response.data[0]))
+      })
     }
   },
   data () {

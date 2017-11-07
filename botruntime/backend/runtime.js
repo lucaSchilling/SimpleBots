@@ -17,11 +17,11 @@ var db = require('./db');
 
 // Load all registered templates
 var loadedTemplates = { };
-var installedTemplates = JSON.parse(fs.read(__dirname + '/templates.json'));
+var installedTemplates = JSON.parse(fs.readFileSync(__dirname + '/templates.json'));
 
 for (key in installedTemplates) {
     let name = installedTemplates[key];
-    let template = await require('../templates/' + name);
+    let template = require('./templates/' + name);
     loadedTemplates[name] = template;
 }
 
@@ -75,7 +75,7 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
-        let botClass = installedTemplates[template];
+        let botClass = loadedTemplates[installedTemplates[template]];
 
         // Template not installed
         if (!botClass) {
@@ -84,14 +84,14 @@ server.post('/deploy', function (req, res) {
         }
 
         // Save bot in database
-        db.get().collection('deployedBots').insertOne(req.body, function(err, res) {
+        db.get().collection('deployedBots').insertOne(req.body, function(err) {
             // Can't connect to database
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
                 return;
             }
-
+            
             let deployedBot = new botClass(accountId, username, password, csds);
             state.loadedBots.set(id, deployedBot);
 
@@ -204,22 +204,22 @@ server.delete('/delete', function (req, res) {
 
 server.get('/getAll', function(req, res) {
     try {
-        let bots = db.get().collection('deployedBots').find({}).toArray(function(err, res) {
+        db.get().collection('deployedBots').find({}).toArray(function(err, result) {
             // Can't connect to database
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
                 return;
             }
+            
+            // No bots deployed
+            if (!result) {
+                res.sendStatus(204);
+                return;
+            }
+            
+            res.status(200).send(result);
         });
-
-        // No bots deployed
-        if (!bots) {
-            res.sendStatus(204);
-            return;
-        }
-
-        res.status(200).send(bots);
     }
     catch (e) {
         console.error(e);
