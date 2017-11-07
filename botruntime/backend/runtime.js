@@ -92,7 +92,7 @@ server.post('/deploy', function (req, res) {
                 return;
             }
             
-            let deployedBot = new botClass(accountId, username, password, csds, req.body);
+            let deployedBot = new botClass(accountId, username, password, csds);
             state.loadedBots.set(id, deployedBot);
 
             res.sendStatus(201);
@@ -113,7 +113,7 @@ server.post('/setStatus', function (req, res) {
         let status = req.body.status;
         
         // Invalid JSON
-        if (!id) {
+        if (!id || !status) {
             res.sendStatus(422); 
             return;
         }

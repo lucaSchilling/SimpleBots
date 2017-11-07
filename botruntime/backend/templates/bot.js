@@ -16,6 +16,8 @@ class Bot {
         this.username = username;
         this.password = password;
         this.csds = csds;
+        this.agent = new Agent({ accountId: accountId, username: username, password: password, csdsDomain: csds });
+        this.isConnected = false;
         
         this.init();
     }
@@ -24,9 +26,6 @@ class Bot {
      * Initializes the event handler.
      */
     init() {
-        this.isConnected = false;
-        this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password, csdsDomain: this.csds });
-        
         this.agent.on('connected', () => { 
             this.isConnected = true; 
         });
@@ -60,7 +59,7 @@ class Bot {
      */
     async start() {
         if (!this.agent) {
-            this.init();
+            this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password, 'csdsDomain': 'hc1n.dev.lprnd.net' });
         }
 
         while (!this.isConnected) {
@@ -76,7 +75,6 @@ class Bot {
      * Shuts the bot down.
      */
     shutdown() {
-        this.isConnected = false;
         this.agent.dispose();
         this.agent.removeAllListeners();
         this.agent = null;
@@ -120,7 +118,7 @@ class Bot {
             return;
         }
 
-        return await this.agent.updateConversationField({
+        return await this.core.updateConversationField({
             'conversationId': conversationId,
             'conversationField': [{
                 'field': 'ParticipantsChange',
@@ -138,7 +136,7 @@ class Bot {
      */
     async sendMessage(conversationId, message) {
         if (!this.isConnected) return;
-        return await this.agent.publishEvent({
+        return await this.core.publishEvent({
             dialogId: conversationId,
             event: {
                 type: 'ContentEvent',
