@@ -13,9 +13,10 @@
     "test": "npm run unit && npm run e2e",
     "selenium": "node test/e2e/Selenium_Test.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "lintfix": "eslint --fix src/components/Navigation.vue src/components/BotPresentation.vue src/components/BotProfile.vue src/components/Clients.vue src/components/Default.vue src/components/History.vue src/components/Overview.vue src/components/TemplatePresentation.vue src/components/Templates.vue src/components/TemplatesHeader.vue src/App.vue"
+    "lintfix": "eslint --fix src/components/Navigation.vue src/components/BotPresentation.vue src/components/BotProfile.vue src/components/Clients.vue src/components/Default.vue src/components/History.vue src/components/Overview.vue src/components/TemplatePresentation.vue src/components/Templates.vue src/components/TemplatesHeader.vue src/App.vue src/components/botconfig.vue"
   },
   "dependencies": {
+    "axios": "^0.17.0",
     "selenium-webdriver": "^3.6.0",
     "vue": "^2.5.2",
     "vue-material": "^0.8.1",

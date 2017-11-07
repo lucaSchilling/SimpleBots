@@ -24,6 +24,9 @@
       <md-list-item id='Runtime'>
     <a href="/dist/runtime/frontend">Runtime</a>
       </md-list-item>
+      <md-list-item id='Botconfig'>
+    <router-link to="Botconfig">Botconfig</router-link>
+      </md-list-item>
     </md-list>
   </md-sidenav>
 </div>
