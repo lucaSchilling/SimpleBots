@@ -1,3 +1,4 @@
+const { Agent } = require('node-agent-sdk');
 // Used to transform the existing callback based functions into promise based functions
 const { promisify } = require('util');
 

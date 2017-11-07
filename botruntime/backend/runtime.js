@@ -75,7 +75,7 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
-        let botClass = installedTemplates[template];
+        let botClass = loadedTemplates[installedTemplates[template]];
 
         // Template not installed
         if (!botClass) {
@@ -92,8 +92,9 @@ server.post('/deploy', function (req, res) {
                 return;
             }
             // TODO: ERROR: botClass is not a constructor
-            //let deployedBot = new botClass(accountId, username, password, csds);
-            //state.loadedBots.set(id, deployedBot);
+            console.log(botClass);
+            let deployedBot = new botClass(accountId, username, password, csds);
+            state.loadedBots.set(id, deployedBot);
 
             res.sendStatus(201);
         });
@@ -218,12 +219,8 @@ server.get('/getAll', function(req, res) {
                 return;
             }
             
-            res.status(200).send(result);
+            res.status(200).send(JSON.stringify(result));
         });
-
-        
-
-        
     }
     catch (e) {
         console.error(e);
