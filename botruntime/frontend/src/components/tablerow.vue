@@ -34,9 +34,6 @@ export default {
       axios.delete('http://141.19.142.6:3000/delete', {
         _id: this.ID
       }).then(function (response) {
-        if (response.status === 200) {
-
-        }
       })
     }
   },

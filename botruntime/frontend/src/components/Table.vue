@@ -60,7 +60,7 @@ export default {
       axios.get('http://141.19.142.6:3000/getAll').then((response) => {
         this.removeBots()
         for (var i = 0; i < response.data.length; i++) {
-          this.addBot(response.data[i]._id, response.data[i].template)
+          this.addBot(response.data[i]._id, response.data[i].template, response.data[i].name, response.data[i].lastEdit)
         }
       })
     }
