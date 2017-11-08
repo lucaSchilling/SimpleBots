@@ -6,24 +6,25 @@
     <md-input v-model="__id"></md-input>
   </md-input-container>
 
+ <md-input-container id="welcomeMessage">
+    <label>WelcomeMessage</label>
+    <md-input v-model="welcomeMessage"></md-input>
+  </md-input-container>
+
+   <md-input-container id="options">
+    <label>options</label>
+    <md-input v-model="options"></md-input>
+  </md-input-container>
+
 
   <md-input-container id="template">
     <label>template</label>
     <md-input v-model="template"></md-input>
   </md-input-container>
 
-  <md-input-container id="name">
-    <label>name</label>
-    <md-input v-model="name"></md-input>
-  </md-input-container>
-
-  <md-input-container id="lastEdit">
-    <label>lastEdit</label>
-    <md-input v-model="lastEdit"></md-input>
-  </md-input-container>
 </form>
 
-<button v-on:click="deploy" v-on:keyup.13="deploy" id="deployButton>Deploy</button>
+<button v-on:click="deploy" v-on:keyup.13="deploy" id="deployButton">Deploy</button>
 </div>
 </template>
 
@@ -36,8 +37,8 @@ export default {
     return {
       __id: '',
       template: '',
-      name: '',
-      lastEdit: ''
+      welcomeMessage: '',
+      options: ''
     }
   },
   methods: {
@@ -45,8 +46,8 @@ export default {
       axios.post('http://141.19.142.6:3000/deploy', {
         '__id': this.__id,
         'template': this.template,
-        'name': this.name,
-        'lastEdit': this.lastEdit
+        'welcomeMessage': this.welcomeMessage,
+        'options': [{'message': this.options}]
       }).then(function (response) {
         alert(response.status)
         if (response.status === 200) {
