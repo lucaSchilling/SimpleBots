@@ -13,7 +13,7 @@
     "test": "npm run unit && npm run e2e",
     "selenium": "node test/e2e/Selenium_Test.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "lintfix": "eslint --fix src/components/Table.vue src/components/tablerow.vue"
+    "lintfix": "eslint --fix src/components/Table.vue src/components/tablerow.vue src/store/store.js" 
   },
   "dependencies": {
     "axios": "^0.17.0",
@@ -21,7 +21,8 @@
     "vue": "^2.5.2",
     "vue-js-toggle-button": "^1.2.0",
     "vue-material": "^0.8.1",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
