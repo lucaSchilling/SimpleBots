@@ -4,9 +4,8 @@ Bot = require('./bot');
 class WelcomeBot extends Bot {
 
     constructor(accountId, username, password, csds, config) {
-        super(accountId, username, password, csds);
+        super(accountId, username, password, csds, config);
 
-        this.config = config;
         this.conversationStates = {};
         this.openConversations = {};
     }

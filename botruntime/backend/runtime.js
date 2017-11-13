@@ -26,7 +26,7 @@ for (key in installedTemplates) {
 }
 
 var state = {
-    loadedBots: null,
+    loadedBots:  new HashMap()
 };
 
 config();
@@ -48,10 +48,29 @@ db.connect(mongoURL, function(err) {
         process.exit(1);
     }
     else {
+        state.loadedBots = new HashMap();
+
+        // Load existing bots
+        db.get().collection('deployedBots').find({}).toArray(function(err, result) {
+            if (err) {
+                console.error(err);
+                process.exit(1);
+            }
+            
+            for (let config in result) {
+                let botClass = loadedTemplates[installedTemplates[config.template]];
+                let bot = new botClass(accountId, username, password, csds, req.body);
+                state.loadedBots.set(config._id, bot);
+
+                if (config.status) {
+                    bot.start();
+                }
+            }
+        });
+
         server.listen(port, function () {
             console.log('Bot Runtime listening on port ' + port);
         });
-        state.loadedBots = new HashMap();
     }
 });
 
