@@ -1,6 +1,6 @@
 <template>
     <md-table-row>
-      <md-table-cell><md-switch v-model="checked0" id="my-test0" name="my-test0" @change="postStatus"></md-switch></md-table-cell>
+      <md-table-cell><md-switch v-model="checked0" id="my-test0" name="my-test0" @change="postStatus(true)"></md-switch></md-table-cell>
       <md-table-cell><div id="circle"></div></md-table-cell>
       <md-table-cell>{{ID}}</md-table-cell>
       <md-table-cell>{{template}}</md-table-cell>
@@ -9,7 +9,7 @@
       <!--<md-table-cell>{{client}}</md-table-cell>-->
       <md-table-cell>{{lastedit}}</md-table-cell>
       <md-table-cell> 
-        <md-button class="md-icon-button" v-on:click='this.delete'>
+        <md-button class="md-icon-button" v-on:click='deleteBot'>
         <md-icon>delete</md-icon>
     </md-button>
       </md-table-cell>
@@ -30,15 +30,8 @@ export default {
         alert(response.status)
       })
     },
-    delete () {
-      axios.delete('http://141.19.142.6:3000/delete', {
-        _id: this.ID
-      }).then(function (response) {
-      })
-    }
-  },
-  data () {
-    return {
+    deleteBot: function () {
+      this.$store.dispatch('delete', this.ID)
     }
   },
   props: ['ID', 'status', 'template', 'name', 'lastedit']
@@ -48,7 +41,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 #circle {
-    background: #008000;
+    background: yellow;
     width: 12px;
     height: 12px;
     border-radius: 50%;

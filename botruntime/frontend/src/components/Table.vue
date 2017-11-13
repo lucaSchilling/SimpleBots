@@ -7,12 +7,12 @@
     <md-button class="md-icon-button">
       <md-icon>search</md-icon>
     </md-button>
-    <md-button class="md-icon-button" v-on:click='getBots'>
+    <md-button class="md-icon-button" v-on:click='getAll'>
       <md-icon>refresh</md-icon>
     </md-button>
 
   </md-toolbar>
-<md-table md-sort="Status">
+<md-table>
   <md-table-header>
     <md-table-row>
       <md-table-head></md-table-head>
@@ -25,7 +25,7 @@
   </md-table-header>
 
   <md-table-body id="tablebody">
-    <tablerow v-for="bot in bots" v-bind:key="5"
+    <tablerow v-for="bot in bots" v-bind:key='bot.ID'
               :ID = "bot.ID" 
               :status = "bot.status" 
               :template = "bot.template"
@@ -42,22 +42,18 @@
 import tablerow from './tablerow'
 
 export default {
+  name: 'Table',
+  methods: {
+    getAll: function () {
+      this.$store.dispatch('getAll')
+    }
+  },
+  beforeMount () {
+    this.getAll()
+  },
   computed: {
     bots () {
       return this.$store.state.bots
-    }
-  },
-  name: 'Table',
-  methods: {
-    removeBot (id) {
-      this.bots.splice(this.bots.findIndex(function (bot) {
-        return bot.ID === id
-      }), 1)
-    }
-
-  },
-  data () {
-    return {
     }
   },
   components: {

@@ -9,25 +9,54 @@ export const store = new Vuex.Store({
   state: {
     bots: []
   },
+  getters: {
+    getBotFromArray: (state, id) => {
+      for (var i = 0; i < state.bots.length; i++) {
+        if (id === state.bots[i]._id) {
+          return state.bots[i]
+        }
+      }
+    },
+    // TODO
+    getStatus: (id) => {
+      let bot = this.getBotFromArray(id)
+      return bot.status
+    }
+  },
   mutations: {
-    getBots: (state, response) => {
+    getAll: (state, response) => {
       for (var i = 0; i < response.data.length; i++) {
-        state.bots.push({id: response.data[i]._id,
+        state.bots.push({ID: response.data[i]._id,
           template: response.data[i].template,
           name: response.data[i].name,
           lastedit: response.data[i].lastEdit
         })
       }
     },
-    clearBots: (state) => {
+    clearBotsFromArray: (state) => {
       state.bots = []
+    },
+    delete: (state, id) => {
+      state.bots.splice(this.bots.findIndex(function (bot) {
+        return bot.ID === id
+      }), 1)
     }
   },
   actions: {
-    getBots: (context) => {
+    getAll: (context) => {
       axios.get('http://141.19.142.6:3000/getAll').then((response) => {
-        alert(response.status)
-        context.commit('getBots', response)
+        context.commit('clearBotsFromArray')
+        context.commit('getAll', response)
+      })
+    },
+    delete: (context, id) => {
+      axios.delete('http://141.19.142.6:3000/delete', {
+        params: {
+          '_id': id
+        }
+      }).then(function (response) {
+        alert(response)
+        context.commit('delete', id)
       })
     }
   }
