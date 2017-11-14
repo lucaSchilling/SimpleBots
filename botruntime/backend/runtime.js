@@ -55,7 +55,7 @@ db.connect(mongoURL, function(err) {
             
             for (let config in result) {
                 let botClass = state.loadedTemplates[installedTemplates[config.template]];
-                let bot = new botClass(accountId, username, password, csds, req.body);
+                let bot = new botClass(accountId, username, password, csds, config);
                 state.loadedBots[config._id] = bot;
 
                 if (config.status) {
