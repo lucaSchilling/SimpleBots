@@ -18,15 +18,19 @@ export const store = new Vuex.Store({
       }
     },
     // TODO
-    getStatus: (id) => {
-      let bot = this.getBotFromArray(id)
-      return bot.status
+    getStatus: (state, id) => {
+      for (var i = 0; i < state.bots.length; i++) {
+        if (id === state.bots[i]._id) {
+          return state.bots[i].status
+        }
+      }
     }
   },
   mutations: {
     getAll: (state, response) => {
       for (var i = 0; i < response.data.length; i++) {
         state.bots.push({ID: response.data[i]._id,
+          status: response.data[i].status,
           template: response.data[i].template,
           name: response.data[i].name,
           lastedit: response.data[i].lastEdit
@@ -35,12 +39,12 @@ export const store = new Vuex.Store({
     },
     clearBotsFromArray: (state) => {
       state.bots = []
-    },
-    delete: (state, id) => {
+    }
+/*     delete: (state, id) => {
       state.bots.splice(this.bots.findIndex(function (bot) {
         return bot.ID === id
       }), 1)
-    }
+    } */
   },
   actions: {
     getAll: (context) => {
@@ -50,13 +54,17 @@ export const store = new Vuex.Store({
       })
     },
     delete: (context, id) => {
-      axios.delete('http://141.19.142.6:3000/delete', {
-        params: {
-          '_id': id
-        }
+      axios.delete('http://141.19.142.6:3000/delete/' + id
+      ).then(function (response) {
+        alert(response.status)
+      })
+    },
+    postStatus (context, object) {
+      axios.post('http://141.19.142.6:3000/setStatus', {
+        '_id': object.id,
+        'status': object.status
       }).then(function (response) {
-        alert(response)
-        context.commit('delete', id)
+        alert(response.status)
       })
     }
   }

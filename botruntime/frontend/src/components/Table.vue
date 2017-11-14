@@ -17,17 +17,17 @@
     <md-table-row>
       <md-table-head></md-table-head>
       <md-table-head>Status</md-table-head>
-      <md-table-head class="tablehead">ID</md-table-head>
-      <md-table-head class="tablehead">Template</md-table-head>
-      <md-table-head class="tablehead">Name</md-table-head>
-      <md-table-head class="tablehead">Last Edit</md-table-head>
+      <md-table-head>ID</md-table-head>
+      <md-table-head>Template</md-table-head>
+      <md-table-head>Name</md-table-head>
+      <md-table-head>Last Edit</md-table-head>
     </md-table-row>
   </md-table-header>
 
   <md-table-body id="tablebody">
     <tablerow v-for="bot in bots" v-bind:key='bot.ID'
               :ID = "bot.ID" 
-              :status = "bot.status" 
+              :status = "bot.status"
               :template = "bot.template"
               :name = "bot.name"  
               :lastedit = "bot.lastedit">
@@ -54,6 +54,9 @@ export default {
   computed: {
     bots () {
       return this.$store.state.bots
+    },
+    getStatus () {
+      return this.$store.getters.getStatus
     }
   },
   components: {
@@ -64,9 +67,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.tablehead {
-  text-align: center
-}
-
 
 </style>

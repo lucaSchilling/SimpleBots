@@ -1,6 +1,6 @@
 <template>
     <md-table-row>
-      <md-table-cell><md-switch v-model="checked0" id="my-test0" name="my-test0" @change="postStatus(true)"></md-switch></md-table-cell>
+      <md-table-cell><md-switch v-bind="boolean" @change='postSwitch' class="md-primary"></md-switch></md-table-cell>
       <md-table-cell><div id="circle"></div></md-table-cell>
       <md-table-cell>{{ID}}</md-table-cell>
       <md-table-cell>{{template}}</md-table-cell>
@@ -17,23 +17,29 @@
 </template>
 
 <script>
-var axios = require('axios')
-
 export default {
   name: 'tablerow',
   methods: {
-    postStatus (boolean) {
-      axios.post('http://141.19.142.6:3000/setStatus', {
-        _id: this.ID,
-        status: boolean
-      }).then(function (response) {
-        alert(response.status)
-      })
-    },
     deleteBot: function () {
       this.$store.dispatch('delete', this.ID)
+      // this.$store.dispatch('getAll')
+    },
+    postStatus: function () {
+      this.$store.dispatch('postStatus', this.ID)
+    },
+    postSwitch (boolean) {
+      let object = {id: this.ID,
+        status: boolean}
+      this.$store.dispatch('postStatus', object)
     }
   },
+  computed: {
+    getStatus () {
+      alert(this.boolean)
+      return this.$store.getters.getStatus(this.ID)
+    }
+  },
+
   props: ['ID', 'status', 'template', 'name', 'lastedit']
 }
 </script>
@@ -44,7 +50,6 @@ export default {
     background: yellow;
     width: 12px;
     height: 12px;
-    border-radius: 50%;
-    
+    border-radius: 50%;  
 }
 </style>
