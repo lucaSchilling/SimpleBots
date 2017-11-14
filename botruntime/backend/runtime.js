@@ -53,16 +53,15 @@ db.connect(mongoURL, function(err) {
                 process.exit(1);
             }
             
-            for (let config in result) {
-                console.log(config);
-                console.log(config.template);
-                let botClass = state.loadedTemplates[installedTemplates[config.template]];
-                console.log(botClass);
-                let bot = new botClass(accountId, username, password, csds, config);
-                state.loadedBots[config._id] = bot;
-
-                if (config.status) {
-                    bot.start();
+            if (result) {
+                for (let config of result) {
+                    let botClass = state.loadedTemplates[installedTemplates[config.template]];
+                    let bot = new botClass(accountId, username, password, csds, config);
+                    state.loadedBots[config._id] = bot;
+    
+                    if (config.status) {
+                        // bot.start(); // TODO: FIX: connection to UML always closes instantly with code 1006
+                    }
                 }
             }
         });

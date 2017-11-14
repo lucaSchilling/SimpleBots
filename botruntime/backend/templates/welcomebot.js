@@ -30,7 +30,7 @@ class WelcomeBot extends Bot {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
                     this.conversationStates[change.result.convId] = this.config.options;
                     
-                    await this.joinConversation(change.result.convId, 'AGENT');
+                    await this.joinConversation(change.result.convId, 'MANAGER');
                     await this.sendMessage(change.result.convId, this.config.welcomeMessage);
                     await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
                 });
@@ -47,6 +47,7 @@ class WelcomeBot extends Bot {
                     let convState = this.conversationStates[change.result.convId];
 
                     if (convState[index].options) {
+                        this.conversationStates = convState[index].options;
                         await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
                     }
                     else {
@@ -92,7 +93,7 @@ class WelcomeBot extends Bot {
             let message = '';
             
             for (let option of state) {
-                message += option.message + '\n';
+                message += '\n' + option.message;
             }
             
             return message;
