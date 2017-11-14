@@ -9,5 +9,8 @@
     "hashmap": "^2.3.0",
     "mongodb": "^2.2.33",
     "node-agent-sdk": "^0.2.20"
+  },
+  "scripts": {
+    "test": "mocha"
   }
 }

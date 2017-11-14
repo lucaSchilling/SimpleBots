@@ -124,9 +124,9 @@ class Bot {
         return await this.agent.updateConversationField({
             'conversationId': conversationId,
             'conversationField': [{
-                'field': 'ParticipantsChange',
-                'type': 'ADD',
-                'role': role
+                field: 'ParticipantsChange',
+                type: 'ADD',
+                role: role
             }]
         });
     }

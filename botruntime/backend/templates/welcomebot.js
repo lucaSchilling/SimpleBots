@@ -1,6 +1,9 @@
 // Bot module
 Bot = require('./bot');
 
+/**
+ * A bot that can join conversations, greet the conversation partner and offer a range of options to find out what the conversation partner wants.
+ */
 class WelcomeBot extends Bot {
 
     constructor(accountId, username, password, csds, config) {
@@ -27,7 +30,7 @@ class WelcomeBot extends Bot {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
                     this.conversationStates[change.result.convId] = this.config.options;
                     
-                    await this.joinConversation(change.result.convId, 'MANAGER');
+                    await this.joinConversation(change.result.convId, 'AGENT');
                     await this.sendMessage(change.result.convId, this.config.welcomeMessage);
                     await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
                 });
@@ -44,11 +47,24 @@ class WelcomeBot extends Bot {
                     let convState = this.conversationStates[change.result.convId];
 
                     if (convState[index].options) {
-                        convState = convState[index].options;
                         await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
                     }
                     else {
-                        // TODO: redirect to another agent
+                        // Mark the conversation with the demanded skill
+                        this.agent.updateConversationField({
+                            'conversationId': conversationId,
+                            'conversationField': [{
+                                'field': 'ParticipantsChange',
+                                'type': 'ADD',
+                                'role': role
+                            },
+                            {
+                                field: "Skill",
+                                type: "UPDATE",
+                                skill: convState[index].redirect
+                            }]
+                        });
+
                         await this.leaveConversation(change.result.convId);
                     }
                 });
@@ -70,7 +86,7 @@ class WelcomeBot extends Bot {
         let state = this.conversationStates[convId];
         
         if (!state) {
-            throw 'Conversation not found';
+            throw new Error('Conversation not found');
         }
         else {
             let message = '';
