@@ -1,5 +1,5 @@
 # Frontend
-In this Folder you find everything about the frontend about our configuration.
+In this Folder you will find everything about the frontend of our configuration.
 
 ## Structure
 
