@@ -60,7 +60,7 @@ db.connect(mongoURL, function(err) {
                     state.loadedBots[config._id] = bot;
     
                     if (config.status) {
-                        // bot.start(); // TODO: FIX: connection to UML always closes instantly with code 1006
+                        bot.start(); // TODO: FIX: connection to UML always closes instantly with code 1006
                     }
                 }
             }
@@ -166,6 +166,22 @@ server.post('/setStatus', function (req, res) {
             targetBot.shutdown();
         }
 
+        let querry = {
+            _id: id
+        };
+
+        let updatedStatus = {
+            $set: { status: status }
+        }
+
+        db.get().collection('deployedBots').updateOne(querry, updatedStatus, function(err, res) {
+            if (err) {
+                console.log(err);
+                res.sendStatus(503);
+                return;
+            }
+        });
+
         res.sendStatus(200);
     }
     catch (e) {
@@ -174,7 +190,7 @@ server.post('/setStatus', function (req, res) {
     }
 });
 
-// Deletes Bots from the runtime. Expects valid JSON
+// Deletes bots from the runtime. Expects valid JSON
 server.delete('/delete/:id', function (req, res) {
     try {
         let id = req.params.id;

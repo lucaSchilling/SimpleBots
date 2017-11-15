@@ -35,46 +35,49 @@ class WelcomeBot extends Bot {
                     await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
                 });
 
-            // If the bot has already joined the conversation and the user sends a message, send the next set of options or redirect them to another agent
-            body.changes
-                .filter(change => change.type === 'UPSERT' && this.openConversations[change.result.convId])
-                .forEach(async change => {
-                    let userMessage = change.result.body;
-                    let index = parseInt(userMessage) - 1;
-
-                    // TODO: index == NAN => human agent
-
-                    let convState = this.conversationStates[change.result.convId];
-
-                    if (convState[index].options) {
-                        this.conversationStates = convState[index].options;
-                        await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
-                    }
-                    else {
-                        // Mark the conversation with the demanded skill
-                        this.agent.updateConversationField({
-                            'conversationId': conversationId,
-                            'conversationField': [{
-                                'field': 'ParticipantsChange',
-                                'type': 'ADD',
-                                'role': role
-                            },
-                            {
-                                field: "Skill",
-                                type: "UPDATE",
-                                skill: convState[index].redirect
-                            }]
-                        });
-
-                        await this.leaveConversation(change.result.convId);
-                    }
-                });
-
             // On conversation termination, remove all temporary data about that conversation
             body.changes
             .filter(change => change.type === 'DELETE' && this.openConversations[change.result.convId])
             .forEach(async change => {
                 await this.leaveConversation(change.result.convId);
+            });
+        });
+
+        this.agent.on('ms.MessagingEventNotification', body => {
+            // If the bot has already joined the conversation and the user sends a message, send the next set of options or redirect them to another agent
+            body.changes
+            .filter(change => change.type === 'UPSERT' && this.openConversations[change.result.convId])
+            .forEach(async change => {
+                let userMessage = change.event.message;
+                console.log('message:' + change.event.message);
+                let index = parseInt(userMessage) - 1;
+
+                // TODO: index == NAN => human agent
+
+                let convState = this.conversationStates[change.result.convId];
+
+                if (convState[index].options) {
+                    this.conversationStates = convState[index].options;
+                    await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
+                }
+                else {
+                    // Mark the conversation with the demanded skill
+                    this.agent.updateConversationField({
+                        'conversationId': conversationId,
+                        'conversationField': [{
+                            'field': 'ParticipantsChange',
+                            'type': 'ADD',
+                            'role': role
+                        },
+                        {
+                            field: "Skill",
+                            type: "UPDATE",
+                            skill: convState[index].redirect
+                        }]
+                    });
+
+                    await this.leaveConversation(change.result.convId);
+                }
             });
         });
     }
