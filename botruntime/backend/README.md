@@ -1,4 +1,4 @@
-# Frontend
+# Backend
 In this Folder you will find everything about the backend of our runtime.
 
 ## Structure
