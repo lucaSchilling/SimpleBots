@@ -1,7 +1,7 @@
 <template>
     <md-table-row>
-      <md-table-cell><md-switch v-model="checked0" id="my-test0" name="my-test0" @change="postStatus"></md-switch></md-table-cell>
-      <md-table-cell><div id="circle"></div></md-table-cell>
+      <md-table-cell><md-switch v-model="status" @change='postSwitch' class="md-primary"></md-switch></md-table-cell>
+      <md-table-cell><div v-bind:class="[status ? 'circleGreen' : 'circleYellow']"></div></md-table-cell>
       <md-table-cell>{{ID}}</md-table-cell>
       <md-table-cell>{{template}}</md-table-cell>
       <md-table-cell>{{name}}</md-table-cell>
@@ -9,7 +9,7 @@
       <!--<md-table-cell>{{client}}</md-table-cell>-->
       <md-table-cell>{{lastedit}}</md-table-cell>
       <md-table-cell> 
-        <md-button class="md-icon-button" v-on:click='this.delete'>
+        <md-button class="md-icon-button" v-on:click='deleteBot'>
         <md-icon>delete</md-icon>
     </md-button>
       </md-table-cell>
@@ -17,28 +17,27 @@
 </template>
 
 <script>
-var axios = require('axios')
-
 export default {
   name: 'tablerow',
   methods: {
-    postStatus (boolean) {
-      axios.post('http://141.19.142.6:3000/setStatus', {
-        _id: this.ID,
-        status: boolean
-      }).then(function (response) {
-        alert(response.status)
-      })
+    deleteBot: function () {
+      this.$store.dispatch('delete', this.ID)
     },
-    delete () {
-      axios.delete('http://141.19.142.6:3000/delete', {
-        _id: this.ID
-      }).then(function (response) {
-      })
+    getAll: function () {
+      this.$store.dispatch('getAll')
+    },
+    postStatus: function () {
+      this.$store.dispatch('postStatus', this.ID)
+    },
+    postSwitch (boolean) {
+      let object = {id: this.ID,
+        status: boolean}
+      this.$store.dispatch('postStatus', object)
     }
   },
-  data () {
-    return {
+  computed: {
+    getStatus () {
+      return this.$store.getters.getStatus(this.ID)
     }
   },
   props: ['ID', 'status', 'template', 'name', 'lastedit']
@@ -47,11 +46,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-#circle {
-    background: #008000;
+.circleYellow {
+    background: yellow;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;  
+}
+.circleGreen {
+  background: green;
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    
 }
 </style>
