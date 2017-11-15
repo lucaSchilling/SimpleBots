@@ -17,7 +17,6 @@ export const store = new Vuex.Store({
         }
       }
     },
-    // TODO
     getStatus: (state, id) => {
       for (var i = 0; i < state.bots.length; i++) {
         if (id === state.bots[i]._id) {
@@ -56,7 +55,7 @@ export const store = new Vuex.Store({
     delete: (context, id) => {
       axios.delete('http://141.19.142.6:3000/delete/' + id
       ).then(function (response) {
-        alert(response.status)
+        context.dispatch('getAll')
       })
     },
     postStatus (context, object) {
@@ -64,7 +63,6 @@ export const store = new Vuex.Store({
         '_id': object.id,
         'status': object.status
       }).then(function (response) {
-        alert(response.status)
       })
     }
   }
