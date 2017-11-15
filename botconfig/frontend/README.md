@@ -1,7 +1,7 @@
 # Frontend
 In this Folder you find everything about the frontend about our configuration.
 
-##Structure
+## Structure
 /build: here you will find all build scripts for this frontend
 
 /config: here you will find all configuration files for this project like "dev.env.js" or "test.env.js"
