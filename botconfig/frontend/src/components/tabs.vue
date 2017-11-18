@@ -1,25 +1,22 @@
 <template>
   <div>
-    <md-tabs md-sync-route>
-      <md-tab id="tab-home" md-label="Home" to="/components/tabs/home">
-        Home Tab
-      </md-tab>
+    <md-tabs md-fixed>
+  <md-tab id="movies" md-label="Movies">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas amet cum vitae, omnis! Illum quas voluptatem, expedita iste, dicta ipsum ea veniam dolore in, quod saepe reiciendis nihil.</p>
+  </md-tab>
 
-      <md-tab id="tab-pages" md-label="Pages" to="/components/tabs/pages">
-        Pages tab
-        <p>Unde provident nemo reiciendis officia, possimus repellendus. Facere dignissimos dicta quis rem. Aliquam aspernatur dolor atque nisi id deserunt laudantium quam repellat.</p>
-      </md-tab>
+  <md-tab id="music" md-label="Music">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas amet cum vitae, omnis! Illum quas voluptatem, expedita iste, dicta ipsum ea veniam dolore in, quod saepe reiciendis nihil.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas amet cum vitae, omnis! Illum quas voluptatem, expedita iste, dicta ipsum ea veniam dolore in, quod saepe reiciendis nihil.</p>
+  </md-tab>
 
-      <md-tab id="tab-posts" md-label="Posts" to="/components/tabs/posts">
-        Posts tab
-        <p>Qui, voluptas repellat impedit ducimus earum at ad architecto consectetur perferendis aspernatur iste amet ex tempora animi, illum tenetur quae assumenda iusto.</p>
-      </md-tab>
+  <md-tab id="books" md-label="Books" to="./home">
+  </md-tab>
 
-      <md-tab id="tab-favorites" md-label="Favorites" to="/components/tabs/favorites">
-        Favorites tab
-        <p>Maiores, dolorum. Beatae, optio tempore fuga odit aperiam velit, consequuntur magni inventore sapiente alias sequi odio qui harum dolorem sunt quasi corporis.</p>
-      </md-tab>
-    </md-tabs>
+  <md-tab id="pictures" md-label="Pictures">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
+  </md-tab>
+</md-tabs>
   </div>
 </template>
 

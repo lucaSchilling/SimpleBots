@@ -2,12 +2,19 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/vue-material.css'
 import App from './App'
 
 Vue.use(VueMaterial)
 
 Vue.config.productionTip = false
+
+Vue.material.registerTheme('default', {
+  primary: 'white',
+  accent: 'orange',
+  warn: 'black',
+  background: 'grey'
+})
 
 /* eslint-disable no-new */
 new Vue({
