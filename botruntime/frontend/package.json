@@ -13,7 +13,7 @@
     "test": "npm run unit && npm run e2e",
     "selenium": "node test/e2e/Selenium_Test.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "lintfix": "eslint --fix src/components/Table.vue src/components/tablerow.vue src/store/store.js src/store/getters.js src/store/index.js src/store/mutations.js src/store/state.js src/store/actions.js"
+    "lintfix": "eslint --fix src/components/Table.vue src/components/tablerow.vue src/store/store.js"
   },
   "dependencies": {
     "axios": "^0.17.0",

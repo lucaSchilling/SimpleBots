@@ -21,7 +21,7 @@ export default {
   name: 'tablerow',
   methods: {
     deleteBot: function () {
-      this.$store.dispatch('removeBot', this.ID)
+      this.$store.dispatch('delete', this.ID)
     },
     getAll: function () {
       this.$store.dispatch('getAll')
