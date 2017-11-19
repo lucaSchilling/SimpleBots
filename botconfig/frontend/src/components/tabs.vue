@@ -4,7 +4,8 @@
       <md-tab id="tab-launch" class="tabs" md-label="LAUNCH" to="/components/launch">
         <div id="launch">
           <p id="news">News</p>
-          <launch></launch></div>
+          <launch></launch>
+        </div>
       </md-tab>
 
       <md-tab id="tab-botarmy" class="tabs" md-label="BOTARMY" to="/components/botarmy">

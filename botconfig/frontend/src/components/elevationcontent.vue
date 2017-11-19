@@ -13,14 +13,17 @@
         <div id="left">
             <img src="../../assets/welcomebot.jpg" alt="Welcome Bot" height="150" width="150" id="botimg">
             <div id="textdiv">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
-            <button class="button button1">Create Bot</button> 
+            <button id="dialogbtn" class="button button1">Create Bot</button> 
         </div>
         <div id="right">
           <video width="700" controls>
           <source src="../../assets/intro.mp4" type="video/mp4">
           </video>
         </div>
+        <hr style="border:solid #e47e25 1px;height:1px;">
+
         <div id="below">
+            hellu
         </div>
       </div>
      </md-dialog>
@@ -38,18 +41,19 @@
 
 <style lang="scss" scoped>
   #head {
-      color: gray;
+    color: gray;
   }
   #dialog {
     width: 1000px;
   }
   #wrap {
-      width: auto;
-      position: relative;
+    width: auto;
+    position: relative;
+    margin: auto;
   }
   #below {
-      padding-left: 120px;
-      clear: left;
+    padding-left: 120px;
+    clear: left;
   }
 
   #right {
@@ -93,5 +97,14 @@
 }
 #textdiv {
     padding-bottom: 30px;
+}
+#botimg, #dialogbtn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#line {
+    padding-top: 20px;
+    border-color: #e47e25;
 }
 </style>
