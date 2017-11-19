@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import templates from '@/components/templates'
-import history from '@/components/history'
+import templates from '@/components/Templates'
+import history from '@/components/History'
 import botconfig from '@/components/botconfig.vue'
 
 Vue.use(Router)

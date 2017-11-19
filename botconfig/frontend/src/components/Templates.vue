@@ -31,8 +31,8 @@
 </template>
 
 <script>
-import templatepresentation from './templatepresentation.vue'
-import templateheader from './templateheader.vue'
+import templatepresentation from './TemplatePresentation.vue'
+import templateheader from './TemplateHeader.vue'
 
 export default {
   name: 'templates',

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import botpresentation from './botpresentation.vue'
+import botpresentation from './BotPresentation.vue'
 
 export default {
   name: 'history',

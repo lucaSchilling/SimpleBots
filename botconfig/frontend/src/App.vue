@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import navigation from './components/navigation.vue'
+import navigation from './components/Navigation.vue'
 
 export default {
   components: {
