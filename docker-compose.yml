@@ -1,0 +1,23 @@
+version: '2'
+
+# Define the services/containers to be run
+services:
+  runtimebackend: #name of your service
+    build: ./botruntime/backend # specify the directory of the Dockerfile
+    ports:
+      - "3000:3000" #specify ports forwarding
+    links:
+      - database # link this service to the database service
+    depends_on:
+      - database
+      
+  database: # name of the service
+    image: mongo # specify image to build container from
+  runtimefrontend: 
+    build: ./botruntime/frontend
+    ports:
+      - "8080:8080"
+  configfrontend:
+    build: ./botconfig/frontend
+    ports:
+      - "8081:8081"
