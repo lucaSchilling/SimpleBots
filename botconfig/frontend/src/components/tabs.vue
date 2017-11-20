@@ -3,13 +3,13 @@
     <md-tabs md-sync-route md-alignment="fixed">
       <md-tab id="tab-launch" class="tabs" md-label="LAUNCH" to="/components/launch">
         <div id="launch">
-          <p id="news">News</p>
+          <h4 id="news">News</h4>
           <launch></launch>
         </div>
       </md-tab>
 
       <md-tab id="tab-botarmy" class="tabs" md-label="BOTARMY" to="/components/botarmy">
-      
+        <botarmy></botarmy>
       </md-tab>
 
       <md-tab id="tab-status" class="tabs" md-label="BOT STATUS" to="/components/status">
@@ -21,11 +21,13 @@
 
 <script>
 import launch from './launch.vue'
+import botarmy from './botarmy.vue'
 
 export default {
   name: 'tabs',
   components: {
-    launch
+    launch,
+    botarmy
   }
 }
 </script>

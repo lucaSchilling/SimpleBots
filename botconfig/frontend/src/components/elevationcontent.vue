@@ -19,9 +19,7 @@
           <video width="700" controls>
           <source src="../../assets/intro.mp4" type="video/mp4">
           </video>
-        </div>
-        <hr style="border:solid #e47e25 1px;height:1px;">
-
+        </div> 
         <div id="below">
             hellu
         </div>
