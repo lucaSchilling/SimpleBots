@@ -116,7 +116,7 @@ class Bot {
      * @param {string} conversationId id of the conversation that should be joined
      * @param {string} role role of the agent (AGENT, MANAGER)
      */
-    async joinConversation(conversationId, role = 'AGENT') {
+    async joinConversation(conversationId, role = 'MANAGER') {
         if (!this.isConnected) {
             return;
         }
@@ -124,9 +124,9 @@ class Bot {
         return await this.agent.updateConversationField({
             'conversationId': conversationId,
             'conversationField': [{
-                'field': 'ParticipantsChange',
-                'type': 'ADD',
-                'role': role
+                field: 'ParticipantsChange',
+                type: 'ADD',
+                role: role
             }]
         });
     }

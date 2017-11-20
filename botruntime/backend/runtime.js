@@ -8,26 +8,24 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // Cross-origin resource sharing module
 const cors = require('cors');
-// Hash map module
-const HashMap = require('hashmap');
 // File system module
 const fs = require('fs');
 // MongoDB module
 var db = require('./db');
 
+var state = {
+    loadedBots:  { },
+    loadedTemplates: { }
+};
+
 // Load all registered templates
-var loadedTemplates = { };
 var installedTemplates = JSON.parse(fs.readFileSync(__dirname + '/templates.json'));
 
 for (key in installedTemplates) {
     let name = installedTemplates[key];
     let template = require('./templates/' + name);
-    loadedTemplates[name] = template;
+    state.loadedTemplates[name] = template;
 }
-
-var state = {
-    loadedBots:  new HashMap()
-};
 
 config();
 var accountId = process.env.LP_ACCOUNT;
@@ -48,8 +46,6 @@ db.connect(mongoURL, function(err) {
         process.exit(1);
     }
     else {
-        state.loadedBots = new HashMap();
-
         // Load existing bots
         db.get().collection('deployedBots').find({}).toArray(function(err, result) {
             if (err) {
@@ -57,13 +53,15 @@ db.connect(mongoURL, function(err) {
                 process.exit(1);
             }
             
-            for (let config in result) {
-                let botClass = loadedTemplates[installedTemplates[config.template]];
-                let bot = new botClass(accountId, username, password, csds, req.body);
-                state.loadedBots.set(config._id, bot);
-
-                if (config.status) {
-                    bot.start();
+            if (result) {
+                for (let config of result) {
+                    let botClass = state.loadedTemplates[installedTemplates[config.template]];
+                    let bot = new botClass(accountId, username, password, csds, config);
+                    state.loadedBots[config._id] = bot;
+    
+                    if (config.status) {
+                        bot.start(); // TODO: FIX: connection to UML always closes instantly with code 1006
+                    }
                 }
             }
         });
@@ -74,9 +72,15 @@ db.connect(mongoURL, function(err) {
     }
 });
 
-// Bot deployment interface. Expects valid JSON bot config file
+// Deploys the bot into a ready state and saves it in the database. Expects valid JSON bot config file
 server.post('/deploy', function (req, res) {
     try {
+        // No JSON
+        if (!typeof req.body === 'object') {
+            res.sendStatus(400);
+            return;
+        }
+
         let id = req.body._id;
         let template = req.body.template;
 
@@ -86,15 +90,13 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
-        // TODO: validate correctness of JSON file
-
         // Bot already exists
-        if (state.loadedBots.has(id)) {
+        if (state.loadedBots[id]) {
             res.sendStatus(409);
             return;
         }
 
-        let botClass = loadedTemplates[installedTemplates[template]];
+        let botClass = state.loadedTemplates[installedTemplates[template]];
 
         // Template not installed
         if (!botClass) {
@@ -111,13 +113,12 @@ server.post('/deploy', function (req, res) {
                 return;
             }
             
+            // Instantiate new bot of the specified template
             let deployedBot = new botClass(accountId, username, password, csds, req.body);
-            state.loadedBots.set(id, deployedBot);
+            state.loadedBots[id] = deployedBot;
 
             res.sendStatus(201);
         });
-
-        // res.sendStatus(400); // TODO: No JSON -> Bad request
     }
     catch (e) {
         console.error(e);
@@ -128,6 +129,12 @@ server.post('/deploy', function (req, res) {
 // Turns bots on or off. Expects valid JSON
 server.post('/setStatus', function (req, res) {
     try {
+        // No JSON
+        if (!typeof req.body === 'object') {
+            res.sendStatus(400);
+            return;
+        }
+
         let id = req.body._id;
         let status = req.body.status;
         
@@ -137,7 +144,7 @@ server.post('/setStatus', function (req, res) {
             return;
         }
 
-        let targetBot = state.loadedBots.get(id);
+        let targetBot = state.loadedBots[id];
 
         // Bot does not exist
         if (!targetBot) {
@@ -159,9 +166,23 @@ server.post('/setStatus', function (req, res) {
             targetBot.shutdown();
         }
 
-        res.sendStatus(200); 
+        let querry = {
+            _id: id
+        };
 
-        // res.sendStatus(400); // TODO: No JSON -> Bad request
+        let updatedStatus = {
+            $set: { status: status }
+        }
+
+        db.get().collection('deployedBots').updateOne(querry, updatedStatus, function(err, res) {
+            if (err) {
+                console.log(err);
+                res.sendStatus(503);
+                return;
+            }
+        });
+
+        res.sendStatus(200);
     }
     catch (e) {
         console.error(e);
@@ -169,19 +190,19 @@ server.post('/setStatus', function (req, res) {
     }
 });
 
-// Deletes Bots from the runtime. Expects valid JSON
-server.delete('/delete', function (req, res) {
+// Deletes bots from the runtime. Expects valid JSON
+server.delete('/delete/:id', function (req, res) {
     try {
-        let id = req.body._id;
+        let id = req.params.id;
 
-        // Invalid JSON
+        // No id
         if (!id) {
-            res.sendStatus(422); 
+            res.sendStatus(400);
             return;
         }
 
         // Get loaded bot
-        let bot = state.loadedBots.get(id);
+        let bot = state.loadedBots[id];
 
         // Bot does not exist
         if (!bot) {
@@ -195,8 +216,8 @@ server.delete('/delete', function (req, res) {
             return;
         }
 
-        // Delete from hash map
-        loadedBots.remove(id);
+        // Delete from loaded bots
+        delete state.loadedBots[id];
 
         // Delete from database
         let querry = {
@@ -213,7 +234,6 @@ server.delete('/delete', function (req, res) {
         });
 
         res.sendStatus(200);
-        // res.sendStatus(400); // TODO: No JSON -> Bad request
     }
     catch (e) {
         console.error(e);
@@ -221,6 +241,7 @@ server.delete('/delete', function (req, res) {
     }
 });
 
+// Returns all bot configs that are in the database
 server.get('/getAll', function(req, res) {
     try {
         db.get().collection('deployedBots').find({}).toArray(function(err, result) {
