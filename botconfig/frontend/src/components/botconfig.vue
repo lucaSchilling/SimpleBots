@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     deploy () {
-      axios.post('http://localhost:3000/deploy', {
+      axios.post('http://141.19.142.6:3000/deploy', {
         '_id': this._id,
         'template': this.template,
         'name': this.name,
