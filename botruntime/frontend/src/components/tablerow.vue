@@ -9,7 +9,7 @@
       <!--<md-table-cell>{{client}}</md-table-cell>-->
       <md-table-cell>{{lastedit}}</md-table-cell>
       <md-table-cell> 
-        <md-button id="deleteButton"+ID class="md-icon-button" v-on:click='deleteBot'>
+        <md-button class="md-icon-button deleteButton" v-on:click='deleteBot'>
         <md-icon>delete</md-icon>
     </md-button>
       </md-table-cell>
