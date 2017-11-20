@@ -1,21 +1,28 @@
 <template>
   <div id="app">
-     <tabs></tabs>
+     <navigation> </navigation>
     <router-view/>
   </div>
 </template>
 
 <script>
-import tabs from './components/tabs.vue'
+import navigation from './components/Navigation.vue'
 
 export default {
   components: {
-    tabs
+    navigation
   },
   name: 'app'
 }
 </script>
 
 <style>
-
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
 </style>
