@@ -11,7 +11,7 @@
   <md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
     <md-toolbar class="md-small">
       <div class="md-toolbar-container">
-        <h3 class="md-title">Navigation</h3>
+        <h3 class="md-title">Luca´s Navigation</h3>
       </div>
     </md-toolbar>
     <md-list>
