@@ -1,35 +1,35 @@
 <template>
 <div>
   <form novalidate @submit.stop.prevent="submit">
-  <md-input-container id="_id">
+  <md-input-container>
     <label>_id</label>
-    <md-input v-model="_id"></md-input>
+    <md-input id="_id" v-model="_id"></md-input>
   </md-input-container>
 
- <md-input-container id="welcomeMessage">
+ <md-input-container>
     <label>WelcomeMessage</label>
-    <md-input v-model="welcomeMessage"></md-input>
+    <md-input id="welcomeMessage" v-model="welcomeMessage"></md-input>
   </md-input-container>
 
-   <md-input-container id="options">
+   <md-input-container>
     <label>options</label>
-    <md-input v-model="options"></md-input>
+    <md-input id="options" v-model="options"></md-input>
   </md-input-container>
 
 
-  <md-input-container id="template">
+  <md-input-container>
     <label>template</label>
-    <md-input v-model="template"></md-input>
+    <md-input id="template" v-model="template"></md-input>
   </md-input-container>
 
-  <md-input-container id="name">
+  <md-input-container>
     <label>name</label>
-    <md-input v-model="name"></md-input>
+    <md-input id="name" v-model="name"></md-input>
   </md-input-container>
 
-  <md-input-container id="lastEdit">
+  <md-input-container>
     <label>lastEdit</label>
-    <md-input v-model="lastEdit"></md-input>
+    <md-input id="lastEdit" v-model="lastEdit"></md-input>
   </md-input-container>
 
 </form>

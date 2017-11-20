@@ -7,7 +7,7 @@
     <md-button class="md-icon-button">
       <md-icon>search</md-icon>
     </md-button>
-    <md-button class="md-icon-button" v-on:click='getAll'>
+    <md-button id="refreshButton" class="md-icon-button" v-on:click='getAll'>
       <md-icon>refresh</md-icon>
     </md-button>
 

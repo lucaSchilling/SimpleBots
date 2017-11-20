@@ -1,6 +1,6 @@
 <template>
     <md-table-row>
-      <md-table-cell><md-switch v-model="status" @change='postSwitch' class="md-primary"></md-switch></md-table-cell>
+      <md-table-cell><md-switch id="switchBar"+ID v-model="status" @change='postSwitch' class="md-primary"></md-switch></md-table-cell>
       <md-table-cell><div v-bind:class="[status ? 'circleGreen' : 'circleYellow']"></div></md-table-cell>
       <md-table-cell>{{ID}}</md-table-cell>
       <md-table-cell>{{template}}</md-table-cell>
@@ -9,7 +9,7 @@
       <!--<md-table-cell>{{client}}</md-table-cell>-->
       <md-table-cell>{{lastedit}}</md-table-cell>
       <md-table-cell> 
-        <md-button class="md-icon-button" v-on:click='deleteBot'>
+        <md-button id="deleteButton"+ID class="md-icon-button" v-on:click='deleteBot'>
         <md-icon>delete</md-icon>
     </md-button>
       </md-table-cell>
