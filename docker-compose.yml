@@ -13,11 +13,20 @@ services:
       
   database: # name of the service
     image: mongo # specify image to build container from
+
   runtimefrontend: 
     build: ./botruntime/frontend
     ports:
       - "8080:8080"
+    links:
+      - runtimebackend 
+    depends_on:
+      - runtimebackend     
   configfrontend:
     build: ./botconfig/frontend
     ports:
       - "8081:8081"
+    links:
+      - runtimebackend  
+    depends_on:
+      - runtimebackend   
