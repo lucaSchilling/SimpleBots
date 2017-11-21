@@ -17,47 +17,47 @@
       </md-step>
 
       <md-step id="second" :md-error="secondStepError" :md-done.sync="second">
-        <md-button id="cont" class="md-raised md-primary" @click="setDone('second', 'third')">Continue</md-button>
-        <md-button class="md-raised md-primary" @click="setError()">Set error!</md-button>
+        <md-button id="continue" class="md-raised md-primary" @click="setDone('second', 'third')">Continue</md-button>
+        <md-button id="setError" class="md-raised md-primary" @click="setError()">Set error!</md-button>
       </md-step>
 
       <md-step id="third" :md-done.sync="third">
           <div class="div">
           <md-field>
                 <label for="_id">_id</label>
-                <md-input name="_id" v-model="_id">
+                <md-input id="id" name="_id" v-model="_id">
                 </md-input>
           </md-field>
           <md-field>
                 <label for="Name">Name</label>
-                <md-input name="Name" v-model="name">
+                <md-input id="name" name="Name" v-model="name">
                 </md-input>
           </md-field>
           <md-field>
                 <label for="Welcome Message">Welcome Message</label>
-                <md-input name="Welcome Message" v-model="welcomeMessage">
+                <md-input id="welcomeMessage" name="Welcome Message" v-model="welcomeMessage">
                 </md-input>
           </md-field>
           <md-field>
                 <label for="Options">Options</label>
-                <md-input name="Options" v-model="options">
+                <md-input id="options" name="Options" v-model="options">
                 </md-input>
           </md-field>
-          <md-field>
+          <md-field id="field">
                 <label for="Template">Template</label>
                 <md-select name="Template" v-model='template'>
-                    <md-option value="Welcome Bot">Welcome Bot</md-option>
-                    <md-option value="FAQ Bot">FAQ Bot</md-option>
-                    <md-option value="Task Assist Bot">Task Assist Bot</md-option>
+                    <md-option id = "wB" value="Welcome Bot">Welcome Bot</md-option>
+                    <md-option id = "FAQ" value="FAQ Bot">FAQ Bot</md-option>
+                    <md-option id = "taB" value="Task Assist Bot">Task Assist Bot</md-option>
                 </md-select>
           </md-field>
           <md-field>
                 <label for="lastedit">lastedit</label>
-                <md-input name="lastedit" v-model="lastedit">
+                <md-input id="lastEdit" name="lastedit" v-model="lastedit">
                 </md-input>
           </md-field>
             
-        <md-button class="md-raised md-primary" @click="deploy">Done</md-button>
+        <md-button id="deployButton" class="md-raised md-primary" @click="deploy">Done</md-button>
           </div>
       </md-step>
     </md-steppers>
