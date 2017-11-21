@@ -6,6 +6,7 @@ RUN mkdir -p /usr/src/app
 # "layer" thats been cached will be used if possible
 WORKDIR /usr/src/app
 ADD . /usr/src/app
+RUN npm install express
 RUN rm -rf ./build
 RUN rm -rf ./test
 RUN rm -rf ./src
