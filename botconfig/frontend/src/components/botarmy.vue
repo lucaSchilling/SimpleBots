@@ -17,7 +17,7 @@
       </md-step>
 
       <md-step id="second" :md-error="secondStepError" :md-done.sync="second">
-        <md-button class="md-raised md-primary" @click="setDone('second', 'third')">Continue</md-button>
+        <md-button id="cont" class="md-raised md-primary" @click="setDone('second', 'third')">Continue</md-button>
         <md-button class="md-raised md-primary" @click="setError()">Set error!</md-button>
       </md-step>
 
