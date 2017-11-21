@@ -25,7 +25,8 @@
   </md-table-header>
 
   <md-table-body id="tablebody">
-    <tablerow v-for="bot in bots" v-bind:key='bot.ID'
+    <tablerow v-for="(bot, index) in bots" v-bind:key='bot.ID'
+              :id = "bot" + index
               :ID = "bot.ID" 
               :status = "bot.status"
               :template = "bot.template"
