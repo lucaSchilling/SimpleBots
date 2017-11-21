@@ -7,6 +7,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 ADD . /usr/src/app
 RUN npm install express
+RUN npm install ejs
 RUN rm -rf ./build
 RUN rm -rf ./test
 RUN rm -rf ./src
