@@ -4,9 +4,9 @@ const port = process.env.PORT || 8081
 const router = express.Router()
 app.use(express.static(`${__dirname}/dist`)) // set the static files location for the static html
 app.engine('.html', require('ejs').renderFile)
-app.set('views', `${__dirname}/dist`)
+app.set('views', `${__dirname}`)
 router.get('/*', (req, res, next) => {
-  res.sendFile(`${__dirname}/dist/index.html`)
+  res.sendFile(`${__dirname}/index.html`)
 })
 app.use('/', router)
 app.listen(port)
