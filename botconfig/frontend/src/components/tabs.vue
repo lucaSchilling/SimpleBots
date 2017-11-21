@@ -13,7 +13,7 @@
       </md-tab>
 
       <md-tab id="tab-status" class="tabs" md-label="BOT STATUS" to="/components/status">
-       
+       <tablehead></tablehead>
       </md-tab>
     </md-tabs>
   </div>
@@ -22,12 +22,14 @@
 <script>
 import launch from './launch.vue'
 import botarmy from './botarmy.vue'
+import tablehead from './tablehead.vue'
 
 export default {
   name: 'tabs',
   components: {
     launch,
-    botarmy
+    botarmy,
+    tablehead
   }
 }
 </script>
