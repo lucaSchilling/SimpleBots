@@ -24,6 +24,11 @@
       <md-step id="third" :md-done.sync="third">
           <div class="div">
           <md-field>
+                <label for="_id">_id</label>
+                <md-input name="_id" v-model="_id">
+                </md-input>
+          </md-field>
+          <md-field>
                 <label for="Name">Name</label>
                 <md-input name="Name" v-model="name">
                 </md-input>
