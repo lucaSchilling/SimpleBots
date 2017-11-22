@@ -10,7 +10,7 @@ export default {
       'welcomeMessage': context.state.welcomeMessage,
       'options': [{'message': context.state.options}]
     }).then(function (response) {
-      alert(response.status)
+      context.dispatch('getAll')
     })
   },
   getAll: (context) => {
