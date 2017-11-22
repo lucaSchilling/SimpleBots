@@ -82,11 +82,14 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
-        let id = req.body._id;
+        let botJson = req.body
+        let id = botNumber++
+        botJson.status = false
+        botJson._id = id
         let template = req.body.template;
 
         // Invalid JSON
-        if (!id || !template) {
+        if (!template) {
             res.sendStatus(422); 
             return;
         }
@@ -104,9 +107,6 @@ server.post('/deploy', function (req, res) {
             res.sendStatus(501);
             return;
         }
-
-        let botJson = req.body
-        botJson.status = false
         
         // Save bot in database
         db.get().collection('deployedBots').insertOne(botJson, function(err) {
