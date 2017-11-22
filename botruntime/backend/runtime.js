@@ -107,7 +107,6 @@ server.post('/deploy', function (req, res) {
 
         let botJson = req.body
         botJson.status = false
-        botJson._id = state.botNumber++
         
         // Save bot in database
         db.get().collection('deployedBots').insertOne(botJson, function(err) {
