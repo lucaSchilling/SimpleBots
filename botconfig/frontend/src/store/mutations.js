@@ -1,7 +1,4 @@
 export default {
-  setId: (state, val) => {
-    state._id = val
-  },
   setName: (state, val) => {
     state.name = val
   },
@@ -13,9 +10,6 @@ export default {
   },
   setWelcomeMessage: (state, val) => {
     state.welcomeMessage = val
-  },
-  setLastEdit: (state, val) => {
-    state.lastedit = val
   },
   getAll: (state, response) => {
     for (var i = 0; i < response.data.length; i++) {
