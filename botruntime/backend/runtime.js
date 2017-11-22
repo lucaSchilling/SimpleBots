@@ -82,18 +82,11 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
-        let id = req.body._id;
         let template = req.body.template;
 
         // Invalid JSON
-        if (!id || !template) {
+        if (!template) {
             res.sendStatus(422); 
-            return;
-        }
-
-        // Bot already exists
-        if (state.loadedBots[id]) {
-            res.sendStatus(409);
             return;
         }
 
@@ -108,6 +101,12 @@ server.post('/deploy', function (req, res) {
         let botJson = req.body
         botJson.status = false
         botJson._id = state.botNumber++
+
+          // Bot already exists
+          if (state.loadedBots[botJson._id]) {
+            res.sendStatus(409);
+            return;
+        }
         
         // Save bot in database
         db.get().collection('deployedBots').insertOne(botJson, function(err) {
