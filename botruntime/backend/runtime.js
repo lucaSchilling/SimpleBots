@@ -15,7 +15,8 @@ var db = require('./db');
 
 var state = {
     loadedBots:  { },
-    loadedTemplates: { }
+    loadedTemplates: { },
+    botNumber: 100
 };
 
 // Load all registered templates
@@ -104,8 +105,12 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
+        let botJson = req.body
+        botJson.status = false
+        botJson._id = state.botNumber++
+        
         // Save bot in database
-        db.get().collection('deployedBots').insertOne(req.body, function(err) {
+        db.get().collection('deployedBots').insertOne(botJson, function(err) {
             // Can't connect to database
             if (err) {
                 console.error(err);
@@ -114,7 +119,7 @@ server.post('/deploy', function (req, res) {
             }
             
             // Instantiate new bot of the specified template
-            let deployedBot = new botClass(accountId, username, password, csds, req.body);
+            let deployedBot = new botClass(accountId, username, password, csds, botJson);
             state.loadedBots[id] = deployedBot;
 
             res.sendStatus(201);
