@@ -86,7 +86,7 @@ server.post('/deploy', function (req, res) {
         let id = state.botNumber++
         botJson.status = false
         botJson._id = id
-        botJson.lastEdit = new Date().toDateString()
+        botJson.lastEdit = new Date().toDateString() + new Date().getHours() +":" + new Date().getMinutes()
         let template = req.body.template;
 
         // Invalid JSON
