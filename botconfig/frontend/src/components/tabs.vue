@@ -7,9 +7,9 @@
           <launch></launch>
         </div>
       </md-tab>
-
+      
       <md-tab id="tab-botarmy" class="tabs" md-label="BOTARMY" to="/components/botarmy">
-        <botarmy></botarmy>
+        <botarmy id="tab-botarmy2"></botarmy>
       </md-tab>
 
       <md-tab id="tab-status" class="tabs" md-label="BOT STATUS" to="/components/status">
