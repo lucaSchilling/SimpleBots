@@ -119,7 +119,7 @@ server.post('/deploy', function (req, res) {
             
             // Instantiate new bot of the specified template
             let deployedBot = new botClass(accountId, username, password, csds, botJson);
-            state.loadedBots[botJson._id] = deployedBot;
+            state.loadedBots[id] = deployedBot;
 
             res.sendStatus(201);
         });
