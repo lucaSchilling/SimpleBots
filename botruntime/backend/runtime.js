@@ -82,15 +82,11 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
-        let botJson = req.body
-        let id = state.botNumber++
-        botJson.status = false
-        botJson._id = id
-        botJson.lastEdit = new Date().toDateString() + new Date().getHours() +":" + new Date().getMinutes()
+        let id = req.body._id;
         let template = req.body.template;
 
         // Invalid JSON
-        if (!template) {
+        if (!id || !template) {
             res.sendStatus(422); 
             return;
         }
@@ -108,6 +104,9 @@ server.post('/deploy', function (req, res) {
             res.sendStatus(501);
             return;
         }
+
+        let botJson = req.body
+        botJson.status = false
         
         // Save bot in database
         db.get().collection('deployedBots').insertOne(botJson, function(err) {
