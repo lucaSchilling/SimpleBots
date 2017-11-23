@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <h4 id="headline">Let's create your Botarmy!</h4>
-    <md-steppers :md-active-step.sync="active" md-linear>
-      <md-step id="first" :md-error="firstStepError" :md-done.sync="first">
+  <div id="box">
+    <md-steppers md-alternative>
+      <md-step id="first" md-label="First Step">
         <div class="div">
         <h2 id="assign">Assign Chatbot</h2>
         <br>
@@ -12,17 +11,47 @@
             <md-button class="md-raised md-primary" :disabled="disabledEnglish" @click="selectButton">English</md-button>
             <md-button class="md-raised md-primary" :disabled="disabledDeutsch" @click="selectButton">Deutsch</md-button>
         </div>
-        <md-button id="next" class="md-raised md-primary" @click="setDone('first', 'second')">Next</md-button>
         </div>
       </md-step>
 
-      <md-step id="second" :md-error="secondStepError" :md-done.sync="second">
-        <md-button id="continue" class="md-raised md-primary" @click="setDone('second', 'third')">Continue</md-button>
-        <md-button id="setError" class="md-raised md-primary" @click="setError()">Set error!</md-button>
+      <md-step id="second" md-label="Second Step">
+        <h2 id="choose">Choose a Template</h2>
+        <div id="wrapper">
+          <div id="left">
+            <h3 id="welcomeText">Welcome Bot</h3>
+             <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" id="botimg" @click="template ='Welcome Bot'">
+          </div>
+          <div id="right">
+            <h3 id="faqText">FAQ Bot</h3>
+             <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" id="botimg" @click="template = 'FAQ Bot'">
+          </div>
+        </div>
       </md-step>
 
-      <md-step id="third" :md-done.sync="third">
-          <div class="div">
+      <md-step id="third" md-label="Third Step">
+        <h2 id="welcomeMsg">Welcome Message</h2>
+        <div id="textcontainer">
+          <md-field>
+            <md-textarea v-model="welcomeMessage"></md-textarea>
+          </md-field>
+        </div>
+      </md-step>
+
+      <md-step id="forth" md-label="Forth Step">
+          <div id="wrapperM">
+            <div id="leftM">
+              <h2>Set Selection Menu</h2>
+              
+            </div>
+            <div id="rightM">
+              <h2>Set Bot Answer</h2>
+            </div>
+          </div>
+
+      </md-step>
+
+      <md-step id="fifth" md-label="Fifth Step">
+        <div class="div">
           <md-field>
                 <label for="_id">_id</label>
                 <md-input id="id" name="_id" v-model="_id">
@@ -68,15 +97,8 @@
   export default {
     name: 'botarmy',
     data: () => ({
-      active: 'first',
-      first: false,
-      second: false,
-      third: false,
-      firstStepError: null,
-      secondStepError: null,
       disabledEnglish: false,
-      disabledDeutsch: true,
-      selectedTemplate: null
+      disabledDeutsch: true
     }),
     computed: {
       _id: {
@@ -129,25 +151,12 @@
       }
     },
     methods: {
-      setDone (id, index) {
-        this[id] = true
-
-        this.secondStepError = null
-
-        if (index) {
-          this.active = index
-        }
-      },
-      setError () {
-        this.secondStepError = 'This is an error!'
-      },
       selectButton () {
         this.disabledEnglish = !this.disabledEnglish
         this.disabledDeutsch = !this.disabledDeutsch
       },
       deploy: function () {
         this.$store.dispatch('deploy')
-        this.setDone('third')
       }
     }
   }
@@ -155,16 +164,11 @@
 
 
 <style lang="scss" scoped>
-  #headline, #assign, #lng{
+  #headline, #assign, #lng, #choose, #welcomeMsg, #slct {
       color: gray;
   }
-  #assign, #lng {
+  #assign, #lng, #choose, #welcomeText, #faqText, #welcomeMsg, #slct {
       text-align: center;
-  }
-  #next {
-      position: absolute;
-      right:    0;
-      bottom:   0;
   }
   #btndiv {
       display: flex;
@@ -172,5 +176,47 @@
   }
   .div {
       height: 500px;
+  }
+  #left {
+    width: 150px;
+    float: left;
+  }
+  #right {
+    width: 150px;
+    float: right;
+  }
+  #wrapper {
+    width: 400px;
+    margin:0 auto;
+  }
+  #wrapperM {
+    width: 900px;
+    margin:0 auto;
+  }
+  #container {
+    height: 500px;
+  }
+  #welcomeText, #faqText {
+    color: #e47e25;
+  }
+  #textcontainer {
+    width: 400px;
+    margin:0 auto;
+  }
+  #leftM {
+    float: left
+  }
+  #rightM {
+    float: right
+  }
+  h2 {
+    text-align: center;
+    color: gray;
+  }
+  #bla {
+    display: block;
+  }
+  #box {
+    height: 500;
   }
 </style>
