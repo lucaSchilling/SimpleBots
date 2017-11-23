@@ -17,7 +17,7 @@ class Bot {
         this.password = password;
         this.csds = csds;
         this.config = config;
-        
+        this.retries = 3;
         this.init();
     }
 
@@ -37,14 +37,25 @@ class Bot {
             console.error('Connection to UMS closed with err', err.message); // TODO: mail to admin
         });
 
-        this.agent.on('closed', reason => {
+        this.agent.on('closed', this.onClose);
+
+        this.promisifyFunctions();
+    }
+
+    onClose (reason) {
             this.isConnected = false;
             console.error('Connection to UMS closed with reason', reason); // TODO: mail to admin
             console.log(this.agent.config)
-            this.agent.reconnect(reason !== 4401 || reason !== 4407);
-        });
+            if(this.retries > 0){
+                this.retries--;
+                console.log(this.retries)
+                setTimeout(() => {
+                    this.agent.reconnect(reason !== 4401 || reason !== 4407);
+                }, 1000);
 
-        this.promisifyFunctions();
+            }else{
+                console.error('yikes')
+            }
     }
 
     /**
