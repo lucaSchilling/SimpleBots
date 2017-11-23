@@ -150,6 +150,7 @@ class Bot {
      * @param {string} message text message that is sent to the client
      */
     async sendMessage(conversationId, message) {
+        console.log('I bims')
         if (!this.isConnected) return;
         return await this.agent.publishEvent({
             dialogId: conversationId,
@@ -166,6 +167,7 @@ class Bot {
      * @param {string} conversationId 
      */
     async leaveConversation(conversationId) {
+        console.log('I bims ned')
         delete this.openConversations[conversationId];
 
         // TODO: leave conversation via agent function
