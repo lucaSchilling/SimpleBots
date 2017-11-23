@@ -67,6 +67,7 @@ db.connect(mongoURL, function(err) {
                     }
                 }
             }
+        }
         });
 
         server.listen(port, function () {
