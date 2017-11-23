@@ -57,9 +57,7 @@ db.connect(mongoURL, function(err) {
             if (result) {
                 for (let config of result) {
                     let botClass = state.loadedTemplates[installedTemplates[config.template]];
-                    let bot = new botClass(accountId, username, password, csds, config, function (){
-                        console.log("Bot "+ config._id + "is now created")
-                    }); // TODO: FIX connection to UML always closes instantly with code 1006
+                    let bot = new botClass(accountId, username, password, csds, config) 
                     state.loadedBots[config._id] = bot;
     
                     if (config.status) {

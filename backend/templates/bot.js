@@ -40,6 +40,8 @@ class Bot {
         this.agent.on('closed', reason => {
             this.isConnected = false;
             console.error('Connection to UMS closed with reason', reason); // TODO: mail to admin
+            console.log(this.agent.config)
+            await timeout(3000);
             this.agent.reconnect(reason !== 4401 || reason !== 4407);
         });
 
