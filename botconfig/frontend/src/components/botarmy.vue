@@ -24,6 +24,11 @@
       <md-step id="third" :md-done.sync="third">
           <div class="div">
           <md-field>
+                <label for="_id">_id</label>
+                <md-input id="id" name="_id" v-model="_id">
+                </md-input>
+          </md-field>
+          <md-field>
                 <label for="Name">Name</label>
                 <md-input id="name" name="Name" v-model="name">
                 </md-input>
@@ -45,6 +50,11 @@
                     <md-option id = "FAQ" value="FAQ Bot">FAQ Bot</md-option>
                     <md-option id = "taB" value="Task Assist Bot">Task Assist Bot</md-option>
                 </md-select>
+          </md-field>
+          <md-field>
+                <label for="lastedit">lastedit</label>
+                <md-input id="lastEdit" name="lastedit" v-model="lastedit">
+                </md-input>
           </md-field>
             
         <md-button id="deployButton" class="md-raised md-primary" @click="deploy">Done</md-button>
