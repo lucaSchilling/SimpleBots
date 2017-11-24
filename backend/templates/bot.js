@@ -45,7 +45,7 @@ class Bot {
     onClose (reason) {
             this.isConnected = false;
             console.error('Connection to UMS closed with reason', reason); // TODO: mail to admin
-            console.log(this.agent.config)
+            console.log(this.config);
             if(this.retries > 0){
                 this.retries--;
                 console.log(this.retries)
