@@ -34,18 +34,14 @@ class Bot {
 
         this.agent.on('error', err => {
             this.isConnected = false;
-            console.error('Connection to UMS closed with err', err.message); // TODO: mail to admin
+            console.error('Bot ' + this.config._id + ': Connection to UMS closed with err', err.message); // TODO: mail to admin
         });
 
-        this.agent.on('closed', this.onClose);
-
-        this.promisifyFunctions();
-    }
-
-    onClose (reason) {
+        this.agent.on('closed', reason => {
             this.isConnected = false;
-            console.error('Connection to UMS closed with reason', reason); // TODO: mail to admin
-            console.log(this.config);
+            
+            console.error('Bot ' + this.config._id + ': Connection to UMS closed with reason', reason); // TODO: mail to admin
+            
             if(this.retries > 0){
                 this.retries--;
                 console.log(this.retries)
@@ -54,8 +50,11 @@ class Bot {
                 }, 1000);
 
             }else{
-                console.error('Reconnected')
+                console.error('Bot ' + this.config._id + ': Unable to connect')
             }
+        });
+
+        this.promisifyFunctions();
     }
 
     /**
@@ -150,7 +149,7 @@ class Bot {
      * @param {string} message text message that is sent to the client
      */
     async sendMessage(conversationId, message) {
-        console.log(this.config.name + ' sent a messgae in conversation '+ conversationId)
+        console.log('Bot ' + this.config._id + ' sent a messgae in conversation '+ conversationId)
         if (!this.isConnected) return;
         return await this.agent.publishEvent({
             dialogId: conversationId,
@@ -167,7 +166,7 @@ class Bot {
      * @param {string} conversationId 
      */
     async leaveConversation(conversationId) {
-        console.log(this.config.name + ' has left conversation '+ conversationId)
+        console.log('Bot ' + this.config._id + ' has left conversation '+ conversationId)
         delete this.openConversations[conversationId];
 
         // TODO: leave conversation via agent function
