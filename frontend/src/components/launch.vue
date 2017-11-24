@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="tab">
   <video width="800" controls>
     <source src="../../assets/intro.mp4" type="video/mp4">
   </video>

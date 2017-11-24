@@ -18,12 +18,20 @@
         <h2 id="choose">Choose a Template</h2>
         <div id="wrapper">
           <div id="left">
-            <h3 id="welcomeText">Welcome Bot</h3>
-             <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" id="botimg" @click="template ='Welcome Bot'">
+            <md-card md-with-hover>
+              <div @click="template ='Welcome Bot'" id="wlcmdiv">
+              <h3 id="welcomeText">Welcome Bot</h3>
+               <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" id="wlcmimg">
+              </div>
+              </md-card>
           </div>
           <div id="right">
-            <h3 id="faqText">FAQ Bot</h3>
-             <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" id="botimg" @click="template = 'FAQ Bot'">
+            <md-card md-with-hover>
+              <div @click="template = 'FAQ Bot'" id="faqdiv">
+              <h3 id="faqText">FAQ Bot</h3>
+               <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" id="faqimg">
+              </div>
+            </md-card>
           </div>
         </div>
       </md-step>
@@ -178,15 +186,15 @@
       height: 500px;
   }
   #left {
-    width: 150px;
+    width: 300px;
     float: left;
   }
   #right {
-    width: 150px;
+    width: 300px;
     float: right;
   }
   #wrapper {
-    width: 400px;
+    width: 700px;
     margin:0 auto;
   }
   #wrapperM {
@@ -218,5 +226,19 @@
   }
   #box {
     height: 500;
+  }
+  #wlcmimg, #faqimg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  md-card {
+    height: 320px;
+  }
+  #wlcmdiv, #faqdiv {
+    height: 250px;
+  }
+  #box {
+    height: 500px
   }
 </style>

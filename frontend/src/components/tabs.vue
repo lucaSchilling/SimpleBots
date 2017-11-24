@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="wrapper">
     <md-tabs md-sync-route md-alignment="fixed">
       <md-tab id="tab-launch" class="tabs" md-label="LAUNCH" to="/components/launch">
         <div id="launch">
