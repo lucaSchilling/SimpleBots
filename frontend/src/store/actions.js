@@ -1,5 +1,5 @@
 var axios = require('axios')
-var url = 'localhost:3000'
+var url = 'http://localhost:3000'
 
 export default {
   deploy: (context) => {
