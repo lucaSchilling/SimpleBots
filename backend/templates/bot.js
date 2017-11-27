@@ -11,11 +11,10 @@ class Bot {
      * Creates a new bot that can join conversations via the specified agent.
      * @param {Agent} agent the agent object that underlies this bot
      */
-    constructor(accountId, username, password, csds, config) {
+    constructor(accountId, username, password, config) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
-        this.csds = csds;
         this.config = config;
         this.retries = 3;
         this.init();

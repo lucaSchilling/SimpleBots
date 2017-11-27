@@ -3,4 +3,4 @@ WORKDIR /app
 COPY package.json /app
 RUN npm install
 COPY . /app
-CMD node welcomebot.js
+CMD node bottest.js
