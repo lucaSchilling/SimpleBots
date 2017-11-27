@@ -49,7 +49,14 @@
           <div id="wrapperM">
             <div id="leftM">
               <h2>Set Selection Menu</h2>
-              
+              </form>
+              <md-button class="md-primary md-raised" @click="add">
+                +
+              </md-button>
+              <div v-for="comp in parents" v-bind:key="comp">
+                <input v-model="comp.message">
+              </div>
+              <pre>{{ $data | json }}</pre>
             </div>
             <div id="rightM">
               <h2>Set Bot Answer</h2>
@@ -102,143 +109,203 @@
 </template>
 
 <script>
-  export default {
-    name: 'botarmy',
-    data: () => ({
-      disabledEnglish: false,
-      disabledDeutsch: true
-    }),
-    computed: {
-      _id: {
-        get () {
-          return this.$store.state._id
-        },
-        set (val) {
-          this.$store.commit('setId', val)
-        }
+import treeinput from './treeinput.vue'
+
+export default {
+  name: 'botarmy',
+  components: {
+    treeinput
+  },
+  data: () => ({
+    disabledEnglish: false,
+    disabledDeutsch: true,
+    i: 0,
+    parents: []
+  }),
+  computed: {
+    _id: {
+      get () {
+        return this.$store.state._id
       },
-      name: {
-        get () {
-          return this.$store.state.name
-        },
-        set (val) {
-          this.$store.commit('setName', val)
-        }
-      },
-      template: {
-        get () {
-          return this.$store.state.template
-        },
-        set (val) {
-          this.$store.commit('setTemplate', val)
-        }
-      },
-      lastedit: {
-        get () {
-          return this.$store.state.lastedit
-        },
-        set (val) {
-          this.$store.commit('setLastEdit', val)
-        }
-      },
-      welcomeMessage: {
-        get () {
-          return this.$store.state.welcomeMessage
-        },
-        set (val) {
-          this.$store.commit('setWelcomeMessage', val)
-        }
-      },
-      options: {
-        get () {
-          return this.$store.state.options
-        },
-        set (val) {
-          this.$store.commit('setOptions', val)
-        }
+      set (val) {
+        this.$store.commit('setId', val)
       }
     },
-    methods: {
-      selectButton () {
-        this.disabledEnglish = !this.disabledEnglish
-        this.disabledDeutsch = !this.disabledDeutsch
+    name: {
+      get () {
+        return this.$store.state.name
       },
-      deploy: function () {
-        this.$store.dispatch('deploy')
+      set (val) {
+        this.$store.commit('setName', val)
+      }
+    },
+    template: {
+      get () {
+        return this.$store.state.template
+      },
+      set (val) {
+        this.$store.commit('setTemplate', val)
+      }
+    },
+    lastedit: {
+      get () {
+        return this.$store.state.lastedit
+      },
+      set (val) {
+        this.$store.commit('setLastEdit', val)
+      }
+    },
+    welcomeMessage: {
+      get () {
+        return this.$store.state.welcomeMessage
+      },
+      set (val) {
+        this.$store.commit('setWelcomeMessage', val)
+      }
+    },
+    options: {
+      get () {
+        return this.$store.state.options
+      },
+      set (val) {
+        this.$store.commit('setOptions', val)
+      }
+    }
+  },
+  methods: {
+    selectButton () {
+      this.disabledEnglish = !this.disabledEnglish
+      this.disabledDeutsch = !this.disabledDeutsch
+    },
+    deploy: function () {
+      this.$store.dispatch('deploy')
+    },
+    add: function () {
+      this.parents.push({message: ''})
+    },
+    display () {
+      let r = document.createElement('span')
+      let y = document.createElement('INPUT')
+      y.setAttribute('type', 'text')
+      y.setAttribute('v-model', 'bla')
+      // y.setAttribute('placeholder', 'Name')
+      let g = document.createElement('IMG')
+      g.setAttribute('src', 'delete.png')
+      this.i++
+      y.setAttribute('Name', 'textelement_' + this.i)
+      r.appendChild(y)
+      g.setAttribute('onclick', "removeElement('myForm','id_" + this.i + "')")
+      r.appendChild(g)
+      r.setAttribute('id', 'id_' + this.i)
+      document.getElementById('myForm').appendChild(r)
+    },
+    removeElement (parentDiv, childDiv) {
+      if (childDiv === parentDiv) {
+        alert('The parent div cannot be removed.')
+      } else if (document.getElementById(childDiv)) {
+        var child = document.getElementById(childDiv)
+        var parent = document.getElementById(parentDiv)
+        parent.removeChild(child)
+      } else {
+        alert('Child div has already been removed or does not exist.')
+        return false
       }
     }
   }
+}
 </script>
 
 
 <style lang="scss" scoped>
-  #headline, #assign, #lng, #choose, #welcomeMsg, #slct {
-      color: gray;
-  }
-  #assign, #lng, #choose, #welcomeText, #faqText, #welcomeMsg, #slct {
-      text-align: center;
-  }
-  #btndiv {
-      display: flex;
-      justify-content: center;
-  }
-  .div {
-      height: 500px;
-  }
-  #left {
-    width: 300px;
-    float: left;
-  }
-  #right {
-    width: 300px;
-    float: right;
-  }
-  #wrapper {
-    width: 700px;
-    margin:0 auto;
-  }
-  #wrapperM {
-    width: 900px;
-    margin:0 auto;
-  }
-  #container {
-    height: 500px;
-  }
-  #welcomeText, #faqText {
-    color: #e47e25;
-  }
-  #textcontainer {
-    width: 400px;
-    margin:0 auto;
-  }
-  #leftM {
-    float: left
-  }
-  #rightM {
-    float: right
-  }
-  h2 {
-    text-align: center;
-    color: gray;
-  }
-  #bla {
-    display: block;
-  }
-  #box {
-    height: 500;
-  }
-  #wlcmimg, #faqimg {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  md-card {
-    height: 320px;
-  }
-  #wlcmdiv, #faqdiv {
-    height: 250px;
-  }
-  #box {
-    height: 500px
-  }
+#headline,
+#assign,
+#lng,
+#choose,
+#welcomeMsg,
+#slct {
+  color: gray;
+}
+#assign,
+#lng,
+#choose,
+#welcomeText,
+#faqText,
+#welcomeMsg,
+#slct {
+  text-align: center;
+}
+#btndiv {
+  display: flex;
+  justify-content: center;
+}
+.div {
+  height: 500px;
+}
+#left {
+  width: 300px;
+  float: left;
+}
+#right {
+  width: 300px;
+  float: right;
+}
+#wrapper {
+  width: 700px;
+  margin: 0 auto;
+}
+#wrapperM {
+  width: 900px;
+  margin: 0 auto;
+}
+#container {
+  height: 500px;
+}
+#welcomeText,
+#faqText {
+  color: #e47e25;
+}
+#textcontainer {
+  width: 400px;
+  margin: 0 auto;
+}
+#leftM {
+  float: left;
+}
+#rightM {
+  float: right;
+}
+h2 {
+  text-align: center;
+  color: gray;
+}
+#bla {
+  display: block;
+}
+#box {
+  height: 500;
+}
+#wlcmimg,
+#faqimg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+md-card {
+  height: 320px;
+}
+#wlcmdiv,
+#faqdiv {
+  height: 250px;
+}
+#box {
+  height: 500px;
+}
+input {
+  width: 280px;
+  height: 40px;
+  padding: 5px;
+  margin: 20px 0 10px;
+  border-radius: 5px;
+  border: 4px solid #e47e25;
+}
 </style>

@@ -4,6 +4,7 @@ export default {
   template: 'Welcome Bot',
   lastedit: null,
   welcomeMessage: null,
-  options: [1, 2, 3, 4],
-  bots: []
+  options: [],
+  bots: [],
+  i: null
 }
