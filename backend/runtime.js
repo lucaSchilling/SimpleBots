@@ -10,8 +10,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 // File system module
 const fs = require('fs');
+// Docker module
+const Docker = require('dockerode');
 // MongoDB module
 var db = require('./db');
+
+var docker = new Docker();
 
 var state = {
     loadedBots:  { },
