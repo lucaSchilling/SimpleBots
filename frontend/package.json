@@ -14,7 +14,7 @@
     "selenium_test": "node test/e2e/Selenium_Test.js",
     "selenium_test2": "node test/e2e/Selenium_Test2.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "lintfix": "eslint --fix src/components/tabs.vue src/components/launch.vue src/components/elevationcontent.vue src/router/index.js src/components/botarmy.vue src/components/tablehead.vue src/components/tablerow.vue src/components/treeinput.vue"
+    "lintfix": "eslint --fix src/components/tabs.vue src/components/launch.vue src/components/elevationcontent.vue src/router/index.js src/components/botarmy.vue src/components/tablehead.vue src/components/tablerow.vue src/components/treeinput.vue src/components/tree.vue src/components/item.vue"
   },
   "dependencies": {
     "axios": "^0.17.0",

@@ -1,7 +1,50 @@
 <template>
   <div id="box">
     <md-steppers md-alternative>
-      <md-step id="first" md-label="First Step">
+      <md-step id="first" md-label="Template">
+        <h2 id="choose">Choose a Template</h2>
+        <div id="wrapper">
+          <div id="left">
+            <md-card md-with-hover>
+              <div @click="template ='Welcome Bot'" id="wlcmdiv">
+              <h3 id="welcomeText">Welcome Bot</h3>
+               <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" class="img">
+              </div>
+              </md-card>
+          </div>
+          <div id="right">
+            <md-card md-with-hover>
+              <div @click="template = 'FAQ Bot'" id="faqdiv">
+              <h3 id="faqText">FAQ Bot</h3>
+               <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" class="img">
+              </div>
+            </md-card>
+          </div>
+        </div>
+      </md-step>
+
+      <md-step id="second" md-label="Name">
+        <div v-if="template === 'Welcome Bot'" class="picDiv">
+          <h2>Choose a Name</h2>
+          <img src="../../assets/bot_gelb.jpg" height="150" width="150" class="img">
+          <md-field>
+                <label for="name">Name</label>
+                <md-input  v-model="name">
+                </md-input>
+          </md-field>
+        </div>
+        <div v-else-if="template === 'FAQ Bot'" class="picDiv">
+          <h2>Choose a Name</h2>
+          <img src="../../assets/bot_lila.jpg" height="150" width="150" class="img">
+          <md-field>
+                <label for="name">Name</label>
+                <md-input  v-model="name">
+                </md-input>
+          </md-field>
+        </div>
+      </md-step>
+
+      <md-step id="third" md-label="Language">
         <div class="div">
         <h2 id="assign">Assign Chatbot</h2>
         <br>
@@ -14,29 +57,7 @@
         </div>
       </md-step>
 
-      <md-step id="second" md-label="Second Step">
-        <h2 id="choose">Choose a Template</h2>
-        <div id="wrapper">
-          <div id="left">
-            <md-card md-with-hover>
-              <div @click="template ='Welcome Bot'" id="wlcmdiv">
-              <h3 id="welcomeText">Welcome Bot</h3>
-               <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" id="wlcmimg">
-              </div>
-              </md-card>
-          </div>
-          <div id="right">
-            <md-card md-with-hover>
-              <div @click="template = 'FAQ Bot'" id="faqdiv">
-              <h3 id="faqText">FAQ Bot</h3>
-               <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" id="faqimg">
-              </div>
-            </md-card>
-          </div>
-        </div>
-      </md-step>
-
-      <md-step id="third" md-label="Third Step">
+      <md-step id="forth" md-label="Welcome Message">
         <h2 id="welcomeMsg">Welcome Message</h2>
         <div id="textcontainer">
           <md-field>
@@ -45,7 +66,7 @@
         </div>
       </md-step>
 
-      <md-step id="forth" md-label="Forth Step">
+      <md-step id="fifth" md-label="Options">
           <div id="wrapperM">
             <div id="leftM">
               <h2>Set Selection Menu</h2>
@@ -53,55 +74,16 @@
               <md-button class="md-primary md-raised" @click="add">
                 +
               </md-button>
-              <div v-for="comp in parents" v-bind:key="comp">
+              <div v-for="comp in tree" v-bind:key="comp" class="inputDiv">
                 <input v-model="comp.message">
+                <md-button class="md-primary md-raised addInputBtn">+</md-button>
               </div>
               <pre>{{ $data | json }}</pre>
             </div>
             <div id="rightM">
               <h2>Set Bot Answer</h2>
+              <md-button class="md-primary md-raised" @click="deploy" id="deployBtn">Deploy</md-button>
             </div>
-          </div>
-
-      </md-step>
-
-      <md-step id="fifth" md-label="Fifth Step">
-        <div class="div">
-          <md-field>
-                <label for="_id">_id</label>
-                <md-input id="id" name="_id" v-model="_id">
-                </md-input>
-          </md-field>
-          <md-field>
-                <label for="Name">Name</label>
-                <md-input id="name" name="Name" v-model="name">
-                </md-input>
-          </md-field>
-          <md-field>
-                <label for="Welcome Message">Welcome Message</label>
-                <md-input id="welcomeMessage" name="Welcome Message" v-model="welcomeMessage">
-                </md-input>
-          </md-field>
-          <md-field>
-                <label for="Options">Options</label>
-                <md-input id="options" name="Options" v-model="options">
-                </md-input>
-          </md-field>
-          <md-field id="field">
-                <label for="Template">Template</label>
-                <md-select name="Template" v-model='template'>
-                    <md-option id = "wB" value="Welcome Bot">Welcome Bot</md-option>
-                    <md-option id = "FAQ" value="FAQ Bot">FAQ Bot</md-option>
-                    <md-option id = "taB" value="Task Assist Bot">Task Assist Bot</md-option>
-                </md-select>
-          </md-field>
-          <md-field>
-                <label for="lastedit">lastedit</label>
-                <md-input id="lastEdit" name="lastedit" v-model="lastedit">
-                </md-input>
-          </md-field>
-            
-        <md-button id="deployButton" class="md-raised md-primary" @click="deploy">Done</md-button>
           </div>
       </md-step>
     </md-steppers>
@@ -109,18 +91,13 @@
 </template>
 
 <script>
-import treeinput from './treeinput.vue'
-
 export default {
   name: 'botarmy',
-  components: {
-    treeinput
-  },
   data: () => ({
     disabledEnglish: false,
     disabledDeutsch: true,
     i: 0,
-    parents: []
+    tree: []
   }),
   computed: {
     _id: {
@@ -178,38 +155,11 @@ export default {
       this.disabledDeutsch = !this.disabledDeutsch
     },
     deploy: function () {
+      this.options = JSON.stringify(this.tree)
       this.$store.dispatch('deploy')
     },
     add: function () {
-      this.parents.push({message: ''})
-    },
-    display () {
-      let r = document.createElement('span')
-      let y = document.createElement('INPUT')
-      y.setAttribute('type', 'text')
-      y.setAttribute('v-model', 'bla')
-      // y.setAttribute('placeholder', 'Name')
-      let g = document.createElement('IMG')
-      g.setAttribute('src', 'delete.png')
-      this.i++
-      y.setAttribute('Name', 'textelement_' + this.i)
-      r.appendChild(y)
-      g.setAttribute('onclick', "removeElement('myForm','id_" + this.i + "')")
-      r.appendChild(g)
-      r.setAttribute('id', 'id_' + this.i)
-      document.getElementById('myForm').appendChild(r)
-    },
-    removeElement (parentDiv, childDiv) {
-      if (childDiv === parentDiv) {
-        alert('The parent div cannot be removed.')
-      } else if (document.getElementById(childDiv)) {
-        var child = document.getElementById(childDiv)
-        var parent = document.getElementById(parentDiv)
-        parent.removeChild(child)
-      } else {
-        alert('Child div has already been removed or does not exist.')
-        return false
-      }
+      this.tree.push({message: null, options: []})
     }
   }
 }
@@ -264,7 +214,7 @@ export default {
 #faqText {
   color: #e47e25;
 }
-#textcontainer {
+#textcontainer , .picDiv {
   width: 400px;
   margin: 0 auto;
 }
@@ -284,8 +234,7 @@ h2 {
 #box {
   height: 500;
 }
-#wlcmimg,
-#faqimg {
+.img {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -294,7 +243,8 @@ md-card {
   height: 320px;
 }
 #wlcmdiv,
-#faqdiv {
+#faqdiv,
+.picDiv {
   height: 250px;
 }
 #box {

@@ -6,9 +6,9 @@ export default {
     axios.post(url + '/deploy', {
       'template': context.state.template,
       'name': context.state.name,
-      'lastEdit': context.state.lastedit,
+      'lastEdit': new Date(),
       'welcomeMessage': context.state.welcomeMessage,
-      'options': [{'message': context.state.options}]
+      'options': context.state.options
     }).then(function (response) {
       context.dispatch('getAll')
     })
