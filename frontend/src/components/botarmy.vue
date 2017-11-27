@@ -86,18 +86,61 @@
             </div>
           </div>
       </md-step>
+
+      <md-step id="sixth" md-label="tree">
+        <div id="bla">
+        <ul id="demo">
+        <item
+              class="item"
+              :model="treeData">
+        </item>
+        </ul>
+        </div>
+      </md-step>
     </md-steppers>
   </div>
 </template>
 
 <script>
+import item from './item.vue'
+
 export default {
   name: 'botarmy',
+  components: {
+    item
+  },
   data: () => ({
     disabledEnglish: false,
     disabledDeutsch: true,
     i: 0,
-    tree: []
+    tree: [],
+    treeData: {
+      name: 'My Tree',
+      children: [
+    { name: 'hello' },
+    { name: 'wat' },
+        {
+          name: 'child folder',
+          children: [
+            {
+              name: 'child folder',
+              children: [
+            { name: 'hello' },
+            { name: 'wat' }
+              ]
+            },
+        { name: 'hello' },
+        { name: 'wat' },
+            {
+              name: 'child folder',
+              children: [
+            { name: 'hello' },
+            { name: 'wat' }
+              ]
+            }
+          ]
+        }
+      ]}
   }),
   computed: {
     _id: {
@@ -257,5 +300,11 @@ input {
   margin: 20px 0 10px;
   border-radius: 5px;
   border: 4px solid #e47e25;
+}
+#bla {
+  height: 500px;
+}
+ul {
+  list-style-type: none;
 }
 </style>
