@@ -32,7 +32,7 @@ class WelcomeBot extends Bot {
                     
                     await this.joinConversation(change.result.convId, 'MANAGER');
                     await this.sendMessage(change.result.convId, this.config.welcomeMessage);
-                    await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
+                    //await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
                 });
 
             // On conversation termination, remove all temporary data about that conversation

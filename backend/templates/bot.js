@@ -25,7 +25,7 @@ class Bot {
      */
     init() {
         this.isConnected = false;
-        this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password, csdsDomain: this.csds });
+        this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password });
         
         this.agent.on('connected', () => { 
             this.isConnected = true; 
@@ -148,7 +148,7 @@ class Bot {
      * @param {string} message text message that is sent to the client
      */
     async sendMessage(conversationId, message) {
-        console.log('Bot ' + this.config._id + ' sent a messgae in conversation '+ conversationId)
+        console.log('Bot ' + this.config._id + ' sent a message in conversation '+ conversationId)
         if (!this.isConnected) return;
         return await this.agent.publishEvent({
             dialogId: conversationId,
