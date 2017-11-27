@@ -46,7 +46,7 @@ class WelcomeBot extends Bot {
         this.agent.on('ms.MessagingEventNotification', body => {
             // If the bot has already joined the conversation and the user sends a message, send the next set of options or redirect them to another agent
             body.changes
-            .filter(change => change.type === 'UPSERT' && this.openConversations[change.result.convId])
+            .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
             .forEach(async change => {
                 let userMessage = change.event.message;
                 console.log('message:' + change.event.message);
@@ -54,11 +54,11 @@ class WelcomeBot extends Bot {
 
                 // TODO: index == NAN => human agent
 
-                let convState = this.conversationStates[change.result.convId];
+                let convState = this.conversationStates[change.dialogId];
 
                 if (convState[index].options) {
-                    this.conversationStates = convState[index].options;
-                    await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
+                    this.conversationStates[change.dialogId] = convState[index].options;
+                    await this.sendMessage(change.dialogId, this.generateOptionsMessage(change.dialogId));
                 }
                 else {
                     // Mark the conversation with the demanded skill
@@ -76,7 +76,7 @@ class WelcomeBot extends Bot {
                         }]
                     });
 
-                    await this.leaveConversation(change.result.convId);
+                    await this.leaveConversation(change.dialogId);
                 }
             });
         });
