@@ -63,11 +63,10 @@ class WelcomeBot extends Bot {
                 else {
                     // Mark the conversation with the demanded skill
                     this.agent.updateConversationField({
-                        'conversationId': conversationId,
+                        'conversationId': change.dialogId,
                         'conversationField': [{
                             'field': 'ParticipantsChange',
-                            'type': 'ADD',
-                            'role': role
+                            'type': 'ADD'
                         },
                         {
                             field: "Skill",
