@@ -15,9 +15,11 @@ class Bot {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
-        this.config = config;
+        this.config = JSON.parse(config);
         this.retries = 3;
         this.init();
+        console.log("Config: " + this.config)
+        console.log("_id: " + this.config._id + " name: " + this.config.name + " options: " + this.config.options[0] )
     }
 
     /**
