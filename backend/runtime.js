@@ -10,8 +10,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 // File system module
 const fs = require('fs');
+// Docker module
+const Docker = require('dockerode');
 // MongoDB module
 var db = require('./db');
+
+var docker = new Docker();
 
 var state = {
     loadedBots:  { },
@@ -32,7 +36,6 @@ config();
 var accountId = process.env.LP_ACCOUNT;
 var username = process.env.LP_USER;
 var password = process.env.LP_PASS;
-var csds = process.env.LP_CSDS;
 var port = process.env.PORT;
 var mongoURL = process.env.MONGOURL;
 
@@ -57,7 +60,7 @@ db.connect(mongoURL, function(err) {
             if (result) {
                 for (let config of result) {
                     let botClass = state.loadedTemplates[installedTemplates[config.template]];
-                    let bot = new botClass(accountId, username, password, csds, config) 
+                    let bot = new botClass(accountId, username, password, config) 
                     state.loadedBots[config._id] = bot;
                     console.log('Created bot ' + config._id);
                     if (config.status) {
@@ -119,7 +122,7 @@ server.post('/deploy', function (req, res) {
             }
             
             // Instantiate new bot of the specified template
-            let deployedBot = new botClass(accountId, username, password, csds, botJson);
+            let deployedBot = new botClass(accountId, username, password, botJson);
             state.loadedBots[id] = deployedBot;
 
             res.sendStatus(201);
