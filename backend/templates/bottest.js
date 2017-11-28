@@ -1,7 +1,13 @@
 var welcomebot = require('./welcomebot');
+var config = process.argv[2]; 
+
+console.log(config)
+for (let j = 0; j < process.argv.length; j++){
+    console.log(j + ' -> ' + process.argv[j])
+}
 
 var bot = new welcomebot("25352227", 
 "christopher", 
 "!Slytherin1g", 
-{_id: '1', name: 'Luca', options: [{message: 'opt1', redirect: ' '}, {message: 'opt2', redirect: ' '}, {message: 'opt3', redirect: ' '}], welcomeMessage: 'Hallo I Bims der Lucabot'})
+config)
 bot.start();
