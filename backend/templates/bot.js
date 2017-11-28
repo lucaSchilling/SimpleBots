@@ -18,9 +18,10 @@ class Bot {
         this.config = config;
         this.retries = 3;
         this.init();
-        console.log("Config: " + this.config)
-        console.log("_id: " + this.config._id + " name: " + this.config.name + " options: " + this.config.options[0] )
-    }
+        console.log("_id: " + this.config._id + " name: " + this.config.name )
+        for(var i = 0; i < this.config.options.length; i++){
+        console.log(" option" + i +": " + this.config.options[i].message )
+    }}
 
     /**
      * Initializes the event handler.
