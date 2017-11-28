@@ -1,10 +1,9 @@
 <template>
   <li>
     <div
-      :class="{bold: isFolder}"
-      @click="toggle">
-      <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
-          <input v-model="model.message"> </md-input>
+      :class="{bold: isFolder}">
+      <span v-if="isFolder" @click="toggle">[{{open ? '-' : '+'}}]</span>
+          <md-input v-model="model.message"> </md-input>
           <md-button class ="md-primary md-raised" @click="changeType">Change</md-button>
     </div>
     <ul v-show="open" v-if="isFolder">
@@ -49,6 +48,8 @@ export default {
         Vue.set(this.model, 'options', [])
         this.addChild()
         this.open = true
+      } else {
+        Vue.set(this.model, 'options', null)
       }
     },
     addChild: function () {
@@ -71,6 +72,6 @@ input {
   padding: 5px;
   margin: 5px 0 10px;
   border-radius: 5px;
-  border: 4px solid #e47e25;
+  border: 2px solid gray;
 }
 </style>
