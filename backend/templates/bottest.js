@@ -9,5 +9,9 @@ for (let j = 0; j < process.argv.length; j++){
 var bot = new welcomebot("25352227", 
 "christopher", 
 "!Slytherin1g", 
-config)
+config._id,
+config.name,
+config.welcomeMessage,
+config.options
+)
 bot.start();
