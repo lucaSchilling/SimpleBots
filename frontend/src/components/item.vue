@@ -2,17 +2,15 @@
   <li>
     <div
       :class="{bold: isFolder}"
-      @click="toggle"
-      @dblclick="changeType">
+      @click="toggle">
       <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
-      <md-field >
-          <md-input v-model="model.name"> </md-input>
-        </md-field>
+          <input v-model="model.message"> </md-input>
+          <md-button class ="md-primary md-raised" @click="changeType">Change</md-button>
     </div>
     <ul v-show="open" v-if="isFolder">
       <item
         class="item"
-        v-for="model in model.children"
+        v-for="model in model.options"
         :model="model"
         v-bind:key = "model">
         </item>
@@ -22,6 +20,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+
 export default {
   name: 'item',
   props: {
@@ -34,8 +34,8 @@ export default {
   },
   computed: {
     isFolder: function () {
-      return this.model.children &&
-        this.model.children.length
+      return this.model.options &&
+        this.model.options.length
     }
   },
   methods: {
@@ -46,13 +46,14 @@ export default {
     },
     changeType: function () {
       if (!this.isFolder) {
+        Vue.set(this.model, 'options', [])
         this.addChild()
         this.open = true
       }
     },
     addChild: function () {
-      this.model.children.push({
-        name: 'new stuff'
+      this.model.options.push({
+        message: ''
       })
     }
   }
@@ -63,5 +64,13 @@ export default {
 <style>
 ul {
   list-style-type: none;
+}
+input {
+  width: 280px;
+  height: 40px;
+  padding: 5px;
+  margin: 5px 0 10px;
+  border-radius: 5px;
+  border: 4px solid #e47e25;
 }
 </style>

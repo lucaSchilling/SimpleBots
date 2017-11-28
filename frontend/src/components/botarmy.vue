@@ -1,7 +1,7 @@
 <template>
-  <div id="box">
     <md-steppers md-alternative>
       <md-step id="first" md-label="Template">
+        <div id="box">
         <h2 id="choose">Choose a Template</h2>
         <div id="wrapper">
           <div id="left">
@@ -20,6 +20,7 @@
               </div>
             </md-card>
           </div>
+        </div>
         </div>
       </md-step>
 
@@ -67,36 +68,20 @@
       </md-step>
 
       <md-step id="fifth" md-label="Options">
-          <div id="wrapperM">
-            <div id="leftM">
-              <h2>Set Selection Menu</h2>
-              </form>
-              <md-button class="md-primary md-raised" @click="add">
-                +
-              </md-button>
-              <div v-for="comp in tree" v-bind:key="comp" class="inputDiv">
-                <input v-model="comp.message">
-                <md-button class="md-primary md-raised addInputBtn">+</md-button>
-              </div>
-              <pre>{{ $data | json }}</pre>
-            </div>
-            <div id="rightM">
-              <h2>Set Bot Answer</h2>
-              <md-button class="md-primary md-raised" @click="deploy" id="deployBtn">Deploy</md-button>
-            </div>
-          </div>
-      </md-step>
-
-      <md-step id="sixth" md-label="tree">
         <div id="bla">
-        <ul id="demo">
-        <item
-              class="item"
-              :model="treeData">
-        </item>
-        </ul>
+          <ul id="demo">
+            <item
+                  class="item"
+                  :model="treeData">
+            </item>
+          </ul>
         </div>
-      </md-step>
+        <pre>{{ $data.treeData | json }}</pre>
+        <md-button class="md-primary md-raised" @click="deploy">Deploy</md-button>
+      </md-step>             
+    </md-steppers>
+  </div>
+      </md-step>            
     </md-steppers>
   </div>
 </template>
@@ -112,35 +97,10 @@ export default {
   data: () => ({
     disabledEnglish: false,
     disabledDeutsch: true,
-    i: 0,
-    tree: [],
     treeData: {
-      name: 'My Tree',
-      children: [
-    { name: 'hello' },
-    { name: 'wat' },
-        {
-          name: 'child folder',
-          children: [
-            {
-              name: 'child folder',
-              children: [
-            { name: 'hello' },
-            { name: 'wat' }
-              ]
-            },
-        { name: 'hello' },
-        { name: 'wat' },
-            {
-              name: 'child folder',
-              children: [
-            { name: 'hello' },
-            { name: 'wat' }
-              ]
-            }
-          ]
-        }
-      ]}
+      message: '',
+      options: []
+    }
   }),
   computed: {
     _id: {
@@ -198,7 +158,7 @@ export default {
       this.disabledDeutsch = !this.disabledDeutsch
     },
     deploy: function () {
-      this.options = JSON.stringify(this.tree)
+      this.options = this.treeData
       this.$store.dispatch('deploy')
     },
     add: function () {
@@ -306,5 +266,9 @@ input {
 }
 ul {
   list-style-type: none;
+}
+#nextButton {
+  position: absolute;
+  right: 0;
 }
 </style>
