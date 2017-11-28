@@ -10,6 +10,6 @@ var bot = new welcomebot(
     "25352227", 
 "christopher", 
 "!Slytherin1g", 
-config
+JSON.parse(config)
 )
 bot.start();

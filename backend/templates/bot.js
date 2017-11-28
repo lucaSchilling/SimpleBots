@@ -15,7 +15,7 @@ class Bot {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
-        this.config = JSON.parse(config);
+        this.config = config;
         this.retries = 3;
         this.init();
         console.log("Config: " + this.config)
