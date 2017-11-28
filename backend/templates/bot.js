@@ -169,7 +169,14 @@ class Bot {
         console.log('Bot ' + this.config._id + ' has left conversation '+ conversationId)
         delete this.openConversations[conversationId];
 
-        // TODO: leave conversation via agent function
+        return await this.agent.updateConversationField({
+            'conversationId': conversationId,
+            'conversationField': [{
+                field: 'ParticipantsChange',
+                type: 'REMOVE',
+                role: 'MANAGER'
+            }]
+        });
         
         return;
     }

@@ -62,14 +62,10 @@ class WelcomeBot extends Bot {
                 }
                 else {
                     // Mark the conversation with the demanded skill
-                    this.agent.updateConversationField({
-                        'conversationId': conversationId,
+                    console.log("update skill field to: " + convState[index].redirect);
+                    await this.agent.updateConversationField({
+                        'conversationId': change.dialogId,
                         'conversationField': [{
-                            'field': 'ParticipantsChange',
-                            'type': 'ADD',
-                            'role': role
-                        },
-                        {
                             field: "Skill",
                             type: "UPDATE",
                             skill: convState[index].redirect
