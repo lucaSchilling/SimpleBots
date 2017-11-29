@@ -177,8 +177,6 @@ class Bot {
                 role: 'MANAGER'
             }]
         });
-        
-        return;
     }
 }
 

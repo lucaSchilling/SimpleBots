@@ -26,7 +26,7 @@ class FAQBot extends Bot {
            // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options
            body.changes
                         //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert (?)
-                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.skill === 'FAQ')
+                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '999352232')
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
                     

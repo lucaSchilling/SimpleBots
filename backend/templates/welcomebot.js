@@ -1,6 +1,10 @@
 // Bot module
 Bot = require('./bot');
 
+function timeout(ms = 3000) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 /**
  * A bot that can join conversations, greet the conversation partner and offer a range of options to find out what the conversation partner wants.
  */
@@ -25,11 +29,11 @@ class WelcomeBot extends Bot {
            // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options
            body.changes
                         //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert (?)
-                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId])
+                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '-1')
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
                     this.conversationStates[change.result.convId] = this.config.options;
-                    
+                    console.log('Welcome Bot joined; ID: ' + change.result.conversationDetails.skillId);
                     await this.joinConversation(change.result.convId, 'MANAGER');
                     await this.sendMessage(change.result.convId, this.config.welcomeMessage);
                     await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
@@ -72,6 +76,8 @@ class WelcomeBot extends Bot {
                         }]
                     });
 
+                    await timeout(50);
+                    await this.sendMessage(change.dialogId, 'You will be redirected to the FAQ Bot');
                     await this.leaveConversation(change.dialogId);
                 }
             });
@@ -105,7 +111,7 @@ class WelcomeBot extends Bot {
      */
     async leaveConversation(conversationId) {
         delete this.conversationStates[conversationId];
-        return super.leaveConversation(conversationId);
+        return await super.leaveConversation(conversationId);
     }
 }
 
