@@ -17,12 +17,43 @@ const docker = new Dockerode({ socketPath });
  */
 exports.createContainer = function (config) {
     return new Promise((resolve) => {
-      console.log('creating Container: '+ config.name)
-    docker.createContainer({Image: '19962711/sep-slitherin:dockerBot', CMD: ["sh", "-c", 'node bottest.js \"' + config + '\"'] , name: config._id });
+      console.log(`creating Container with Template: ${config.template} (id: ${config._id})`)
+
+      var createConfig = {
+        name: `${config._id}`,
+        Image: `ubuntu`,
+        Tty: true,
+        ENV: [`${config.template}`]
+      }
+      docker.listContainers({all: true}, function(err, containers) {
+        console.log('ALL: ' + containers.length);
+      }); 
+    docker.createContainer(createConfig).then((container) => {
+      container.inspect((errir, data) => {
+        console.log(data);
+      });
+      console.log(container.containerInfo())
+      resolve(container);
+    });
     })
-    console.log('created')
 }
 
+/**
+ * Builds an Image of the given template type.
+ * 
+ * @param {template} template - type for the Image which will be created 
+ */
+exports.buildImage = function (template) {
+  return new Promise((reolve) => {
+console.log(`building Image ${template}...`)
+
+var buildConfig = {
+  context: './templates/',
+  src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'package.json', 'config.json']
+}
+docker.buildImage(buildConfig, {t: template})
+})
+}
 /**
  * Starts the given bot.
  *
@@ -31,7 +62,7 @@ exports.createContainer = function (config) {
  */
 exports.start = function (config) {
     return new Promise((resolve) => {
-      console.log(`Starting bot ${config.name} (${config._id})...`);
+      console.log(`Starting bot  (${config._id})...`);
       const container = docker.getContainer(config._id);
       container.start();
       resolve();
@@ -41,12 +72,12 @@ exports.start = function (config) {
   /**
    * Stops the given bot.
    *
-   * @param {Bot} bot - The bot that is to be stopped
+   * @param {Bot} config - The config of the bot that is to be stopped
    * @returns {Promise} TODO
    */
   exports.stop = function (config) {
     return new Promise((resolve) => {
-      console.log(`Stopping bot ${config.name} (${config._id})...`);
+      console.log(`Stopping bot (${config._id})...`);
       const container = docker.getContainer(config._id);
       // query API for container info
       container.stop((err) => {
@@ -54,7 +85,7 @@ exports.start = function (config) {
           console.log(err);
         }
       });
-      console.log('Bot stopped');
+      console.log(`Bot (${config._id}) stopped`);
       resolve();
     });
   };
@@ -62,14 +93,15 @@ exports.start = function (config) {
   /**
    * Restarts the given bot.
    *
-   * @param {config} config - The bot that is to be restarted
+   * @param {config} config - The config f the bot that will be restarted
    * @returns {Promise} TODO
    */
   exports.restart = function (config) {
     return new Promise((resolve) => {
-      console.log(`Restarting bot ${config.name} (${config._id})...`);
+      console.log(`Restarting bot (${config._id})...`);
       this.stop(config);
       this.start(config);
+      console.log(`Bot (${config._id}) restarted...`)
       resolve();
     });
   };
@@ -77,13 +109,12 @@ exports.start = function (config) {
   /**
    * Deletes Container of the given Bot.
    *
-   * @param {config} config - The bot that is to be started
+   * @param {config} config - The config of the bot that is to be started
    * @returns {Promise} TODO
    */
   exports.delete = function (config) {
     return new Promise((resolve) => {
-      console.log(config);
-      console.log(`Deleting bot ${config.name} (${config._id})...`);
+      console.log(`Deleting bot (${config._id})...`);
   
       const container = docker.getContainer(config._id);
       this.stop(config);

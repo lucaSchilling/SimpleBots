@@ -4,4 +4,3 @@ COPY package.json /app
 RUN npm install
 COPY . /app
 ENV id 1
-CMD ["sh", "-c", "node bottest.js ${id}"]

@@ -1,12 +1,12 @@
 var dockerService = require('./dockerService')
 
-var config = {};
-config.name = 'test'
-config._id = '123'
-config.welcomeMessage = 'Hallo I Bims der Dockerode Bot'
-config.options = [{message: 'dockerodeOption1', redirect: ''}, {message: 'dockerodeOption2', redirect: ''}]
+var  config = {}
+config._id = '1'
+config.template = 'welcomebot'
 
-dockerService.createContainer(config)
-dockerService.start(config)
+dockerService.buildImage('welcomebot').then(function(){
+    dockerService.createContainer(config)
+})
+
 //dockerService.start(config)
-//dockerService.stop(config);
+//dockerService.stop(1);
