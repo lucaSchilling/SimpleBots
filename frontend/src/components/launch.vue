@@ -38,4 +38,5 @@ export default {
 #text {
   color: #e47e25;
 }
+
 </style>

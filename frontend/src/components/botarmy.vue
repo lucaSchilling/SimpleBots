@@ -39,7 +39,7 @@
           <img src="../../assets/bot_lila.jpg" height="150" width="150" class="img">
           <md-field>
                 <label for="name">Name</label>
-                <md-input  v-model="name">
+                <md-input  v-model="name" v-on:keyup.enter="setDone('second', 'third' )">
                 </md-input>
           </md-field>
         </div>
@@ -70,6 +70,7 @@
       </md-step>
 
       <md-step id="fifth" md-label="Options" :md-done.sync="fifth">
+        <div v-if="template==='Welcome Bot'">
           <h2>Set Selection Menu
             <md-avatar>
             <img src="../../assets/hilfe.png" alt="Avatar">
@@ -84,7 +85,12 @@
           </ul>
         </div>
         <md-button class="md-primary md-raised" @click="deploy">Deploy</md-button>
-      </md-step>             
+        </div>
+
+        <div v-else-if="template === 'FAQ Bot'" id="faqdiv">
+          <faq></faq>
+        </div>
+        </md-step>             
     </md-steppers>
   </div>
       </md-step>            
@@ -94,11 +100,13 @@
 
 <script>
 import item from './item.vue'
+import faq from './faq.vue'
 
 export default {
   name: 'botarmy',
   components: {
-    item
+    item,
+    faq
   },
   data: () => ({
     disabledEnglish: false,
@@ -326,5 +334,15 @@ ul {
     font-size: 24px;
     letter-spacing: -.05em;
     vertical-align: bottom;
+}
+#wrapFAQ {
+  width: 1000px
+}
+#leftFAQ, #rightFAQ {
+  width: 500px;
+  float: left;
+}
+#faqdiv {
+  width: 100%;
 }
 </style>

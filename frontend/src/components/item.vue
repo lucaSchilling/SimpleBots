@@ -4,7 +4,16 @@
       :class="{bold: isFolder}">
       <span v-if="isFolder" @click="toggle">[{{open ? '-' : '+'}}]</span>
           <md-input v-model="model.message"> </md-input>
-          <md-button class ="md-primary md-raised" @click="changeType">Change</md-button>
+            <span @click="changeType">
+              <md-icon class="md-primary">
+                add
+                <md-tooltip md-direction="top">Add an option to this message</md-tooltip>
+              </md-icon>
+            </span>
+            <span @click="deleteChild">
+              <md-icon class="md-primary">delete</md-icon>
+              <md-tooltip md-direction="top">Delete the options from this message</md-tooltip>
+            </span>
     </div>
     <ul v-show="open" v-if="isFolder">
       <item
@@ -48,7 +57,10 @@ export default {
         Vue.set(this.model, 'options', [])
         this.addChild()
         this.open = true
-      } else {
+      }
+    },
+    deleteChild: function () {
+      if (this.isFolder) {
         Vue.set(this.model, 'options', null)
       }
     },
