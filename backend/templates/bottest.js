@@ -2,7 +2,7 @@ var welcomebot = require('./welcomebot');
 var id = process.argv[2]; 
 // MongoDB module
 var db = require('./db');
-let mongoURL ='mongodb://127.0.0.1/runtimedb'
+let mongoURL ='mongodb://141.19.142.6:27017/runtimedb'
 
 var currentConfig;
 for (let j = 0; j < process.argv.length; j++){
