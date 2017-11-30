@@ -1,5 +1,5 @@
 // Bot module
-Bot = require('./bot');
+const Bot = require('./bot');
 
 function timeout(ms = 3000) {
     return new Promise(resolve => setTimeout(resolve, ms));
