@@ -3,7 +3,6 @@ var id = process.argv[2];
 // MongoDB module
 var db = require('./db');
 let mongoURL ='mongodb://127.0.0.1/runtimedb'
-const promisify = require("es6-promisify")
 
 var currentConfig;
 for (let j = 0; j < process.argv.length; j++){
