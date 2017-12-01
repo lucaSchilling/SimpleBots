@@ -1,17 +1,17 @@
 <template>
 <div id="carddiv">
     <div>
-    <h4 id="head">Hi i'm Welcome Bot</h4>
-    <img src="../../assets/welcomebot.jpg" alt="Welcome Bot" height="150" width="150">
+    <h4 id="head">Hi i'm FAQ Bot</h4>
+    <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150">
     <div id="buttondiv">
-        <md-button @click="showDialog = true" class="md-raised md-primary">More</md-button>
+        <md-button @click="showDialog = true" class="md-raised md-primary" id="more">More</md-button>
     </div>
     </div>
      <md-dialog :md-active.sync="showDialog" id="dialog">
       <md-dialog-title>Welcome Bot</md-dialog-title>
       <div id="wrap">
         <div id="left">
-            <img src="../../assets/welcomebot.jpg" alt="Welcome Bot" height="150" width="150" id="botimg">
+            <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" id="botimg">
             <div id="textdiv">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
             <md-button class="md-raised md-primary">Create Bot</md-button> 
         </div>
@@ -36,7 +36,7 @@
 
 <script>
   export default {
-    name: 'elevationcontent',
+    name: 'elevationFAQ',
     data: () => ({
       showDialog: false
     })

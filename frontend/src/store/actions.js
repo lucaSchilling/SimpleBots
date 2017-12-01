@@ -7,9 +7,8 @@ export default {
       '_id': context.state._id,
       'template': context.state.template,
       'name': context.state.name,
-      'lastEdit': context.state.lastedit,
       'welcomeMessage': context.state.welcomeMessage,
-      'options': [{'message': context.state.options}]
+      'options': context.state.options
     }).then(function (response) {
       context.dispatch('getAll')
     })
