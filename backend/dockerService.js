@@ -15,27 +15,34 @@ const docker = new Dockerode({ socketPath });
  * 
  * @param {config} config - config for the container
  */
-exports.createContainer = function (config) {
-    return new Promise((resolve) => {
-      console.log(`creating Container with Template: ${config.template} (id: ${config._id})`)
+exports.createContainer = function(config){
+return new Promise((resolve) => {
+  docker.buildImage({
+    context: `./templates/`,
+    src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'package.json', 'config.json'],
+  }, {
+    t: config.template,
+  }, (error, output) => {
+    docker.modem.followProgress(output, (err) => {
+      if (err) console.error(err);
 
-      var createConfig = {
-        name: `${config._id}`,
-        Image: `ubuntu`,
+      const createOptions = {
+        name: `${'b' + config._id}`,
+        Image: `${config.template}`,
         Tty: true,
-        ENV: [`${config.template}`]
-      }
-      docker.listContainers({all: true}, function(err, containers) {
-        console.log('ALL: ' + containers.length);
-      }); 
-    docker.createContainer(createConfig).then((container) => {
-      container.inspect((errir, data) => {
-        console.log(data);
+        Cmd: ["sh", "-c", `node bottest.js ${config._id}`]
+      };
+
+      docker.createContainer(createOptions).then((container) => {
+        resolve(container);
       });
-      console.log(container.containerInfo())
-      resolve(container);
     });
-    })
+
+    if (error) {
+      return console.error(error);
+    }
+  });
+});
 }
 
 /**
@@ -62,8 +69,8 @@ docker.buildImage(buildConfig, {t: template})
  */
 exports.start = function (config) {
     return new Promise((resolve) => {
-      console.log(`Starting bot  (${config._id})...`);
-      const container = docker.getContainer(config._id);
+      console.log(`Starting bot  (${config._id}a)...`);
+      const container = docker.getContainer('b' + config._id);
       container.start();
       resolve();
     });
@@ -78,7 +85,7 @@ exports.start = function (config) {
   exports.stop = function (config) {
     return new Promise((resolve) => {
       console.log(`Stopping bot (${config._id})...`);
-      const container = docker.getContainer(config._id);
+      const container = docker.getContainer('b' + config._id);
       // query API for container info
       container.stop((err) => {
         if (err) {
