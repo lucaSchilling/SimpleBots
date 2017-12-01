@@ -6,7 +6,6 @@ export default {
     axios.post(url + '/deploy', {
       'template': context.state.template,
       'name': context.state.name,
-      'lastEdit': new Date(),
       'welcomeMessage': context.state.welcomeMessage,
       'options': context.state.options
     }).then(function (response) {
