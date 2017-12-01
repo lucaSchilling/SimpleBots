@@ -1,13 +1,11 @@
+//require the needed template so we can create a bot
 var welcomebot = require('./welcomebot');
+// reading the run argument
 var id = process.argv[2]; 
 // MongoDB module
 var db = require('./db');
 let mongoURL ='mongodb://141.19.142.6:27017/runtimedb'
 
-var currentConfig;
-for (let j = 0; j < process.argv.length; j++){
-    console.log(j + ' -> ' + process.argv[j])
-}
 console.log(id)
 
 db.connect(mongoURL, function(err) {
@@ -16,8 +14,9 @@ db.connect(mongoURL, function(err) {
         process.exit(1);
     }
     else {
-        // Load existing bots
+        // get config with the correct id which was given as parameter
         return new Promise((resolve, reject) => {
+            //TODO: instead of find({}) find directly the needed config with find({ id: id})...
          db.get().collection('deployedBots').find({}).toArray(function(err, result){
             if (err) {
                 console.error(err);
@@ -30,8 +29,6 @@ db.connect(mongoURL, function(err) {
                         console.log('Hallo')
                         console.log(config)
                         resolve(config)
-                    }else{
-                        console.log('Nicht die korrekte Config')
                     }
                 }
                 reject()

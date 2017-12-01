@@ -2,8 +2,11 @@ var dockerService = require('./dockerService')
 
 var  config = {}
 config._id = '1'
-config.template = 'welcomebot'
+var template = 'welcomebot'
 
-//dockerService.createContainer(config)
-//dockerService.stop(config)
-dockerService.start(config)
+dockerService.buildImage(template, function(){
+    dockerService.createContainer(config, function(){
+        dockerService.start(config, function(){
+        })
+    })
+})
