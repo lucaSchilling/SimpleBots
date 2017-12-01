@@ -31,6 +31,7 @@ db.connect(mongoURL, function(err) {
                         resolve(config)
                     }
                 }
+                console.log('alle configs durchgearbeitet')
                 reject()
             }
         })

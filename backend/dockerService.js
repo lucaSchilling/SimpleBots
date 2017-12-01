@@ -16,9 +16,12 @@ const docker = new Dockerode({ socketPath });
  */
 exports.createContainer = function(config){
 return new Promise((resolve) => {
+
+      var image = config.template.replace(" ", "").toLowerCase();
+      console.log(image)
       const createOptions = {
         name: `${'b' + config._id}`,
-        Image: `${config.template}`,
+        Image: `${image}`,
         Tty: true,
         Cmd: ["sh", "-c", `node bottest.js ${config._id}`]
       };
@@ -56,7 +59,7 @@ exports.buildImage = function (template) {
  */
 exports.start = function (config) {
     return new Promise((resolve) => {
-      console.log(`Starting bot  (${config._id}a)...`);
+      console.log(`Starting bot  (b${config._id})...`);
       const container = docker.getContainer('b' + config._id);
       container.start();
       resolve();
@@ -110,8 +113,13 @@ exports.start = function (config) {
     return new Promise((resolve) => {
       console.log(`Deleting bot (${config._id})...`);
   
-      const container = docker.getContainer(config._id);
-      this.stop(config);
+      const container = docker.getContainer('b' + config._id);
+
+      container.inspect (function(err, data){
+        if(data.State.Running === true){
+          this.stop(config)
+        }
+      })
       container.remove((err) => {
         if (err) {
           console.log(err);
