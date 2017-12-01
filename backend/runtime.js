@@ -19,8 +19,7 @@ var docker = new Docker();
 
 var state = {
     loadedBots:  { },
-    loadedTemplates: { },
-    botNumber: 100
+    loadedTemplates: { }
 };
 
 // Load all registered templates
@@ -50,6 +49,23 @@ db.connect(mongoURL, function(err) {
         process.exit(1);
     }
     else {
+        db.get().collection('botids').findOne({name: 'botids'}, function(err, result) {
+            if (err) {
+                console.error(err);
+                process.exit(1);
+            }
+
+            if (!result) {
+                db.get().collection('botids').insertOne({name: 'botids', id: 0}, function(err) {
+                    // Can't connect to database
+                    if (err) {
+                        console.error(err);
+                        process.exit(1);
+                    }
+                });
+            }
+        })
+
         // Load existing bots
         db.get().collection('deployedBots').find({}).toArray(function(err, result) {
             if (err) {
@@ -65,7 +81,7 @@ db.connect(mongoURL, function(err) {
                     console.log('Created bot ' + config._id);
                     if (config.status) {
                         console.log('Starting bot ' + config._id);
-                        bot.start(); // TODO: FIX: connection to UML always closes instantly with code 1006
+                        //bot.start(); // TODO: FIX: connection to UML always closes instantly with code 1006
                     }
                 }
             }
@@ -86,18 +102,12 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
-        let id = req.body._id;
+     
         let template = req.body.template;
 
         // Invalid JSON
-        if (!id || !template) {
+        if (!template) {
             res.sendStatus(422); 
-            return;
-        }
-
-        // Bot already exists
-        if (state.loadedBots[id]) {
-            res.sendStatus(409);
             return;
         }
 
@@ -109,8 +119,30 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
+        // Get incremental bot id
+        let id = 3;
+
+        let querry = {
+            name: 'botids'
+        }
         let botJson = req.body
+        db.get().collection('botids').findOne(querry, function(err, result) {
+            if (err) {
+                console.log(err);
+                res.sendStatus(503);
+                return;
+            }
+            botJson._id = parseInt(result.id) + 1;
+            console.log('Result.id: ' + result.id)
+        });
+         // Bot already exists
+         if (state.loadedBots[id]) {
+            res.sendStatus(409);
+            return;
+        }
+
         botJson.status = false
+        botJson.lastEdit = new Date();
         
         // Save bot in database
         db.get().collection('deployedBots').insertOne(botJson, function(err) {
@@ -126,6 +158,19 @@ server.post('/deploy', function (req, res) {
             state.loadedBots[id] = deployedBot;
 
             res.sendStatus(201);
+        });
+
+        let updatedId = {
+            $set: { id: id }
+        }
+
+        // Update incremental bot id
+        db.get().collection('botids').updateOne(querry, updatedId, function(err, res) {
+            if (err) {
+                console.log(err);
+                res.sendStatus(503);
+                return;
+            }
         });
     }
     catch (e) {
