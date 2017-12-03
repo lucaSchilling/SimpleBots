@@ -57,7 +57,6 @@ db.connect(mongoURL, function(err) {
 
             if (!result) {
                 db.get().collection('botids').insertOne({name: 'botids', id: 0}, function(err) {
-                    // Can't connect to database
                     if (err) {
                         console.error(err);
                         process.exit(1);
@@ -81,7 +80,7 @@ db.connect(mongoURL, function(err) {
                     console.log('Created bot ' + config._id);
                     if (config.status) {
                         console.log('Starting bot ' + config._id);
-                        //bot.start(); // TODO: FIX: connection to UML always closes instantly with code 1006
+                        //bot.start();
                     }
                 }
             }
@@ -102,7 +101,6 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
-     
         let template = req.body.template;
 
         // Invalid JSON
@@ -120,57 +118,59 @@ server.post('/deploy', function (req, res) {
         }
 
         // Get incremental bot id
-        let id = 3;
-
+        let id;
         let querry = {
             name: 'botids'
         }
-        let botJson = req.body
-        db.get().collection('botids').findOne(querry, function(err, result) {
-            if (err) {
-                console.log(err);
-                res.sendStatus(503);
-                return;
-            }
-            botJson._id = parseInt(result.id) + 1;
-            console.log('Result.id: ' + result.id)
-        });
-         // Bot already exists
-         if (state.loadedBots[id]) {
-            res.sendStatus(409);
-            return;
-        }
+        let botJson = req.body;
 
-        botJson.status = false
-        botJson.lastEdit = new Date();
-        
-        // Save bot in database
-        db.get().collection('deployedBots').insertOne(botJson, function(err) {
-            // Can't connect to database
+        db.get().collection('botids').findOne(querry, function(err, result) {
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
                 return;
             }
-            
-            // Instantiate new bot of the specified template
-            let deployedBot = new botClass(accountId, username, password, botJson);
-            state.loadedBots[id] = deployedBot;
 
-            res.sendStatus(201);
-        });
+            id = result.id + 1;
 
-        let updatedId = {
-            $set: { id: id }
-        }
-
-        // Update incremental bot id
-        db.get().collection('botids').updateOne(querry, updatedId, function(err, res) {
-            if (err) {
-                console.log(err);
-                res.sendStatus(503);
+            // Bot already exists
+            if (state.loadedBots[id]) {
+                res.sendStatus(409);
                 return;
             }
+
+            botJson._id = id;
+            botJson.status = false;
+            botJson.lastEdit = new Date();
+
+            // Update incremental bot id
+            let updatedId = {
+                $set: { id: id }
+            }
+
+            db.get().collection('botids').updateOne(querry, updatedId, function(err, result) {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+
+                // Save bot in database
+                db.get().collection('deployedBots').insertOne(botJson, function(err) {
+                    // Can't connect to database
+                    if (err) {
+                        console.error(err);
+                        res.sendStatus(503);
+                        return;
+                    }
+                    
+                    // Instantiate new bot of the specified template
+                    let deployedBot = new botClass(accountId, username, password, botJson);
+                    state.loadedBots[id] = deployedBot;
+
+                    res.sendStatus(201);
+                });
+            });
         });
     }
     catch (e) {
