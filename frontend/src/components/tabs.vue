@@ -1,18 +1,18 @@
 <template>
   <div class="container-fluid">
     <md-tabs md-sync-route md-alignment="fixed">
-      <md-tab id="tab-launch" class="tabs" md-label="LAUNCH" to="/components/launch">
+      <md-tab id="tab-launch" class="tabs" :md-label="this.$t('tab1')" to="/components/launch">
         <div id="launch">
-          <h4 id="news">News</h4>
+          <h4 id="news">{{$t('home1')}}</h4>
           <launch></launch>
         </div>
       </md-tab>
       
-      <md-tab id="tab-botarmy" class="tabs" md-label="BOTARMY" to="/components/botarmy">
+      <md-tab id="tab-botarmy" class="tabs" :md-label="this.$t('tab2')" to="/components/botarmy">
         <botarmy id="tab-botarmy2"></botarmy>
       </md-tab>
 
-      <md-tab id="tab-status" class="tabs" md-label="BOT STATUS" to="/components/status">
+      <md-tab id="tab-status" class="tabs" :md-label="this.$t('tab3')" to="/components/status">
        <tablehead></tablehead>
       </md-tab>
     </md-tabs>

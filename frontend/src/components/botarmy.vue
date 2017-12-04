@@ -2,12 +2,12 @@
     <md-steppers :md-active-step.sync="active" md-linear>
       <md-step id="first" md-label="Template" :md-done.sync="first">
         <div id="box">
-        <h2 id="choose">Choose a Template</h2>
+        <h2 id="choose">{{$t('chooseTemplate')}}</h2>
         <div id="wrapper">
           <div id="left">
             <md-card md-with-hover>
               <div @click="setTemplateWelcome" id="wlcmdiv">
-              <h3 id="welcomeText">Welcome Bot</h3>
+              <h3 id="welcomeText">{{$t('welcomeBot')}}</h3>
                <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" class="img">
               </div>
               </md-card>
@@ -15,7 +15,7 @@
           <div id="right">
             <md-card md-with-hover>
               <div @click="setTemplateFAQBot" id="faqdiv">
-              <h3 id="faqText">FAQ Bot</h3>
+              <h3 id="faqText">{{$t('faqBot')}}</h3>
                <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" class="img">
               </div>
             </md-card>
@@ -26,7 +26,7 @@
 
       <md-step id="second" md-label="Name" :md-done.sync="second">
         <div v-if="template === 'Welcome Bot'" class="picDiv">
-          <h2>Choose a Name for your {{template}}</h2>
+          <h2> {{$t('chooseName')}} {{template}}</h2>
           <img src="../../assets/bot_gelb.jpg" height="150" width="150" class="img">
           <md-field>
                 <label for="name">Name</label>
@@ -35,7 +35,7 @@
           </md-field>
         </div>
         <div v-else-if="template === 'FAQ Bot'" class="picDiv">
-          <h2>Choose a Name for your {{template}}</h2>
+          <h2>{{$t('chooseName')}} {{template}}</h2>
           <img src="../../assets/bot_lila.jpg" height="150" width="150" class="img">
           <md-field>
                 <label for="name">Name</label>
@@ -45,33 +45,33 @@
         </div>
       </md-step>
 
-      <md-step id="third" md-label="Language" :md-done.sync="third">
+      <md-step id="third" :md-label="this.$t('language')" :md-done.sync="third">
         <div class="div">
-        <h2 id="assign">Assign Chatbot</h2>
+        <h2 id="assign">{{$t('assign')}}</h2>
         <br>
         <br>
-        <p id="lng">Choose a language</p>
+        <p id="lng">{{$t('chooseLanguage')}}</p>
         <div id="btndiv">
-            <md-button class="md-raised md-primary" :disabled="disabledEnglish" @click="selectButton">English</md-button>
-            <md-button class="md-raised md-primary" :disabled="disabledDeutsch" @click="selectButton">Deutsch</md-button>
+            <md-button class="md-raised md-primary" :disabled="disabledEnglish" @click="selectButton">{{$t('english')}}</md-button>
+            <md-button class="md-raised md-primary" :disabled="disabledDeutsch" @click="selectButton">{{$t('german')}}</md-button>
         </div>
-        <md-button class="md-primary md-raised" @click="setDone('third', 'forth')">Next</md-button>
+        <md-button class="md-primary md-raised" @click="setDone('third', 'forth')">{{$t('next')}}</md-button>
         </div>
       </md-step>
 
-      <md-step id="forth" md-label="Welcome Message" :md-done.sync="forth">
-        <h2 id="welcomeMsg">Welcome Message</h2>
+      <md-step id="forth":md-label="this.$t('welcomeMessage')" :md-done.sync="forth">
+        <h2 id="welcomeMsg">{{$t('welcomeMessage')}}</h2>
         <div id="textcontainer">
           <md-field>
             <md-textarea v-model="welcomeMessage"></md-textarea>
           </md-field>
-          <md-button class="md-primary md-raised" @click="setDone('forth', 'fifth')">Next</md-button>
+          <md-button class="md-primary md-raised" @click="setDone('forth', 'fifth')">{{$t('next')}}</md-button>
         </div>
       </md-step>
 
-      <md-step id="fifth" md-label="Options" :md-done.sync="fifth">
+      <md-step id="fifth" :md-label="this.$t('options')" :md-done.sync="fifth">
         <div v-if="template==='Welcome Bot'">
-          <h2>Set Selection Menu
+          <h2>{{$t('setMenu')}}
             <md-avatar>
             <img src="../../assets/hilfe.png" alt="Avatar">
             <md-tooltip md-direction="right">Bla</md-tooltip>
@@ -84,7 +84,7 @@
             </item>
           </ul>
         </div>
-        <md-button class="md-primary md-raised" @click="deploy">Deploy</md-button>
+        <md-button class="md-primary md-raised" @click="deploy">{{$t('deploy')}}</md-button>
         </div>
 
         <div v-else-if="template === 'FAQ Bot'" id="faqdiv">

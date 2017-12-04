@@ -1,10 +1,10 @@
 <template>
 <div id="carddiv">
     <div>
-    <h4 id="head">Hi i'm Welcome Bot</h4>
+    <h4 id="head">{{$t('wbIntro')}}</h4>
     <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150">
     <div id="buttondiv">
-        <md-button @click="showDialog = true" class="md-raised md-primary">More</md-button>
+        <md-button @click="showDialog = true" class="md-raised md-primary">{{$t('more')}}</md-button>
     </div>
     </div>
      <md-dialog :md-active.sync="showDialog" id="dialog">
