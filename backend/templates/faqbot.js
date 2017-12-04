@@ -2,8 +2,9 @@
 const Bot = require('./bot');
 // Request module
 const axios = require('axios');
+//require('axios-debug')(axios);
 
-axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = 'value'; // TODO: get subscription key
+axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = '4d44af468562465b828ff3ecfb651475';
 
 function timeout(ms = 3000) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -21,7 +22,7 @@ class FAQBot extends Bot {
         
         this.luisUrl = 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/';
         this.openConversations = {};
-        createLuisApp(config);
+        this.createLuisApp(config);
     }
 
     /**
@@ -70,143 +71,118 @@ class FAQBot extends Bot {
      * @param {*} config 
      */
     async createLuisApp(config) {
+        console.log(config);
         // Create app
-        await axios.post(this.luisUrl, {
-            name: config.name,
+        let createAppRes = await axios.post(this.luisUrl, {
+            name: config._id,
             description: '',
             culture: 'de-de',
             usageScenario: 'IoT',
-            domain: config.domain,
-            initialVersionId: '1.0'
-        }, function(err, res) {
-            if (err) {
-                console.error(err);
-                return;
-            }
+            initialVersionId: config.initialVersionId
+        });
 
-            if (res.status === 201) {
-                this.luisAppId = res.data;
-                console.log('Created LUIS app');
+        if (createAppRes.status === 201) {
+            this.luisAppId = createAppRes.data;
+            console.log('Created LUIS app');
+        }
+        else if (createAppRes.status === 429) {
+            console.log('LUIS rate limit exceeded');
+            return;
+        }
+        else {
+            console.error('Failed to create LUIS app');
+            console.log(createAppRes);
+            return;
+        }
+
+        // Create intents
+        for (let intent of config.intents) {
+            let createIntentRes = await axios.post(this.luisUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/intents', intent);
+
+            if (createIntentRes.status === 201) {
+                console.log('Created intent: ' +  JSON.stringify(intent));
             }
-            else if (res.status === 429) {
+            else if (createIntentRes.status === 429) {
                 console.log('LUIS rate limit exceeded');
                 return;
             }
             else {
-                console.error('Failed to create LUIS app');
-                console.log(res);
+                console.error('Failed to create intent: ' +  JSON.stringify(intent));
+                console.log(createIntentRes);
                 return;
             }
-        });
-
-        // Create intents
-        for (let intent of config.intents) {
-            await axios.post(this.luisUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/intents', intent, function(err, res) {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-
-                if (res.status === 201) {
-                    console.log('Created intent: ' + intent);
-                }
-                else if (res.status === 429) {
-                    console.log('LUIS rate limit exceeded');
-                    return;
-                }
-                else {
-                    console.error('Failed to create intent: ' + intent);
-                    console.log(res);
-                    return;
-                }
-            });
         }
 
         // Create entities
         for (let entity of config.entities) {
-            await axios.post(this.luisUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/entities', entity, function(err, res) {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
+            let createEntityRes = await axios.post(this.luisUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/entities', entity);
 
-                if (res.status === 201) {
-                    console.log('Created entity: ' + entity);
-                }
-                else if (res.status === 429) {
-                    console.log('LUIS rate limit exceeded');
-                    return;
-                }
-                else {
-                    console.error('Failed to create entity: ' + entity);
-                    console.log(res);
-                    return;
-                }
-            });
-        }
-
-        // Create examples
-        for (let example of config.examples) {
-            await axios.post(this.luisUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/example', example, function(err, res) {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-
-                if (res.status === 201) {
-                    console.log('Created example: ' + example);
-                }
-                else if (res.status === 429) {
-                    console.log('LUIS rate limit exceeded');
-                    return;
-                }
-                else {
-                    console.error('Failed to create example: ' + example);
-                    console.log(res);
-                    return;
-                }
-            });
-        }
-
-        // Train LUIS
-        await axios.post(this.luisUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train', function(err, res) {
-            if (err) {
-                console.error(err);
-                return;
+            if (createEntityRes.status === 201) {
+                console.log('Created entity: ' +  JSON.stringify(entity));
             }
-
-            if (res.status === 202) {
-                console.log('Started LUIS training');
-            }
-            else if (res.status === 429) {
+            else if (createEntityRes.status === 429) {
                 console.log('LUIS rate limit exceeded');
                 return;
             }
             else {
-                console.error('Failed to start LUIS training');
-                console.log(res);
+                console.error('Failed to create entity: ' +  JSON.stringify(entity));
+                console.log(createEntityRes);
                 return;
             }
-        });
+        }
+
+        // Create examples
+        for (let example of config.examples) {
+            let createExampleRes = await axios.post(this.luisUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/example', example);
+
+            if (createExampleRes.status === 201) {
+                console.log('Created example: ' + JSON.stringify(example));
+            }
+            else if (createExampleRes.status === 429) {
+                console.log('LUIS rate limit exceeded');
+                return;
+            }
+            else {
+                console.error('Failed to create example: ' + JSON.stringify(example));
+                console.log(createExampleRes);
+                return;
+            }
+        }
+
+        // Train LUIS
+        let trainRes = await axios.post(this.luisUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/train');
+
+        if (trainRes.status === 202) {
+            console.log('Started LUIS training');
+        }
+        else if (trainRes.status === 429) {
+            console.log('LUIS rate limit exceeded');
+            return;
+        }
+        else {
+            console.error('Failed to start LUIS training');
+            console.log(trainRes);
+            return;
+        }
 
         // Await training completion
         while (true) {
             await timeout(5000);
-            await axios.get(this.luisUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train', function(err, res) {
-                if (res.status === 200) {
-                    this.isTrainingComplete = true;
-                    break;
-                }
-                else if (res.status === 429) {
-                    console.log('LUIS rate limit exceeded');
-                    return;
-                }
-                else {
-                    console.error('Failed to get LUIS training status');
-                    console.log(res);
-                    return;
-                }
-            });
+            let trainCompleteRes = await axios.get(this.luisUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/train');
+            console.log(trainCompleteRes.status === 200);
+            if (trainCompleteRes.status === 200) {
+                this.isTrainingComplete = true;
+                break;
+            }
+            else if (trainCompleteRes.status === 429) {
+                console.log('LUIS rate limit exceeded');
+                break;
+            }
+            else {
+                console.error('Failed to get LUIS training status');
+                console.log(trainCompleteRes);
+                break;
+            }
         }
     }
 }
