@@ -4,7 +4,6 @@ var url = 'http://localhost:3000'
 export default {
   deploy: (context) => {
     axios.post(url + '/deploy', {
-      '_id': context.state._id,
       'template': context.state.template,
       'name': context.state.name,
       'welcomeMessage': context.state.welcomeMessage,
