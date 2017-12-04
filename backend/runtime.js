@@ -20,7 +20,6 @@ const dockerode = require('./dockerService')
 var docker = new Docker();
 
 var state = {
-    loadedBots:  { },
     loadedTemplates: { }
 };
 
@@ -52,6 +51,21 @@ db.connect(mongoURL, function(err) {
         process.exit(1);
     }
     else {
+        db.get().collection('botids').findOne({name: 'botids'}, function(err, result) {
+            if (err) {
+                console.error(err);
+                process.exit(1);
+            }
+
+            if (!result) {
+                db.get().collection('botids').insertOne({name: 'botids', id: 0}, function(err) {
+                    if (err) {
+                        console.error(err);
+                        process.exit(1);
+                    }
+                });
+            }
+        })
         server.listen(port, function () {
             console.log('Bot Runtime listening on port ' + port);
         });
@@ -96,21 +110,13 @@ server.post('/deploy', function (req, res) {
                 res.sendStatus(503);
                 return;
             }
-            
-            // Instantiate new bot of the specified template
-            dockerode.createContainer(botJson)
-
+        
             id = result.id + 1;
 
-            // Bot already exists
-            if (state.loadedBots[id]) {
-                res.sendStatus(409);
-                return;
-            }
-
-            botJson._id = id;
+            botJson._id = id + "";
             botJson.status = false;
             botJson.lastEdit = new Date();
+            console.log(botJson)
 
             // Update incremental bot id
             let updatedId = {
@@ -132,11 +138,8 @@ server.post('/deploy', function (req, res) {
                         res.sendStatus(503);
                         return;
                     }
-                    
                     // Instantiate new bot of the specified template
-                    let deployedBot = new botClass(accountId, username, password, botJson);
-                    state.loadedBots[id] = deployedBot;
-
+                    dockerode.createContainer(botJson)
                     res.sendStatus(201);
                 });
             });
@@ -214,14 +217,11 @@ server.delete('/delete/:id', function (req, res) {
             return;
         }
 
-        // Delete from loaded bots
-        delete state.loadedBots[id];
-
         // Delete from database
         let querry = {
             _id: id
         };
-        dockerode.delete(config)
+
         db.get().collection('deployedBots').deleteOne(querry, function(err, obj) {
             // Can't connect to database
             if (err) {
@@ -229,6 +229,7 @@ server.delete('/delete/:id', function (req, res) {
                 res.sendStatus(503);
                 return;
             }
+            dockerode.delete(config)
         });
 
         res.sendStatus(200);

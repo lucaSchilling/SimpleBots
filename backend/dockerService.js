@@ -41,7 +41,7 @@ exports.buildImage = function (template) {
   return new Promise((resolve) => {
     docker.buildImage({
       context: `./templates/`,
-      src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'package.json', 'config.json'],
+      src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'package.json'],
     }, {
       t: template,
     }, (error, output) => {
@@ -51,6 +51,7 @@ exports.buildImage = function (template) {
     });
   });
 }
+
 /**
  * Starts the given bot.
  *
@@ -96,8 +97,8 @@ exports.start = function (config) {
   exports.restart = function (config) {
     return new Promise((resolve) => {
       console.log(`Restarting bot (${config._id})...`);
-      this.stop(config);
-      this.start(config);
+      stop(config);
+      start(config);
       console.log(`Bot (${config._id}) restarted...`)
       resolve();
     });
@@ -114,12 +115,6 @@ exports.start = function (config) {
       console.log(`Deleting bot (${config._id})...`);
   
       const container = docker.getContainer('b' + config._id);
-
-      container.inspect (function(err, data){
-        if(data.State.Running === true){
-          this.stop(config)
-        }
-      })
       container.remove((err) => {
         if (err) {
           console.log(err);
@@ -127,5 +122,5 @@ exports.start = function (config) {
       });
       resolve();
     });
-  };
+  };2
   

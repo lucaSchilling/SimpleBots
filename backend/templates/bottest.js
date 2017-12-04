@@ -26,7 +26,6 @@ db.connect(mongoURL, function(err) {
             if (result) {
                 for (let config of result) {
                     if(config._id===id){
-                        console.log('Hallo')
                         console.log(config)
                         resolve(config)
                     }
