@@ -14,6 +14,8 @@ const fs = require('fs');
 const Docker = require('dockerode');
 // MongoDB module
 var db = require('./db');
+// Dockerode Service
+const dockerode = require('./dockerService')
 
 var docker = new Docker();
 
@@ -29,6 +31,7 @@ for (key in installedTemplates) {
     let name = installedTemplates[key];
     let template = require('./templates/' + name);
     state.loadedTemplates[name] = template;
+    dockerode.buildImage(name.replace(" ", "").toLowerCase())
 }
 
 config();
@@ -49,43 +52,6 @@ db.connect(mongoURL, function(err) {
         process.exit(1);
     }
     else {
-        db.get().collection('botids').findOne({name: 'botids'}, function(err, result) {
-            if (err) {
-                console.error(err);
-                process.exit(1);
-            }
-
-            if (!result) {
-                db.get().collection('botids').insertOne({name: 'botids', id: 0}, function(err) {
-                    if (err) {
-                        console.error(err);
-                        process.exit(1);
-                    }
-                });
-            }
-        })
-
-        // Load existing bots
-        db.get().collection('deployedBots').find({}).toArray(function(err, result) {
-            if (err) {
-                console.error(err);
-                process.exit(1);
-            }
-
-            if (result) {
-                for (let config of result) {
-                    let botClass = state.loadedTemplates[installedTemplates[config.template]];
-                    let bot = new botClass(accountId, username, password, config) 
-                    state.loadedBots[config._id] = bot;
-                    console.log('Created bot ' + config._id);
-                    if (config.status) {
-                        console.log('Starting bot ' + config._id);
-                        //bot.start();
-                    }
-                }
-            }
-        });
-
         server.listen(port, function () {
             console.log('Bot Runtime listening on port ' + port);
         });
@@ -130,6 +96,9 @@ server.post('/deploy', function (req, res) {
                 res.sendStatus(503);
                 return;
             }
+            
+            // Instantiate new bot of the specified template
+            dockerode.createContainer(botJson)
 
             id = result.id + 1;
 
@@ -190,33 +159,22 @@ server.post('/setStatus', function (req, res) {
 
         let id = req.body._id;
         let status = req.body.status;
+        let config = {
+            _id: id
+        }
         
         // Invalid JSON
         if (!id) {
             res.sendStatus(422); 
             return;
         }
-
-        let targetBot = state.loadedBots[id];
-
-        // Bot does not exist
-        if (!targetBot) {
-            res.sendStatus(404); 
-            return;
-        }
-
-        // No change
-        if (status === targetBot.status) {
-            res.sendStatus(200); 
-            return;
-        }
         // Start bot
         else if (status) {
-            targetBot.start();
+            dockerode.start(config)
         }
         // Stop bot
         else {
-            targetBot.shutdown();
+            dockerode.stop(config)
         }
 
         let querry = {
@@ -247,25 +205,12 @@ server.post('/setStatus', function (req, res) {
 server.delete('/delete/:id', function (req, res) {
     try {
         let id = req.params.id;
-
+        let config = {
+            _id: id
+        }
         // No id
         if (!id) {
             res.sendStatus(400);
-            return;
-        }
-
-        // Get loaded bot
-        let bot = state.loadedBots[id];
-
-        // Bot does not exist
-        if (!bot) {
-            res.sendStatus(404);
-            return;
-        }
-
-        // Bot running
-        if (bot.isConnected) {
-            res.sendStatus(403);
             return;
         }
 
@@ -276,7 +221,7 @@ server.delete('/delete/:id', function (req, res) {
         let querry = {
             _id: id
         };
-
+        dockerode.delete(config)
         db.get().collection('deployedBots').deleteOne(querry, function(err, obj) {
             // Can't connect to database
             if (err) {
