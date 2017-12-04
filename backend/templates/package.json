@@ -9,6 +9,7 @@
     "node-agent-sdk": "^0.2.20"
   },
   "scripts": {
-    "start": "node welcomebot.js"
+    "start": "node welcomebot.js",
+    "lintfix": "eslint --fix ./bottest.js"
   }
 }

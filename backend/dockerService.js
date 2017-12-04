@@ -1,10 +1,9 @@
 /**
- * This module is responsible for storing and retrieving
- * persistent bots and interacting with them.
+ * This module is responsible for 
+ * building images, creating containers and interact with them.
  *
  * @module services/
  */
-const fs = require('fs');
 const Dockerode = require('dockerode');
 
 const socketPath = (process.platform === 'win32' ? '//./pipe/docker_engine' : '/var/run/docker.sock');
@@ -17,18 +16,12 @@ const docker = new Dockerode({ socketPath });
  */
 exports.createContainer = function(config){
 return new Promise((resolve) => {
-  docker.buildImage({
-    context: `./templates/`,
-    src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'package.json', 'config.json'],
-  }, {
-    t: config.template,
-  }, (error, output) => {
-    docker.modem.followProgress(output, (err) => {
-      if (err) console.error(err);
 
+      var image = config.template.replace(" ", "").toLowerCase();
+      console.log(image)
       const createOptions = {
         name: `${'b' + config._id}`,
-        Image: `${config.template}`,
+        Image: `${image}`,
         Tty: true,
         Cmd: ["sh", "-c", `node bottest.js ${config._id}`]
       };
@@ -36,12 +29,6 @@ return new Promise((resolve) => {
       docker.createContainer(createOptions).then((container) => {
         resolve(container);
       });
-    });
-
-    if (error) {
-      return console.error(error);
-    }
-  });
 });
 }
 
@@ -51,15 +38,18 @@ return new Promise((resolve) => {
  * @param {template} template - type for the Image which will be created 
  */
 exports.buildImage = function (template) {
-  return new Promise((reolve) => {
-console.log(`building Image ${template}...`)
-
-var buildConfig = {
-  context: './templates/',
-  src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'package.json', 'config.json']
-}
-docker.buildImage(buildConfig, {t: template})
-})
+  return new Promise((resolve) => {
+    docker.buildImage({
+      context: `./templates/`,
+      src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'package.json', 'config.json'],
+    }, {
+      t: template,
+    }, (error, output) => {
+      if (error) {
+        return console.error(error);
+      }
+    });
+  });
 }
 /**
  * Starts the given bot.
@@ -69,7 +59,7 @@ docker.buildImage(buildConfig, {t: template})
  */
 exports.start = function (config) {
     return new Promise((resolve) => {
-      console.log(`Starting bot  (${config._id}a)...`);
+      console.log(`Starting bot  (b${config._id})...`);
       const container = docker.getContainer('b' + config._id);
       container.start();
       resolve();
@@ -123,8 +113,13 @@ exports.start = function (config) {
     return new Promise((resolve) => {
       console.log(`Deleting bot (${config._id})...`);
   
-      const container = docker.getContainer(config._id);
-      this.stop(config);
+      const container = docker.getContainer('b' + config._id);
+
+      container.inspect (function(err, data){
+        if(data.State.Running === true){
+          this.stop(config)
+        }
+      })
       container.remove((err) => {
         if (err) {
           console.log(err);
