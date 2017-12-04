@@ -186,7 +186,7 @@ export default {
       this.setDone('first', 'second')
     },
     deploy: function () {
-      this.options = this.treeData
+      this.options.push(this.treeData)
       this.$store.dispatch('deploy')
     },
     add: function () {
