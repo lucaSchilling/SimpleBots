@@ -1,9 +1,10 @@
 <template>
+<div>
   <li>
     <div
       :class="{bold: isFolder}">
       <span v-if="isFolder" @click="toggle">[{{open ? '-' : '+'}}]</span>
-          <md-input v-model="model.message"> </md-input>
+          <input v-model="model.message"></input>
             <span @click="changeType">
               <md-icon class="md-primary">
                 add
@@ -25,6 +26,7 @@
       <li class="add" @click="addChild">+</li>
     </ul>
   </li>
+  </div>
 </template>
 
 <script>

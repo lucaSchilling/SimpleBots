@@ -59,7 +59,7 @@
         </div>
       </md-step>
 
-      <md-step id="forth" md-label="Welcome Message" :md-done.sync="forth">
+      <md-step v-if="template === 'Welcome Bot'" id="forth" md-label="Welcome Message" :md-done.sync="forth">
         <h2 id="welcomeMsg">Welcome Message</h2>
         <div id="textcontainer">
           <md-field>
@@ -67,6 +67,16 @@
           </md-field>
           <md-button class="md-primary md-raised" @click="setDone('forth', 'fifth')">Next</md-button>
         </div>
+      </md-step>
+
+      <md-step v-if="template === 'FAQ Bot'" id="forth" md-label="Welcome Message" :md-done.sync="forth">
+        <div id="textcontainer">
+            <h2 id="welcomeMsg">Welcome Message</h2>
+          <md-field>
+            <md-textarea v-model="welcomeMessage"></md-textarea>
+          </md-field>
+        </div>
+            <md-button class="md-primary md-raised" @click="setDone('forth', 'fifth')">Next</md-button>
       </md-step>
 
       <md-step id="fifth" md-label="Options" :md-done.sync="fifth">
@@ -77,6 +87,7 @@
             <md-tooltip md-direction="right">Bla</md-tooltip>
           </md-avatar></h2>
         <div id="bla">
+          {{treeData}}
           <ul id="demo">
             <item
                   class="item"
@@ -89,7 +100,12 @@
 
         <div v-else-if="template === 'FAQ Bot'" id="faqdiv">
           <faq></faq>
+          <md-button class="md-primary md-raised" @click="setDone('fifth', 'sixth')" id="sixth">Next</md-button>
         </div>
+        </md-step>
+
+        <md-step id="sixth" md-label="Questions" :md-done.sync="sixth">
+          <uterances></uterances>
         </md-step>             
     </md-steppers>
   </div>
@@ -101,12 +117,16 @@
 <script>
 import item from './item.vue'
 import faq from './faq.vue'
+import intents from './intents.vue'
+import uterances from './uterances.vue'
 
 export default {
   name: 'botarmy',
   components: {
     item,
-    faq
+    faq,
+    intents,
+    uterances
   },
   data: () => ({
     disabledEnglish: false,
@@ -117,6 +137,7 @@ export default {
     third: false,
     forth: false,
     fifth: false,
+    sixth: false,
     treeData: {
       message: '',
       options: []
@@ -186,7 +207,7 @@ export default {
       this.setDone('first', 'second')
     },
     deploy: function () {
-      this.options = this.treeData
+      this.options.push(this.treeData)
       this.$store.dispatch('deploy')
     },
     add: function () {
@@ -296,7 +317,7 @@ input {
   padding: 5px;
   margin: 20px 0 10px;
   border-radius: 5px;
-  border: 4px solid #e47e25;
+  border: 2px solid gray;
 }
 #bla {
   height: 500px;
@@ -344,5 +365,12 @@ ul {
 }
 #faqdiv {
   width: 100%;
+}
+#welcomeMessageFAQ {
+  width: 400px;
+  float: left;
+}
+#intents {
+  float: right;
 }
 </style>

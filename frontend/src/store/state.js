@@ -6,5 +6,7 @@ export default {
   welcomeMessage: null,
   options: [],
   bots: [],
-  i: null
+  i: null,
+  intents: [],
+  entities: []
 }
