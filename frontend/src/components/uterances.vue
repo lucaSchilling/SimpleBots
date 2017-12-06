@@ -4,7 +4,7 @@
       <div id="dialog">
         <md-dialog-title>Set an Entity for "{{selected}}"</md-dialog-title>
       <div id="intents">
-        <p class="pHover" v-for="intent in intents" v-bind:key="intent" @click="setIntent(intent.name)"
+        <p class="pHover" v-for="intent in intents" v-bind:key="intent" @click="setIntent(intent.name)">{{intent.name}}</p>
       </div>
         <div id="entities">
           <p class="pHover" v-for="entity in entities" v-bind:key="entity" @click="setEntity(sentence, selected, entity.name)">{{entity.name}}</p>
