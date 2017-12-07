@@ -2,6 +2,8 @@
   "name": "runtime",
   "version": "0.1.0",
   "dependencies": {
+    "axios": "^0.17.1",
+    "axios-debug": "0.0.4",
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "cors": "^2.8.4",
@@ -12,7 +14,8 @@
     "hashmap": "^2.3.0",
     "mocha": "^4.0.1",
     "mongodb": "^2.2.33",
-    "node-agent-sdk": "^0.2.20"
+    "node-agent-sdk": "^0.2.20",
+    "request": "^2.83.0"
   },
   "scripts": {
     "test": "mocha"
