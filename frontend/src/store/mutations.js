@@ -17,6 +17,9 @@ export default {
   setEntities: (state, val) => {
     state.entities = val
   },
+  setExamples: (state, val) => {
+    state.Examples = val
+  },
   setWelcomeMessage: (state, val) => {
     state.welcomeMessage = val
   },

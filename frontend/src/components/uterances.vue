@@ -23,6 +23,7 @@
       </li>
     </div>
     </ol>
+    <md-button class="md-primary md-raised">Deploy</md-button>
   </div>
 </template>
 
@@ -38,8 +39,7 @@ export default {
     sentence: null,
     start: null,
     end: null,
-    example: {text: null, intentName: null, entityLabels: []},
-    examples: []
+    example: {text: null, intentName: null, entityLabels: []}
   }),
   computed: {
     entities: {
@@ -57,6 +57,14 @@ export default {
       set (val) {
         this.$store.commit('setIntents', val)
       }
+    },
+    examples: {
+      get () {
+        return this.$store.state.examples
+      },
+      set (val) {
+        this.$store.commit('setExamples', val)
+      }
     }
   },
   methods: {
@@ -72,9 +80,14 @@ export default {
     setIntent (intent) {
       this.example.intentName = intent
     },
-    setEntity (intent, uterance, word, entity) {
+    setEntity (uterance, word, entity) {
       this.start = uterance.indexOf(word)
       this.end = uterance.indexOf(word) + word.length - 1
+      this.example.text = uterance
+      this.example.entityLabels.push({entityName: entity, startCharIndex: this.start, endCharIndex: this.end})
+      this.examples.push(this.example)
+      alert(JSON.stringify(this.example))
+      this.example = null
       this.showDialog = false
     }
   }
@@ -91,7 +104,7 @@ export default {
 #dialog {
   width: 300px;
   height: 300px;
-},
+}
 #intents, #entities {
   width: 50%;
   float: left;

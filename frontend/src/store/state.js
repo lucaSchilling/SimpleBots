@@ -8,5 +8,6 @@ export default {
   bots: [],
   i: null,
   intents: [],
-  entities: []
+  entities: [],
+  examples: []
 }
