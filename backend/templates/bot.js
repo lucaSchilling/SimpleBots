@@ -11,22 +11,24 @@ class Bot {
      * Creates a new bot that can join conversations via the specified agent.
      * @param {Agent} agent the agent object that underlies this bot
      */
-    constructor(accountId, username, password, csds, config) {
+    constructor(accountId, username, password, config) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
-        this.csds = csds;
         this.config = config;
         this.retries = 3;
         this.init();
-    }
+        console.log("_id: " + this.config._id + " name: " + this.config.name )
+        for(var i = 0; i < this.config.options.length; i++){
+        console.log(" option" + i +": " + this.config.options[i].message )
+    }}
 
     /**
      * Initializes the event handler.
      */
     init() {
         this.isConnected = false;
-        this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password, csdsDomain: this.csds });
+        this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password });
         
         this.agent.on('connected', () => { 
             this.isConnected = true; 
@@ -149,7 +151,7 @@ class Bot {
      * @param {string} message text message that is sent to the client
      */
     async sendMessage(conversationId, message) {
-        console.log('Bot ' + this.config._id + ' sent a messgae in conversation '+ conversationId)
+        console.log('Bot ' + this.config._id + ' sent a message in conversation '+ conversationId)
         if (!this.isConnected) return;
         return await this.agent.publishEvent({
             dialogId: conversationId,

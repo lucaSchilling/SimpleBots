@@ -17,6 +17,9 @@ export default {
   setLastEdit: (state, val) => {
     state.lastedit = val
   },
+  setI: (state, val) => {
+    state.i = val
+  },
   getAll: (state, response) => {
     for (var i = 0; i < response.data.length; i++) {
       state.bots.push({ID: response.data[i]._id,

@@ -1,23 +1,25 @@
 <template>
-<div>
+<div id="tab">
   <video width="800" controls>
     <source src="../../assets/intro.mp4" type="video/mp4">
   </video>
   <h4 id="text">Bots</h4>
   <div class="elevation-demo" align="center">
-    <md-content class="md-elevation-2"><elevationcontent></elevationcontent></md-content>
-    <md-content class="md-elevation-2"><elevationcontent></elevationcontent></md-content>
+    <md-content class="md-elevation-5"><elevationWelcome></elevationWelcome></md-content>
+    <md-content class="md-elevation-5"><elevationFAQ></elevationFAQ></md-content>
   </div>
 </div>
 </template>
 
 <script>
-import elevationcontent from './elevationcontent.vue'
+import elevationWelcome from './elevationWelcome.vue'
+import elevationFAQ from './elevationFAQ.vue'
 
 export default {
   name: 'launch',
   components: {
-    elevationcontent
+    elevationWelcome,
+    elevationFAQ
   }
 }
 </script>
@@ -36,4 +38,5 @@ export default {
 #text {
   color: #e47e25;
 }
+
 </style>

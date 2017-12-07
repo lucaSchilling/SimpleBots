@@ -10,8 +10,8 @@ function timeout(ms = 3000) {
  */
 class WelcomeBot extends Bot {
 
-    constructor(accountId, username, password, csds, config) {
-        super(accountId, username, password, csds, config);
+    constructor(accountId, username, password, config) {
+        super(accountId, username, password, config);
 
         this.conversationStates = {};
         this.openConversations = {};
@@ -66,6 +66,7 @@ class WelcomeBot extends Bot {
                 }
                 else {
                     // Mark the conversation with the demanded skill
+
                     console.log("update skill field to: " + convState[index].redirect);
                     await this.agent.updateConversationField({
                         'conversationId': change.dialogId,

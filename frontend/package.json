@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "npm run lintfix && node build/dev-server.js",
     "start": "node server.js",
-    "build": "npm run lintfix node build/build.js",
+    "build": "node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
@@ -21,10 +21,12 @@
 	"Live": "node test/e2e/Live.js",
 	"Selenium_Gesamt": "node test/e2e/Selenium_Gesamt.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "lintfix": "eslint --fix src/components/tabs.vue src/components/launch.vue src/components/elevationcontent.vue src/router/index.js src/components/botarmy.vue src/components/tablehead.vue src/components/tablerow.vue"
+    "lintfix": "eslint --fix src/components/tabs.vue src/components/launch.vue src/components/elevationcontent.vue src/router/index.js src/components/botarmy.vue src/components/tablehead.vue src/components/tablerow.vue src/components/treeinput.vue src/components/tree.vue src/components/item.vue src/components/faq.vue"
   },
   "dependencies": {
     "axios": "^0.17.0",
+    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap-vue": "^1.2.0",
     "opn": "^5.1.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.3.0",

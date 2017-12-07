@@ -1,15 +1,13 @@
 var axios = require('axios')
-var url = 'http://localhost:3000'
+var url = 'http://141.19.142.6:3000'
 
 export default {
   deploy: (context) => {
     axios.post(url + '/deploy', {
-      '_id': context.state._id,
       'template': context.state.template,
       'name': context.state.name,
-      'lastEdit': context.state.lastedit,
       'welcomeMessage': context.state.welcomeMessage,
-      'options': [{'message': context.state.options}]
+      'options': context.state.options
     }).then(function (response) {
       context.dispatch('getAll')
     })
