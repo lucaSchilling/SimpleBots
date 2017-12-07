@@ -9,18 +9,18 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: 'components/launch',
-      name: 'launch',
+      path: '/launch',
+      name: 'Launch',
       component: launch
     },
     {
-      path: 'components/botarmy',
-      name: 'botarmy',
+      path: '/botarmy',
+      name: 'Botarmy',
       component: botarmy
     },
     {
-      path: 'components/status',
-      name: 'status',
+      path: '/status',
+      name: 'Status',
       component: tablehead
     }
   ]
