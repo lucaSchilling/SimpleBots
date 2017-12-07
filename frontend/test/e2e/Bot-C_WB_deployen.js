@@ -9,14 +9,16 @@ driver.get('http://localhost:8080/')
 
 driver.sleep(1000)
 
-driver.findElement(By.id('tab-botarmy')).click().then(function(){
+driver.findElement(By.css("*[id='app'] > div > div > div.md-tabs-navigation.md-elevation-0 > button:nth-of-type(2) > div > span.md-button-content")).click()
+driver.sleep(1000).then(function(){
     return driver.getCurrentUrl();
 }).then (function(currentUrl){
     if(currentUrl != 'http://localhost:8080/'){
         console.error("Stimmt nicht überein!");
         console.log(currentUrl)
-}
+    }
 })
+
 driver.sleep(1000)
 
 driver.findElement(By.id('next')).click().then(function(){
@@ -64,22 +66,8 @@ oF.click()
 oF.sendKeys(options);
 driver.sleep(1000)
 
-var leF = driver.findElement(By.id('field'))
-leF.click()
-driver.sleep(1000)
-
-var faq = driver.findElement(By.id('FAQ'))
-faq.click() 
-driver.sleep(2000)
-
-leF.click()
-driver.sleep(1000)
-
-var taB = driver.findElement(By.id('taB'))
-taB.click() 
-driver.sleep(2000)
-
-leF.click()
+var tF = driver.findElement(By.id('field'))
+tF.click()
 driver.sleep(1000)
 
 var wB = driver.findElement(By.id('wB'))
@@ -101,3 +89,5 @@ driver.findElement(By.id('deployButton')).click()/*.then(function(){
 })
 */
 driver.sleep(1000)
+
+driver.findElement(By.css("*[id='app'] > div > div > div.md-tabs-navigation.md-elevation-0 > button:nth-of-type(3) > div > span.md-button-content")).click()

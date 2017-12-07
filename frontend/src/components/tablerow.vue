@@ -7,7 +7,7 @@
       <md-table-cell>{{name}}</md-table-cell>
       <md-table-cell>{{lastedit}}</md-table-cell>
       <md-table-cell> 
-        <md-button class="md-icon-button deleteButton" v-on:click='deleteBot'>
+        <md-button id="delete" class="md-icon-button deleteButton" v-on:click='deleteBot'>
         <md-icon>delete</md-icon>
     </md-button>
       </md-table-cell>
