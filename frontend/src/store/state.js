@@ -9,5 +9,16 @@ export default {
   i: null,
   intents: [],
   entities: [],
-  examples: []
+  examples: [],
+  active: 'first',
+  first: false,
+  second: false,
+  third: false,
+  forth: false,
+  fifth: false,
+  sixth: false,
+  treeData: {
+    message: '',
+    options: []
+  }
 }

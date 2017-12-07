@@ -18,7 +18,7 @@ export default {
     state.entities = val
   },
   setExamples: (state, val) => {
-    state.Examples = val
+    state.examples = val
   },
   setWelcomeMessage: (state, val) => {
     state.welcomeMessage = val
@@ -41,5 +41,37 @@ export default {
   },
   clearBotsFromArray: (state) => {
     state.bots = []
+  },
+  setDone: (state, object) => {
+    state[object.id] = true
+
+    if (object.index) {
+      state.active = object.index
+    }
+  },
+  setActive: (state, val) => {
+    state.active = val
+  },
+  setFirst: (state, val) => {
+    state.first = val
+  },
+  setSecond: (state, val) => {
+    state.second = val
+  },
+  setThird: (state, val) => {
+    state.third = val
+  },
+  setForth: (state, val) => {
+    state.forth = val
+  },
+  setFifth: (state, val) => {
+    state.fifth = val
+  },
+  setSixth: (state, val) => {
+    state.sixth = val
+  },
+  setTreeData: (state, val) => {
+    state.treeData.message = val.message
+    state.treeData.options = val.options
   }
 }
