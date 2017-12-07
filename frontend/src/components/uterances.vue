@@ -23,7 +23,7 @@
       </li>
     </div>
     </ol>
-    <md-button class="md-primary md-raised">Deploy</md-button>
+    <md-button class="md-primary md-raised" @click="deploy">Deploy</md-button>
   </div>
 </template>
 
@@ -87,8 +87,11 @@ export default {
       this.example.entityLabels.push({entityName: entity, startCharIndex: this.start, endCharIndex: this.end})
       this.examples.push(this.example)
       alert(JSON.stringify(this.example))
-      this.example = null
+      this.example = {text: null, intentName: null, entityLabels: []}
       this.showDialog = false
+    },
+    deploy: function () {
+      this.$store.dispatch('deploy')
     }
   }
 }

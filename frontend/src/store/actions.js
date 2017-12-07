@@ -13,6 +13,7 @@ export default {
         context.dispatch('getAll')
       })
     } else if (context.state.template === 'FAQ Bot') {
+      alert('faq bot deploy')
       axios.post(url + '/deploy', {
         'template': context.state.template,
         'name': context.state.name,
