@@ -11,7 +11,7 @@ var password = process.env.LP_PASS;
 var port = process.env.PORT;
 var MONGOURL = 'mongodb:141.19.142.6:27017/testdb';
 
-describe('### Bot - Setting up a bot ###', function() {
+describe.skip('### Bot - Setting up a bot ###', function() {
 
     // console.log("Hey I bims: " + config)
     // console.log("Hey I bims2: " + config.options)

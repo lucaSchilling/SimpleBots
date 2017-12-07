@@ -46,6 +46,7 @@ server.use(bodyParser.json());
 
 // Connect to DB and start listening
 exports.connect = function() {
+    console.log('Hallo I Bims ein Fehler')
     db.connect(mongoURL, function(err) {
         if (err) {
             console.error(err);

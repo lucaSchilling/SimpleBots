@@ -6,6 +6,7 @@
     "axios-debug": "0.0.4",
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "cors": "^2.8.4",
     "dockerode": "^2.5.3",
     "dotenv": "^4.0.0",

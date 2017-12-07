@@ -11,7 +11,7 @@ var password = process.env.LP_PASS;
 var port = process.env.PORT;
 var MONGOURL = 'mongodb:141.19.142.6:27017/testdb';
 
-describe('### WelcomeBot - Setting up a bot ###', function() {
+describe.skip('### WelcomeBot - Setting up a bot ###', function() {
     
     var bot = new welcomeBotClass(accountId, username, password, {name:'Lucas stinkt!', welcomeMessage:'Hey', options: [{message: 'Naa', redirect: '1'}]});
 
