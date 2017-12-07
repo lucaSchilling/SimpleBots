@@ -3,17 +3,18 @@ var botClass = require('../templates/bot');
 var welcomeBotClass = require('../templates/welcomebot');
 var assert = require('chai').assert;
 
+
 config();
 var accountId = process.env.LP_ACCOUNT;
 var username = process.env.LP_USER;
 var password = process.env.LP_PASS;
 var port = process.env.PORT;
-var csds = process.env.LP_CSDS;
+var MONGOURL = 'mongodb:141.19.142.6:27017/testdb';
 
-describe.skip('### WelcomeBot - Setting up a bot ###', function() {
+describe('### WelcomeBot - Setting up a bot ###', function() {
     
-    var bot = new botClass(accountId, username, password, csds, config);
-    
+    var bot = new welcomeBotClass(accountId, username, password, {name:'Lucas stinkt!', welcomeMessage:'Hey', options: [{message: 'Naa', redirect: '1'}]});
+
     it('create a bot', function() {
         assert.equal(bot.accountId, '25352227')
         assert.equal(bot.username, 'luca.schilling@bwedu.de')
