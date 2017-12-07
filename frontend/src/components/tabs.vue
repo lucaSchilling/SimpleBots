@@ -45,4 +45,7 @@ export default {
     clear:both;
     padding-block-end: 50px;
   }
+  .md-button.md-theme-default.md-raised:not([disabled]).md-primary {
+    color: white;
+  }
 </style>

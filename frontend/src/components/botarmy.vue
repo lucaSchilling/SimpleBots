@@ -30,7 +30,7 @@
           <img src="../../assets/bot_gelb.jpg" height="150" width="150" class="img">
           <md-field>
                 <label for="name">Name</label>
-                <md-input  v-model="name" v-on:keyup.enter="setDone('second', 'third' )">
+                <md-input  v-model="name" v-on:keyup.enter="setDone('second', 'third')">
                 </md-input>
           </md-field>
         </div>
@@ -39,10 +39,11 @@
           <img src="../../assets/bot_lila.jpg" height="150" width="150" class="img">
           <md-field>
                 <label for="name">Name</label>
-                <md-input  v-model="name" v-on:keyup.enter="setDone('second', 'third' )">
+                <md-input  v-model="name" v-on:keyup.enter="setDone('second', 'third')">
                 </md-input>
           </md-field>
         </div>
+            <md-button class="md-primary md-raised buttonRight" @click="setDone('second', 'third')">Next</md-button>
       </md-step>
 
       <md-step id="third" md-label="Language" :md-done.sync="third">
@@ -55,7 +56,7 @@
             <md-button class="md-raised md-primary" :disabled="disabledEnglish" @click="selectButton">English</md-button>
             <md-button class="md-raised md-primary" :disabled="disabledDeutsch" @click="selectButton">Deutsch</md-button>
         </div>
-        <md-button class="md-primary md-raised" @click="setDone('third', 'forth')">Next</md-button>
+        <md-button class="md-primary md-raised buttonRight" @click="setDone('third', 'forth')">Next</md-button>
         </div>
       </md-step>
 
@@ -65,8 +66,8 @@
           <md-field>
             <md-textarea v-model="welcomeMessage"></md-textarea>
           </md-field>
-          <md-button class="md-primary md-raised" @click="setDone('forth', 'fifth')">Next</md-button>
         </div>
+        <md-button class="md-primary md-raised buttonRight" @click="setDone('forth', 'fifth')">Next</md-button>
       </md-step>
 
       <md-step v-if="template === 'FAQ Bot'" id="forth" md-label="Welcome Message" :md-done.sync="forth">
@@ -76,7 +77,7 @@
             <md-textarea v-model="welcomeMessage"></md-textarea>
           </md-field>
         </div>
-            <md-button class="md-primary md-raised" @click="setDone('forth', 'fifth')">Next</md-button>
+            <md-button class="md-primary md-raised buttonRight" @click="setDone('forth', 'fifth')">Next</md-button>
       </md-step>
 
       <md-step id="fifth" md-label="Options" :md-done.sync="fifth">
@@ -100,8 +101,8 @@
 
         <div v-else-if="template === 'FAQ Bot'" id="faqdiv">
           <faq></faq>
-          <md-button class="md-primary md-raised" @click="setDone('fifth', 'sixth')" id="sixth">Next</md-button>
         </div>
+        <md-button class="md-primary md-raised buttonRight" @click="setDone('fifth', 'sixth')" id="sixth">Next</md-button>
         </md-step>
 
         <md-step id="sixth" md-label="Questions" :md-done.sync="sixth">
@@ -371,6 +372,9 @@ ul {
   float: left;
 }
 #intents {
+  float: right;
+}
+.buttonRight {
   float: right;
 }
 </style>
