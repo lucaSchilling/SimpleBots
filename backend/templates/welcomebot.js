@@ -1,10 +1,6 @@
 // Bot module
 const Bot = require('./bot');
 
-function timeout(ms = 3000) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 /**
  * A bot that can join conversations, greet the conversation partner and offer a range of options to find out what the conversation partner wants.
  */
@@ -14,11 +10,10 @@ class WelcomeBot extends Bot {
         super(accountId, username, password, config);
 
         this.conversationStates = {};
-        this.openConversations = {};
     }
 
     /**
-     * Initializes the bot's dialogs. Child classes must override this function to implement case specific responses.
+     * Initializes the bot's dialogs.
      * @override
      */
     init() {
@@ -77,7 +72,7 @@ class WelcomeBot extends Bot {
                         }]
                     });
 
-                    await timeout(50);
+                    await this.timeout(50);
                     await this.sendMessage(change.dialogId, 'You will be redirected to the FAQ Bot');
                     await this.leaveConversation(change.dialogId);
                 }

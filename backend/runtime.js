@@ -23,14 +23,14 @@ var state = {
     loadedTemplates: { }
 };
 
-// Load all registered templates
+// Load all registered templates, build new docker image for each
 var installedTemplates = JSON.parse(fs.readFileSync(__dirname + '/templates.json'));
 
 for (key in installedTemplates) {
     let name = installedTemplates[key];
     let template = require('./templates/' + name);
     state.loadedTemplates[name] = template;
-    dockerode.buildImage(name.replace(" ", "").toLowerCase())
+    dockerode.buildImage(name.replace(" ", "").toLowerCase());
 }
 
 config();
@@ -116,7 +116,9 @@ server.post('/deploy', function (req, res) {
             botJson._id = id + "";
             botJson.status = false;
             botJson.lastEdit = new Date();
-            console.log(botJson)
+            botJson.luisReqUrl = process.env.LUIS_REQ_URL;
+            botJson.luisApiUrl = process.env.LUIS_API_URL;
+            botJson.luisKey = process.env.LUIS_KEY;
 
             // Update incremental bot id
             let updatedId = {
@@ -139,7 +141,7 @@ server.post('/deploy', function (req, res) {
                         return;
                     }
                     // Instantiate new bot of the specified template
-                    dockerode.createContainer(botJson)
+                    dockerode.createContainer(botJson);
                     res.sendStatus(201);
                 });
             });
@@ -269,4 +271,6 @@ server.get('/getAll', function(req, res) {
 // Shutdown routine
 process.on('SIGTERM', function() {
     db.close();
-})
+});
+
+module.exports = server;
