@@ -1,5 +1,6 @@
 //require the needed template so we can create a bot
 var welcomebot = require('./welcomebot');
+var faqbot = require('./faqbot');
 // reading the run argument
 var id = process.argv[2]; 
 // MongoDB module
@@ -36,7 +37,14 @@ db.connect(mongoURL, function(err) {
         })
     }).then(function(config){
     console.log('versuche Bot zu starten')
-    var bot = new welcomebot ('25352227', 'christopher', '!Slytherin1g', config);
+    var bot
+    if (config.template === 'Welcome Bot') {
+        bot = new welcomebot ('25352227', 'christopher', '!Slytherin1g', config);
+    }
+    else {
+        bot = new faqbot ('25352227', 'christopher', '!Slytherin1g', config);
+    }
+    
     bot.start();
     console.log('Bot gestartet')
     }).catch(function () {
