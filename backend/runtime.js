@@ -45,32 +45,34 @@ server.use(cors());
 server.use(bodyParser.json());
 
 // Connect to DB and start listening
-db.connect(mongoURL, function(err) {
-    if (err) {
-        console.error(err);
-        process.exit(1);
-    }
-    else {
-        db.get().collection('botids').findOne({name: 'botids'}, function(err, result) {
-            if (err) {
-                console.error(err);
-                process.exit(1);
-            }
-
-            if (!result) {
-                db.get().collection('botids').insertOne({name: 'botids', id: 0}, function(err) {
-                    if (err) {
-                        console.error(err);
-                        process.exit(1);
-                    }
-                });
-            }
-        })
-        server.listen(port, function () {
-            console.log('Bot Runtime listening on port ' + port);
-        });
-    }
-});
+exports.connect = function() {
+    db.connect(mongoURL, function(err) {
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
+        else {
+            db.get().collection('botids').findOne({name: 'botids'}, function(err, result) {
+                if (err) {
+                    console.error(err);
+                    process.exit(1);
+                }
+    
+                if (!result) {
+                    db.get().collection('botids').insertOne({name: 'botids', id: 0}, function(err) {
+                        if (err) {
+                            console.error(err);
+                            process.exit(1);
+                        }
+                    });
+                }
+            })
+            server.listen(port, function () {
+                console.log('Bot Runtime listening on port ' + port);
+            });
+        }
+    });
+}
 
 // Deploys the bot into a ready state and saves it in the database. Expects valid JSON bot config file
 server.post('/deploy', function (req, res) {
@@ -270,3 +272,5 @@ server.get('/getAll', function(req, res) {
 process.on('SIGTERM', function() {
     db.close();
 })
+
+module.exports = server;
