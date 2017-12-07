@@ -11,6 +11,15 @@ export default {
   setOptions: (state, val) => {
     state.options = val
   },
+  setIntents: (state, val) => {
+    state.intents = val
+  },
+  setEntities: (state, val) => {
+    state.entities = val
+  },
+  setExamples: (state, val) => {
+    state.Examples = val
+  },
   setWelcomeMessage: (state, val) => {
     state.welcomeMessage = val
   },

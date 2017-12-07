@@ -13,7 +13,7 @@
         <div id="left">
             <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" id="botimg">
             <div id="textdiv">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
-            <md-button class="md-raised md-primary">Create Bot</md-button> 
+            <md-button class="md-raised md-primary" to="/botarmy">Create Bot</md-button> 
         </div>
         <div id="right">
           <video width="700" controls>
@@ -48,7 +48,8 @@
     color: gray;
   }
   #dialog {
-    width: 1000px;
+    width: 80%;
+    height: 70%;
   }
   #wrap {
     width: auto;

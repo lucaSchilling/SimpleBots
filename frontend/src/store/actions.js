@@ -3,14 +3,27 @@ var url = 'http://141.19.142.6:3000'
 
 export default {
   deploy: (context) => {
-    axios.post(url + '/deploy', {
-      'template': context.state.template,
-      'name': context.state.name,
-      'welcomeMessage': context.state.welcomeMessage,
-      'options': context.state.options
-    }).then(function (response) {
-      context.dispatch('getAll')
-    })
+    if (context.state.template === 'Welcome Bot') {
+      axios.post(url + '/deploy', {
+        'template': context.state.template,
+        'name': context.state.name,
+        'welcomeMessage': context.state.welcomeMessage,
+        'options': context.state.options
+      }).then(function (response) {
+        context.dispatch('getAll')
+      })
+    } else if (context.state.template === 'FAQ Bot') {
+      alert('faq bot deploy')
+      axios.post(url + '/deploy', {
+        'template': context.state.template,
+        'name': context.state.name,
+        'initialVersionId': '1.0',
+        'welcomeMessage': context.state.welcomeMessage,
+        'intents': context.state.intents,
+        'entities': context.state.entities,
+        'examples': context.state.examples
+      })
+    }
   },
   getAll: (context) => {
     axios.get(url + '/getAll').then((response) => {
