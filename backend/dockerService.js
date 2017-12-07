@@ -62,6 +62,7 @@ exports.start = function (config) {
     return new Promise((resolve) => {
       console.log(`Starting bot  (b${config._id})...`);
       const container = docker.getContainer('b' + config._id);
+      console.log(config)
       container.start();
       resolve();
     });
