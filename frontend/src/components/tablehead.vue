@@ -1,8 +1,5 @@
 <template>
 <div>
-  <md-field md-clearable class="md-toolbar-section-end">
-          <md-input placeholder="Search by Botname..." v-model="search" @input="searchOnTable" />
-        </md-field>
   <md-table>
       <md-table-row>
       <md-table-head></md-table-head>

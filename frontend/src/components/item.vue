@@ -7,12 +7,12 @@
           <input v-model="model.message"></input>
             <span @click="changeType">
               <md-icon class="md-primary">
-                add
+                keyboard_arrow_down
                 <md-tooltip md-direction="top">Add an option to this message</md-tooltip>
               </md-icon>
             </span>
             <span @click="deleteChild">
-              <md-icon class="md-primary">delete</md-icon>
+              <md-icon class="md-primary">clear</md-icon>
               <md-tooltip md-direction="top">Delete the options from this message</md-tooltip>
             </span>
     </div>

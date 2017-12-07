@@ -48,7 +48,8 @@
     color: gray;
   }
   #dialog {
-    width: 1000px;
+    width: 80%;
+    height: 70%;
   }
   #wrap {
     width: auto;
