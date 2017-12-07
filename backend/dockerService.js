@@ -41,7 +41,7 @@ exports.buildImage = function (template) {
   return new Promise((resolve) => {
     docker.buildImage({
       context: `./templates/`,
-      src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'package.json'],
+      src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'faqbot.js', 'package.json'],
     }, {
       t: template,
     }, (error, output) => {
