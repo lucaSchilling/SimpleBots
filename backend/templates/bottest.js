@@ -28,8 +28,8 @@ db.connect(mongoURL, function(err) {
                 for (let config of result) {
                     if(config._id===id){
                         console.log('Die Config für diesen Bot ist: ' + config)
-                        console.log('Die Config geparse ist: ' + JSON.parse(config))
                         console.log('Die Config stringified ist: ' + JSON.stringify(config))
+                        console.log('Template: ' + config.template)
                         resolve(config)
                     }
                 }
