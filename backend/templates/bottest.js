@@ -39,11 +39,18 @@ db.connect(mongoURL, function(err) {
         })
     }).then(function(config){
     console.log('versuche Bot zu starten')
-    var bot = new welcomebot ('25352227', 'christopher', '!Slytherin1g', config);
+    var bot 
+    if(config.template === 'Welcome Bot') {
+        bot = new welcomebot ('25352227', 'christopher', '!Slytherin1g', config);
+        
+    } else{
+        bot = new faqbot ('25352227', 'christopher', '!Slytherin1g', config);
+    }
 
     bot.start();
     console.log('Bot gestartet')
-    }).catch(function () {
+    }).catch(function (err) {
+    console.error(err)
     console.log("Promise Rejected");
     })
     }})
