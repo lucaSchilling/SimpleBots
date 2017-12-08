@@ -17,13 +17,15 @@ function timeout(ms = 3000) {
  */
 class FAQBot extends Bot {
 
-    constructor(accountId, username, password, csds, config) {
-        super(accountId, username, password, csds, config);
-        
+    constructor(accountId, username, password, config) {
+        super(accountId, username, password, config);
+        console.log('Config stringified: '+ JSON.stringify(config))
+        console.log('Config : ' + config)
         this.luisApiUrl = 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/';
         this.luisReqUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/';
         this.openConversations = {};
         this.createLuisApp(config);
+    
     }
 
     /**
@@ -41,7 +43,7 @@ class FAQBot extends Bot {
                 .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '999352232')
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
-                    
+                    console.log('this.openConversations[change.result.convId]' + this.openConversations[change.result.convId])
                     await this.joinConversation(change.result.convId, 'MANAGER');
                     await this.sendMessage(change.result.convId, 'Hello, I am the FAQ Bot. What is your question?');
                 });
