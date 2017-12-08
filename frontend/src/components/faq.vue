@@ -133,6 +133,6 @@ export default {
   cursor: pointer;
 }
 .hover:hover {
-    font-weight: bold;
+  font-weight: bold;
 }
 </style>

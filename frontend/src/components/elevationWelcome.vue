@@ -11,13 +11,15 @@
       <md-dialog-title>Welcome Bot</md-dialog-title>
       <div id="wrap">
         <div id="left">
-            <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" id="botimg">
-            <div id="textdiv">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
-            <md-button class="md-raised md-primary" to="/botarmy">Create Bot</md-button> 
+          <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" id="botimg">
+          <div id="textdiv">I am here to greet your customers when they need help. If i can identify the problem, i will redirect them to the right service. Otherwise i will ask a human agent for help.</div>
+            <md-button class="md-raised md-primary" to="/botarmy">
+              Create Bot
+            </md-button> 
         </div>
         <div id="right">
           <video width="700" controls>
-          <source src="../../assets/intro.mp4" type="video/mp4">
+          <source src="../../assets/welcome-bot.mp4" type="video/mp4">
           </video>
         </div> 
         <div id="below">
@@ -35,12 +37,27 @@
 </template>
 
 <script>
-  export default {
-    name: 'elevationWelcome',
-    data: () => ({
-      showDialog: false
-    })
+export default {
+  name: 'elevationWelcome',
+  data: () => ({
+    showDialog: false
+  }),
+  computed: {
+    template: {
+      get () {
+        return this.$store.state.template
+      },
+      set (val) {
+        this.$store.commit('setTemplate', val)
+      }
+    }
+  },
+  methods: {
+    setTemp: () => {
+      this.template = 'Welcome Bot'
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>

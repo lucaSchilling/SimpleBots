@@ -12,9 +12,9 @@
 
       </div>
      </md-dialog>
-     <h2>Add your Questions here!</h2>
-      <input v-model="uterance" v-on:keyup.enter="addUterance"></input>
-      <h2>Set your Entities here!</h2>
+     <h3>Add your Questions here!</h3>
+     <input v-model="uterance" v-on:keyup.enter="addUterance"></input>
+      <h3>Set your Entities here!</h3>
       <ol>
     <div v-for="(ut, index) in uterances" v-bind:key="ut">
       <li><span class="span" v-for="word in ut" v-bind:key="word" @click="openDialog(sentences[index], word)">
@@ -86,7 +86,6 @@ export default {
       this.example.text = uterance
       this.example.entityLabels.push({entityName: entity, startCharIndex: this.start, endCharIndex: this.end})
       this.examples.push(this.example)
-      alert(JSON.stringify(this.example))
       this.example = {text: null, intentName: null, entityLabels: []}
       this.showDialog = false
     },
@@ -111,5 +110,8 @@ export default {
 #intents, #entities {
   width: 50%;
   float: left;
+}
+h3 {
+  color: gray;
 }
 </style>

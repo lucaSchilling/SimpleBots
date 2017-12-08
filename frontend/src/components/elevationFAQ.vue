@@ -13,8 +13,7 @@
         <div id="left">
             <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" id="botimg">
             <div id="textdiv">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
-            <md-button class="md-raised md-primary">
-              <router-link to="/botarmy"></router-link>
+            <md-button class="md-raised md-primary" @click="setTemp" to="/botarmy">
               Create Bot
               </md-button> 
         </div>
@@ -38,12 +37,27 @@
 </template>
 
 <script>
-  export default {
-    name: 'elevationFAQ',
-    data: () => ({
-      showDialog: false
-    })
+export default {
+  name: 'elevationFAQ',
+  data: () => ({
+    showDialog: false
+  }),
+  computed: {
+    template: {
+      get () {
+        return this.$store.state.template
+      },
+      set (val) {
+        this.$store.commit('setTemplate', val)
+      }
+    }
+  },
+  methods: {
+    setTemp: () => {
+      this.template = 'FAQ Bot'
+    }
   }
+}
 </script>
 
 <style lang="scss" scoped>

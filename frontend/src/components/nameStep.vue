@@ -1,10 +1,11 @@
 <template>
+<div>
   <div v-if="template === 'Welcome Bot'" class="picDiv">
     <h2>Choose a Name for your {{template}}</h2>
     <img src="../../assets/bot_gelb.jpg" height="150" width="150" class="img">
     <md-field>
       <label for="name">Name</label>
-        <md-input  v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'third'})"></md-input>
+        <md-input  v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'forth'})"></md-input>
     </md-field>
   </div>
   <div v-else-if="template === 'FAQ Bot'" class="picDiv">
@@ -12,8 +13,10 @@
     <img src="../../assets/bot_lila.jpg" height="150" width="150" class="img">
     <md-field>
       <label for="name">Name</label>
-        <md-input  v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'third'})"></md-input>
+        <md-input  v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'forth'})"></md-input>
     </md-field>
+  </div>
+  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'second', index: 'forth'})">Next</md-button>
   </div>
 </template>
 

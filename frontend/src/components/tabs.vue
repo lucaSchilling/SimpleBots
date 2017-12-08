@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <md-tabs md-sync-route md-alignment="fixed">
-      <md-tab id="tab-launch" class="tabs" md-label="LAUNCH" to="/launch">
+      <md-tab id="tab-launch" class="tabs" md-label="LAUNCH" to="/">
       </md-tab>
       
       <md-tab id="tab-botarmy" class="tabs" md-label="BOTARMY" to="/botarmy">

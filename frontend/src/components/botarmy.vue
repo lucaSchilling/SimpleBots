@@ -1,16 +1,11 @@
 <template>
-    <md-steppers :md-active-step.sync="active" md-linear>
+    <md-steppers md-sync-route :md-active-step.sync="active" md-linear>
       <md-step id="first" md-label="Template" :md-done.sync="first">
         <templateStep></templateStep>
       </md-step>
 
       <md-step id="second" md-label="Name" :md-done.sync="second">
         <nameStep></nameStep>
-        <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'second', index: 'third'})">Next</md-button>
-      </md-step>
-
-      <md-step id="third" md-label="Language" :md-done.sync="third">
-        <languageStep></languageStep>
       </md-step>
 
       <md-step id="forth" md-label="Welcome Message" :md-done.sync="forth">
@@ -179,10 +174,6 @@ export default {
 }
 #rightM {
   float: right;
-}
-h2 {
-  text-align: center;
-  color: gray;
 }
 input {
   width: 280px;

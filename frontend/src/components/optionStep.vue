@@ -1,13 +1,7 @@
 <template>
 <div>
-    <h2>Set Selection Menu
-      <md-avatar>
-        <img src="../../assets/hilfe.png" alt="Avatar">
-        <md-tooltip md-direction="right">Bla</md-tooltip>
-      </md-avatar>
-    </h2>
+    <h2>Set Selection Menu</h2>
     <div id="bla">
-      {{treeData}}
       <ul id="demo">
         <item
             class="item"
@@ -52,11 +46,6 @@ export default {
   display: block;
   height: 500px;
 }
-.md-avatar img {
-    width: 50%;
-    height: 50%;
-    display: block;
-}
 .md-avatar {
     width: 40px;
     min-width: 40px;
@@ -75,6 +64,11 @@ export default {
     font-size: 24px;
     letter-spacing: -.05em;
     vertical-align: bottom;
+}
+#tooltip {
+    width: 50%;
+    height: 50%;
+    display: block;
 }
 h2 {
   text-align: center;
