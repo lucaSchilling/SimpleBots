@@ -28,7 +28,8 @@ db.connect(mongoURL, function(err) {
                 for (let config of result) {
                     if(config._id===id){
                         console.log('Die Config für diesen Bot ist: ' + config)
-                        console.log('Template: ' + config.template)
+                        console.log('Die Config geparse ist: ' + JSON.parse(config))
+                        console.log('Die Config stringified ist: ' + JSON.stringify(config))
                         resolve(config)
                     }
                 }
@@ -38,12 +39,7 @@ db.connect(mongoURL, function(err) {
         })
     }).then(function(config){
     console.log('versuche Bot zu starten')
-    var bot 
-    if(config.template === 'Welcome Bot' || 'welcomebot'){
-        bot = new welcomebot ('25352227', 'christopher', '!Slytherin1g', config);
-    }else{
-        bot= new faqbot('25352227', 'christopher', '!Slytherin1g', config);
-    }
+    var bot = new welcomebot ('25352227', 'christopher', '!Slytherin1g', config);
 
     bot.start();
     console.log('Bot gestartet')
