@@ -28,6 +28,7 @@ db.connect(mongoURL, function(err) {
                 for (let config of result) {
                     if(config._id===id){
                         console.log('Die Config für diesen Bot ist: ' + config)
+                        console.log('Template: ' + config.template)
                         resolve(config)
                     }
                 }
