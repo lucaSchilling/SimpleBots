@@ -5,36 +5,39 @@
  * @module services/
  */
 const Dockerode = require('dockerode');
-
+// Sets the socketpath correctly either for windows or for linux
 const socketPath = (process.platform === 'win32' ? '//./pipe/docker_engine' : '/var/run/docker.sock');
 const docker = new Dockerode({ socketPath });
 
 /**
  * Creates a container with the given configuration.
  * 
- * @param {config} config - config for the container
+ * @param {config} config - config for the container as JSON
+ * @param {Promise} - TODO Promise is not needed
  */
-exports.createContainer = function(config){
-return new Promise((resolve) => {
-        var image = config.template.replace(" ", "").toLowerCase();
-        console.log(image)
-        const createOptions = {
-          name: `${'b' + config._id}`,
-          Image: `${image}`,
-          Tty: true,
-          Cmd: ["sh", "-c", `node botStart.js ${config._id}`]
-        };
-  
-        docker.createContainer(createOptions).then((container) => {
-          resolve(container);
-        });
-});
+exports.createContainer = function (config) {
+  return new Promise((resolve) => {
+    // Formats the template name so it is conform to the docker restrictions
+    let image = config.template.replace(" ", "").toLowerCase();
+    // Sets the options for the creation 
+    const createOptions = {
+      name: `${'b' + config._id}`,
+      Image: `${image}`,
+      Tty: true,
+      Cmd: ["sh", "-c", `node botStart.js ${config._id}`]
+    };
+
+    docker.createContainer(createOptions).then((container) => {
+      resolve(container);
+    });
+  });
 }
 
 /**
- * Builds an Image of the given template type.
+ * Builds an image of the given template type.
  * 
- * @param {template} template - type for the Image which will be created 
+ * @param {template} template - type for the image which will be created 
+ * @param {Promise} - TODO Promise is not needed
  */
 exports.buildImage = function (template) {
   return new Promise((resolve) => {
@@ -42,85 +45,88 @@ exports.buildImage = function (template) {
       context: `./templates/`,
       src: ['Dockerfile', 'bot.js', 'botStart.js', 'db.js', template + '.js', 'package.json'],
     }, {
-      t: template,
-    }, (error, output) => {
-      if (error) {
-        return console.error(error);
-      }
-    });
+        t: template,
+      }, (error, output) => {
+        if (error) {
+          console.error(error);
+        }
+      });
   });
 }
 
 /**
- * Starts the given bot.
+ * Starts the container belonging to the config.
  *
- * @param {config} config - The bot that is to be started
- * @returns {Promise} 
+ * @param {config} config - The configuration of a created bot as JSON. 
+ * The configuration needs to have  an _id value.
+ * @returns {Promise} - TODO Promise is not needed
  */
 exports.start = function (config) {
-    return new Promise((resolve) => {
-      console.log(`Starting bot  (b${config._id})...`);
-      const container = docker.getContainer('b' + config._id);
-      console.log(config)
-      container.start();
-      resolve();
-    });
-  };
+  return new Promise((resolve) => {
+    console.log(`Starting bot  (b${config._id})...`);
+    const container = docker.getContainer('b' + config._id);
+    container.start();
+    resolve();
+  });
+};
 
-  /**
-   * Stops the given bot.
-   *
-   * @param {Bot} config - The config of the bot that is to be stopped
-   * @returns {Promise}
-   */
-  exports.stop = function (config) {
-    return new Promise((resolve) => {
-      console.log(`Stopping bot (${config._id})...`);
-      const container = docker.getContainer('b' + config._id);
-      // Stops the Container.
-      container.stop((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-      console.log(`Bot (${config._id}) stopped`);
-      resolve();
+/**
+ * Stops the container belonging to the config.
+ *
+ * @param {Bot} config - The configuration of a created bot as JSON.
+ * The configuration needs to have  an _id value.
+ * @returns {Promise} - TODO Promise is not needed
+ */
+exports.stop = function (config) {
+  return new Promise((resolve) => {
+    console.log(`Stopping bot (b${config._id})...`);
+    const container = docker.getContainer('b' + config._id);
+    // Stops the Container.
+    container.stop((err) => {
+      if (err) {
+        console.log(err);
+      }
     });
-  };
-  
-  /**
-   * Deletes Container of the given Bot.
-   *
-   * @param {config} config - The config of the bot that is to be started
-   * @returns {Promise}
-   */
-  exports.delete = function (config) {
-    return new Promise((resolve) => {
-      console.log(`Deleting bot (${config._id})...`);
-  
-      const container = docker.getContainer('b' + config._id);
-      // Inspects the Container to see if it is running, then stops and removes the container otherwise just removes it.
-      container.inspect (function(err, data){
-      if(data.State.Running === true){
+    resolve();
+  });
+};
+
+/**
+ * Deletes the container belonging to the config.
+ *
+ * @param {config} config - The configuration of a created bot as JSON.
+ * The configuration needs to have  an _id value.
+ * @returns {Promise} - TODO Promise is not needed
+ */
+exports.delete = function (config) {
+  return new Promise((resolve) => {
+    console.log(`Deleting bot (b${config._id})...`);
+
+    const container = docker.getContainer('b' + config._id);
+    // Inspects the container and checks if it runs
+    container.inspect(function (err, data) {
+      // Stops the container and removes him afterwards
+      if (data.State.Running === true) {
         container.stop((err, output) => {
+          if (err) {
+            console.log(err);
+          }
+          container.remove((err) => {
             if (err) {
               console.log(err);
             }
-            container.remove((err) => {
-              if (err) {
-                console.log(err);
-              }
-            });
           });
-    } else{
-      container.remove((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-    }
-  })
+        });
+      }
+      // Removes the container
+      else {
+        container.remove((err) => {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
+    })
     resolve();
-    });
-  };
-  
+  });
+};

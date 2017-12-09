@@ -20,7 +20,7 @@ const dockerode = require('./dockerService')
 var docker = new Docker();
 
 var state = {
-    loadedTemplates: { }
+    loadedTemplates: {}
 };
 
 // Load all registered templates
@@ -45,20 +45,20 @@ server.use(cors());
 server.use(bodyParser.json());
 
 // Connect to DB and start listening
-db.connect(mongoURL, function(err) {
+db.connect(mongoURL, function (err) {
     if (err) {
         console.error(err);
         process.exit(1);
     }
     else {
-        db.get().collection('botids').findOne({name: 'botids'}, function(err, result) {
+        db.get().collection('botids').findOne({ name: 'botids' }, function (err, result) {
             if (err) {
                 console.error(err);
                 process.exit(1);
             }
 
             if (!result) {
-                db.get().collection('botids').insertOne({name: 'botids', id: 0}, function(err) {
+                db.get().collection('botids').insertOne({ name: 'botids', id: 0 }, function (err) {
                     if (err) {
                         console.error(err);
                         process.exit(1);
@@ -85,7 +85,7 @@ server.post('/deploy', function (req, res) {
 
         // Invalid JSON
         if (!template) {
-            res.sendStatus(422); 
+            res.sendStatus(422);
             return;
         }
 
@@ -104,13 +104,13 @@ server.post('/deploy', function (req, res) {
         }
         let botJson = req.body;
 
-        db.get().collection('botids').findOne(querry, function(err, result) {
+        db.get().collection('botids').findOne(querry, function (err, result) {
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
                 return;
             }
-        
+
             id = result.id + 1;
 
             botJson._id = id + "";
@@ -123,7 +123,7 @@ server.post('/deploy', function (req, res) {
                 $set: { id: id }
             }
 
-            db.get().collection('botids').updateOne(querry, updatedId, function(err, result) {
+            db.get().collection('botids').updateOne(querry, updatedId, function (err, result) {
                 if (err) {
                     console.error(err);
                     res.sendStatus(503);
@@ -131,7 +131,7 @@ server.post('/deploy', function (req, res) {
                 }
 
                 // Save bot in database
-                db.get().collection('deployedBots').insertOne(botJson, function(err) {
+                db.get().collection('deployedBots').insertOne(botJson, function (err) {
                     // Can't connect to database
                     if (err) {
                         console.error(err);
@@ -165,10 +165,10 @@ server.post('/setStatus', function (req, res) {
         let config = {
             _id: id
         }
-        
+
         // Invalid JSON
         if (!id) {
-            res.sendStatus(422); 
+            res.sendStatus(422);
             return;
         }
         // Start bot
@@ -188,7 +188,7 @@ server.post('/setStatus', function (req, res) {
             $set: { status: status }
         }
 
-        db.get().collection('deployedBots').updateOne(querry, updatedStatus, function(err, res) {
+        db.get().collection('deployedBots').updateOne(querry, updatedStatus, function (err, res) {
             if (err) {
                 console.log(err);
                 res.sendStatus(503);
@@ -222,7 +222,7 @@ server.delete('/delete/:id', function (req, res) {
             _id: id
         };
 
-        db.get().collection('deployedBots').deleteOne(querry, function(err, obj) {
+        db.get().collection('deployedBots').deleteOne(querry, function (err, obj) {
             // Can't connect to database
             if (err) {
                 console.error(err);
@@ -241,22 +241,22 @@ server.delete('/delete/:id', function (req, res) {
 });
 
 // Returns all bot configs that are in the database
-server.get('/getAll', function(req, res) {
+server.get('/getAll', function (req, res) {
     try {
-        db.get().collection('deployedBots').find({}).toArray(function(err, result) {
+        db.get().collection('deployedBots').find({}).toArray(function (err, result) {
             // Can't connect to database
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
                 return;
             }
-            
+
             // No bots deployed
             if (!result) {
                 res.sendStatus(204);
                 return;
             }
-            
+
             res.status(200).send(result);
         });
     }
@@ -267,6 +267,6 @@ server.get('/getAll', function(req, res) {
 });
 
 // Shutdown routine
-process.on('SIGTERM', function() {
+process.on('SIGTERM', function () {
     db.close();
 })

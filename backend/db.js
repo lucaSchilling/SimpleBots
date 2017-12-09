@@ -9,13 +9,13 @@ var state = {
  * @param url The url and port of the MongoDB server
  * @param done Callback function
  */
-exports.connect = function(url, done) {
+exports.connect = function (url, done) {
   if (state.db) {
     return done();
   }
-  MongoClient.connect(url, function(err, db) {
+  MongoClient.connect(url, function (err, db) {
     if (err) {
-        return done(err);
+      return done(err);
     }
     state.db = db;
     done();
@@ -25,7 +25,7 @@ exports.connect = function(url, done) {
 /**
  * Returns the database reference.
  */
-exports.get = function() {
+exports.get = function () {
   return state.db;
 }
 
@@ -34,9 +34,9 @@ exports.get = function() {
  * @param done Callback function
  */
 
-exports.close = function(done) {
+exports.close = function (done) {
   if (state.db) {
-    state.db.close(function(err, result) {
+    state.db.close(function (err, result) {
       state.db = null;
       done(err);
     })

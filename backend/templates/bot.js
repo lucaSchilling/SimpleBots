@@ -26,9 +26,9 @@ class Bot {
     init() {
         this.isConnected = false;
         this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password });
-        
-        this.agent.on('connected', () => { 
-            this.isConnected = true; 
+
+        this.agent.on('connected', () => {
+            this.isConnected = true;
         });
 
         this.agent.on('error', err => {
@@ -38,17 +38,17 @@ class Bot {
 
         this.agent.on('closed', reason => {
             this.isConnected = false;
-            
+
             console.error('Bot ' + this.config._id + ': Connection to UMS closed with reason', reason); // TODO: mail to admin
-            
-            if(this.retries > 0){
+
+            if (this.retries > 0) {
                 this.retries--;
                 console.log(this.retries)
                 setTimeout(() => {
                     this.agent.reconnect(reason !== 4401 || reason !== 4407);
                 }, 1000);
 
-            }else{
+            } else {
                 console.error('Bot ' + this.config._id + ': Unable to connect')
             }
         });
@@ -148,7 +148,7 @@ class Bot {
      * @param {string} message text message that is sent to the client
      */
     async sendMessage(conversationId, message) {
-        console.log('Bot ' + this.config._id + ' sent a message in conversation '+ conversationId)
+        console.log('Bot ' + this.config._id + ' sent a message in conversation ' + conversationId)
         if (!this.isConnected) return;
         return await this.agent.publishEvent({
             dialogId: conversationId,
@@ -165,7 +165,7 @@ class Bot {
      * @param {string} conversationId 
      */
     async leaveConversation(conversationId) {
-        console.log('Bot ' + this.config._id + ' has left conversation '+ conversationId)
+        console.log('Bot ' + this.config._id + ' has left conversation ' + conversationId)
         delete this.openConversations[conversationId];
 
         return await this.agent.updateConversationField({
