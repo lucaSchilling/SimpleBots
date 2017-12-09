@@ -22,7 +22,7 @@ return new Promise((resolve) => {
           name: `${'b' + config._id}`,
           Image: `${image}`,
           Tty: true,
-          Cmd: ["sh", "-c", `node startBot.js ${config._id}`]
+          Cmd: ["sh", "-c", `node botStart.js ${config._id}`]
         };
   
         docker.createContainer(createOptions).then((container) => {
@@ -40,7 +40,7 @@ exports.buildImage = function (template) {
   return new Promise((resolve) => {
     docker.buildImage({
       context: `./templates/`,
-      src: ['Dockerfile', 'bot.js', 'startBot.js', 'db.js', template + '.js', 'package.json'],
+      src: ['Dockerfile', 'bot.js', 'botStart.js', 'db.js', template + '.js', 'package.json'],
     }, {
       t: template,
     }, (error, output) => {
