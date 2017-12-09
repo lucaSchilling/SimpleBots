@@ -8,9 +8,5 @@
     "mongodb": "^2.2.33",
     "node-agent-sdk": "^0.2.20",
     "axios": "^0.17.1"
-  },
-  "scripts": {
-    "start": "node welcomebot.js",
-    "lintfix": "eslint --fix ./bottest.js"
   }
 }
