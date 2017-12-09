@@ -130,3 +130,21 @@ exports.delete = function (config) {
     resolve();
   });
 };
+
+exports.deleteImage = function (template) {
+  return new Promise((resolve) => {
+    const removeOptions = {
+      force: true,
+      noprune: false,
+    };
+    let image = docker.getImage(template);
+    image.remove(removeOptions, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+
+  })
+}
+
+

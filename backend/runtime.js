@@ -269,4 +269,8 @@ server.get('/getAll', function (req, res) {
 // Shutdown routine
 process.on('SIGTERM', function () {
     db.close();
+    for (key in installedTemplates) {
+        let name = installedTemplates[key];
+        dockerode.deleteImage(name.replace(" ", "").toLowerCase());
+    }
 })
