@@ -41,11 +41,12 @@ exports.createContainer = function (config) {
  */
 exports.buildImage = function (template) {
   return new Promise((resolve) => {
+    templateParsed = template.replace(" ", "").toLowerCase() 
     docker.buildImage({
       context: `./templates/`,
-      src: ['Dockerfile', 'bot.js', 'botStart.js', 'db.js', template + '.js', 'package.json'],
+      src: ['Dockerfile', 'bot.js', 'botStart.js', 'db.js', templateParsed + '.js', 'package.json'],
     }, {
-        t: template,
+        t: templateParsed,
       }, (error, output) => {
         if (error) {
           console.error(error);
@@ -131,13 +132,19 @@ exports.delete = function (config) {
   });
 };
 
+/**
+ * Deletes the image belonging to the template
+ * 
+ * @param {*} template - Name of the image.
+ */
 exports.deleteImage = function (template) {
   return new Promise((resolve) => {
+    let templateParsed = template.replace(" ", "").toLowerCase() 
     const removeOptions = {
       force: true,
       noprune: false,
     };
-    let image = docker.getImage(template);
+    let image = docker.getImage(templateParsed);
     image.remove(removeOptions, (err) => {
       if (err) {
         console.log(err);

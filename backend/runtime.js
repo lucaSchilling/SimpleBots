@@ -30,7 +30,7 @@ for (key in installedTemplates) {
     let name = installedTemplates[key];
     let template = require('./templates/' + name);
     state.loadedTemplates[name] = template;
-    dockerode.buildImage(name.replace(" ", "").toLowerCase())
+    dockerode.buildImage(name)
 }
 
 config();
@@ -271,6 +271,6 @@ process.on('SIGTERM', function () {
     db.close();
     for (key in installedTemplates) {
         let name = installedTemplates[key];
-        dockerode.deleteImage(name.replace(" ", "").toLowerCase());
+        dockerode.deleteImage(name);
     }
 })
