@@ -221,7 +221,17 @@ server.delete('/delete/:id', function (req, res) {
         let querry = {
             _id: id
         };
-
+        db.get().collection('deployedBots').findOne(querry, function(err, result) {
+            if (err) {
+                console.error(err);
+                res.sendStatus(503);
+                return;
+            }
+            if(result === null){
+                // Can't find bot in database
+                res.sendStatus(404);
+                return;
+        }
         db.get().collection('deployedBots').deleteOne(querry, function(err, obj) {
             // Can't connect to database
             if (err) {
@@ -233,6 +243,7 @@ server.delete('/delete/:id', function (req, res) {
         });
 
         res.sendStatus(200);
+    })
     }
     catch (e) {
         console.error(e);
