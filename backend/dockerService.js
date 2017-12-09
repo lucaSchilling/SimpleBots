@@ -40,7 +40,7 @@ exports.buildImage = function (template) {
   return new Promise((resolve) => {
     docker.buildImage({
       context: `./templates/`,
-      src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'faqbot.js', 'package.json'],
+      src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', template + '.js', 'package.json'],
     }, {
       t: template,
     }, (error, output) => {
@@ -71,13 +71,13 @@ exports.start = function (config) {
    * Stops the given bot.
    *
    * @param {Bot} config - The config of the bot that is to be stopped
-   * @returns {Promise} TODO
+   * @returns {Promise}
    */
   exports.stop = function (config) {
     return new Promise((resolve) => {
       console.log(`Stopping bot (${config._id})...`);
       const container = docker.getContainer('b' + config._id);
-      // query API for container info
+      // Stops the Container.
       container.stop((err) => {
         if (err) {
           console.log(err);
@@ -89,26 +89,10 @@ exports.start = function (config) {
   };
   
   /**
-   * Restarts the given bot.
-   *
-   * @param {config} config - The config f the bot that will be restarted
-   * @returns {Promise} TODO
-   */
-  exports.restart = function (config) {
-    return new Promise((resolve) => {
-      console.log(`Restarting bot (${config._id})...`);
-      stop(config);
-      start(config);
-      console.log(`Bot (${config._id}) restarted...`)
-      resolve();
-    });
-  };
-  
-  /**
    * Deletes Container of the given Bot.
    *
    * @param {config} config - The config of the bot that is to be started
-   * @returns {Promise} TODO
+   * @returns {Promise}
    */
   exports.delete = function (config) {
     return new Promise((resolve) => {

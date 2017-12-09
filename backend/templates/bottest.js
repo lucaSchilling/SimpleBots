@@ -1,13 +1,8 @@
-//require the needed template so we can create a bot
-var welcomebot = require('./welcomebot');
-var faqbot = require('./faqbot')
 // reading the run argument
 var id = process.argv[2]; 
 // MongoDB module
 var db = require('./db');
 let mongoURL ='mongodb://141.19.142.6:27017/runtimedb'
-
-console.log(id)
 
 db.connect(mongoURL, function(err) {
     if (err) {
@@ -17,35 +12,23 @@ db.connect(mongoURL, function(err) {
     else {
         // get config with the correct id which was given as parameter
         return new Promise((resolve, reject) => {
-            //TODO: instead of find({}) find directly the needed config with find({ id: id})...
-         db.get().collection('deployedBots').find({}).toArray(function(err, result){
+         db.get().collection('deployedBots').findOne({_id: id}, function(err, result){
             if (err) {
                 console.error(err);
-                process.exit(1);
             }
 
             if (result) {
-                for (let config of result) {
-                    if(config._id===id){
-                        console.log('Die Config für diesen Bot ist: ' + config)
-                        console.log('Die Config stringified ist: ' + JSON.stringify(config))
-                        console.log('Template: ' + config.template)
-                        resolve(config)
-                    }
-                }
-                console.log('alle configs durchgearbeitet')
-                reject()
+                var config = result
+                console.log('Die Config für diesen Bot ist: ' + JSON.stringify(config))
+                resolve(config)
             }
+            reject()
         })
     }).then(function(config){
-    console.log('versuche Bot zu starten')
-    var bot 
-    if(config.template === 'Welcome Bot') {
-        bot = new welcomebot ('25352227', 'christopher', '!Slytherin1g', config);
-        
-    } else{
-        bot = new faqbot ('25352227', 'christopher', '!Slytherin1g', config);
-    }
+    // Requires the correct file for the wanted template
+    var template = require('./' + config.template.replace(' ', '').toLowerCase())
+    // starts a new bot of the wanted template
+    var bot = new template ('25352227', 'christopher', '!Slytherin1g', config);
 
     bot.start();
     console.log('Bot gestartet')
@@ -54,3 +37,4 @@ db.connect(mongoURL, function(err) {
     console.log("Promise Rejected");
     })
     }})
+db.close()
