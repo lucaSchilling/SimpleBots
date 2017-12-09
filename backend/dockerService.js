@@ -16,19 +16,18 @@ const docker = new Dockerode({ socketPath });
  */
 exports.createContainer = function(config){
 return new Promise((resolve) => {
-
-      var image = config.template.replace(" ", "").toLowerCase();
-      console.log(image)
-      const createOptions = {
-        name: `${'b' + config._id}`,
-        Image: `${image}`,
-        Tty: true,
-        Cmd: ["sh", "-c", `node bottest.js ${config._id}`]
-      };
-
-      docker.createContainer(createOptions).then((container) => {
-        resolve(container);
-      });
+        var image = config.template.replace(" ", "").toLowerCase();
+        console.log(image)
+        const createOptions = {
+          name: `${'b' + config._id}`,
+          Image: `${image}`,
+          Tty: true,
+          Cmd: ["sh", "-c", `node bottest.js ${config._id}`]
+        };
+  
+        docker.createContainer(createOptions).then((container) => {
+          resolve(container);
+        });
 });
 }
 
@@ -116,12 +115,28 @@ exports.start = function (config) {
       console.log(`Deleting bot (${config._id})...`);
   
       const container = docker.getContainer('b' + config._id);
+      // Inspects the Container to see if it is running, then stops and removes the container otherwise just removes it.
+      container.inspect (function(err, data){
+      if(data.State.Running === true){
+        container.stop((err, output) => {
+            if (err) {
+              console.log(err);
+            }
+            container.remove((err) => {
+              if (err) {
+                console.log(err);
+              }
+            });
+          });
+    } else{
       container.remove((err) => {
         if (err) {
           console.log(err);
         }
       });
-      resolve();
+    }
+  })
+    resolve();
     });
-  };2
+  };
   
