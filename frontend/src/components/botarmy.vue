@@ -118,9 +118,10 @@ export default {
     forth: false,
     fifth: false,
     treeData: {
-      message: '',
-      options: []
-    }
+      isRoot: true,
+      options: [{
+        message: ''
+      }]}
   }),
   computed: {
     _id: {
@@ -186,7 +187,7 @@ export default {
       this.setDone('first', 'second')
     },
     deploy: function () {
-      this.options.push(this.treeData)
+      this.options = this.treeData.options
       this.$store.dispatch('deploy')
     },
     add: function () {

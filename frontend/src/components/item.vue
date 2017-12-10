@@ -1,7 +1,7 @@
 <template>
   <li>
     <div
-      :class="{bold: isFolder}">
+      :class="{bold: isFolder}" v-show="!model.isRoot">
 
       <span v-if="isFolder && open" @click="toggle">
          <md-icon class="md-primary">expand_less</md-icon>  </span>
@@ -20,7 +20,7 @@
               <md-tooltip md-direction="top">Delete the options from this message</md-tooltip>
             </span>
     </div>
-    <ul v-show="open" v-if="isFolder">
+    <ul v-show="open || model.isRoot" v-if="isFolder">
       <item
         class="item"
         v-for="model in model.options"
