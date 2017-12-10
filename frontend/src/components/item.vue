@@ -2,7 +2,12 @@
   <li>
     <div
       :class="{bold: isFolder}">
-      <span v-if="isFolder" @click="toggle">[{{open ? '-' : '+'}}]</span>
+
+      <span v-if="isFolder && open" @click="toggle">
+         <md-icon class="md-primary">expand_less</md-icon>  </span>
+      <span v-if="isFolder && !open" @click="toggle">
+         <md-icon class="md-primary">expand_more</md-icon>  </span>
+
           <md-input v-model="model.message"> </md-input>
             <span @click="changeType">
               <md-icon class="md-primary">
@@ -22,7 +27,9 @@
         :model="model"
         v-bind:key = "model">
         </item>
-      <li class="add" @click="addChild">+</li>
+      <li class="add" @click="addChild">
+        <md-icon class="md-primary">add</md-icon> 
+      </li>
     </ul>
   </li>
 </template>
