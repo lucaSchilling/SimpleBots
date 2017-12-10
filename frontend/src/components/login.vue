@@ -22,6 +22,16 @@
             <md-input type="password" name="password" id="password" v-model="form.password" :disabled="sending" />
             <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
           </md-field>
+
+          
+          <md-field>
+            <label for="language">Language</label>
+            <md-select v-model="form.Language" name="language" id="language">
+            <md-option value="de">German</md-option>
+            <md-option value="en">English</md-option>
+          
+          </md-select>
+          </md-field>
         </md-card-content>
 
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
@@ -48,7 +58,8 @@
     data: () => ({
       form: {
         username: null,
-        password: null
+        password: null,
+        language: 'en'
       },
       userSaved: false,
       sending: false,
@@ -81,7 +92,8 @@
       },
       saveUser () {
         this.sending = true
-
+        // Sets the correct language
+        //this.$i18n.set(this.form.language)
         // Instead of this timeout, we can call our API
         window.setTimeout(() => {
           this.lastUser = `${this.form.username} ${this.form.password}`
