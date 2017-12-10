@@ -8,21 +8,18 @@
     <md-content class="md-elevation-5"><elevationWelcome></elevationWelcome></md-content>
     <md-content class="md-elevation-5"><elevationFAQ></elevationFAQ></md-content>
   </div>
-  <login></login>
 </div>
 </template>
 
 <script>
 import elevationWelcome from './elevationWelcome.vue'
 import elevationFAQ from './elevationFAQ.vue'
-import login from './login.vue'
 
 export default {
   name: 'launch',
   components: {
     elevationWelcome,
-    elevationFAQ,
-    login
+    elevationFAQ
   }
 }
 </script>

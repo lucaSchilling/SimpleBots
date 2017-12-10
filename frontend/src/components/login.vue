@@ -93,7 +93,7 @@
       saveUser () {
         this.sending = true
         // Sets the correct language
-        //this.$i18n.set(this.form.language)
+        // this.$i18n.set(this.form.language)
         // Instead of this timeout, we can call our API
         window.setTimeout(() => {
           this.lastUser = `${this.form.username} ${this.form.password}`
