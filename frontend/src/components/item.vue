@@ -10,13 +10,13 @@
 
           <md-input v-model="model.message"> </md-input>
             <span @click="changeType">
-              <md-icon class="md-primary">
+              <md-icon class="md-primary" v-show="!isFolder">
                 add
                 <md-tooltip md-direction="top">Add an option to this message</md-tooltip>
               </md-icon>
             </span>
             <span @click="deleteChild">
-              <md-icon class="md-primary">delete</md-icon>
+              <md-icon class="md-primary" >delete</md-icon>
               <md-tooltip md-direction="top">Delete the options from this message</md-tooltip>
             </span>
     </div>
@@ -68,7 +68,7 @@ export default {
     },
     deleteChild: function () {
       if (this.isFolder) {
-        Vue.set(this.model, 'options', null)
+        this.model.options = null
       }
     },
     addChild: function () {
