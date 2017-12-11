@@ -20,6 +20,8 @@ describe.skip('### WelcomeBot - Setting up a bot ###', function() {
         assert.equal(bot.username, 'luca.schilling@bwedu.de')
         assert.equal(bot.password, '!Slytherin1g')
         assert.equal(bot.isConnected, false)
+        //assert.equal(bot.options.name, 'Lucas stinkt!')
+
     });
 
     it('start a bot', function() {
