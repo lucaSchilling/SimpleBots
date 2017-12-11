@@ -63,6 +63,8 @@ db.connect(mongoURL, function (err) {
                     console.error(err);
                     process.exit(1);
                 }
+
+                console.log('Created file in database: botids');
             });
         }
     });
@@ -132,11 +134,8 @@ server.post('/deploy', function (req, res) {
                     return;
                 }
 
-                // Save config in database
-
-
                 // Save bot in database
-                db.get().collection('deployedBots').insertOne(botJson, function (err) {
+                db.get().collection('configs').insertOne(botJson, function (err) {
                     // Can't connect to database
                     if (err) {
                         console.error(err);
@@ -144,7 +143,9 @@ server.post('/deploy', function (req, res) {
                         return;
                     }
 
-                    db.get().collection('configs').insertOne(botJson, function (err) {
+                    console.log('Created bot ' + id + ' in database collection configs');
+
+                    db.get().collection('deployedBots').insertOne(botJson, function (err) {
                         if (err) {
                             console.error(err);
                             res.sendStatus(503);
@@ -153,6 +154,7 @@ server.post('/deploy', function (req, res) {
 
                         // Instantiate new bot of the specified template
                         dockerode.createContainer(botJson);
+                        console.log('Created bot ' + id + ' in database collection deployedBots');
                         res.sendStatus(201);
                     });
                 });
@@ -202,15 +204,16 @@ server.post('/setStatus', function (req, res) {
             $set: { status: status }
         }
 
-        db.get().collection('deployedBots').updateOne(querry, updatedStatus, function (err, res) {
+        db.get().collection('deployedBots').updateOne(querry, updatedStatus, function (err, result) {
             if (err) {
                 console.log(err);
-                res.sendStatus(503);
+                result.sendStatus(503);
                 return;
             }
-        });
 
-        res.sendStatus(200);
+            console.log('Set running status of bot ' + id  + ' to ' + status);
+            res.sendStatus(200);
+        });
     }
     catch (e) {
         console.error(e);
@@ -245,7 +248,7 @@ server.delete('/delete/:id', function (req, res) {
                 res.sendStatus(404);
                 return;
             }
-            db.get().collection('configs').deleteOne(querry, function(err, obj) {
+            db.get().collection('configs').deleteOne(querry, function(err, result2) {
 
                 // Can't connect to database
                 if (err) {
@@ -253,9 +256,10 @@ server.delete('/delete/:id', function (req, res) {
                     res.sendStatus(503);
                     return;
                 }
-            });
 
-        res.sendStatus(200);
+                console.log('Deleted bot ' + id + ' from database collection configs');
+                res.sendStatus(200);
+            });
         });
     }
     catch (e) {
@@ -291,7 +295,7 @@ server.delete('/undeploy/:id', function (req, res) {
                 res.sendStatus(404);
                 return;
             }
-            db.get().collection('deployedBots').deleteOne(querry, function(err, obj) {
+            db.get().collection('deployedBots').deleteOne(querry, function(err, result2) {
 
                 // Can't connect to database
                 if (err) {
@@ -305,9 +309,9 @@ server.delete('/undeploy/:id', function (req, res) {
                 }
 
                 dockerode.delete(dockerodeConfig);
+                console.log('Deleted bot ' + id + ' from database collection deployedBots');
+                res.sendStatus(200);
             });
-
-        res.sendStatus(200);
         });
     }
     catch (e) {
