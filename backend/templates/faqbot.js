@@ -2,18 +2,30 @@
 const Bot = require('./bot');
 // Request module
 const axios = require('axios');
+//require('axios-debug')(axios);
+
+axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = '4d44af468562465b828ff3ecfb651475';
+
+function timeout(ms = 3000) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 /**
- * A bot that uses Microsoft LUIS to get the user's intent and answers frequently asked questions.
+ * ****** NOTE ******
+ * FAQ Bot for test purposes only.
+ * ****** NOTE ******
  */
 class FAQBot extends Bot {
 
     constructor(accountId, username, password, config) {
         super(accountId, username, password, config);
+        console.log('Config stringified: ' + JSON.stringify(config))
+        console.log('Config : ' + config)
+        this.luisApiUrl = 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/';
+        this.luisReqUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/';
+        this.openConversations = {};
+        this.createLuisApp(config);
 
-        axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = config.luisKey;
-
-        this.createLuisApp();
     }
 
     /**
@@ -94,7 +106,7 @@ class FAQBot extends Bot {
      */
     async start() {
         while (!this.isTrainingComplete) {
-            await this.timeout(5000);
+            await timeout(5000);
         }
 
         super.start();
@@ -102,11 +114,15 @@ class FAQBot extends Bot {
 
     /**
      * Creates a LUIS application and submits the required training data, then starts it.
-     * @param {JSON} config 
+     * @param {*} config 
      */
-    async createLuisApp() {
+    async createLuisApp(config) {
         // Check for existing app
+<<<<<<< HEAD
         let getApplicationsRes = await axios.get(this.config.luisApiUrl);
+=======
+        let getApplicationsRes = await axios.get(this.luisApiUrl);
+>>>>>>> parent of 2e47a0e9... Merge branch 'developer-refactoring' into developer
 
         if (getApplicationsRes.status === 200) {
             for (let app of getApplicationsRes.data) {
@@ -129,12 +145,12 @@ class FAQBot extends Bot {
         }
 
         // Create app
-        let createAppRes = await axios.post(this.config.luisApiUrl, {
-            name: this.config._id,
+        let createAppRes = await axios.post(this.luisApiUrl, {
+            name: config._id,
             description: '',
             culture: 'de-de',
             usageScenario: 'IoT',
-            initialVersionId: this.config.initialVersionId
+            initialVersionId: config.initialVersionId
         });
 
         if (createAppRes.status === 201) {
@@ -152,8 +168,8 @@ class FAQBot extends Bot {
         }
 
         // Create intents
-        for (let intent of this.config.intents) {
-            let createIntentRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/intents', intent);
+        for (let intent of config.intents) {
+            let createIntentRes = await axios.post(this.luisApiUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/intents', intent);
 
             if (createIntentRes.status === 201) {
                 console.log('Created intent: ' + JSON.stringify(intent));
@@ -170,8 +186,8 @@ class FAQBot extends Bot {
         }
 
         // Create entities
-        for (let entity of this.config.entities) {
-            let createEntityRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/entities', entity);
+        for (let entity of config.entities) {
+            let createEntityRes = await axios.post(this.luisApiUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/entities', entity);
 
             if (createEntityRes.status === 201) {
                 console.log('Created entity: ' + JSON.stringify(entity));
@@ -188,8 +204,8 @@ class FAQBot extends Bot {
         }
 
         // Create examples
-        for (let example of this.config.examples) {
-            let createExampleRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/example', example);
+        for (let example of config.examples) {
+            let createExampleRes = await axios.post(this.luisApiUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/example', example);
 
             if (createExampleRes.status === 201) {
                 console.log('Created example: ' + JSON.stringify(example));
@@ -206,7 +222,7 @@ class FAQBot extends Bot {
         }
 
         // Train LUIS
-        let trainRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train');
+        let trainRes = await axios.post(this.luisApiUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/train');
 
         if (trainRes.status === 202) {
             console.log('Started LUIS training');
@@ -223,8 +239,9 @@ class FAQBot extends Bot {
 
         // Await training completion
         while (true) {
-            await this.timeout(5000);
-            let trainCompleteRes = await axios.get(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train');
+            await timeout(5000);
+            let trainCompleteRes = await axios.get(this.luisApiUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/train');
+
             if (trainCompleteRes.status === 200) {
                 this.init();
                 this.isTrainingComplete = true;

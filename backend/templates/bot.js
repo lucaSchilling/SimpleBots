@@ -2,13 +2,14 @@ const { Agent } = require('node-agent-sdk');
 // Used to transform the existing callback based functions into promise based functions
 const { promisify } = require('util');
 
+function timeout(ms = 3000) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 class Bot {
     /**
      * Creates a new bot that can join conversations via the specified agent.
-     * @param {string} accountId account ID of the LivePerson account
-     * @param {string} username username of the LivePerson account
-     * @param {string} password password of the LivePerson account
-     * @param {JSON} config config of the bot
+     * @param {Agent} agent the agent object that underlies this bot
      */
     constructor(accountId, username, password, config) {
         this.accountId = accountId;
@@ -16,16 +17,16 @@ class Bot {
         this.password = password;
         this.config = config;
         this.retries = 3;
-        this.isConnected = false;
-
         this.init();
     }
 
     /**
-     * Creates an agent and initializes its event handlers.
+     * Initializes the event handler.
      */
     init() {
+        this.isConnected = false;
         this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password });
+
         this.agent.on('connected', () => {
             this.isConnected = true;
         });
@@ -35,23 +36,34 @@ class Bot {
             console.error('Bot ' + this.config._id + ': Connection to UMS closed with err', err.message); // TODO: mail to admin
         });
 
-        // If losing connection to LiveEngage, retry to connect
         this.agent.on('closed', reason => {
             this.isConnected = false;
 
             console.error('Bot ' + this.config._id + ': Connection to UMS closed with reason', reason); // TODO: mail to admin
-          
+
             if (this.retries > 0) {
                 this.retries--;
-                
+                console.log(this.retries)
                 setTimeout(() => {
                     this.agent.reconnect(reason !== 4401 || reason !== 4407);
-                }, 5000);
-            }
-            else {
+                }, 1000);
+
+            } else {
                 console.error('Bot ' + this.config._id + ': Unable to connect')
             }
         });
+
+        this.promisifyFunctions();
+    }
+
+    /**
+     * Utility function which transforms the used SDK functions into promise-based ones, which later get consumed by other functions.
+     */
+    promisifyFunctions() {
+        this.subscribeExConversations = promisify(this.agent.subscribeExConversations);
+        this.publishEvent = promisify(this.agent.publishEvent);
+        this.setAgentState = promisify(this.agent.setAgentState);
+        this.updateConversationField = promisify(this.agent.updateConversationField);
     }
 
     /**
@@ -63,7 +75,7 @@ class Bot {
         }
 
         while (!this.isConnected) {
-            await this.timeout(3000);
+            await timeout(3000);
         }
 
         let response;
@@ -112,7 +124,7 @@ class Bot {
      * Makes the bot join a conversation.
      * It wraps the original SDK function to make it easier to use.
      * @param {string} conversationId id of the conversation that should be joined
-     * @param {string} role role of the agent (ASSIGNED_AGENT, MANAGER)
+     * @param {string} role role of the agent (AGENT, MANAGER)
      */
     async joinConversation(conversationId, role = 'MANAGER') {
         if (!this.isConnected) {
@@ -136,11 +148,9 @@ class Bot {
      * @param {string} message text message that is sent to the client
      */
     async sendMessage(conversationId, message) {
-        if (!this.isConnected) {
-            return;
-        }
-
-        await this.agent.publishEvent({
+        console.log('Bot ' + this.config._id + ' sent a message in conversation ' + conversationId)
+        if (!this.isConnected) return;
+        return await this.agent.publishEvent({
             dialogId: conversationId,
             event: {
                 type: 'ContentEvent',
@@ -148,14 +158,11 @@ class Bot {
                 message: message
             }
         });
-
-        console.log(this.config.template + ' ' + this.config._id + ' sent a message in conversation ' + conversationId + ': ' + message);
-        return;
     }
 
     /**
      * Deletes all temporary data of the specified conversation and leaves it.
-     * @param {string} conversationId The id of the conversation
+     * @param {string} conversationId 
      */
     async leaveConversation(conversationId) {
         console.log('Bot ' + this.config._id + ' has left conversation ' + conversationId)
@@ -169,10 +176,6 @@ class Bot {
                 role: 'MANAGER'
             }]
         });
-    }
-    
-    timeout(ms = 3000) {
-        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
 

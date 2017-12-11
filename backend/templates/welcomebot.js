@@ -1,6 +1,10 @@
 // Bot module
 const Bot = require('./bot');
 
+function timeout(ms = 3000) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 /**
  * A bot that can join conversations, greet the conversation partner and offer a range of options to find out what the conversation partner wants.
  */
@@ -10,10 +14,11 @@ class WelcomeBot extends Bot {
         super(accountId, username, password, config);
 
         this.conversationStates = {};
+        this.openConversations = {};
     }
 
     /**
-     * Initializes the bot's dialogs.
+     * Initializes the bot's dialogs. Child classes must override this function to implement case specific responses.
      * @override
      */
     init() {
@@ -45,38 +50,38 @@ class WelcomeBot extends Bot {
         this.agent.on('ms.MessagingEventNotification', body => {
             // If the bot has already joined the conversation and the user sends a message, send the next set of options or redirect them to another agent
             body.changes
-            .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
-            .forEach(async change => {
-                let userMessage = change.event.message;
-                console.log('message:' + change.event.message);
-                let index = parseInt(userMessage) - 1;
+                .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
+                .forEach(async change => {
+                    let userMessage = change.event.message;
+                    console.log('message:' + change.event.message);
+                    let index = parseInt(userMessage) - 1;
 
-                // TODO: index == NAN => human agent
+                    // TODO: index == NAN => human agent
 
-                let convState = this.conversationStates[change.dialogId];
+                    let convState = this.conversationStates[change.dialogId];
 
-                if (convState[index].options) {
-                    this.conversationStates[change.dialogId] = convState[index].options;
-                    await this.sendMessage(change.dialogId, this.generateOptionsMessage(change.dialogId));
-                }
-                else {
-                    // Mark the conversation with the demanded skill
+                    if (convState[index].options) {
+                        this.conversationStates[change.dialogId] = convState[index].options;
+                        await this.sendMessage(change.dialogId, this.generateOptionsMessage(change.dialogId));
+                    }
+                    else {
+                        // Mark the conversation with the demanded skill
 
-                    console.log("update skill field to: " + convState[index].redirect);
-                    await this.agent.updateConversationField({
-                        'conversationId': change.dialogId,
-                        'conversationField': [{
-                            field: "Skill",
-                            type: "UPDATE",
-                            skill: convState[index].redirect
-                        }]
-                    });
+                        console.log("update skill field to: " + convState[index].redirect);
+                        await this.agent.updateConversationField({
+                            'conversationId': change.dialogId,
+                            'conversationField': [{
+                                field: "Skill",
+                                type: "UPDATE",
+                                skill: convState[index].redirect
+                            }]
+                        });
 
-                    await this.timeout(50);
-                    await this.sendMessage(change.dialogId, 'You will be redirected to the FAQ Bot');
-                    await this.leaveConversation(change.dialogId);
-                }
-            });
+                        await timeout(50);
+                        await this.sendMessage(change.dialogId, 'You will be redirected to the FAQ Bot');
+                        await this.leaveConversation(change.dialogId);
+                    }
+                });
         });
     }
 
