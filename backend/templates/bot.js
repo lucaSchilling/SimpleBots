@@ -11,13 +11,12 @@ class Bot {
      * Creates a new bot that can join conversations via the specified agent.
      * @param {Agent} agent the agent object that underlies this bot
      */
-    constructor(accountId, username, password, csds, config) {
+    constructor(accountId, username, password, config) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
-        this.csds = csds;
         this.config = config;
-        
+        this.retries = 3;
         this.init();
     }
 
@@ -26,21 +25,32 @@ class Bot {
      */
     init() {
         this.isConnected = false;
-        this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password, csdsDomain: this.csds });
-        
-        this.agent.on('connected', () => { 
-            this.isConnected = true; 
+        this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password });
+
+        this.agent.on('connected', () => {
+            this.isConnected = true;
         });
 
         this.agent.on('error', err => {
             this.isConnected = false;
-            console.error('Connection to UMS closed with err', err.message); // TODO: mail to admin
+            console.error('Bot ' + this.config._id + ': Connection to UMS closed with err', err.message); // TODO: mail to admin
         });
 
         this.agent.on('closed', reason => {
             this.isConnected = false;
-            console.error('Connection to UMS closed with reason', reason); // TODO: mail to admin
-            this.agent.reconnect(reason !== 4401 || reason !== 4407);
+
+            console.error('Bot ' + this.config._id + ': Connection to UMS closed with reason', reason); // TODO: mail to admin
+
+            if (this.retries > 0) {
+                this.retries--;
+                console.log(this.retries)
+                setTimeout(() => {
+                    this.agent.reconnect(reason !== 4401 || reason !== 4407);
+                }, 1000);
+
+            } else {
+                console.error('Bot ' + this.config._id + ': Unable to connect')
+            }
         });
 
         this.promisifyFunctions();
@@ -138,6 +148,7 @@ class Bot {
      * @param {string} message text message that is sent to the client
      */
     async sendMessage(conversationId, message) {
+        console.log('Bot ' + this.config._id + ' sent a message in conversation ' + conversationId)
         if (!this.isConnected) return;
         return await this.agent.publishEvent({
             dialogId: conversationId,
@@ -154,11 +165,17 @@ class Bot {
      * @param {string} conversationId 
      */
     async leaveConversation(conversationId) {
+        console.log('Bot ' + this.config._id + ' has left conversation ' + conversationId)
         delete this.openConversations[conversationId];
 
-        // TODO: leave conversation via agent function
-        
-        return;
+        return await this.agent.updateConversationField({
+            'conversationId': conversationId,
+            'conversationField': [{
+                field: 'ParticipantsChange',
+                type: 'REMOVE',
+                role: 'MANAGER'
+            }]
+        });
     }
 }
 
