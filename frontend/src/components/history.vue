@@ -23,7 +23,7 @@
 
           <md-card-content>
             <img src="../../assets/bot_lila.jpg" v-if="bot.template === 'FAQ Bot'"></img>
-            <img src="../../assets/bot_gelb.jpg" v-else-if="bot.template === 'Welcome Bot'"</img>
+            <img src="../../assets/bot_gelb.jpg" v-else-if="bot.template === 'Welcome Bot'"></img>
           </md-card-content>
 
         </md-card>
@@ -46,6 +46,14 @@ export default {
         return this.$store.state.history
       }
     }
+  },
+  methods: {
+    getAll: function () {
+      this.$store.dispatch('getAll')
+    }
+  },
+  beforeMount () {
+    this.getAll()
   }
 }
 </script>
@@ -61,6 +69,7 @@ h1, .md-title, span:hover {
     width: 20%;
     float: left;
     margin-right: 3%;
+    margin-top: 3%;
 }
 .cardDiv {
     margin-left: 3%;
