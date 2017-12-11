@@ -120,7 +120,9 @@ export default {
     treeData: {
       isRoot: true,
       options: [{
-        message: ''
+        message: '',
+        redirect: null,
+        options: null
       }]}
   }),
   computed: {
@@ -191,7 +193,7 @@ export default {
       this.$store.dispatch('deploy')
     },
     add: function () {
-      this.tree.push({message: null, options: []})
+      this.tree.push({message: null, options: [], redirect: null})
     },
     setDone (id, index) {
       this[id] = true

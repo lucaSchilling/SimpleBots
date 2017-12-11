@@ -10,7 +10,7 @@
 
           <md-input v-model="model.message"> </md-input>
             <span @click="changeType">
-              <md-icon class="md-primary" v-show="!isFolder">
+              <md-icon class="md-primary" v-show="!isFolder && model.redirect === null">
                 add
                 <md-tooltip md-direction="top">Add an option to this message</md-tooltip>
               </md-icon>
@@ -18,6 +18,10 @@
             <span @click="deleteChild">
               <md-icon class="md-primary" >delete</md-icon>
               <md-tooltip md-direction="top">Delete the options from this message</md-tooltip>
+            </span>
+             <span @click="addRedirect">
+              <md-icon class="md-primary" v-show="(model.redirect === null) && (model.options === null)">trending_flat</md-icon>
+              <md-tooltip md-direction="top">Add a redirect to this message</md-tooltip>
             </span>
     </div>
     <ul v-show="open || model.isRoot" v-if="isFolder">
@@ -30,6 +34,13 @@
       <li class="add" @click="addChild">
         <md-icon class="md-primary">add</md-icon> 
       </li>
+    </ul>
+    <ul v-show="open && model.redirect !== null">
+      <md-select  class="redirect" v-model="model.redirect"> 
+        <md-option></md-option>
+        <md-option value="faqbot"> F.A.Q. Bot</md-option>
+        <md-option value="welcomebot">Welcome Bot</md-option>        
+      </md-select>
     </ul>
   </li>
 </template>
@@ -70,11 +81,19 @@ export default {
       if (this.isFolder) {
         this.model.options = null
       }
+      this.model.redirect = null
+      this.open = false
     },
     addChild: function () {
       this.model.options.push({
-        message: ''
+        message: '',
+        redirect: null,
+        options: null
       })
+    },
+    addRedirect: function () {
+      this.model.redirect = ''
+      this.open = true
     }
   }
 
@@ -92,5 +111,10 @@ input {
   margin: 5px 0 10px;
   border-radius: 5px;
   border: 2px solid gray;
+}
+.redirect {
+  width: 280px;
+  height: 40px;
+   margin: 0 0 13px;
 }
 </style>
