@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <md-tabs md-sync-route md-alignment="fixed">
 
-      <md-tab id="tab-launch" class="tabs" md-label="LAUNCH" to="/">
+      <md-tab id="tab-launch" class="tabs" md-label="LAUNCH" to="/launch">
       </md-tab>
 
       <md-tab id="tab-history" class="tabs" md-label="HISTORY" to="/history">

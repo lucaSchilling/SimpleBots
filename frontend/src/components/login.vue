@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--@submit.prevent="validateUser"-->
     <form novalidate class="md-layout-row md-gutter" @submit.prevent="validateUser">
       <md-card class="md-flex-50 md-flex-small-100">
         <md-card-header>
@@ -37,7 +38,8 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending">Login</md-button>
+          <md-button type="submit" class="md-primary" :disabled="sending" >
+          Login</md-button>
         </md-card-actions>
       </md-card>
 
@@ -91,16 +93,11 @@
         this.form.password = null
       },
       saveUser () {
-        this.sending = true
+        this.$store.state.username = this.form.username
+        alert(this.$route.path)
+        this.$router.push('/launch')
         // Sets the correct language
         // this.$i18n.set(this.form.language)
-        // Instead of this timeout, we can call our API
-        window.setTimeout(() => {
-          this.lastUser = `${this.form.username} ${this.form.password}`
-          this.userSaved = true
-          this.sending = false
-          this.clearForm()
-        }, 1500)
       },
       validateUser () {
         this.$v.$touch()

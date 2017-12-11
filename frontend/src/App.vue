@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-     <tabs></tabs>
+     <tabs v-show="!('/login' === this.$route.path)"></tabs>
     <router-view/>
 
   </div>

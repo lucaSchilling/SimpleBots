@@ -24,5 +24,6 @@ export default {
       message: '',
       redirect: null,
       options: null
-    }]}
+    }]},
+  username: ''
 }
