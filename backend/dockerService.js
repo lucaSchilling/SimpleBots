@@ -104,29 +104,11 @@ exports.delete = function (config) {
     console.log(`Deleting bot (b${config._id})...`);
 
     const container = docker.getContainer('b' + config._id);
-    // Inspects the container and checks if it runs
-    container.inspect(function (err, data) {
-      // Stops the container and removes him afterwards
-      if (data.State.Running === true) {
-        container.stop((err, output) => {
-          if (err) {
-            console.log(err);
-          }
-          container.remove((err) => {
-            if (err) {
-              console.log(err);
-            }
-          });
-        });
-      }
-      // Removes the container
-      else {
+    // Removes the container
         container.remove((err) => {
           if (err) {
             console.log(err);
           }
-        });
-      }
     })
     resolve();
   });
