@@ -72,9 +72,14 @@ db.connect(mongoURL, function (err) {
     }
 });
 
-// Deploys the bot into a ready state and saves it in the database. Expects valid JSON bot config file
+// Deploys the bot into a ready state and saves it in the database. Expects valid JSON
 server.post('/deploy', function (req, res) {
-    try {
+    // TODO: deploy from collection configs into deployed bots
+});
+
+// Saves the config in the database
+server.post('/create', function (req, res) {
+    try {/*
         // No JSON
         if (!typeof req.body === 'object') {
             res.sendStatus(400);
@@ -145,7 +150,7 @@ server.post('/deploy', function (req, res) {
                     res.sendStatus(201);
                 });
             });
-        });
+        });*/
     }
     catch (e) {
         console.error(e);
@@ -206,13 +211,11 @@ server.post('/setStatus', function (req, res) {
     }
 });
 
-// Deletes bots from the runtime. Expects valid JSON
+// Deletes bot configs from the config database
 server.delete('/delete/:id', function (req, res) {
     try {
         let id = req.params.id;
-        let config = {
-            _id: id
-        }
+        
         // No id
         if (!id) {
             res.sendStatus(400);
@@ -222,7 +225,54 @@ server.delete('/delete/:id', function (req, res) {
         // Delete from database
         let querry = {
             _id: id
-        };
+        }
+
+        db.get().collection('configs').findOne(querry, function(err, result) {
+            if (err) {
+                console.error(err);
+                res.sendStatus(503);
+                return;
+            }
+            if(!result) {
+                // Can't find bot in database
+                res.sendStatus(404);
+                return;
+            }
+            db.get().collection('configs').deleteOne(querry, function(err, obj) {
+
+                // Can't connect to database
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+            });
+
+        res.sendStatus(200);
+        });
+    }
+    catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+// Deletes bots from the runtime
+server.delete('/undeploy/:id', function (req, res) {
+    try {
+        let id = req.params.id;
+        
+        // No id
+        if (!id) {
+            res.sendStatus(400);
+            return;
+        }
+
+        // Delete from database
+        let querry = {
+            _id: id
+        }
+
         db.get().collection('deployedBots').findOne(querry, function(err, result) {
             if (err) {
                 console.error(err);
@@ -233,20 +283,25 @@ server.delete('/delete/:id', function (req, res) {
                 // Can't find bot in database
                 res.sendStatus(404);
                 return;
-        }
-        db.get().collection('deployedBots').deleteOne(querry, function(err, obj) {
-
-            // Can't connect to database
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
             }
-            dockerode.delete(config)
-        });
+            db.get().collection('deployedBots').deleteOne(querry, function(err, obj) {
+
+                // Can't connect to database
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+
+                let dockerodeConfig = {
+                    _id: id
+                }
+
+                dockerode.delete(dockerodeConfig);
+            });
 
         res.sendStatus(200);
-    })
+        });
     }
     catch (e) {
         console.error(e);
