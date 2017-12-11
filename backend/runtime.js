@@ -44,41 +44,20 @@ var server = express();
 server.use(cors());
 server.use(bodyParser.json());
 
-// Connect to DB and start listening
-db.connect(mongoURL, function (err) {
-    if (err) {
-        console.error(err);
-        process.exit(1);
-    }
+db.setUrl(mongoURL);
 
-    db.get().collection('botids').findOne({ name: 'botids' }, function (err, result) {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-
-        if (!result) {
-            db.get().collection('botids').insertOne({ name: 'botids', id: 0 }, function (err) {
-                if (err) {
-                    console.error(err);
-                    process.exit(1);
-                }
-
-                console.log('Created file in database: botids');
-            });
-        }
-    });
-
-    server.listen(port, function () {
-        console.log('Bot Runtime listening on port ' + port);
-    });
+// Start listening
+server.listen(port, function () {
+    console.log('Bot Runtime listening on port ' + port);
 });
 
 // Deploys the bot into a ready state and saves it in the database. Expects valid JSON
-server.post('/deploy', function (req, res) {
+server.post('/deploy/:user', function (req, res) {
     try {
-        // No JSON
-        if (!typeof req.body === 'object') {
+        let user = req.params.user;
+
+        // No JSON or no user
+        if (!typeof req.body === 'object' || !user) {
             res.sendStatus(400);
             return;
         }
@@ -106,7 +85,7 @@ server.post('/deploy', function (req, res) {
         }
         let botJson = req.body;
 
-        db.get().collection('botids').findOne(querry, function (err, result) {
+        db.get(user).collection('botids').findOne(querry, function (err, result) {
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
@@ -127,7 +106,7 @@ server.post('/deploy', function (req, res) {
                 $set: { id: id }
             }
 
-            db.get().collection('botids').updateOne(querry, updatedId, function (err, result) {
+            db.get(user).collection('botids').updateOne(querry, updatedId, function (err, result) {
                 if (err) {
                     console.error(err);
                     res.sendStatus(503);
@@ -135,7 +114,7 @@ server.post('/deploy', function (req, res) {
                 }
 
                 // Save bot in database
-                db.get().collection('configs').insertOne(botJson, function (err) {
+                db.get(user).collection('configs').insertOne(botJson, function (err) {
                     // Can't connect to database
                     if (err) {
                         console.error(err);
@@ -145,7 +124,7 @@ server.post('/deploy', function (req, res) {
 
                     console.log('Created bot ' + id + ' in database collection configs');
 
-                    db.get().collection('deployedBots').insertOne(botJson, function (err) {
+                    db.get(user).collection('deployedBots').insertOne(botJson, function (err) {
                         if (err) {
                             console.error(err);
                             res.sendStatus(503);
@@ -168,10 +147,12 @@ server.post('/deploy', function (req, res) {
 });
 
 // Turns bots on or off. Expects valid JSON
-server.post('/setStatus', function (req, res) {
+server.post('/setStatus/:user', function (req, res) {
     try {
+        let user = req.params.user;
+
         // No JSON
-        if (!typeof req.body === 'object') {
+        if (!typeof req.body === 'object' || !user) {
             res.sendStatus(400);
             return;
         }
@@ -204,7 +185,7 @@ server.post('/setStatus', function (req, res) {
             $set: { status: status }
         }
 
-        db.get().collection('deployedBots').updateOne(querry, updatedStatus, function (err, result) {
+        db.get(user).collection('deployedBots').updateOne(querry, updatedStatus, function (err, result) {
             if (err) {
                 console.log(err);
                 result.sendStatus(503);
@@ -222,12 +203,13 @@ server.post('/setStatus', function (req, res) {
 });
 
 // Deletes bot configs from the config database
-server.delete('/delete/:id', function (req, res) {
+server.delete('/delete/:user/:id', function (req, res) {
     try {
         let id = req.params.id;
-        
-        // No id
-        if (!id) {
+        let user = req.params.user;
+
+        // No id or no user
+        if (!id || !user) {
             res.sendStatus(400);
             return;
         }
@@ -237,7 +219,7 @@ server.delete('/delete/:id', function (req, res) {
             _id: id
         }
 
-        db.get().collection('configs').findOne(querry, function(err, result) {
+        db.get(user).collection('configs').findOne(querry, function(err, result) {
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
@@ -248,7 +230,7 @@ server.delete('/delete/:id', function (req, res) {
                 res.sendStatus(404);
                 return;
             }
-            db.get().collection('configs').deleteOne(querry, function(err, result2) {
+            db.get(user).collection('configs').deleteOne(querry, function(err, result2) {
 
                 // Can't connect to database
                 if (err) {
@@ -269,12 +251,13 @@ server.delete('/delete/:id', function (req, res) {
 });
 
 // Deletes bots from the runtime
-server.delete('/undeploy/:id', function (req, res) {
+server.delete('/undeploy/:user/:id', function (req, res) {
     try {
         let id = req.params.id;
-        
-        // No id
-        if (!id) {
+        let user = req.params.user;
+
+        // No id or no user
+        if (!id || !user) {
             res.sendStatus(400);
             return;
         }
@@ -284,7 +267,7 @@ server.delete('/undeploy/:id', function (req, res) {
             _id: id
         }
 
-        db.get().collection('deployedBots').findOne(querry, function(err, result) {
+        db.get(user).collection('deployedBots').findOne(querry, function(err, result) {
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
@@ -295,7 +278,7 @@ server.delete('/undeploy/:id', function (req, res) {
                 res.sendStatus(404);
                 return;
             }
-            db.get().collection('deployedBots').deleteOne(querry, function(err, result2) {
+            db.get(user).collection('deployedBots').deleteOne(querry, function(err, result2) {
 
                 // Can't connect to database
                 if (err) {
@@ -321,9 +304,17 @@ server.delete('/undeploy/:id', function (req, res) {
 });
 
 // Returns all bot configs that are in the database
-server.get('/getConfigs', function (req, res) {
+server.get('/getConfigs/:user', function (req, res) {
     try {
-        db.get().collection('configs').find({}).toArray(function (err, result) {
+        let user = req.params.user;
+
+        // No user
+        if (!user) {
+            res.sendStatus(400);
+            return;
+        }
+
+        db.get(user).collection('configs').find({}).toArray(function (err, result) {
             // Can't connect to database
             if (err) {
                 console.error(err);
@@ -347,8 +338,16 @@ server.get('/getConfigs', function (req, res) {
 });
 
 // Returns all deployed bots that are in the database
-server.get('/getBots', function (req, res) {
+server.get('/getBots/:user', function (req, res) {
     try {
+        let user = req.params.user;
+        
+        // No user
+        if (!user) {
+            res.sendStatus(400);
+            return;
+        }
+        
         db.get().collection('deployedBots').find({}).toArray(function (err, result) {
             // Can't connect to database
             if (err) {
