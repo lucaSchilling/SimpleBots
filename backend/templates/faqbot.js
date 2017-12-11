@@ -8,8 +8,8 @@ const axios = require('axios');
  */
 class FAQBot extends Bot {
 
-    constructor(accountId, username, password, csds, config) {
-        super(accountId, username, password, csds, config);
+    constructor(accountId, username, password, config) {
+        super(accountId, username, password, config);
 
         axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = config.luisKey;
 
@@ -25,13 +25,13 @@ class FAQBot extends Bot {
 
         // 'UPSERT' apparently means that the chat user has sent a new message
         this.agent.on('cqm.ExConversationChangeNotification', body => {
-           // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options
-           body.changes
-                        //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert (?)
+            // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options
+            body.changes
+                //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert (?)
                 .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '999352232')
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
-                    
+                    console.log('this.openConversations[change.result.convId]' + this.openConversations[change.result.convId])
                     await this.joinConversation(change.result.convId, 'MANAGER');
                     await this.sendMessage(change.result.convId, 'Hello, I am the FAQ Bot. What is your question?');
                 });
@@ -69,22 +69,21 @@ class FAQBot extends Bot {
 
                             return;
                         }
-                    }
 
-                    await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
-                }
-                else if (getPredictionsRes.status === 429) {
-                    console.log('LUIS rate limit exceeded');
-                    await this.sendMessage('This service is currently not available due to technical difficulties');
-                    return;
-                }
-                else {
-                    console.error('Failed to evaluate user message');
-                    console.log(createAppRes);
-                    await this.sendMessage('This service is currently not available due to technical difficulties');
-                    return;
-                }
-            });
+                        await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
+                    }
+                    else if (getPredictionsRes.status === 429) {
+                        console.log('LUIS rate limit exceeded');
+                        await this.sendMessage('This service is currently not available due to technical difficulties');
+                        return;
+                    }
+                    else {
+                        console.error('Failed to evaluate user message');
+                        console.log(createAppRes);
+                        await this.sendMessage('This service is currently not available due to technical difficulties');
+                        return;
+                    }
+                });
         });
     }
 
@@ -107,7 +106,7 @@ class FAQBot extends Bot {
     async createLuisApp() {
         // Check for existing app
         let getApplicationsRes = await axios.get(this.config.luisApiUrl);
-        
+      
         if (getApplicationsRes.status === 200) {
             for (let app of getApplicationsRes.data) {
                 if (app.name === this.config._id) {
@@ -156,14 +155,14 @@ class FAQBot extends Bot {
             let createIntentRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/intents', intent);
 
             if (createIntentRes.status === 201) {
-                console.log('Created intent: ' +  JSON.stringify(intent));
+                console.log('Created intent: ' + JSON.stringify(intent));
             }
             else if (createIntentRes.status === 429) {
                 console.log('LUIS rate limit exceeded');
                 return;
             }
             else {
-                console.error('Failed to create intent: ' +  JSON.stringify(intent));
+                console.error('Failed to create intent: ' + JSON.stringify(intent));
                 console.log(createIntentRes);
                 return;
             }
@@ -174,14 +173,14 @@ class FAQBot extends Bot {
             let createEntityRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/entities', entity);
 
             if (createEntityRes.status === 201) {
-                console.log('Created entity: ' +  JSON.stringify(entity));
+                console.log('Created entity: ' + JSON.stringify(entity));
             }
             else if (createEntityRes.status === 429) {
                 console.log('LUIS rate limit exceeded');
                 return;
             }
             else {
-                console.error('Failed to create entity: ' +  JSON.stringify(entity));
+                console.error('Failed to create entity: ' + JSON.stringify(entity));
                 console.log(createEntityRes);
                 return;
             }
@@ -225,7 +224,6 @@ class FAQBot extends Bot {
         while (true) {
             await this.timeout(5000);
             let trainCompleteRes = await axios.get(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train');
-            
             if (trainCompleteRes.status === 200) {
                 this.init();
                 this.isTrainingComplete = true;

@@ -6,10 +6,7 @@
     "dotenv": "^4.0.0",
     "es6-promisify": "^5.0.0",
     "mongodb": "^2.2.33",
-    "node-agent-sdk": "^0.2.20"
-  },
-  "scripts": {
-    "start": "node welcomebot.js",
-    "lintfix": "eslint --fix ./bottest.js"
+    "node-agent-sdk": "^0.2.20",
+    "axios": "^0.17.1"
   }
 }
