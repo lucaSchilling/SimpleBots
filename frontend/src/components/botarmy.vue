@@ -56,23 +56,6 @@ export default {
     messageStep,
     optionStep
   },
-  data: () => ({
-    disabledEnglish: false,
-    disabledDeutsch: true,
-    active: 'first',
-    first: false,
-    second: false,
-    third: false,
-    forth: false,
-    fifth: false,
-    treeData: {
-      isRoot: true,
-      options: [{
-        message: '',
-        redirect: null,
-        options: null
-      }]}
-  }),
   computed: {
     template: {
       get () {
@@ -164,7 +147,7 @@ export default {
     },
     add: function () {
       this.tree.push({message: null, options: [], redirect: null})
-
+    },
     setDone (object) {
       this.$store.commit('setDone', object)
     },
@@ -177,7 +160,6 @@ export default {
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 #headline,

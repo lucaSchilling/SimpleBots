@@ -156,7 +156,10 @@ export default {
   fifth: false,
   sixth: false,
   treeData: {
-    message: '',
-    options: []
-  }
+    isRoot: true,
+    options: [{
+      message: '',
+      redirect: null,
+      options: null
+    }]}
 }
