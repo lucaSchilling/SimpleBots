@@ -44,7 +44,7 @@ describe.skip("### Runtime - delete ###", function () {
         db.connect(mongoURL, function () {
             console.log("cuurent ID : " + currentId)
             chai.request(server)
-                .delete('/delete/' + (currentId + 1))
+                .delete('/delete/' + (currentId))
                 .end(function (error, res) {
                     res.should.have.status(200);
                     done();
