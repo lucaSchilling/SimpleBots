@@ -46,31 +46,32 @@ class FAQBot extends Bot {
 
         this.agent.on('ms.MessagingEventNotification', body => {
             body.changes
-            .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
-            .forEach(async change => {
-                console.log(change);
-                let userMessage = change.event.message;
-                
-                let getPredictionsRes = await axios.get(config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
-                
-                if (getPredictionsRes.status === 200) {
-                    for (let intent of this.config.intents) {
-                        
-                        if (intent.name === getPredictionsRes.data.topScoringIntent.intent) {
-                            await this.sendMessage(change.dialogId, intent.message);
+                .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
+                .forEach(async change => {
+                    console.log(change);
+                    let userMessage = change.event.message;
 
-                            await this.agent.updateConversationField({
-                                'conversationId': change.dialogId,
-                                'conversationField': [{
-                                    field: "ConversationStateField",
-                                    conversationState: "CLOSE"
-                                }]
-                            });
+                    let getPredictionsRes = await axios.get(config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
 
-                            return;
+                    if (getPredictionsRes.status === 200) {
+                        for (let intent of this.config.intents) {
+
+                            if (intent.name === getPredictionsRes.data.topScoringIntent.intent) {
+                                await this.sendMessage(change.dialogId, intent.message);
+
+                                await this.agent.updateConversationField({
+                                    'conversationId': change.dialogId,
+                                    'conversationField': [{
+                                        field: "ConversationStateField",
+                                        conversationState: "CLOSE"
+                                    }]
+                                });
+
+                                return;
+                            }
+
+                            await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
                         }
-
-                        await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
                     }
                     else if (getPredictionsRes.status === 429) {
                         console.log('LUIS rate limit exceeded');
@@ -106,7 +107,7 @@ class FAQBot extends Bot {
     async createLuisApp() {
         // Check for existing app
         let getApplicationsRes = await axios.get(this.config.luisApiUrl);
-      
+
         if (getApplicationsRes.status === 200) {
             for (let app of getApplicationsRes.data) {
                 if (app.name === this.config._id) {
