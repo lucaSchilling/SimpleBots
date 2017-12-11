@@ -1,14 +1,15 @@
 <template>
+<div>
   <li>
     <div
       :class="{bold: isFolder}" v-show="!model.isRoot">
-
       <span v-if="isFolder && open" @click="toggle">
          <md-icon class="md-primary">expand_less</md-icon>  </span>
       <span v-if="isFolder && !open" @click="toggle">
          <md-icon class="md-primary">expand_more</md-icon>  </span>
 
           <md-input v-model="model.message"> </md-input>
+
             <span @click="changeType">
               <md-icon class="md-primary" v-show="!isFolder && model.redirect === null">
                 add
@@ -43,6 +44,7 @@
       </md-select>
     </ul>
   </li>
+  </div>
 </template>
 
 <script>

@@ -2,7 +2,6 @@
 const Bot = require('./bot');
 // Request module
 const axios = require('axios');
-//require('axios-debug')(axios);
 
 axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = '4d44af468562465b828ff3ecfb651475';
 
@@ -43,7 +42,6 @@ class FAQBot extends Bot {
                 .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '999352232')
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
-                    console.log('this.openConversations[change.result.convId]' + this.openConversations[change.result.convId])
                     await this.joinConversation(change.result.convId, 'MANAGER');
                     await this.sendMessage(change.result.convId, 'Hello, I am the FAQ Bot. What is your question?');
                 });
@@ -57,14 +55,15 @@ class FAQBot extends Bot {
         });
 
         this.agent.on('ms.MessagingEventNotification', body => {
+            console.log('MessagingEventNotification: ' + JSON.stringify(body));
+            console.log('AgentID' + this.agent.agentId);
             body.changes
                 .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
                 .forEach(async change => {
-                    console.log(change);
+                    console.log('change: ' + JSON.stringify(change));
                     let userMessage = change.event.message;
-
+                    console.log(this.luisReqUrl + this.luisAppId + '?q=' + userMessage)
                     let getPredictionsRes = await axios.get(this.luisReqUrl + this.luisAppId + '?q=' + userMessage);
-
                     if (getPredictionsRes.status === 200) {
                         for (let intent of this.config.intents) {
 
@@ -81,9 +80,9 @@ class FAQBot extends Bot {
 
                                 return;
                             }
-                        }
 
-                        await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
+                            await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
+                        }
                     }
                     else if (getPredictionsRes.status === 429) {
                         console.log('LUIS rate limit exceeded');
@@ -118,6 +117,7 @@ class FAQBot extends Bot {
      */
     async createLuisApp(config) {
         // Check for existing app
+
         let getApplicationsRes = await axios.get(this.luisApiUrl);
 
         if (getApplicationsRes.status === 200) {
@@ -239,6 +239,25 @@ class FAQBot extends Bot {
             let trainCompleteRes = await axios.get(this.luisApiUrl + this.luisAppId + '/versions/' + config.initialVersionId + '/train');
 
             if (trainCompleteRes.status === 200) {
+                let publishRes = await axios.post(this.luisApiUrl + this.luisAppId + '/publish', {
+                    versionId: '1.0',
+                    isStaging: false,
+                    region: 'westus'
+                });
+
+                if (publishRes.status === 201) {
+                    console.log('LUIS app published');
+                }
+                else if (publishRes.status === 429) {
+                    console.log('LUIS rate limit exceeded');
+                    return;
+                }
+                else {
+                    console.error('Failed to publish LUIS app');
+                    console.log(publishRes);
+                    return;
+                }
+
                 this.init();
                 this.isTrainingComplete = true;
                 break;
