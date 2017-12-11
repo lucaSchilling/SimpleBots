@@ -27,6 +27,7 @@ export default {
     state.lastedit = val
   },
   getAll: (state, response) => {
+    state.history = []
     for (let i = 0; i < response.data.length; i++) {
       state.bots.push({ID: response.data[i]._id,
         status: response.data[i].status,
