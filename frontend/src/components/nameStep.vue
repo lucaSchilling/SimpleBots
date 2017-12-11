@@ -1,7 +1,7 @@
 <template>
 <div>
   <div v-if="template === 'Welcome Bot'" class="picDiv">
-    <h2>Choose a Name for your {{template}}</h2>
+    <h2>{{$t('nameStep.chooseName')}} {{template}}</h2>
     <img src="../../assets/bot_gelb.jpg" height="150" width="150" class="img">
     <md-field>
       <label for="name">Name</label>
@@ -9,7 +9,7 @@
     </md-field>
   </div>
   <div v-else-if="template === 'FAQ Bot'" class="picDiv">
-    <h2>Choose a Name for your {{template}}</h2>
+    <h2>{{$t('nameStep.chooseName')}} {{template}}</h2>
     <img src="../../assets/bot_lila.jpg" height="150" width="150" class="img">
     <md-field>
       <label for="name">Name</label>

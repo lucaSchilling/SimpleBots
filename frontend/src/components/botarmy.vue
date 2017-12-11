@@ -8,23 +8,23 @@
         <nameStep></nameStep>
       </md-step>
 
-      <md-step id="forth" md-label="Welcome Message" :md-done.sync="forth">
+      <md-step id="forth" :md-label="this.$t('botarmy.welcomeMessage')" :md-done.sync="forth">
         <messageStep></messageStep>
       </md-step>
 
-      <md-step id="fifth" md-label="Options" :md-done.sync="fifth">
+      <md-step id="fifth" :md-label="this.$t('botarmy.options')" :md-done.sync="fifth">
         <div v-if="template === 'Welcome Bot'">
           <optionStep></optionStep>
-          <md-button class="md-primary md-raised" @click="deploy">Deploy</md-button>
+          <md-button class="md-primary md-raised" @click="deploy">{{$t('botarmy.deploy')}}</md-button>
         </div>
 
         <div v-else-if="template === 'FAQ Bot'" id="faqdiv">
           <faq></faq>
         </div>
-        <md-button v-if="template === 'FAQ Bot'" class="md-primary md-raised buttonRight" @click="setDone({id: 'fifth', index: 'sixth'})" id="sixth">Next</md-button>
+        <md-button v-if="template === 'FAQ Bot'" class="md-primary md-raised buttonRight" @click="setDone({id: 'fifth', index: 'sixth'})" id="sixth">{{$t('next')}}</md-button>
         </md-step>
 
-        <md-step id="sixth" md-label="Questions" :md-done.sync="sixth">
+        <md-step id="sixth" :md-label="this.$t('botarmy.questions')" :md-done.sync="sixth">
           <uterances></uterances>
         </md-step>             
     </md-steppers>

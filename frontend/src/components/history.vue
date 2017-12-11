@@ -1,6 +1,6 @@
 <template>
   <div to='/history'>
-      <h1>Our Bots!</h1>
+      <h1>{{$t('history.ourBots')}}</h1>
       <div class="cardDiv">
           <div class="left" v-for="bot in history" v-bind:key="bot">
         <md-card>
@@ -13,9 +13,9 @@
                   </md-button>
 
                   <md-menu-content>
-                    <md-menu-item><span>info</span></md-menu-item>
-                    <md-menu-item><span>edit</span></md-menu-item>
-                    <md-menu-item><span>clone</span></md-menu-item>
+                    <md-menu-item><span>{{$t('history.info')}}</span></md-menu-item>
+                    <md-menu-item><span>{{$t('history.edit')}}</span></md-menu-item>
+                    <md-menu-item><span>{{$t('history.clone')}}</span></md-menu-item>
                   </md-menu-content>
                 </md-menu>
             </div>
@@ -31,7 +31,7 @@
       </div>
       <md-speed-dial md-direction="bottom" id="dial">
       <md-speed-dial-target to="/botarmy">
-        <md-icon>add</md-icon>
+        <md-icon>{{$t('history.add')}}</md-icon>
       </md-speed-dial-target>
       </md-speed-dial>
   </div>

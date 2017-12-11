@@ -1,0 +1,92 @@
+{
+    "botarmy": {
+        "welcomeMessage": "Wilkommensnachricht",
+        "options": "Optionen",
+        "deploy": "Veröffentlichen",
+        "next": "Weiter",
+        "questions": "Fragen"
+    },
+    "elevationBots": {
+        "greeting": "Hallo ich bin der",
+        "more": "Mehr",
+        "faq": "F.A.Q. Bot",
+        "wb": "Wilkommens Bot",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        "create": "Bot erstellen",
+        "feature1": "Hoher Sicherheitsstandard"
+    },
+    "faq": {
+        "intents": "Absichten",
+        "typeIntent": "Gib deine Absicht hier ein",
+        "typeAnswer": "Gib deine Antwort hier ein",
+        "add": "hinzufügen",
+        "intent": "Absicht",
+        "answer": "Antwort",
+        "entities": "Entitäten",
+        "entity": "Entität"
+    },
+    "history": {
+        "ourBots": "Deine Bots !!!",
+        "info": "info",
+        "edit": "bearbeiten",
+        "clone": "klonen",
+        "add": "hinzufügen"
+    },
+    "item": {
+        "changeTooltip": "Füge der Nachricht eine Option hinzu",
+        "deleteTooltip": "Lösche die Optionen dieser Nachricht",
+        "redirectTooltip": "Füge der Nachricht eine weiterleitung hinzu",
+        "faq": "F.A.Q. Bot",
+        "wb": "Wilkommens Bot"
+    },
+    "launch": {
+        "news": "Nachrichten"
+    },
+    "login": {
+        "username": "Benutzername",
+        "usernameError": "Der Benutzername wird benötigt",
+        "password": "Passwort",
+        "passwordError": "Das Passwort wird benötigt",
+        "language": "Sprache",
+        "de": "Deutsch",
+        "en": "Englisch",
+        "login": "Einloggen",
+        "success": "Erfolgreich eingelogt"
+    },
+    "messageStep": {
+        "message": "Wilkommensnachricht",
+        "next": "Weiter"
+    },
+    "nameStep": {
+        "chooseName": "Wähle einen Namen für deinen"
+    },
+    "optionStep": {
+        "setMenu": "Setze das Auswahlmenü" 
+    },
+    "tableHead": {
+        "status": "Status",
+        "id": "ID",
+        "template": "Template",
+        "name": "Name",
+        "lastEdit": "Letzte Änderung"
+    },
+    "tablerow": {
+        "delete": "löschen"
+    },
+    "tabs": {
+        "launch": "START",
+        "history": "GESCHICHTE",
+        "botarmy": "BOTARMEE",
+        "botStatus": "BOT STATUS"
+    },
+    "templateStep": {
+        "chooseTemplate": "Wähle ein Template",
+        "wb": "Wilkommens Bot",
+        "faq": "F.A.Q. Bot"
+    },
+    "uterances": {
+        "setEntity": "Setze eine Entität für",
+        "addQuestion": "Füge deine Fragen hier hinzu",
+        "setEntities": "Setze deine Entities hier"
+    }
+}

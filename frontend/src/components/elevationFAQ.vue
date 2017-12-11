@@ -1,20 +1,20 @@
 <template>
 <div id="carddiv">
     <div>
-    <h4 id="head">Hi i'm FAQ Bot</h4>
+    <h4 id="head">{{$t('elevationBots.greeting')}} {{$t('elevationBots.faq')}}</h4>
     <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150">
     <div id="buttondiv">
-        <md-button @click="showDialog = true" class="md-raised md-primary" id="more">More</md-button>
+        <md-button @click="showDialog = true" class="md-raised md-primary" id="more">{{$t('elevationBots.more')}}</md-button>
     </div>
     </div>
      <md-dialog :md-active.sync="showDialog" id="dialog">
-      <md-dialog-title>Welcome Bot</md-dialog-title>
+      <md-dialog-title>{{$t('elevationBots.faq')}}</md-dialog-title>
       <div id="wrap">
         <div id="left">
             <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" id="botimg">
-            <div id="textdiv">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</div>
+            <div id="textdiv">{{$t('elevationBots.text')}}</div>
             <md-button class="md-raised md-primary" @click="setTemp" to="/botarmy">
-              Create Bot
+              {{$t('elevationBots.create')}}
               </md-button> 
         </div>
         <div id="right">
@@ -27,9 +27,9 @@
         <hr id="line">
       <div id="features">
         <h4>Features</h4>
-        <p class="feat"><md-icon class="md-primary">verified_user</md-icon>  High Security Standard</p>
-        <p class="feat"><md-icon class="md-primary">verified_user</md-icon>  High Security Standard</p>
-        <p class="feat"><md-icon class="md-primary">verified_user</md-icon>  High Security Standard</p>
+        <p class="feat"><md-icon class="md-primary">verified_user</md-icon>  {{$t('elevationBots.feature1')}}</p>
+        <p class="feat"><md-icon class="md-primary">verified_user</md-icon>  {{$t('elevationBots.feature1')}}</p>
+        <p class="feat"><md-icon class="md-primary">verified_user</md-icon>  {{$t('elevationBots.feature1')}}</p>
       </div>
       </div>
      </md-dialog>

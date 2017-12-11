@@ -13,16 +13,16 @@
             <span @click="changeType">
               <md-icon class="md-primary" v-show="!isFolder && model.redirect === null">
                 add
-                <md-tooltip md-direction="top">Add an option to this message</md-tooltip>
+                <md-tooltip md-direction="top">{{$t('item.changeTooltip')}}</md-tooltip>
               </md-icon>
             </span>
             <span @click="deleteChild">
               <md-icon class="md-primary" >delete</md-icon>
-              <md-tooltip md-direction="top">Delete the options from this message</md-tooltip>
+              <md-tooltip md-direction="top">{{$t('item.deleteTooltip')}}</md-tooltip>
             </span>
              <span @click="addRedirect">
               <md-icon class="md-primary" v-show="(model.redirect === null) && (model.options === null)">trending_flat</md-icon>
-              <md-tooltip md-direction="top">Add a redirect to this message</md-tooltip>
+              <md-tooltip md-direction="top">{{$t('item.redirectTooltip')}}</md-tooltip>
             </span>
     </div>
     <ul v-show="open || model.isRoot" v-if="isFolder">
@@ -38,8 +38,8 @@
     </ul>
     <ul v-show="open && model.redirect !== null">
       <md-select  class="redirect" v-model="model.redirect"> 
-        <md-option value="faqbot"> F.A.Q. Bot</md-option>
-        <md-option value="welcomebot">Welcome Bot</md-option>        
+        <md-option value="faqbot"> {{$t('item.faq')}}</md-option>
+        <md-option value="welcomebot">{{$t('item.wb')}}</md-option>        
       </md-select>
     </ul>
   </li>

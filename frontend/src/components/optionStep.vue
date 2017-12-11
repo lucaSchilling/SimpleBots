@@ -1,6 +1,6 @@
 <template>
 <div>
-    <h2>Set Selection Menu</h2>
+    <h2>{{$t('optionStep.setMenu')}}</h2>
     <div id="bla">
       <ul id="demo">
         <item
