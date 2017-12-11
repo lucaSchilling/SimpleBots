@@ -13,7 +13,6 @@ export default {
         context.dispatch('getAll')
       })
     } else if (context.state.template === 'FAQ Bot') {
-      alert('faq bot deploy')
       axios.post(url + '/deploy', {
         'template': context.state.template,
         'name': context.state.name,
@@ -22,6 +21,8 @@ export default {
         'intents': context.state.intents,
         'entities': context.state.entities,
         'examples': context.state.examples
+      }).then(function (response) {
+        context.dispatch('getAll')
       })
     }
   },

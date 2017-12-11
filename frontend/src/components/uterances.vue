@@ -23,7 +23,7 @@
       </li>
     </div>
     </ol>
-    <md-button class="md-primary md-raised" @click="deploy">Deploy</md-button>
+    <md-button class="md-primary md-raised buttonRight" @click="deploy">Deploy</md-button>
   </div>
 </template>
 
@@ -91,6 +91,17 @@ export default {
     },
     deploy: function () {
       this.$store.dispatch('deploy')
+      this.clear()
+      this.setUndone('first')
+    },
+    clear: function () {
+      this.$store.commit('clear')
+    },
+    setDone (object) {
+      this.$store.commit('setDone', object)
+    },
+    setUndone (index) {
+      this.$store.commit('setUndone', index)
     }
   }
 }
@@ -113,5 +124,8 @@ export default {
 }
 h3 {
   color: gray;
+}
+.buttonRight {
+  float: right;
 }
 </style>

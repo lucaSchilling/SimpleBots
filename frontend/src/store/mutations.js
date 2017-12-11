@@ -26,17 +26,32 @@ export default {
   setLastEdit: (state, val) => {
     state.lastedit = val
   },
-  setI: (state, val) => {
-    state.i = val
-  },
   getAll: (state, response) => {
-    for (var i = 0; i < response.data.length; i++) {
+    for (let i = 0; i < response.data.length; i++) {
       state.bots.push({ID: response.data[i]._id,
         status: response.data[i].status,
         template: response.data[i].template,
         name: response.data[i].name,
         lastedit: response.data[i].lastEdit
       })
+      if (response.data[i].template === 'Welcome Bot') {
+        state.history.push({ID: response.data[i]._id,
+          status: response.data[i].status,
+          template: response.data[i].template,
+          name: response.data[i].name,
+          lastedit: response.data[i].lastEdit,
+          options: response.data[i].options})
+      } else if (response.data[i].template === 'FAQ Bot') {
+        state.history.push({ID: response.data[i]._id,
+          status: response.data[i].status,
+          template: response.data[i].template,
+          name: response.data[i].name,
+          lastedit: response.data[i].lastEdit,
+          intents: response.data[i].intents,
+          entities: response.data[i].entities,
+          examples: response.data[i].examples
+        })
+      }
     }
   },
   clearBotsFromArray: (state) => {
@@ -47,6 +62,17 @@ export default {
 
     if (object.index) {
       state.active = object.index
+    }
+  },
+  setUndone: (state, index) => {
+    state.first = false
+    state.second = false
+    state.third = false
+    state.forth = false
+    state.fifth = false
+
+    if (index) {
+      state.active = index
     }
   },
   setActive: (state, val) => {
@@ -73,5 +99,20 @@ export default {
   setTreeData: (state, val) => {
     state.treeData.message = val.message
     state.treeData.options = val.options
+  },
+  clear: (state) => {
+    state._id = null
+    state.name = null
+    state.template = null
+    state.welcomeMessage = null
+    state.options = []
+    state.treeData = {
+      message: '',
+      options: []
+    }
+    state.intents = []
+    state.entities = []
+    state.lastedit = null
+    state.examples = []
   }
 }

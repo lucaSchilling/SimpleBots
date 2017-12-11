@@ -142,9 +142,17 @@ export default {
     deploy: function () {
       this.options.push(this.treeData)
       this.$store.dispatch('deploy')
+      this.clear()
+      this.setUndone('first')
     },
     setDone (object) {
       this.$store.commit('setDone', object)
+    },
+    clear: function () {
+      this.$store.commit('clear')
+    },
+    setUndone (index) {
+      this.$store.commit('setUndone', index)
     }
   }
 }
