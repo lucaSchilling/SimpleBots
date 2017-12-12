@@ -55,7 +55,7 @@ server.listen(port, function () {
 server.post('/deploy/:user', function (req, res) {
     try {
         let user = req.params.user;
-
+        console.log(user)
         // No JSON or no user
         if (!typeof req.body === 'object' || !user) {
             res.sendStatus(400);
@@ -85,58 +85,64 @@ server.post('/deploy/:user', function (req, res) {
         }
         let botJson = req.body;
 
-        db.get(user).collection('botids').findOne(querry, function (err, result) {
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
-            }
-
-            id = result.id + 1;
-
-            botJson._id = id + "";
-            botJson.status = false;
-            botJson.lastEdit = new Date();
-            botJson.luisReqUrl = process.env.LUIS_REQ_URL;
-            botJson.luisApiUrl = process.env.LUIS_API_URL;
-            botJson.luisKey = process.env.LUIS_KEY;
-
-            // Update incremental bot id
-            let updatedId = {
-                $set: { id: id }
-            }
-
-            db.get(user).collection('botids').updateOne(querry, updatedId, function (err, result) {
+        db.get(user, function(connection) {
+            connection.collection('botids').findOne(querry, function (err, result) {
                 if (err) {
                     console.error(err);
                     res.sendStatus(503);
                     return;
                 }
-
-                // Save bot in database
-                db.get(user).collection('configs').insertOne(botJson, function (err) {
-                    // Can't connect to database
+    
+                id = result.id + 1;
+    
+                botJson._id = id + "";
+                botJson.username = user;
+                botJson.status = false;
+                botJson.lastEdit = new Date();
+                botJson.luisReqUrl = process.env.LUIS_REQ_URL;
+                botJson.luisApiUrl = process.env.LUIS_API_URL;
+                botJson.luisKey = process.env.LUIS_KEY;
+    
+                // Update incremental bot id
+                let updatedId = {
+                    $set: { id: id }
+                }
+                
+                connection.collection('botids').updateOne(querry, updatedId, function (err, result) {
                     if (err) {
                         console.error(err);
                         res.sendStatus(503);
                         return;
                     }
-
-                    console.log('Created bot ' + id + ' in database collection configs');
-
-                    db.get(user).collection('deployedBots').insertOne(botJson, function (err) {
+    
+                    // Save bot in database
+                    
+                    connection.collection('configs').insertOne(botJson, function (err) {
+                        // Can't connect to database
                         if (err) {
                             console.error(err);
                             res.sendStatus(503);
                             return;
                         }
-
-                        // Instantiate new bot of the specified template
-                        dockerode.createContainer(botJson);
-                        console.log('Created bot ' + id + ' in database collection deployedBots');
-                        res.sendStatus(201);
+    
+                        console.log('Created bot ' + id + ' in database collection configs');
+    
+                        connection.collection('deployedBots').insertOne(botJson, function (err) {
+                            if (err) {
+                                console.error(err);
+                                res.sendStatus(503);
+                                return;
+                            }
+    
+                            // Instantiate new bot of the specified template
+                            dockerode.createContainer(botJson);
+                            console.log('Created bot ' + id + ' in database collection deployedBots');
+                            res.sendStatus(201);
+                        });
                     });
+                    
                 });
+                
             });
         });
     }
@@ -160,7 +166,8 @@ server.post('/setStatus/:user', function (req, res) {
         let id = req.body._id;
         let status = req.body.status;
         let config = {
-            _id: id
+            _id: id,
+            username: user
         }
 
         // Invalid JSON
@@ -185,15 +192,17 @@ server.post('/setStatus/:user', function (req, res) {
             $set: { status: status }
         }
 
-        db.get(user).collection('deployedBots').updateOne(querry, updatedStatus, function (err, result) {
-            if (err) {
-                console.log(err);
-                result.sendStatus(503);
-                return;
-            }
-
-            console.log('Set running status of bot ' + id  + ' to ' + status);
-            res.sendStatus(200);
+        db.get(user, function(connection) {
+            connection.collection('deployedBots').updateOne(querry, updatedStatus, function (err, result) {
+                if (err) {
+                    console.log(err);
+                    result.sendStatus(503);
+                    return;
+                }
+    
+                console.log('Set running status of bot ' + id  + ' to ' + status);
+                res.sendStatus(200);
+            });
         });
     }
     catch (e) {
@@ -219,28 +228,30 @@ server.delete('/delete/:user/:id', function (req, res) {
             _id: id
         }
 
-        db.get(user).collection('configs').findOne(querry, function(err, result) {
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
-            }
-            if(!result) {
-                // Can't find bot in database
-                res.sendStatus(404);
-                return;
-            }
-            db.get(user).collection('configs').deleteOne(querry, function(err, result2) {
-
-                // Can't connect to database
+        db.get(user, function(connection) {
+            connection.collection('configs').findOne(querry, function(err, result) {
                 if (err) {
                     console.error(err);
                     res.sendStatus(503);
                     return;
                 }
-
-                console.log('Deleted bot ' + id + ' from database collection configs');
-                res.sendStatus(200);
+                if(!result) {
+                    // Can't find bot in database
+                    res.sendStatus(404);
+                    return;
+                }
+                connection.collection('configs').deleteOne(querry, function(err, result2) {
+    
+                    // Can't connect to database
+                    if (err) {
+                        console.error(err);
+                        res.sendStatus(503);
+                        return;
+                    }
+    
+                    console.log('Deleted bot ' + id + ' from database collection configs');
+                    res.sendStatus(200);
+                });
             });
         });
     }
@@ -267,33 +278,36 @@ server.delete('/undeploy/:user/:id', function (req, res) {
             _id: id
         }
 
-        db.get(user).collection('deployedBots').findOne(querry, function(err, result) {
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
-            }
-            if(result === null) {
-                // Can't find bot in database
-                res.sendStatus(404);
-                return;
-            }
-            db.get(user).collection('deployedBots').deleteOne(querry, function(err, result2) {
-
-                // Can't connect to database
+        db.get(user, function(connection) {
+            connection.collection('deployedBots').findOne(querry, function(err, result) {
                 if (err) {
                     console.error(err);
                     res.sendStatus(503);
                     return;
                 }
-
-                let dockerodeConfig = {
-                    _id: id
+                if(result === null) {
+                    // Can't find bot in database
+                    res.sendStatus(404);
+                    return;
                 }
-
-                dockerode.delete(dockerodeConfig);
-                console.log('Deleted bot ' + id + ' from database collection deployedBots');
-                res.sendStatus(200);
+                connection.collection('deployedBots').deleteOne(querry, function(err, result2) {
+    
+                    // Can't connect to database
+                    if (err) {
+                        console.error(err);
+                        res.sendStatus(503);
+                        return;
+                    }
+    
+                    let dockerodeConfig = {
+                        _id: id,
+                        username: user
+                    }
+    
+                    dockerode.delete(dockerodeConfig);
+                    console.log('Deleted bot ' + id + ' from database collection deployedBots');
+                    res.sendStatus(200);
+                });
             });
         });
     }
@@ -314,21 +328,23 @@ server.get('/getConfigs/:user', function (req, res) {
             return;
         }
 
-        db.get(user).collection('configs').find({}).toArray(function (err, result) {
-            // Can't connect to database
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
-            }
-
-            // No configs found
-            if (!result) {
-                res.sendStatus(204);
-                return;
-            }
-
-            res.status(200).send(result);
+        db.get(user, function(connection) {
+            connection.collection('configs').find({}).toArray(function (err, result) {
+                // Can't connect to database
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+    
+                // No configs found
+                if (!result) {
+                    res.sendStatus(204);
+                    return;
+                }
+    
+                res.status(200).send(result);
+            });
         });
     }
     catch (e) {
@@ -348,21 +364,23 @@ server.get('/getBots/:user', function (req, res) {
             return;
         }
         
-        db.get().collection('deployedBots').find({}).toArray(function (err, result) {
-            // Can't connect to database
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
-            }
-
-            // No bots deployed
-            if (!result) {
-                res.sendStatus(204);
-                return;
-            }
-
-            res.status(200).send(result);
+        db.get(user, function (connection) {
+            connection.collection('deployedBots').find({}).toArray(function (err, result) {
+                // Can't connect to database
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+    
+                // No bots deployed
+                if (!result) {
+                    res.sendStatus(204);
+                    return;
+                }
+    
+                res.status(200).send(result);
+            });
         });
     }
     catch (e) {

@@ -1,8 +1,11 @@
 // Gets the id from the run parameters
 let id = process.argv[2];
+console.log(id)
+let username = process.argv[3]
+console.log(username)
 // MongoDB module
 const db = require('./db');
-const mongoURL = 'mongodb://141.19.142.6:27017/runtimedb'
+const mongoURL = 'mongodb://141.19.142.6:27017/' + username
 
 db.connect(mongoURL, function (err) {
     if (err) {
@@ -14,7 +17,7 @@ db.connect(mongoURL, function (err) {
             // Gets the config for this bot
             db.get().collection('deployedBots').findOne({ _id: id }, function (err, result) {
                 if (err) {
-                    console.error(err);
+                    console.error('Error' + err);
                 }
 
                 if (result) {

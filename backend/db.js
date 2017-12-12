@@ -3,37 +3,6 @@ var MongoClient = require('mongodb').MongoClient
 var mongoUrl;
 var userConnections = {}
 
-/**
- * Builds a connection to the requested database.
- * @param url The url and port of the MongoDB server
- * @param callback Callback function
- */
-connect = function (user) {
-    MongoClient.connect(mongoUrl + user, function (err, db) {
-      if (err) {
-        throw err;
-      }
-
-      userConnections[user] = db;
-
-      db.collection('botids').findOne({ name: 'botids' }, function (err, result) {
-        if (err) {
-            throw err;
-        }
-
-        if (!result) {
-            db.collection('botids').insertOne({ name: 'botids', id: 0 }, function (err) {
-                if (err) {
-                    throw err;
-                }
-
-                console.log('Created file in database: botids');
-            });
-        }
-      });
-    });
-}
-
 exports.setUrl = function(mongoURL) {
   mongoUrl = mongoURL;
 }
@@ -41,15 +10,48 @@ exports.setUrl = function(mongoURL) {
 /**
  * Returns the database reference.
  */
-exports.get = function (user) {
+exports.get = function (user, callback) {
   if (!userConnections[user]) {
-    connect(user);
+    connect(user, function(connection) {
+      return callback(connection);
+    });
   }
-  while (!userConnections[user]) {
+  else {
+    return callback(userConnections[user]);
+  }
+}
+/**
+ * Builds a connection to the requested database.
+ * @param url The url and port of the MongoDB server
+ * @param callback Callback function
+ */
+connect = function (user, callback) {
+  MongoClient.connect(mongoUrl + user, function (err, db) {
+    if (err) {
+      throw err;
+    }
 
-  }
-  
-  return userConnections[user];
+    userConnections[user] = db;
+
+    db.collection('botids').findOne({ name: 'botids' }, function (err, result) {
+      if (err) {
+          throw err;
+      }
+      if (!result) {
+          db.collection('botids').insertOne({ name: 'botids', id: 0 }, function (err) {
+              if (err) {
+                  throw err;
+              }
+
+              console.log('Created file in database: botids');
+              callback(db);
+          });
+      }
+      else {
+        callback(db);
+      }
+    });
+  });
 }
 
 /**
