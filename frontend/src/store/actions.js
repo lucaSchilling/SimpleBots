@@ -27,7 +27,7 @@ export default {
     }
   },
   getAll: (context) => {
-    axios.get(url + '/getAll/' + context.state.username).then((response) => {
+    axios.get(url + '/getBots/' + context.state.username).then((response) => {
       context.commit('clearBotsFromArray')
       context.commit('getAll', response)
     })

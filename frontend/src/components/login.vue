@@ -28,8 +28,8 @@
           <md-field>
             <label for="language">{{$t('login.language')}}</label>
             <md-select v-model="form.Language" name="language" id="language">
-            <md-option value="de">{{$t('login.de')}}</md-option>
-            <md-option value="en">{{$t('login.en')}}</md-option>
+            <md-option  id="de" value="de">{{$t('login.de')}}</md-option>
+            <md-option id="en" value="en">{{$t('login.en')}}</md-option>
           
           </md-select>
           </md-field>
