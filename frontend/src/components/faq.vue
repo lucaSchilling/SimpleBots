@@ -17,7 +17,7 @@
           <label>{{$t('faq.typeAnswer')}}</label>
           <md-input v-model="message"></md-input>
           <span @click="addIntent" class="hover">
-            <md-icon>{{$t('faq.add')}}</md-icon>
+            <md-icon>add</md-icon>
           </span>
         </md-field>
         </div>
@@ -59,7 +59,7 @@
         <md-field>
           <md-input v-model="entity"></md-input>
           <span @click="addEntity" class="hover">
-            <md-icon>{{$t('faq.add')}}</md-icon>
+            <md-icon>add</md-icon>
           </span>
         </md-field>
       </md-table-toolbar>

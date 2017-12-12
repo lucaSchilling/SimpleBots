@@ -39,15 +39,15 @@ export default {
     search: null
   }),
   methods: {
-    getAll: function () {
-      this.$store.dispatch('getAll')
+    getBots: function () {
+      this.$store.dispatch('getBots')
     },
     searchOnTable () {
       this.searched = searchByName(this.bots, this.search)
     }
   },
   beforeMount () {
-    this.getAll()
+    this.getBots()
   },
   computed: {
     bots () {

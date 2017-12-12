@@ -1,5 +1,5 @@
 var axios = require('axios')
-var url = 'http://localhost:3000'
+var url = 'http://141.19.142.6:3000'
 
 export default {
   deploy: (context) => {
@@ -10,7 +10,7 @@ export default {
         'welcomeMessage': context.state.welcomeMessage,
         'options': context.state.options
       }).then(function (response) {
-        context.dispatch('getAll')
+        context.dispatch('getBots')
       })
     } else if (context.state.template === 'FAQ Bot') {
       axios.post(url + '/deploy/' + context.state.username, {
@@ -22,20 +22,26 @@ export default {
         'entities': context.state.entities,
         'examples': context.state.examples
       }).then(function (response) {
-        context.dispatch('getAll')
+        context.dispatch('getBots')
       })
     }
   },
-  getAll: (context) => {
+  getBots: (context) => {
     axios.get(url + '/getBots/' + context.state.username).then((response) => {
       context.commit('clearBotsFromArray')
-      context.commit('getAll', response)
+      context.commit('getBots', response)
+    })
+  },
+  getConfigs: (context) => {
+    axios.get(url + '/getConfigs/' + context.state.username).then((response) => {
+      context.commit('clearBotsFromArray')
+      context.commit('getConfigs', response)
     })
   },
   delete: (context, id) => {
-    axios.delete(url + '/delete/' + context.state.username + '/' + id
+    axios.delete(url + '/undeploy/' + context.state.username + '/' + id
     ).then(function (response) {
-      context.dispatch('getAll')
+      context.dispatch('getBots')
     })
   },
   postStatus (context, object) {

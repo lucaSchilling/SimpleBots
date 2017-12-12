@@ -29,8 +29,7 @@ export default {
   setLastEdit: (state, val) => {
     state.lastedit = val
   },
-  getAll: (state, response) => {
-    state.history = []
+  getBots: (state, response) => {
     for (let i = 0; i < response.data.length; i++) {
       state.bots.push({ID: response.data[i]._id,
         status: response.data[i].status,
@@ -38,6 +37,10 @@ export default {
         name: response.data[i].name,
         lastedit: response.data[i].lastEdit
       })
+    }
+  },
+  getConfigs: (state, response) => {
+    for (let i = 0; i < response.data.length; i++) {
       if (response.data[i].template === 'Welcome Bot') {
         state.history.push({ID: response.data[i]._id,
           welcomeMessage: response.data[i].welcomeMessage,
@@ -60,6 +63,7 @@ export default {
   },
   clearBotsFromArray: (state) => {
     state.bots = []
+    state.history = []
   },
   setDone: (state, object) => {
     state[object.id] = true

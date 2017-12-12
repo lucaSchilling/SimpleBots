@@ -133,8 +133,8 @@ export default {
     }
   },
   methods: {
-    getAll: function () {
-      this.$store.dispatch('getAll')
+    getConfigs: function () {
+      this.$store.dispatch('getConfigs')
     },
     setBotInfo: function (bot) {
       this.showDialog = true
@@ -181,7 +181,7 @@ export default {
     }
   },
   beforeMount () {
-    this.getAll()
+    this.getConfigs()
   }
 }
 </script>
