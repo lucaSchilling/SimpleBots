@@ -8,7 +8,7 @@
       <md-table-cell>{{lastedit}}</md-table-cell>
       <md-table-cell> 
         <md-button id="delete" class="md-icon-button deleteButton" v-on:click='deleteBot'>
-        <md-icon>{{$t('tablerow.delete')}}</md-icon>
+        <md-icon>delete</md-icon>
     </md-button>
       </md-table-cell>
     </md-table-row>

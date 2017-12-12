@@ -26,7 +26,7 @@
         "entity": "Entität"
     },
     "history": {
-        "ourBots": "Deine Bots !!!",
+        "ourBots": "Deine Bots",
         "info": "info",
         "edit": "bearbeiten",
         "clone": "klonen",
@@ -35,7 +35,7 @@
     "item": {
         "changeTooltip": "Füge der Nachricht eine Option hinzu",
         "deleteTooltip": "Lösche die Optionen dieser Nachricht",
-        "redirectTooltip": "Füge der Nachricht eine weiterleitung hinzu",
+        "redirectTooltip": "Füge der Nachricht eine Weiterleitung hinzu",
         "faq": "F.A.Q. Bot",
         "wb": "Wilkommens Bot"
     },

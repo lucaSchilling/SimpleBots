@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--@submit.prevent="validateUser"-->
-    <form novalidate class="md-layout-row md-gutter" @submit.prevent="validateUser">
+    <form novalidate class="md-layout-row md-gutter" @submit.prevent="validateUser" id="inner">
       <md-card class="md-flex-50 md-flex-small-100">
         <md-card-header>
           <div class="md-title-primary">{{$t('login.login')}}</div>
@@ -110,7 +110,7 @@
 </script>
 
 <style scoped>
-  .md-content{   
+  .md-content {   
     width: 390px;
     height: 300px;
     margin: 10px;

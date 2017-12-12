@@ -13,7 +13,7 @@
                   </md-button>
 
                   <md-menu-content>
-                    <md-menu-item><span>{{$t('history.info')}}</span></md-menu-item>
+                    <md-menu-item><span @click="setBotInfo(bot)">{{$t('history.info')}}</span></md-menu-item>
                     <md-menu-item><span>{{$t('history.edit')}}</span></md-menu-item>
                     <md-menu-item><span>{{$t('history.clone')}}</span></md-menu-item>
                   </md-menu-content>
@@ -31,15 +31,31 @@
       </div>
       <md-speed-dial md-direction="bottom" id="dial">
       <md-speed-dial-target to="/botarmy">
-        <md-icon>{{$t('history.add')}}</md-icon>
+        <md-icon>add</md-icon>
       </md-speed-dial-target>
       </md-speed-dial>
+
+      <md-dialog :md-active.sync="showDialog">
+        <md-dialog-title>Information</md-dialog-title>
+
+        <p class="padding"><strong>Name:</strong> {{botInfo.name}}</p>
+        <p class="padding"><strong>Template:</strong> {{botInfo.template}}</p>
+        <p class="padding"><strong>Last edited:</strong> {{botInfo.lastedit}}</p>
+        
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+        </md-dialog-actions>
+      </md-dialog>
   </div>
 </template>
 
 <script>
 export default {
   name: 'history',
+  data: () => ({
+    showDialog: false,
+    botInfo: {}
+  }),
   computed: {
     history: {
       get () {
@@ -50,6 +66,10 @@ export default {
   methods: {
     getAll: function () {
       this.$store.dispatch('getAll')
+    },
+    setBotInfo: function (bot) {
+      this.showDialog = true
+      this.botInfo = bot
     }
   },
   beforeMount () {
@@ -81,5 +101,8 @@ span {
     position: absolute;
     bottom: 5%;
     right: 5%;
+}
+.padding {
+  padding-left: 5%;
 }
 </style>
