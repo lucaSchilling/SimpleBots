@@ -1,5 +1,5 @@
 <template>
-    <md-steppers md-sync-route :md-active-step.sync="active" md-linear>
+    <md-steppers md-sync-route :md-active-step.sync="active" md-linear id="steppers">
       <md-step id="first" md-label="Template" :md-done.sync="first">
         <templateStep></templateStep>
       </md-step>
@@ -222,5 +222,11 @@ ul {
 }
 .buttonRight {
   float: right;
+}
+#steppers {
+  position: fixed;
+  z-index: 2;
+  width: 100vw;
+  top: 48px;
 }
 </style>

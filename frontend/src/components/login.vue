@@ -1,10 +1,11 @@
 <template>
-  <div>
+  <div id="loginDreck">
     <!--@submit.prevent="validateUser"-->
     <form novalidate class="md-layout-row md-gutter" @submit.prevent="validateUser" id="inner">
       <md-card class="md-flex-50 md-flex-small-100">
         <md-card-header>
-          <div class="md-title-primary">{{$t('login.login')}}</div>
+          <img src="../../assets/logo.png" width="400">
+          <div class="md-title-primary"><h3>{{$t('login.login')}}</h3></div>
         </md-card-header>
 
         <md-card-content>
@@ -95,7 +96,6 @@
       saveUser () {
         localStorage.setItem('username', this.form.username)
         localStorage.setItem('lang', this.form.language)
-        alert('Test')
         this.$router.push('/launch')
       },
       validateUser () {
@@ -116,5 +116,14 @@
     margin: 10px;
     display: flex;
 }
+  #loginDreck {
+    width: 700px;
+    min-width: 700px;
+    height: 344px;
+    min-height: 344px;
+    position: relative;
+    left: calc(50vw - 200px);
+    top: calc(50vh - 250px);
+  }
 
 </style>

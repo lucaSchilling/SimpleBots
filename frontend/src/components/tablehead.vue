@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="tablediv">
   <md-table>
       <md-table-row>
       <md-table-head></md-table-head>
@@ -64,5 +64,10 @@ export default {
 </script>
 
 <style>
-
+#tablediv {
+  position: fixed;
+  z-index: 2;
+  width: 100vw;
+  top: 48px;
+}
 </style>

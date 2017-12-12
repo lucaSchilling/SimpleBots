@@ -1,5 +1,6 @@
 <template>
-  <div to='/history'>
+  <div to='/history' id="historydiv">
+    <md-content class="md-scrollbar">
       <h1>{{$t('history.ourBots')}}</h1>
       <div class="cardDiv">
           <div class="left" v-for="bot in history" v-bind:key="bot">
@@ -56,8 +57,8 @@
         </md-dialog-actions>
       </md-dialog>
       
-      
-      
+      </md-content>
+
   </div>
 </template>
 
@@ -206,7 +207,7 @@ span {
     cursor: pointer;
 }
 #dial {
-    position: absolute;
+    position: fixed;
     bottom: 5%;
     right: 5%;
 }
@@ -216,5 +217,13 @@ span {
 .name {
   text-align: center;
   color: #f68b1f
+}
+#historydiv {
+  z-index: 2;
+  width: 100vw;
+  top: 48px;
+}
+.md-content {
+  overflow: auto;
 }
 </style>

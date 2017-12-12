@@ -36,7 +36,7 @@
         <md-icon class="md-primary">add</md-icon> 
       </li>
     </ul>
-    <ul v-show="open && model.redirect !== null">
+    <ul v-show="open && model.redirect !== null" id="list">
       <md-select  class="redirect" v-model="model.redirect"> 
         <md-option value="faqbot">F.A.Q. Bot</md-option>
         <md-option value="welcomebot">Welcome Bot</md-option>        
