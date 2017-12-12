@@ -11,6 +11,7 @@ export default {
   intents: [],
   entities: [],
   examples: [],
+  uterances: [],
   active: 'first',
   first: false,
   second: false,

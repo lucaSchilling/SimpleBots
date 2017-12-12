@@ -12,7 +12,7 @@
 
       </div>
      </md-dialog>
-     <h3>{{$t('uterances.addQuestion')}} </h3>
+     <h3>{{$t('uterances.addQuestion')}}</h3>
      <input v-model="uterance" v-on:keyup.enter="addUterance"></input>
       <h3>{{$t('uterances.setEntities')}} </h3>
       <ol>
@@ -32,7 +32,6 @@ export default {
   name: 'uterances',
   data: () => ({
     showDialog: false,
-    uterances: [],
     uterance: null,
     selected: null,
     sentences: [],
@@ -65,6 +64,14 @@ export default {
       set (val) {
         this.$store.commit('setExamples', val)
       }
+    },
+    uterances: {
+      get () {
+        return this.$store.state.uterances
+      },
+      set (val) {
+        this.$store.commit('setUterances', val)
+      }
     }
   },
   methods: {
@@ -93,6 +100,7 @@ export default {
       this.$store.dispatch('deploy')
       this.clear()
       this.setUndone('first')
+      this.$router.push('/status')
     },
     clear: function () {
       this.$store.commit('clear')
@@ -113,6 +121,7 @@ export default {
 }
 .span:hover, .pHover:hover {
     font-weight: bold;
+    color: #f68b1f
 }
 #dialog {
   width: 300px;

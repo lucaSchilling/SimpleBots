@@ -3,9 +3,9 @@
   <li>
     <div
       :class="{bold: isFolder}" v-show="!model.isRoot">
-      <span v-if="isFolder && open" @click="toggle">
+      <span v-if="(isFolder && open) || (isRedirect && open)" @click="toggle">
          <md-icon class="md-primary">expand_less</md-icon>  </span>
-      <span v-if="isFolder && !open" @click="toggle">
+      <span v-if="(isFolder && !open) || (isRedirect && !open)" @click="toggle">
          <md-icon class="md-primary">expand_more</md-icon>  </span>
 
           <md-input v-model="model.message"> </md-input>
@@ -38,8 +38,8 @@
     </ul>
     <ul v-show="open && model.redirect !== null">
       <md-select  class="redirect" v-model="model.redirect"> 
-        <md-option value="faqbot"> {{$t('item.faq')}}</md-option>
-        <md-option value="welcomebot">{{$t('item.wb')}}</md-option>        
+        <md-option value="faqbot">F.A.Q. Bot</md-option>
+        <md-option value="welcomebot">Welcome Bot</md-option>        
       </md-select>
     </ul>
   </li>
@@ -63,11 +63,14 @@ export default {
     isFolder: function () {
       return this.model.options &&
         this.model.options.length
+    },
+    isRedirect: function () {
+      return this.model.redirect !== null
     }
   },
   methods: {
     toggle: function () {
-      if (this.isFolder) {
+      if (this.isFolder || this.model.redirect !== null) {
         this.open = !this.open
       }
     },

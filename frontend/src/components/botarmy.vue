@@ -143,7 +143,7 @@ export default {
       this.options = this.treeData.options
       this.$store.dispatch('deploy')
       this.clear()
-      this.setUndone('first')
+      this.$router.push('/status')
     },
     add: function () {
       this.tree.push({message: null, options: [], redirect: null})
