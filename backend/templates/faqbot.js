@@ -57,8 +57,8 @@ class FAQBot extends Bot {
                 .forEach(async change => {
                     console.log('change: ' + JSON.stringify(change));
                     let userMessage = change.event.message;
-                    console.log(this.luisReqUrl + this.luisAppId + '?q=' + userMessage)
-                    let getPredictionsRes = await axios.get(this.luisReqUrl + this.luisAppId + '?q=' + userMessage);
+                    console.log(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage)
+                    let getPredictionsRes = await axios.get(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
                     if (getPredictionsRes.status === 200) {
                         for (let intent of this.config.intents) {
 
@@ -232,7 +232,7 @@ class FAQBot extends Bot {
             await this.timeout(5000);
             let trainCompleteRes = await axios.get(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train');
             if (trainCompleteRes.status === 200) {
-                let publishRes = await axios.post(this.luisApiUrl + this.luisAppId + '/publish', {
+                let publishRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/publish', {
                     versionId: '1.0',
                     isStaging: false,
                     region: 'westus'
