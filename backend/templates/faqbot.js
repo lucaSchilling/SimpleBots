@@ -79,19 +79,18 @@ class FAQBot extends Bot {
                             await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
                         }
                     }
-                }
-                else if (getPredictionsRes.status === 429) {
-                    console.log('LUIS rate limit exceeded');
-                    await this.sendMessage('This service is currently not available due to technical difficulties');
-                    return;
-                }
-                else {
-                    console.error('Failed to evaluate user message');
-                    console.log(createAppRes);
-                    await this.sendMessage('This service is currently not available due to technical difficulties');
-                    return;
-                }
-            });
+                    else if (getPredictionsRes.status === 429) {
+                        console.log('LUIS rate limit exceeded');
+                        await this.sendMessage('This service is currently not available due to technical difficulties');
+                        return;
+                    }
+                    else {
+                        console.error('Failed to evaluate user message');
+                        console.log(createAppRes);
+                        await this.sendMessage('This service is currently not available due to technical difficulties');
+                        return;
+                    }
+                });
         });
     }
 
