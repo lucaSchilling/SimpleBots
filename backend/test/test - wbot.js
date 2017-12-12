@@ -90,13 +90,25 @@ describe.skip('### WelcomeBot - Setting up a bot ###', function () {
     });
 
     it('start a bot', function () {
-        bot.start();
+        // bot.start();
         assert.equal(bot.isConnected, false)
     });
 
     it('shutdown a bot', function () {
         bot.shutdown();
         assert.equal(bot.isConnected, false)
+        assert.equal(welcomeBotClass.agent, null)
+    });
+
+    it('shutdown a bot', function () {
+        bot1.shutdown();
+        assert.equal(bot1.isConnected, false)
+        assert.equal(welcomeBotClass.agent, null)
+    });
+
+    it('shutdown a bot', function () {
+        bot2.shutdown();
+        assert.equal(bot2.isConnected, false)
         assert.equal(welcomeBotClass.agent, null)
     });
 });
