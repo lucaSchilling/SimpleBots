@@ -50,29 +50,31 @@ db.connect(mongoURL, function (err) {
         console.error(err);
         process.exit(1);
     }
-    else {
-        db.get().collection('botids').findOne({ name: 'botids' }, function (err, result) {
-            if (err) {
-                console.error(err);
-                process.exit(1);
-            }
 
-            if (!result) {
-                db.get().collection('botids').insertOne({ name: 'botids', id: 0 }, function (err) {
-                    if (err) {
-                        console.error(err);
-                        process.exit(1);
-                    }
-                });
-            }
-        })
-        server.listen(port, function () {
-            console.log('Bot Runtime listening on port ' + port);
-        });
-    }
+    db.get().collection('botids').findOne({ name: 'botids' }, function (err, result) {
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
+
+        if (!result) {
+            db.get().collection('botids').insertOne({ name: 'botids', id: 0 }, function (err) {
+                if (err) {
+                    console.error(err);
+                    process.exit(1);
+                }
+
+                console.log('Created file in database: botids');
+            });
+        }
+    });
+
+    server.listen(port, function () {
+        console.log('Bot Runtime listening on port ' + port);
+    });
 });
 
-// Deploys the bot into a ready state and saves it in the database. Expects valid JSON bot config file
+// Deploys the bot into a ready state and saves it in the database. Expects valid JSON
 server.post('/deploy', function (req, res) {
     try {
         // No JSON
@@ -133,16 +135,28 @@ server.post('/deploy', function (req, res) {
                 }
 
                 // Save bot in database
-                db.get().collection('deployedBots').insertOne(botJson, function (err) {
+                db.get().collection('configs').insertOne(botJson, function (err) {
                     // Can't connect to database
                     if (err) {
                         console.error(err);
                         res.sendStatus(503);
                         return;
                     }
-                    // Instantiate new bot of the specified template
-                    dockerode.createContainer(botJson);
-                    res.sendStatus(201);
+
+                    console.log('Created bot ' + id + ' in database collection configs');
+
+                    db.get().collection('deployedBots').insertOne(botJson, function (err) {
+                        if (err) {
+                            console.error(err);
+                            res.sendStatus(503);
+                            return;
+                        }
+
+                        // Instantiate new bot of the specified template
+                        dockerode.createContainer(botJson);
+                        console.log('Created bot ' + id + ' in database collection deployedBots');
+                        res.sendStatus(201);
+                    });
                 });
             });
         });
@@ -190,15 +204,16 @@ server.post('/setStatus', function (req, res) {
             $set: { status: status }
         }
 
-        db.get().collection('deployedBots').updateOne(querry, updatedStatus, function (err, res) {
+        db.get().collection('deployedBots').updateOne(querry, updatedStatus, function (err, result) {
             if (err) {
                 console.log(err);
-                res.sendStatus(503);
+                result.sendStatus(503);
                 return;
             }
-        });
 
-        res.sendStatus(200);
+            console.log('Set running status of bot ' + id  + ' to ' + status);
+            res.sendStatus(200);
+        });
     }
     catch (e) {
         console.error(e);
@@ -206,13 +221,11 @@ server.post('/setStatus', function (req, res) {
     }
 });
 
-// Deletes bots from the runtime. Expects valid JSON
+// Deletes bot configs from the config database
 server.delete('/delete/:id', function (req, res) {
     try {
         let id = req.params.id;
-        let config = {
-            _id: id
-        }
+        
         // No id
         if (!id) {
             res.sendStatus(400);
@@ -222,31 +235,84 @@ server.delete('/delete/:id', function (req, res) {
         // Delete from database
         let querry = {
             _id: id
-        };
+        }
+
+        db.get().collection('configs').findOne(querry, function(err, result) {
+            if (err) {
+                console.error(err);
+                res.sendStatus(503);
+                return;
+            }
+            if(!result) {
+                // Can't find bot in database
+                res.sendStatus(404);
+                return;
+            }
+            db.get().collection('configs').deleteOne(querry, function(err, result2) {
+
+                // Can't connect to database
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+
+                console.log('Deleted bot ' + id + ' from database collection configs');
+                res.sendStatus(200);
+            });
+        });
+    }
+    catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+// Deletes bots from the runtime
+server.delete('/undeploy/:id', function (req, res) {
+    try {
+        let id = req.params.id;
+        
+        // No id
+        if (!id) {
+            res.sendStatus(400);
+            return;
+        }
+
+        // Delete from database
+        let querry = {
+            _id: id
+        }
+
         db.get().collection('deployedBots').findOne(querry, function(err, result) {
             if (err) {
                 console.error(err);
                 res.sendStatus(503);
                 return;
             }
-            if(result === null){
+            if(result === null) {
                 // Can't find bot in database
                 res.sendStatus(404);
                 return;
-        }
-        db.get().collection('deployedBots').deleteOne(querry, function(err, obj) {
-
-            // Can't connect to database
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
             }
-            dockerode.delete(config)
-        });
+            db.get().collection('deployedBots').deleteOne(querry, function(err, result2) {
 
-        res.sendStatus(200);
-    })
+                // Can't connect to database
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+
+                let dockerodeConfig = {
+                    _id: id
+                }
+
+                dockerode.delete(dockerodeConfig);
+                console.log('Deleted bot ' + id + ' from database collection deployedBots');
+                res.sendStatus(200);
+            });
+        });
     }
     catch (e) {
         console.error(e);
@@ -255,7 +321,33 @@ server.delete('/delete/:id', function (req, res) {
 });
 
 // Returns all bot configs that are in the database
-server.get('/getAll', function (req, res) {
+server.get('/getConfigs', function (req, res) {
+    try {
+        db.get().collection('configs').find({}).toArray(function (err, result) {
+            // Can't connect to database
+            if (err) {
+                console.error(err);
+                res.sendStatus(503);
+                return;
+            }
+
+            // No configs found
+            if (!result) {
+                res.sendStatus(204);
+                return;
+            }
+
+            res.status(200).send(result);
+        });
+    }
+    catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+// Returns all deployed bots that are in the database
+server.get('/getBots', function (req, res) {
     try {
         db.get().collection('deployedBots').find({}).toArray(function (err, result) {
             // Can't connect to database
