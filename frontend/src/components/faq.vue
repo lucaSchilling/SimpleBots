@@ -26,14 +26,26 @@
       <md-table-row>
         <md-table-head>{{$t('faq.intent')}}</md-table-head>
         <md-table-head>{{$t('faq.answer')}}</md-table-head>
+        <md-table-head></md-table-head>
+        <md-table-head></md-table-head>
       </md-table-row>
 
-      <md-table-row v-for="int in intentions" v-bind:key="int">
+      <md-table-row v-for="int in intents" v-bind:key="int">
         <md-table-cell>
           <p>{{int.name}}</p>
         </md-table-cell>
         <md-table-cell>
           <p>{{int.message}}</p>
+        </md-table-cell>
+        <md-table-cell>
+          <md-button @click="editObject('intent', int)" class="md-icon-button">
+            <md-icon>create</md-icon>
+          </md-button>
+        </md-table-cell>
+        <md-table-cell>
+          <md-button @click="deleteObject('intent', int)" class="md-icon-button">
+            <md-icon>delete</md-icon>
+          </md-button>
         </md-table-cell>
       </md-table-row>
     </md-table>
@@ -54,11 +66,23 @@
 
       <md-table-row>
         <md-table-head>{{$t('faq.entity')}}</md-table-head>
+        <md-table-head></md-table-head>
+        <md-table-head></md-table-head>
       </md-table-row>
 
-      <md-table-row v-for="ent in entitys" v-bind:key="ent">
+      <md-table-row v-for="ent in entities" v-bind:key="ent">
         <md-table-cell>
           <p>{{ent.name}}</p>
+        </md-table-cell>
+        <md-table-cell>
+          <md-button @click="editObject('entity', ent)" class="md-icon-button">
+            <md-icon>create</md-icon>
+          </md-button>
+        </md-table-cell>
+        <md-table-cell>
+          <md-button @click="deleteObject('entity', ent)" class="md-icon-button">
+            <md-icon>delete</md-icon>
+          </md-button>
         </md-table-cell>
       </md-table-row>
     </md-table>
@@ -71,8 +95,6 @@ export default {
   name: 'faq',
   data: () => ({
     intent: null,
-    intentions: [],
-    entitys: [],
     entity: null,
     message: null
   }),
@@ -98,11 +120,26 @@ export default {
     addIntent: function () {
       this.intents.push({name: this.intent,
         message: this.message})
-      this.intents = this.intentions
     },
     addEntity: function () {
       this.entities.push({name: this.entity})
-      this.entities = this.entitys
+    },
+    deleteObject: function (name, object) {
+      if (name === 'intent') {
+        this.intents.pop(object)
+      } else if (name === 'entity') {
+        this.entities.pop(object)
+      }
+    },
+    editObject: function (name, object) {
+      if (name === 'intent') {
+        this.intent = object.name
+        this.message = object.message
+        this.intents.pop(object)
+      } else if (name === 'entity') {
+        this.entity = object.name
+        this.entities.pop(object)
+      }
     }
   }
 }

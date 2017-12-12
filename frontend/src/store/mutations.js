@@ -11,6 +11,9 @@ export default {
   setOptions: (state, val) => {
     state.options = val
   },
+  setUterances: (state, val) => {
+    state.uterances = val
+  },
   setIntents: (state, val) => {
     state.intents = val
   },
@@ -37,14 +40,14 @@ export default {
       })
       if (response.data[i].template === 'Welcome Bot') {
         state.history.push({ID: response.data[i]._id,
-          status: response.data[i].status,
+          welcomeMessage: response.data[i].welcomeMessage,
           template: response.data[i].template,
           name: response.data[i].name,
           lastedit: response.data[i].lastEdit,
           options: response.data[i].options})
       } else if (response.data[i].template === 'FAQ Bot') {
         state.history.push({ID: response.data[i]._id,
-          status: response.data[i].status,
+          welcomeMessage: response.data[i].welcomeMessage,
           template: response.data[i].template,
           name: response.data[i].name,
           lastedit: response.data[i].lastEdit,
