@@ -26,14 +26,14 @@ export default {
       })
     }
   },
-  getAll: (context) => {
+  getBots: (context) => {
     axios.get(url + '/getBots/' + localStorage.getItem('username')).then((response) => {
       context.commit('clearBotsFromArray')
       context.commit('getBots', response)
     })
   },
   getConfigs: (context) => {
-    axios.get(url + '/getConfigs/' + context.state.username).then((response) => {
+    axios.get(url + '/getConfigs/' + localStorage.getItem('username')).then((response) => {
       context.commit('clearBotsFromArray')
       context.commit('getConfigs', response)
     })

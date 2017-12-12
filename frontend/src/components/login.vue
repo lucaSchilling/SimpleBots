@@ -94,7 +94,7 @@
       },
       saveUser () {
         localStorage.setItem('username', this.form.username)
-        this.$i18n.set('de')
+        localStorage.setItem('lang', this.form.language)
         alert('Test')
         this.$router.push('/launch')
       },

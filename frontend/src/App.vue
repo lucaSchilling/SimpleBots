@@ -13,6 +13,12 @@ export default {
   components: {
     tabs
   },
+  beforeMount () {
+    if (localStorage.getItem('lang') === null) {
+      this.$i18n.set('en')
+    }
+    this.$i18n.set(localStorage.getItem('lang'))
+  },
   name: 'app'
 }
 </script>
