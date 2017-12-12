@@ -1,34 +1,35 @@
 <template>
   <div>
-    <form novalidate class="md-layout-row md-gutter" @submit.prevent="validateUser">
+    <!--@submit.prevent="validateUser"-->
+    <form novalidate class="md-layout-row md-gutter" @submit.prevent="validateUser" id="inner">
       <md-card class="md-flex-50 md-flex-small-100">
         <md-card-header>
-          <div class="md-title-primary">Login</div>
+          <div class="md-title-primary">{{$t('login.login')}}</div>
         </md-card-header>
 
         <md-card-content>
           <div class="md-layout-row md-layout-wrap md-gutter">
             <div class="md-flex md-flex-small-100">
               <md-field :class="getValidationClass('username')">
-                <label for="username">Username</label>
+                <label for="username">{{$t('login.username')}}</label>
                 <md-input name="username" id="username" autocomplete="given-name" v-model="form.username" :disabled="sending" />
-                <span class="md-error" v-if="!$v.form.username.required">The username is required</span>
+                <span class="md-error" v-if="!$v.form.username.required">{{$t('login.usernameError')}}</span>
               </md-field>
             </div>
           </div>
 
           <md-field :class="getValidationClass('password')" :md-toggle-password="false">
-            <label for="password">Password</label>
+            <label for="password">{{$t('login.password')}}</label>
             <md-input type="password" name="password" id="password" v-model="form.password" :disabled="sending" />
-            <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
+            <span class="md-error" v-if="!$v.form.password.required">{{$t('login.passwordError')}}</span>
           </md-field>
 
           
           <md-field>
-            <label for="language">Language</label>
+            <label for="language">{{$t('login.language')}}</label>
             <md-select v-model="form.Language" name="language" id="language">
-            <md-option value="de">German</md-option>
-            <md-option value="en">English</md-option>
+            <md-option value="de">{{$t('login.de')}}</md-option>
+            <md-option value="en">{{$t('login.en')}}</md-option>
           
           </md-select>
           </md-field>
@@ -37,11 +38,12 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
-          <md-button type="submit" class="md-primary" :disabled="sending">Login</md-button>
+          <md-button type="submit" class="md-primary" :disabled="sending" >
+          Login</md-button>
         </md-card-actions>
       </md-card>
 
-      <md-snackbar :md-active.sync="userSaved">The user {{ lastUser }} was saved with success!</md-snackbar>
+      <md-snackbar :md-active.sync="userSaved">{{$t('login.success')}}</md-snackbar>
     </form>
   </div>
 </template>
@@ -91,16 +93,10 @@
         this.form.password = null
       },
       saveUser () {
-        this.sending = true
-        // Sets the correct language
-        // this.$i18n.set(this.form.language)
-        // Instead of this timeout, we can call our API
-        window.setTimeout(() => {
-          this.lastUser = `${this.form.username} ${this.form.password}`
-          this.userSaved = true
-          this.sending = false
-          this.clearForm()
-        }, 1500)
+        this.$store.state.username = this.form.username
+        this.$i18n.set('de')
+        alert('Test')
+        this.$router.push('/launch')
       },
       validateUser () {
         this.$v.$touch()
@@ -114,7 +110,7 @@
 </script>
 
 <style scoped>
-  .md-content{   
+  .md-content {   
     width: 390px;
     height: 300px;
     margin: 10px;

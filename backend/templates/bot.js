@@ -17,7 +17,7 @@ class Bot {
         this.config = config;
         this.retries = 3;
         this.isConnected = false;
-
+        this.openConversations = {};
         this.init();
     }
 

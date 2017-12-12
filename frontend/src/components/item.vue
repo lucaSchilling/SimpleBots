@@ -1,26 +1,31 @@
 <template>
+<div>
   <li>
     <div
-      :class="{bold: isFolder}">
-
+      :class="{bold: isFolder}" v-show="!model.isRoot">
       <span v-if="isFolder && open" @click="toggle">
          <md-icon class="md-primary">expand_less</md-icon>  </span>
       <span v-if="isFolder && !open" @click="toggle">
          <md-icon class="md-primary">expand_more</md-icon>  </span>
 
           <md-input v-model="model.message"> </md-input>
+
             <span @click="changeType">
-              <md-icon class="md-primary">
+              <md-icon class="md-primary" v-show="!isFolder && model.redirect === null">
                 add
-                <md-tooltip md-direction="top">Add an option to this message</md-tooltip>
+                <md-tooltip md-direction="top">{{$t('item.changeTooltip')}}</md-tooltip>
               </md-icon>
             </span>
             <span @click="deleteChild">
-              <md-icon class="md-primary">delete</md-icon>
-              <md-tooltip md-direction="top">Delete the options from this message</md-tooltip>
+              <md-icon class="md-primary" >delete</md-icon>
+              <md-tooltip md-direction="top">{{$t('item.deleteTooltip')}}</md-tooltip>
+            </span>
+             <span @click="addRedirect">
+              <md-icon class="md-primary" v-show="(model.redirect === null) && (model.options === null)">trending_flat</md-icon>
+              <md-tooltip md-direction="top">{{$t('item.redirectTooltip')}}</md-tooltip>
             </span>
     </div>
-    <ul v-show="open" v-if="isFolder">
+    <ul v-show="open || model.isRoot" v-if="isFolder">
       <item
         class="item"
         v-for="model in model.options"
@@ -31,7 +36,14 @@
         <md-icon class="md-primary">add</md-icon> 
       </li>
     </ul>
+    <ul v-show="open && model.redirect !== null">
+      <md-select  class="redirect" v-model="model.redirect"> 
+        <md-option value="faqbot"> {{$t('item.faq')}}</md-option>
+        <md-option value="welcomebot">{{$t('item.wb')}}</md-option>        
+      </md-select>
+    </ul>
   </li>
+  </div>
 </template>
 
 <script>
@@ -68,13 +80,21 @@ export default {
     },
     deleteChild: function () {
       if (this.isFolder) {
-        Vue.set(this.model, 'options', null)
+        this.model.options = null
       }
+      this.model.redirect = null
+      this.open = false
     },
     addChild: function () {
       this.model.options.push({
-        message: ''
+        message: '',
+        redirect: null,
+        options: null
       })
+    },
+    addRedirect: function () {
+      this.model.redirect = ''
+      this.open = true
     }
   }
 
@@ -92,5 +112,10 @@ input {
   margin: 5px 0 10px;
   border-radius: 5px;
   border: 2px solid gray;
+}
+.redirect {
+  width: 280px;
+  height: 40px;
+   margin: 0 0 13px;
 }
 </style>

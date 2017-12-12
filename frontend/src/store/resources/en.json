@@ -1,0 +1,92 @@
+{
+    "botarmy": {
+        "welcomeMessage": "Welcome Message",
+        "options": "Options",
+        "deploy": "Deploy",
+        "next": "Next",
+        "questions": "Questions"
+    },
+    "elevationBots": {
+        "greeting": "Hi I am the",
+        "more": "More",
+        "faq": "F.A.Q. Bot",
+        "wb": "Welcome Bot",
+        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        "create": "Create Bot",
+        "feature1": "High Security Standard"
+    },
+    "faq": {
+        "intents": "Intents",
+        "typeIntent": "Type your intent here",
+        "typeAnswer": "Type your Answer here",
+        "add": "add",
+        "intent": "Intent",
+        "answer": "Answer",
+        "entities": "Entities",
+        "entity": "Entity"
+    },
+    "history": {
+        "ourBots": "Our Bots",
+        "info": "info",
+        "edit": "edit",
+        "clone": "clone",
+        "add": "add"
+    },
+    "item": {
+        "changeTooltip": "Add an option to this message",
+        "deleteTooltip": "Delete the options from this message",
+        "redirectTooltip": "Add a redirect to this message",
+        "faq": "F.A.Q. Bot",
+        "wb": "Welcome Bot"
+    },
+    "launch": {
+        "news": "News"
+    },
+    "login": {
+        "username": "Username",
+        "usernameError": "The username is required",
+        "password": "Password",
+        "passwordError": "The password is required",
+        "language": "Language",
+        "de": "German",
+        "en": "English",
+        "login": "Login",
+        "success": "Sucessfully loged in"
+    },
+    "messageStep": {
+        "message": "Welcome Message",
+        "next": "Next"
+    },
+    "nameStep": {
+        "chooseName": "Choose a name for your"
+    },
+    "optionStep": {
+        "setMenu": "Set selection menu" 
+    },
+    "tableHead": {
+        "status": "Status",
+        "id": "ID",
+        "template": "Template",
+        "name": "Name",
+        "lastEdit": "Last edit"
+    },
+    "tablerow": {
+        "delete": "delete"
+    },
+    "tabs": {
+        "launch": "LAUNCH",
+        "history": "HISTORY",
+        "botarmy": "BOTARMY",
+        "botStatus": "BOT STATUS"
+    },
+    "templateStep": {
+        "chooseTemplate": "Choose a template",
+        "wb": "Welcome Bot",
+        "faq": "F.A.Q. Bot"
+    },
+    "uterances": {
+        "setEntity": "Set an entity for",
+        "addQuestion": "Add your questions here",
+        "setEntities": "Set your entities here"
+    }
+}

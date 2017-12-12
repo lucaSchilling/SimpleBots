@@ -3,6 +3,12 @@ const Bot = require('./bot');
 // Request module
 const axios = require('axios');
 
+axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = '4d44af468562465b828ff3ecfb651475';
+
+function timeout(ms = 3000) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 /**
  * A bot that uses Microsoft LUIS to get the user's intent and answers frequently asked questions.
  */
@@ -31,7 +37,6 @@ class FAQBot extends Bot {
                 .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '999352232')
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
-                    console.log('this.openConversations[change.result.convId]' + this.openConversations[change.result.convId])
                     await this.joinConversation(change.result.convId, 'MANAGER');
                     await this.sendMessage(change.result.convId, 'Hello, I am the FAQ Bot. What is your question?');
                 });
@@ -45,32 +50,34 @@ class FAQBot extends Bot {
         });
 
         this.agent.on('ms.MessagingEventNotification', body => {
+            console.log('MessagingEventNotification: ' + JSON.stringify(body));
+            console.log('AgentID' + this.agent.agentId);
             body.changes
-            .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
-            .forEach(async change => {
-                console.log(change);
-                let userMessage = change.event.message;
-                
-                let getPredictionsRes = await axios.get(config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
-                
-                if (getPredictionsRes.status === 200) {
-                    for (let intent of this.config.intents) {
-                        
-                        if (intent.name === getPredictionsRes.data.topScoringIntent.intent) {
-                            await this.sendMessage(change.dialogId, intent.message);
+                .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
+                .forEach(async change => {
+                    console.log('change: ' + JSON.stringify(change));
+                    let userMessage = change.event.message;
+                    console.log(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage)
+                    let getPredictionsRes = await axios.get(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
+                    if (getPredictionsRes.status === 200) {
+                        for (let intent of this.config.intents) {
 
-                            await this.agent.updateConversationField({
-                                'conversationId': change.dialogId,
-                                'conversationField': [{
-                                    field: "ConversationStateField",
-                                    conversationState: "CLOSE"
-                                }]
-                            });
+                            if (intent.name === getPredictionsRes.data.topScoringIntent.intent) {
+                                await this.sendMessage(change.dialogId, intent.message);
 
-                            return;
+                                await this.agent.updateConversationField({
+                                    'conversationId': change.dialogId,
+                                    'conversationField': [{
+                                        field: "ConversationStateField",
+                                        conversationState: "CLOSE"
+                                    }]
+                                });
+
+                                return;
+                            }
+
+                            await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
                         }
-
-                        await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
                     }
                 }
                 else if (getPredictionsRes.status === 429) {
@@ -107,7 +114,7 @@ class FAQBot extends Bot {
     async createLuisApp() {
         // Check for existing app
         let getApplicationsRes = await axios.get(this.config.luisApiUrl);
-      
+
         if (getApplicationsRes.status === 200) {
             for (let app of getApplicationsRes.data) {
                 if (app.name === this.config._id) {
@@ -226,6 +233,25 @@ class FAQBot extends Bot {
             await this.timeout(5000);
             let trainCompleteRes = await axios.get(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train');
             if (trainCompleteRes.status === 200) {
+                let publishRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/publish', {
+                    versionId: '1.0',
+                    isStaging: false,
+                    region: 'westus'
+                });
+
+                if (publishRes.status === 201) {
+                    console.log('LUIS app published');
+                }
+                else if (publishRes.status === 429) {
+                    console.log('LUIS rate limit exceeded');
+                    return;
+                }
+                else {
+                    console.error('Failed to publish LUIS app');
+                    console.log(publishRes);
+                    return;
+                }
+
                 this.init();
                 this.isTrainingComplete = true;
                 break;
