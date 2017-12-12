@@ -4,28 +4,28 @@
     <md-table md-card>
       <md-table-toolbar>
         <div id="intentHead">
-        <h1 class="md-title">Intents</h1>
+        <h1 class="md-title">{{$t('faq.intents')}}</h1>
         </div>
         <div id="intentText">
         <md-field>
-          <label>Type your Intent here</label>
+          <label>{{$t('faq.typeIntent')}}</label>
           <md-input v-model="intent"></md-input>
         </md-field>
         </div>
         <div id="answer">
         <md-field>
-          <label>Type your Answer here</label>
+          <label>{{$t('faq.typeAnswer')}}</label>
           <md-input v-model="message"></md-input>
           <span @click="addIntent" class="hover">
-            <md-icon>add</md-icon>
+            <md-icon>{{$t('faq.add')}}</md-icon>
           </span>
         </md-field>
         </div>
       </md-table-toolbar>
 
       <md-table-row>
-        <md-table-head>Intent</md-table-head>
-        <md-table-head>Answer</md-table-head>
+        <md-table-head>{{$t('faq.intent')}}</md-table-head>
+        <md-table-head>{{$t('faq.answer')}}</md-table-head>
       </md-table-row>
 
       <md-table-row v-for="int in intentions" v-bind:key="int">
@@ -43,17 +43,17 @@
     <div id="entities">
     <md-table md-card>
       <md-table-toolbar>
-        <h1 class="md-title">Entities</h1>
+        <h1 class="md-title">{{$t('faq.entities')}}</h1>
         <md-field>
           <md-input v-model="entity"></md-input>
           <span @click="addEntity" class="hover">
-            <md-icon>add</md-icon>
+            <md-icon>{{$t('faq.add')}}</md-icon>
           </span>
         </md-field>
       </md-table-toolbar>
 
       <md-table-row>
-        <md-table-head>Entity</md-table-head>
+        <md-table-head>{{$t('faq.entity')}}</md-table-head>
       </md-table-row>
 
       <md-table-row v-for="ent in entitys" v-bind:key="ent">

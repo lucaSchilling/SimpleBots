@@ -1,7 +1,7 @@
 <template>
 <div id="tab">
   <div id="launch">
-          <h4 id="news">News</h4>
+          <h4 id="news">{{$t('launch.news')}}</h4>
   <video width="800" controls>
     <source src="../../assets/intro.mp4" type="video/mp4">
   </video>

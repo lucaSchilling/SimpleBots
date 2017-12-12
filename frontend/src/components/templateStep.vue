@@ -1,11 +1,11 @@
 <template>
   <div id="box">
-    <h2 id="choose">Choose a Template</h2>
+    <h2 id="choose">{{$t('templateStep.chooseTemplate')}}</h2>
     <div id="wrapper">
       <div id="left">
         <md-card md-with-hover>
           <div @click="setTemplateWelcome" id="wlcmdiv">
-            <h3 id="welcomeText">Welcome Bot</h3>
+            <h3 id="welcomeText">{{$t('templateStep.wb')}}</h3>
             <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" class="img">
           </div>
         </md-card>
@@ -13,7 +13,7 @@
       <div id="right">
         <md-card md-with-hover>
           <div @click="setTemplateFAQBot" id="faqdiv">
-            <h3 id="faqText">FAQ Bot</h3>
+            <h3 id="faqText">{{$t('templateStep.faq')}}</h3>
             <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" class="img">
           </div>
         </md-card>

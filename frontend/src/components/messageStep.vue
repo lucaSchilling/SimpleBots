@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h2 id="welcomeMsg">Welcome Message</h2>
+    <h2 id="welcomeMsg">{{$t('messageStep.message')}}</h2>
     <div id="textcontainer">
       <md-field>
         <md-textarea v-model="welcomeMessage"></md-textarea>
       </md-field>
   </div>
-  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'forth', index: 'fifth'})">Next</md-button>
+  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'forth', index: 'fifth'})">{{$t('messageStep.next')}}</md-button>
 </div>
 </template>
 

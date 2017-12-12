@@ -2,7 +2,7 @@
   <div>
     <md-dialog :md-active.sync="showDialog">
       <div id="dialog">
-        <md-dialog-title>Set an Entity for "{{selected}}"</md-dialog-title>
+        <md-dialog-title>{{$t('uterances.setEntity')}} "{{selected}}"</md-dialog-title>
       <div id="intents">
         <p class="pHover" v-for="intent in intents" v-bind:key="intent" @click="setIntent(intent.name)">{{intent.name}}</p>
       </div>
@@ -12,9 +12,9 @@
 
       </div>
      </md-dialog>
-     <h3>Add your Questions here!</h3>
+     <h3>{{$t('uterances.addQuestion')}} </h3>
      <input v-model="uterance" v-on:keyup.enter="addUterance"></input>
-      <h3>Set your Entities here!</h3>
+      <h3>{{$t('uterances.setEntities')}} </h3>
       <ol>
     <div v-for="(ut, index) in uterances" v-bind:key="ut">
       <li><span class="span" v-for="word in ut" v-bind:key="word" @click="openDialog(sentences[index], word)">
