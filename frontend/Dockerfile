@@ -5,6 +5,6 @@ WORKDIR /usr/src/app
 ADD . /usr/src/app
 RUN npm install express
 RUN npm install ejs
-ENV PORT=8081
-EXPOSE 8081
+ENV PORT=8082
+EXPOSE 8082
 CMD [ "npm", "start" ]

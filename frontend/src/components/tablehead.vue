@@ -1,16 +1,13 @@
 <template>
 <div>
-  <md-field md-clearable class="md-toolbar-section-end">
-          <md-input placeholder="Search by Botname..." v-model="search" @input="searchOnTable" />
-        </md-field>
   <md-table>
       <md-table-row>
       <md-table-head></md-table-head>
-      <md-table-head>Status</md-table-head>
-      <md-table-head>ID</md-table-head>
-      <md-table-head>Template</md-table-head>
-      <md-table-head>Name</md-table-head>
-      <md-table-head>Last Edit</md-table-head>
+      <md-table-head>{{$t('tableHead.status')}}</md-table-head>
+      <md-table-head>{{$t('tableHead.id')}}</md-table-head>
+      <md-table-head>{{$t('tableHead.template')}}</md-table-head>
+      <md-table-head>{{$t('tableHead.name')}}</md-table-head>
+      <md-table-head>{{$t('tableHead.lastEdit')}}</md-table-head>
     </md-table-row>
     <tablerow v-for="bot in bots" v-bind:key='bot.ID'
               :ID = "bot.ID" 

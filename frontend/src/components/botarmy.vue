@@ -1,176 +1,226 @@
 <template>
-  <div>
-    <h4 id="headline">Let's create your Botarmy!</h4>
-    <md-steppers :md-active-step.sync="active" md-linear>
-      <md-step id="first" :md-error="firstStepError" :md-done.sync="first">
-        <div class="div">
-        <h2 id="assign">Assign Chatbot</h2>
-        <br>
-        <br>
-        <p id="lng">Choose a language</p>
-        <div id="btndiv">
-            <md-button class="md-raised md-primary" :disabled="disabledEnglish" @click="selectButton">English</md-button>
-            <md-button class="md-raised md-primary" :disabled="disabledDeutsch" @click="selectButton">Deutsch</md-button>
-        </div>
-        <md-button id="next" class="md-raised md-primary" @click="setDone('first', 'second')">Next</md-button>
-        </div>
+    <md-steppers md-sync-route :md-active-step.sync="active" md-linear>
+      <md-step id="first" md-label="Template" :md-done.sync="first">
+        <templateStep></templateStep>
       </md-step>
 
-      <md-step id="second" :md-error="secondStepError" :md-done.sync="second">
-        <md-button id="continue" class="md-raised md-primary" @click="setDone('second', 'third')">Continue</md-button>
-        <md-button id="setError" class="md-raised md-primary" @click="setError()">Set error!</md-button>
+      <md-step id="second" md-label="Name" :md-done.sync="second">
+        <nameStep></nameStep>
       </md-step>
 
-      <md-step id="third" :md-done.sync="third">
-          <div class="div">
-          <md-field>
-                <label for="_id">_id</label>
-                <md-input id="id" name="_id" v-model="_id">
-                </md-input>
-          </md-field>
-          <md-field>
-                <label for="Name">Name</label>
-                <md-input id="name" name="Name" v-model="name">
-                </md-input>
-          </md-field>
-          <md-field>
-                <label for="Welcome Message">Welcome Message</label>
-                <md-input id="welcomeMessage" name="Welcome Message" v-model="welcomeMessage">
-                </md-input>
-          </md-field>
-          <md-field>
-                <label for="Options">Options</label>
-                <md-input id="options" name="Options" v-model="options">
-                </md-input>
-          </md-field>
-          <md-field id="field">
-                <label for="Template">Template</label>
-                <md-select name="Template" v-model='template'>
-                    <md-option id = "wB" value="Welcome Bot">Welcome Bot</md-option>
-                    <md-option id = "FAQ" value="FAQ Bot">FAQ Bot</md-option>
-                    <md-option id = "taB" value="Task Assist Bot">Task Assist Bot</md-option>
-                </md-select>
-          </md-field>
-          <md-field>
-                <label for="lastedit">lastedit</label>
-                <md-input id="lastEdit" name="lastedit" v-model="lastedit">
-                </md-input>
-          </md-field>
-            
-        <md-button id="deployButton" class="md-raised md-primary" @click="deploy">Done</md-button>
-          </div>
+      <md-step id="forth" :md-label="this.$t('botarmy.welcomeMessage')" :md-done.sync="forth">
+        <messageStep></messageStep>
       </md-step>
+
+      <md-step id="fifth" :md-label="this.$t('botarmy.options')" :md-done.sync="fifth">
+        <div v-if="template === 'Welcome Bot'">
+          <optionStep></optionStep>
+          <md-button class="md-primary md-raised" @click="deploy">{{$t('botarmy.deploy')}}</md-button>
+        </div>
+
+        <div v-else-if="template === 'FAQ Bot'" id="faqdiv">
+          <faq></faq>
+        </div>
+        <md-button v-if="template === 'FAQ Bot'" class="md-primary md-raised buttonRight" @click="setDone({id: 'fifth', index: 'sixth'})" id="sixth">{{$t('next')}}</md-button>
+        </md-step>
+
+        <md-step id="sixth" :md-label="this.$t('botarmy.questions')" :md-done.sync="sixth">
+          <uterances></uterances>
+        </md-step>             
+    </md-steppers>
+  </div>
+      </md-step>            
     </md-steppers>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'botarmy',
-    data: () => ({
-      active: 'first',
-      first: false,
-      second: false,
-      third: false,
-      firstStepError: null,
-      secondStepError: null,
-      disabledEnglish: false,
-      disabledDeutsch: true,
-      selectedTemplate: null
-    }),
-    computed: {
-      _id: {
-        get () {
-          return this.$store.state._id
-        },
-        set (val) {
-          this.$store.commit('setId', val)
-        }
+import item from './item.vue'
+import faq from './faq.vue'
+import uterances from './uterances.vue'
+import templateStep from './templateStep.vue'
+import nameStep from './nameStep.vue'
+import languageStep from './languageStep.vue'
+import messageStep from './messageStep.vue'
+import optionStep from './optionStep.vue'
+
+export default {
+  name: 'botarmy',
+  components: {
+    item,
+    faq,
+    uterances,
+    templateStep,
+    nameStep,
+    languageStep,
+    messageStep,
+    optionStep
+  },
+  computed: {
+    template: {
+      get () {
+        return this.$store.state.template
       },
-      name: {
-        get () {
-          return this.$store.state.name
-        },
-        set (val) {
-          this.$store.commit('setName', val)
-        }
-      },
-      template: {
-        get () {
-          return this.$store.state.template
-        },
-        set (val) {
-          this.$store.commit('setTemplate', val)
-        }
-      },
-      lastedit: {
-        get () {
-          return this.$store.state.lastedit
-        },
-        set (val) {
-          this.$store.commit('setLastEdit', val)
-        }
-      },
-      welcomeMessage: {
-        get () {
-          return this.$store.state.welcomeMessage
-        },
-        set (val) {
-          this.$store.commit('setWelcomeMessage', val)
-        }
-      },
-      options: {
-        get () {
-          return this.$store.state.options
-        },
-        set (val) {
-          this.$store.commit('setOptions', val)
-        }
+      set (val) {
+        this.$store.commit('setTemplate', val)
       }
     },
-    methods: {
-      setDone (id, index) {
-        this[id] = true
-
-        this.secondStepError = null
-
-        if (index) {
-          this.active = index
-        }
+    options: {
+      get () {
+        return this.$store.state.options
       },
-      setError () {
-        this.secondStepError = 'This is an error!'
+      set (val) {
+        this.$store.commit('setOptions', val)
+      }
+    },
+    active: {
+      get () {
+        return this.$store.state.active
       },
-      selectButton () {
-        this.disabledEnglish = !this.disabledEnglish
-        this.disabledDeutsch = !this.disabledDeutsch
+      set (val) {
+        this.$store.commit('setActive', val)
+      }
+    },
+    first: {
+      get () {
+        return this.$store.state.first
       },
-      deploy: function () {
-        this.$store.dispatch('deploy')
-        this.setDone('third')
+      set (val) {
+        this.$store.commit('setFirst', val)
+      }
+    },
+    second: {
+      get () {
+        return this.$store.state.second
+      },
+      set (val) {
+        this.$store.commit('setSecond', val)
+      }
+    },
+    third: {
+      get () {
+        return this.$store.state.third
+      },
+      set (val) {
+        this.$store.commit('setThird', val)
+      }
+    },
+    forth: {
+      get () {
+        return this.$store.state.forth
+      },
+      set (val) {
+        this.$store.commit('setForth', val)
+      }
+    },
+    fifth: {
+      get () {
+        return this.$store.state.fifth
+      },
+      set (val) {
+        this.$store.commit('setFifth', val)
+      }
+    },
+    sixth: {
+      get () {
+        return this.$store.state.sixth
+      },
+      set (val) {
+        this.$store.commit('setSixth', val)
+      }
+    },
+    treeData: {
+      get () {
+        return this.$store.state.treeData
+      },
+      set (val) {
+        this.$store.commit('setTreeData', val)
       }
     }
+  },
+  methods: {
+    deploy: function () {
+      this.options = this.treeData.options
+      this.$store.dispatch('deploy')
+      this.clear()
+      this.setUndone('first')
+    },
+    add: function () {
+      this.tree.push({message: null, options: [], redirect: null})
+    },
+    setDone (object) {
+      this.$store.commit('setDone', object)
+    },
+    clear: function () {
+      this.$store.commit('clear')
+    },
+    setUndone (index) {
+      this.$store.commit('setUndone', index)
+    }
   }
+}
 </script>
 
-
 <style lang="scss" scoped>
-  #headline, #assign, #lng{
-      color: gray;
-  }
-  #assign, #lng {
-      text-align: center;
-  }
-  #next {
-      position: absolute;
-      right:    0;
-      bottom:   0;
-  }
-  #btndiv {
-      display: flex;
-      justify-content: center;
-  }
-  .div {
-      height: 500px;
-  }
+#headline,
+#slct {
+  color: gray;
+}
+#slct {
+  text-align: center;
+}
+.div {
+  height: 500px;
+}
+#wrapperM {
+  width: 900px;
+  margin: 0 auto;
+}
+#container {
+  height: 500px;
+}
+#leftM {
+  float: left;
+}
+#rightM {
+  float: right;
+}
+input {
+  width: 280px;
+  height: 40px;
+  padding: 5px;
+  margin: 20px 0 10px;
+  border-radius: 5px;
+  border: 2px solid gray;
+}
+ul {
+  list-style-type: none;
+}
+#nextButton {
+  position: absolute;
+  right: 0;
+}
+#text {
+  text-align: center
+}
+#wrapFAQ {
+  width: 1000px
+}
+#leftFAQ, #rightFAQ {
+  width: 500px;
+  float: left;
+}
+#faqdiv {
+  width: 100%;
+}
+#welcomeMessageFAQ {
+  width: 400px;
+  float: left;
+}
+#intents {
+  float: right;
+}
+.buttonRight {
+  float: right;
+}
 </style>

@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-     <tabs></tabs>
+     <tabs v-show="!('/' === this.$route.path)"></tabs>
     <router-view/>
+
   </div>
 </template>
 
