@@ -47,11 +47,7 @@ describe.skip('### WelcomeBot - Setting up a bot ###', function () {
         assert.equal(bot.config.name, 'Lucas stinkt!')
         assert.equal(bot.config.template, 'Welcome Bot')
         assert.equal(bot.config.welcomeMessage, 'Hey, ich kann dir helfen')
-        // console.log("###TEST###: bot.config.options: " + bot.config.options);
-        // console.log("###TEST###: bot.config.options.length: " + bot.config.options.length);        
-        // for(var i = 0; i < bot.config.options.length; i++){
-        //     console.log("###TEST###: option " + i +": " + bot.config.options[i].message )
-        // }
+
         assert.equal(bot.config.options[0].message, 'Naa')
         assert.equal(bot.config.options[0].options[0].message, 'Naa2')
         assert.equal(bot.config.options[0].options[0].redirect, '12')
@@ -65,11 +61,7 @@ describe.skip('### WelcomeBot - Setting up a bot ###', function () {
         assert.equal(bot1.config.name, 'James der Bottler')
         assert.equal(bot1.config.template, 'Welcome Bot')
         assert.equal(bot1.config.welcomeMessage, 'Hey, ich kann dir helfen')
-        // console.log("###TEST###: bot.config.options: " + bot.config.options);
-        // console.log("###TEST###: bot.config.options.length: " + bot.config.options.length);        
-        // for(var i = 0; i < bot.config.options.length; i++){
-        //     console.log("###TEST###: option " + i +": " + bot.config.options[i].message )
-        // }
+
         assert.equal(bot1.config.options[0].message, 'Login Probleme')
         assert.equal(bot1.config.options[0].options[0].message, 'Benutzername vergessen')
         assert.equal(bot1.config.options[0].options[0].redirect, '12')
@@ -85,11 +77,7 @@ describe.skip('### WelcomeBot - Setting up a bot ###', function () {
         assert.equal(bot2.config.name, 'Naruto der Bot')
         assert.equal(bot2.config.template, 'Welcome Bot')
         assert.equal(bot2.config.welcomeMessage, 'Hey, ich kann dir helfen')
-        // console.log("###TEST###: bot.config.options: " + bot.config.options);
-        // console.log("###TEST###: bot.config.options.length: " + bot.config.options.length);        
-        // for(var i = 0; i < bot.config.options.length; i++){
-        //     console.log("###TEST###: option " + i +": " + bot.config.options[i].message )
-        // }
+
         assert.equal(bot2.config.options[0].message, 'Login Probleme')
         assert.equal(bot2.config.options[0].options[0].message, 'Benutzername vergessen')
         assert.equal(bot2.config.options[0].options[0].redirect, '12')

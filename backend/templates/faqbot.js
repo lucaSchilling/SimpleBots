@@ -17,8 +17,8 @@ function timeout(ms = 3000) {
  */
 class FAQBot extends Bot {
 
-    constructor(accountId, username, password, csds, config) {
-        super(accountId, username, password, csds, config);
+    constructor(accountId, username, password, config) {
+        super(accountId, username, password, config);
         
         this.luisApiUrl = 'https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/';
         this.luisReqUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/';
