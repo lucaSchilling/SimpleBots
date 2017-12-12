@@ -93,7 +93,7 @@
         this.form.password = null
       },
       saveUser () {
-        this.$store.state.username = this.form.username
+        localStorage.setItem('username', this.form.username)
         this.$i18n.set('de')
         alert('Test')
         this.$router.push('/launch')
