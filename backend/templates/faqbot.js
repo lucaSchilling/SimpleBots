@@ -29,19 +29,22 @@ class FAQBot extends Bot {
     init() {
         super.init();
 
-        // 'UPSERT' apparently means that the chat user has sent a new message
+        // React to conversation changes
         this.agent.on('cqm.ExConversationChangeNotification', body => {
-            // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options
+            // Bot joins any conversation marked with its skill
             body.changes
                 //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert (?)
                 .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '999352232')
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
                     await this.joinConversation(change.result.convId, 'MANAGER');
+
+                    console.log('FAQ Bot ' + this.config._id + ' joined conversation ' + change.result.convId);
+
                     await this.sendMessage(change.result.convId, 'Hello, I am the FAQ Bot. What is your question?');
                 });
 
-            // On conversation termination, remove all temporary data about that conversation
+            // On conversation termination, remove all temporary data of that conversation
             body.changes
                 .filter(change => change.type === 'DELETE' && this.openConversations[change.result.convId])
                 .forEach(async change => {
@@ -49,22 +52,24 @@ class FAQBot extends Bot {
                 });
         });
 
+        // React to messages in already joined conversations
         this.agent.on('ms.MessagingEventNotification', body => {
-            console.log('MessagingEventNotification: ' + JSON.stringify(body));
-            console.log('AgentID' + this.agent.agentId);
             body.changes
                 .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
                 .forEach(async change => {
-                    console.log('change: ' + JSON.stringify(change));
                     let userMessage = change.event.message;
-                    console.log(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage)
-                    let getPredictionsRes = await axios.get(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
-                    if (getPredictionsRes.status === 200) {
-                        for (let intent of this.config.intents) {
 
+                    // Get user intent via LUIS
+                    let getPredictionsRes = await axios.get(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
+
+                    if (getPredictionsRes.status === 200) {
+                        // Compare top scoring intent to the predefined intents
+                        for (let intent of this.config.intents) {
                             if (intent.name === getPredictionsRes.data.topScoringIntent.intent) {
+                                // Answer the user's question
                                 await this.sendMessage(change.dialogId, intent.message);
 
+                                // Terminate the conversation
                                 await this.agent.updateConversationField({
                                     'conversationId': change.dialogId,
                                     'conversationField': [{
@@ -76,7 +81,19 @@ class FAQBot extends Bot {
                                 return;
                             }
 
-                            await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
+                            // If the top scoring intent wasn't predefined, redirect the chat partner to a human agent
+                            await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question.\nA human agent will be with you momentarily...');
+
+                            await this.agent.updateConversationField({
+                                'conversationId': change.dialogId,
+                                'conversationField': [{
+                                    field: "Skill",
+                                    type: "UPDATE",
+                                    skill: '1008076832'
+                                }]
+                            });
+
+                            await this.leaveConversation(change.result.convId);
                         }
                     }
                     else if (getPredictionsRes.status === 429) {
@@ -90,7 +107,7 @@ class FAQBot extends Bot {
                         await this.sendMessage('This service is currently not available due to technical difficulties');
                         return;
                     }
-                });
+            });
         });
     }
 
