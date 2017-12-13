@@ -1,5 +1,5 @@
 <template>
-  <div id="loginDreck">
+  <div id="loginWrap">
     <!--@submit.prevent="validateUser"-->
     <form novalidate class="md-layout-row md-gutter" @submit.prevent="validateUser" id="inner">
       <md-card class="md-flex-50 md-flex-small-100">
@@ -28,7 +28,7 @@
           
           <md-field>
             <label for="language">{{$t('login.language')}}</label>
-            <md-select v-model="form.Language" name="language" id="language">
+            <md-select v-model="form.language" name="language" id="language">
             <md-option  id="de" value="de">{{$t('login.de')}}</md-option>
             <md-option id="en" value="en">{{$t('login.en')}}</md-option>
           
@@ -94,6 +94,7 @@
         this.form.password = null
       },
       saveUser () {
+        this.$i18n.set(localStorage.getItem(this.form.language))
         localStorage.setItem('username', this.form.username)
         localStorage.setItem('lang', this.form.language)
         this.$router.push('/launch')
@@ -116,7 +117,7 @@
     margin: 10px;
     display: flex;
 }
-  #loginDreck {
+  #loginWrap {
     width: 700px;
     min-width: 700px;
     height: 344px;

@@ -29,6 +29,9 @@ export default {
   setLastEdit: (state, val) => {
     state.lastedit = val
   },
+  setitemID: (state, val) => {
+    state.itemID = val
+  },
   getBots: (state, response) => {
     for (let i = 0; i < response.data.length; i++) {
       state.bots.push({ID: response.data[i]._id,
@@ -115,7 +118,7 @@ export default {
     state.welcomeMessage = null
     state.options = []
     state.treeData = {
-      message: '',
+      isRoot: true,
       options: []
     }
     state.intents = []

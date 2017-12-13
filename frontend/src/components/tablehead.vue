@@ -65,7 +65,7 @@ export default {
 
 <style>
 #tablediv {
-  position: fixed;
+  position: absolute;
   z-index: 2;
   width: 100vw;
   top: 48px;

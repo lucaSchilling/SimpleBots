@@ -1,10 +1,6 @@
 <template>
   <div>
 
-    <div id="logo">
-      <img src="../../assets/logo.png">
-    </div>
-
     <md-tabs md-sync-route md-alignment="fixed" id="tabs" >
 
       <md-tab id="tab-launch" class="tabs" :md-label="this.$t('tabs.launch')" to="/launch">
@@ -50,14 +46,6 @@ export default {
 </script>
 
 <style>
-
-  #logo {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 200px;
-    z-index: 3;
-  }
   #logout {
     position: fixed;
     top: 0px;

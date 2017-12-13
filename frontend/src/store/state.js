@@ -26,5 +26,6 @@ export default {
       redirect: null,
       options: null
     }]},
-  username: ''
+  username: '',
+  itemID: 0
 }

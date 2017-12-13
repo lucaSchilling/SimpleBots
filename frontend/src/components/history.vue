@@ -131,6 +131,14 @@ export default {
       set (val) {
         this.$store.commit('setExamples', val)
       }
+    },
+    uterances: {
+      get () {
+        return this.$store.state.uterances
+      },
+      set (val) {
+        this.$store.commit('setUterances', val)
+      }
     }
   },
   methods: {
@@ -146,7 +154,7 @@ export default {
       this.name = bot.name
       this.welcomeMessage = bot.welcomeMessage
       if (bot.template === 'Welcome Bot') {
-        this.treeData.options = bot.options.options
+        this.treeData.options = bot.options
       } else if (bot.template === 'FAQ Bot') {
         this.intents = bot.intents
         this.entities = bot.entities
@@ -172,6 +180,9 @@ export default {
         this.intents = bot.intents
         this.entities = bot.entities
         this.examples = bot.examples
+        for (let i = 0; i < this.examples.length; i++) {
+          this.uterances.push(this.examples[i].text.split(' '))
+        }
       }
     },
     setDone (object) {

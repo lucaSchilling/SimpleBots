@@ -9,20 +9,22 @@
          <md-icon class="md-primary">expand_more</md-icon>  </span>
 
           <md-input v-model="model.message"> </md-input>
-
-            <span @click="changeType">
-              <md-icon class="md-primary" v-show="!isFolder && model.redirect === null">
+          <span>
+            <md-menu md-direction="bottom-start" class="menu" v-show="!isFolder && model.redirect === null">
+                    <md-icon class="md-primary" md-menu-trigger>
                 add
                 <md-tooltip md-direction="top">{{$t('item.changeTooltip')}}</md-tooltip>
               </md-icon>
-            </span>
-            <span @click="deleteChild">
+              <md-menu-content>
+                <md-menu-item><span class="span" @click="changeType">option</span></md-menu-item>
+                <md-menu-item><span class="span" @click="addRedirect">redirect</span></md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </span>
+
+            <span @click="deleteThis(model.id)">
               <md-icon class="md-primary" >delete</md-icon>
               <md-tooltip md-direction="top">{{$t('item.deleteTooltip')}}</md-tooltip>
-            </span>
-             <span @click="addRedirect">
-              <md-icon class="md-primary" v-show="(model.redirect === null) && (model.options === null)">trending_flat</md-icon>
-              <md-tooltip md-direction="top">{{$t('item.redirectTooltip')}}</md-tooltip>
             </span>
     </div>
     <ul v-show="open || model.isRoot" v-if="isFolder">
@@ -51,6 +53,9 @@ import Vue from 'vue'
 
 export default {
   name: 'item',
+  mounted () {
+    this.model.id = this.itemID++
+  },
   props: {
     model: Object
   },
@@ -66,6 +71,19 @@ export default {
     },
     isRedirect: function () {
       return this.model.redirect !== null
+    },
+    treeData: {
+      get () {
+        return this.$store.state.treeData
+      }
+    },
+    itemID: {
+      get () {
+        return this.$store.state.itemID
+      },
+      set (val) {
+        this.$store.commit('setitemID', val)
+      }
     }
   },
   methods: {
@@ -83,10 +101,29 @@ export default {
     },
     deleteChild: function () {
       if (this.isFolder) {
-        this.model.options = null
+        this.treeData.options[0].options[0].options.splice(0, 1)
       }
       this.model.redirect = null
-      this.open = false
+      // this.open = false
+    },
+    deleteThis (id) {
+      this.delete(this.treeData.options, id)
+    },
+    delete (array, id) {
+      // this.$store.state.treeData.options
+      for (let i = 0; i < array.length; i++) {
+        if (array[i].id === id) {
+          array.splice(i, 1)
+          return
+        } else {
+          if (array === null) {
+            return
+          }
+          if (array[i].options !== null) {
+            this.delete(array[i].options, id)
+          }
+        }
+      }
     },
     addChild: function () {
       this.model.options.push({
