@@ -2,25 +2,23 @@ version: '2'
 
 # Define the services/containers to be run
 services:
-  devRuntime: #name of your service
-    image: 19962711/sep-slitherin:devRuntime # specify the directory of the Dockerfile
+  Runtime: #name of your service
+    build: ./backend/ # specify the directory of the Dockerfile
     ports:
-      - "3001:3001" #specify ports forwarding
-    links:
-      - devDatabase # link this service to the database service
+      - "3000:3000" #specify ports forwarding
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
     depends_on:
-      - devDatabase
+      - Database
       
-  devDatabase: # name of the service
+  Database: # name of the service
     image: mongo # specify image to build container from
     ports:
-      - "27018:27017"
+      - "27017:27017"
 
-  devFrontend:
-    image: 19962711/sep-slitherin:devFrontend
+  Frontend:
+    build: ./frontend/
     ports:
-      - "8082:8082"
-    links:
-      - devRuntime  
+      - "8080:8080"
     depends_on:
       - devRuntime   

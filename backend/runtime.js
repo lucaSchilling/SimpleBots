@@ -48,7 +48,8 @@ db.setUrl(mongoURL);
 
 // Start listening
 server.listen(port, function () {
-    console.log('Bot Runtime listening on port ' + port);
+    setTimeout(function () {
+    console.log('Bot Runtime listening on port ' + port);}, 5000)
 });
 
 // Deploys the bot into a ready state and saves it in the database. Expects valid JSON
