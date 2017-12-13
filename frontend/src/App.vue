@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-     <tabs></tabs>
+     <tabs v-show="!('/' === this.$route.path)"></tabs>
     <router-view/>
+
   </div>
 </template>
 
@@ -11,6 +12,12 @@ import tabs from './components/tabs.vue'
 export default {
   components: {
     tabs
+  },
+  beforeMount () {
+    if (localStorage.getItem('lang') === null) {
+      this.$i18n.set('en')
+    }
+    this.$i18n.set(localStorage.getItem('lang'))
   },
   name: 'app'
 }

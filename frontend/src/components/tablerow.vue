@@ -22,7 +22,8 @@ export default {
       this.$store.dispatch('delete', this.ID)
     },
     getAll: function () {
-      this.$store.dispatch('getAll')
+      this.getBots()
+      this.getConfigs()
     },
     postStatus: function () {
       this.$store.dispatch('postStatus', this.ID)
@@ -31,6 +32,12 @@ export default {
       let object = {id: this.ID,
         status: boolean}
       this.$store.dispatch('postStatus', object)
+    },
+    getBots: function () {
+      this.$store.dispatch('getBots')
+    },
+    getConfigs: function () {
+      this.$store.dispatch('getConfigs')
     }
   },
   computed: {

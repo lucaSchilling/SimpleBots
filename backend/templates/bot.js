@@ -17,7 +17,7 @@ class Bot {
         this.config = config;
         this.retries = 3;
         this.isConnected = false;
-
+        this.openConversations = {};
         this.init();
     }
 
@@ -26,9 +26,8 @@ class Bot {
      */
     init() {
         this.agent = new Agent({ accountId: this.accountId, username: this.username, password: this.password });
-        
         this.agent.on('connected', () => {
-            this.isConnected = true; 
+            this.isConnected = true;
         });
 
         this.agent.on('error', err => {
@@ -39,16 +38,15 @@ class Bot {
         // If losing connection to LiveEngage, retry to connect
         this.agent.on('closed', reason => {
             this.isConnected = false;
-            
+
             console.error('Bot ' + this.config._id + ': Connection to UMS closed with reason', reason); // TODO: mail to admin
-            
+          
             if (this.retries > 0) {
                 this.retries--;
                 
                 setTimeout(() => {
                     this.agent.reconnect(reason !== 4401 || reason !== 4407);
                 }, 5000);
-
             }
             else {
                 console.error('Bot ' + this.config._id + ': Unable to connect')
@@ -160,7 +158,7 @@ class Bot {
      * @param {string} conversationId The id of the conversation
      */
     async leaveConversation(conversationId) {
-        console.log('Bot ' + this.config._id + ' has left conversation '+ conversationId)
+        console.log('Bot ' + this.config._id + ' has left conversation ' + conversationId)
         delete this.openConversations[conversationId];
 
         return await this.agent.updateConversationField({

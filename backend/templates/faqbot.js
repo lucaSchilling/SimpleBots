@@ -3,13 +3,19 @@ const Bot = require('./bot');
 // Request module
 const axios = require('axios');
 
+axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = '4d44af468562465b828ff3ecfb651475';
+
+function timeout(ms = 3000) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 /**
  * A bot that uses Microsoft LUIS to get the user's intent and answers frequently asked questions.
  */
 class FAQBot extends Bot {
 
-    constructor(accountId, username, password, csds, config) {
-        super(accountId, username, password, csds, config);
+    constructor(accountId, username, password, config) {
+        super(accountId, username, password, config);
 
         axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = config.luisKey;
 
@@ -25,13 +31,12 @@ class FAQBot extends Bot {
 
         // 'UPSERT' apparently means that the chat user has sent a new message
         this.agent.on('cqm.ExConversationChangeNotification', body => {
-           // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options
-           body.changes
-                        //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert (?)
+            // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options
+            body.changes
+                //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert (?)
                 .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '999352232')
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
-                    
                     await this.joinConversation(change.result.convId, 'MANAGER');
                     await this.sendMessage(change.result.convId, 'Hello, I am the FAQ Bot. What is your question?');
                 });
@@ -45,46 +50,47 @@ class FAQBot extends Bot {
         });
 
         this.agent.on('ms.MessagingEventNotification', body => {
+            console.log('MessagingEventNotification: ' + JSON.stringify(body));
+            console.log('AgentID' + this.agent.agentId);
             body.changes
-            .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
-            .forEach(async change => {
-                console.log(change);
-                let userMessage = change.event.message;
-                
-                let getPredictionsRes = await axios.get(config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
-                
-                if (getPredictionsRes.status === 200) {
-                    for (let intent of this.config.intents) {
-                        
-                        if (intent.name === getPredictionsRes.data.topScoringIntent.intent) {
-                            await this.sendMessage(change.dialogId, intent.message);
+                .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
+                .forEach(async change => {
+                    console.log('change: ' + JSON.stringify(change));
+                    let userMessage = change.event.message;
+                    console.log(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage)
+                    let getPredictionsRes = await axios.get(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
+                    if (getPredictionsRes.status === 200) {
+                        for (let intent of this.config.intents) {
 
-                            await this.agent.updateConversationField({
-                                'conversationId': change.dialogId,
-                                'conversationField': [{
-                                    field: "ConversationStateField",
-                                    conversationState: "CLOSE"
-                                }]
-                            });
+                            if (intent.name === getPredictionsRes.data.topScoringIntent.intent) {
+                                await this.sendMessage(change.dialogId, intent.message);
 
-                            return;
+                                await this.agent.updateConversationField({
+                                    'conversationId': change.dialogId,
+                                    'conversationField': [{
+                                        field: "ConversationStateField",
+                                        conversationState: "CLOSE"
+                                    }]
+                                });
+
+                                return;
+                            }
+
+                            await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
                         }
                     }
-
-                    await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
-                }
-                else if (getPredictionsRes.status === 429) {
-                    console.log('LUIS rate limit exceeded');
-                    await this.sendMessage('This service is currently not available due to technical difficulties');
-                    return;
-                }
-                else {
-                    console.error('Failed to evaluate user message');
-                    console.log(createAppRes);
-                    await this.sendMessage('This service is currently not available due to technical difficulties');
-                    return;
-                }
-            });
+                    else if (getPredictionsRes.status === 429) {
+                        console.log('LUIS rate limit exceeded');
+                        await this.sendMessage('This service is currently not available due to technical difficulties');
+                        return;
+                    }
+                    else {
+                        console.error('Failed to evaluate user message');
+                        console.log(createAppRes);
+                        await this.sendMessage('This service is currently not available due to technical difficulties');
+                        return;
+                    }
+                });
         });
     }
 
@@ -107,7 +113,7 @@ class FAQBot extends Bot {
     async createLuisApp() {
         // Check for existing app
         let getApplicationsRes = await axios.get(this.config.luisApiUrl);
-        
+
         if (getApplicationsRes.status === 200) {
             for (let app of getApplicationsRes.data) {
                 if (app.name === this.config._id) {
@@ -156,14 +162,14 @@ class FAQBot extends Bot {
             let createIntentRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/intents', intent);
 
             if (createIntentRes.status === 201) {
-                console.log('Created intent: ' +  JSON.stringify(intent));
+                console.log('Created intent: ' + JSON.stringify(intent));
             }
             else if (createIntentRes.status === 429) {
                 console.log('LUIS rate limit exceeded');
                 return;
             }
             else {
-                console.error('Failed to create intent: ' +  JSON.stringify(intent));
+                console.error('Failed to create intent: ' + JSON.stringify(intent));
                 console.log(createIntentRes);
                 return;
             }
@@ -174,14 +180,14 @@ class FAQBot extends Bot {
             let createEntityRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/entities', entity);
 
             if (createEntityRes.status === 201) {
-                console.log('Created entity: ' +  JSON.stringify(entity));
+                console.log('Created entity: ' + JSON.stringify(entity));
             }
             else if (createEntityRes.status === 429) {
                 console.log('LUIS rate limit exceeded');
                 return;
             }
             else {
-                console.error('Failed to create entity: ' +  JSON.stringify(entity));
+                console.error('Failed to create entity: ' + JSON.stringify(entity));
                 console.log(createEntityRes);
                 return;
             }
@@ -225,8 +231,26 @@ class FAQBot extends Bot {
         while (true) {
             await this.timeout(5000);
             let trainCompleteRes = await axios.get(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train');
-            
             if (trainCompleteRes.status === 200) {
+                let publishRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/publish', {
+                    versionId: '1.0',
+                    isStaging: false,
+                    region: 'westus'
+                });
+
+                if (publishRes.status === 201) {
+                    console.log('LUIS app published');
+                }
+                else if (publishRes.status === 429) {
+                    console.log('LUIS rate limit exceeded');
+                    return;
+                }
+                else {
+                    console.error('Failed to publish LUIS app');
+                    console.log(publishRes);
+                    return;
+                }
+
                 this.init();
                 this.isTrainingComplete = true;
                 break;

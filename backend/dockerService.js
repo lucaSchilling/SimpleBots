@@ -5,122 +5,135 @@
  * @module services/
  */
 const Dockerode = require('dockerode');
-
+// Sets the socketpath correctly either for windows or for linux
 const socketPath = (process.platform === 'win32' ? '//./pipe/docker_engine' : '/var/run/docker.sock');
 const docker = new Dockerode({ socketPath });
 
 /**
  * Creates a container with the given configuration.
  * 
- * @param {config} config - config for the container
+ * @param {config} config - config for the container as JSON
+ * @param {Promise} - TODO Promise is not needed
  */
-exports.createContainer = function(config){
-return new Promise((resolve) => {
-
-      var image = config.template.replace(" ", "").toLowerCase();
-      console.log(image)
-      const createOptions = {
-        name: `${'b' + config._id}`,
-        Image: `${image}`,
-        Tty: true,
-        Cmd: ["sh", "-c", `node bottest.js ${config._id}`]
-      };
-
-      docker.createContainer(createOptions).then((container) => {
-        resolve(container);
-      });
-});
-}
-
-/**
- * Builds an Image of the given template type.
- * 
- * @param {template} template - type for the Image which will be created 
- */
-exports.buildImage = function (template) {
+exports.createContainer = function (config) {
   return new Promise((resolve) => {
-    docker.buildImage({
-      context: `./templates/`,
-      src: ['Dockerfile', 'bot.js', 'bottest.js', 'db.js', 'welcomebot.js', 'package.json'],
-    }, {
-      t: template,
-    }, (error, output) => {
-      if (error) {
-        return console.error(error);
-      }
+    // Formats the template name so it is conform to the docker restrictions
+    let image = config.template.replace(" ", "").toLowerCase();
+    // Sets the options for the creation 
+    const createOptions = {
+      name: `${config.username + config._id}`,
+      Image: `${image}`,
+      Tty: true,
+      Cmd: ["sh", "-c", `node botStart.js ${config._id} ${config.username}`]
+    };
+
+    docker.createContainer(createOptions).then((container) => {
+      resolve(container);
     });
   });
 }
 
 /**
- * Starts the given bot.
+ * Builds an image of the given template type.
+ * 
+ * @param {template} template - type for the image which will be created 
+ * @param {Promise} - TODO Promise is not needed
+ */
+exports.buildImage = function (template) {
+  return new Promise((resolve) => {
+    templateParsed = template.replace(" ", "").toLowerCase() 
+    docker.buildImage({
+      context: `./templates/`,
+      src: ['Dockerfile', 'bot.js', 'botStart.js', 'db.js', templateParsed + '.js', 'package.json'],
+    }, {
+        t: templateParsed,
+      }, (error, output) => {
+        if (error) {
+          console.error(error);
+        }
+      });
+  });
+}
+
+/**
+ * Starts the container belonging to the config.
  *
- * @param {config} config - The bot that is to be started
- * @returns {Promise} 
+ * @param {config} config - The configuration of a created bot as JSON. 
+ * The configuration needs to have  an _id value.
+ * @returns {Promise} - TODO Promise is not needed
  */
 exports.start = function (config) {
-    return new Promise((resolve) => {
-      console.log(`Starting bot  (b${config._id})...`);
-      const container = docker.getContainer('b' + config._id);
-      container.start();
-      resolve();
-    });
-  };
+  return new Promise((resolve) => {
+    console.log(`Starting bot  (${config.username} ${config._id})...`);
+    const container = docker.getContainer(config.username + config._id);
+    container.start();
+    resolve();
+  });
+};
 
-  /**
-   * Stops the given bot.
-   *
-   * @param {Bot} config - The config of the bot that is to be stopped
-   * @returns {Promise} TODO
-   */
-  exports.stop = function (config) {
-    return new Promise((resolve) => {
-      console.log(`Stopping bot (${config._id})...`);
-      const container = docker.getContainer('b' + config._id);
-      // query API for container info
-      container.stop((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-      console.log(`Bot (${config._id}) stopped`);
-      resolve();
+/**
+ * Stops the container belonging to the config.
+ *
+ * @param {Bot} config - The configuration of a created bot as JSON.
+ * The configuration needs to have  an _id value.
+ * @returns {Promise} - TODO Promise is not needed
+ */
+exports.stop = function (config) {
+  return new Promise((resolve) => {
+    console.log(`Stopping bot (${config.username} ${config._id})...`);
+    const container = docker.getContainer(config.username + config._id);
+    // Stops the Container.
+    container.stop((err) => {
+      if (err) {
+        console.log(err);
+      }
     });
-  };
-  
-  /**
-   * Restarts the given bot.
-   *
-   * @param {config} config - The config f the bot that will be restarted
-   * @returns {Promise} TODO
-   */
-  exports.restart = function (config) {
-    return new Promise((resolve) => {
-      console.log(`Restarting bot (${config._id})...`);
-      stop(config);
-      start(config);
-      console.log(`Bot (${config._id}) restarted...`)
-      resolve();
+    resolve();
+  });
+};
+
+/**
+ * Deletes the container belonging to the config.
+ *
+ * @param {config} config - The configuration of a created bot as JSON.
+ * The configuration needs to have  an _id value.
+ * @returns {Promise} - TODO Promise is not needed
+ */
+exports.delete = function (config) {
+  return new Promise((resolve) => {
+    console.log(`Deleting bot (${config.username} ${config._id})...`);
+
+    const container = docker.getContainer(config.username + config._id);
+    // Removes the container
+        container.remove((err) => {
+          if (err) {
+            console.log(err);
+          }
+    })
+    resolve();
+  });
+};
+
+/**
+ * Deletes the image belonging to the template
+ * 
+ * @param {*} template - Name of the image.
+ */
+exports.deleteImage = function (template) {
+  return new Promise((resolve) => {
+    let templateParsed = template.replace(" ", "").toLowerCase() 
+    const removeOptions = {
+      force: true,
+      noprune: false,
+    };
+    let image = docker.getImage(templateParsed);
+    image.remove(removeOptions, (err) => {
+      if (err) {
+        console.log(err);
+      }
     });
-  };
-  
-  /**
-   * Deletes Container of the given Bot.
-   *
-   * @param {config} config - The config of the bot that is to be started
-   * @returns {Promise} TODO
-   */
-  exports.delete = function (config) {
-    return new Promise((resolve) => {
-      console.log(`Deleting bot (${config._id})...`);
-  
-      const container = docker.getContainer('b' + config._id);
-      container.remove((err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
-      resolve();
-    });
-  };2
-  
+
+  })
+}
+
+
