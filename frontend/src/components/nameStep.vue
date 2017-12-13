@@ -5,7 +5,7 @@
     <img src="../../assets/bot_gelb.jpg" height="150" width="150" class="img">
     <md-field>
       <label for="name">Name</label>
-        <md-input  id="wName" v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'forth'})"></md-input>
+        <md-input  id="wName" :placeholder="this.$t('nameStep.placeholder')" v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'forth'})"></md-input>
     </md-field>
   </div>
   <div v-else-if="template === 'FAQ Bot'" class="picDiv">

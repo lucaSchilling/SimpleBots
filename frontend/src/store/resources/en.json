@@ -17,13 +17,14 @@
     },
     "faq": {
         "intents": "Intents",
-        "typeIntent": "Type your intent here",
-        "typeAnswer": "Type your Answer here",
+        "typeIntent": "Type in your intent here",
+        "typeAnswer": "Type in your Answer here",
         "add": "add",
         "intent": "Intent",
         "answer": "Answer",
         "entities": "Entities",
-        "entity": "Entity"
+        "entity": "Entity",
+        "typeEntity": "Type in your entity here"
     },
     "history": {
         "ourBots": "Our Bots",
@@ -37,7 +38,8 @@
         "deleteTooltip": "Delete the options from this message",
         "redirectTooltip": "Add a redirect to this message",
         "faq": "F.A.Q. Bot",
-        "wb": "Welcome Bot"
+        "wb": "Welcome Bot",
+        "placeholder": "Type in your possible option here"
     },
     "launch": {
         "news": "News"
@@ -58,7 +60,8 @@
         "next": "Next"
     },
     "nameStep": {
-        "chooseName": "Choose a name for your"
+        "chooseName": "Choose a name for your",
+        "placeholder": "Type in your name here"
     },
     "optionStep": {
         "setMenu": "Set selection menu" 
@@ -68,7 +71,7 @@
         "id": "ID",
         "template": "Template",
         "name": "Name",
-        "lastEdit": "Last edit"
+        "lastEdit": "Created at"
     },
     "tablerow": {
         "delete": "delete"
@@ -87,6 +90,10 @@
     "uterances": {
         "setEntity": "Set an entity for",
         "addQuestion": "Add your questions here",
-        "setEntities": "Set your entities here"
+        "setEntities": "Set your entities here",
+        "placeholder": "Type in your possible user questions here"
+    },
+    "welcomeStep": {
+        "placeholder": "Type in your message here, which will greet your customer at the beginning of the chat"
     }
 }

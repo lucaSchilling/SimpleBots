@@ -15,7 +15,7 @@
       <md-step id="fifth" :md-label="this.$t('botarmy.options')" :md-done.sync="fifth">
         <div v-if="template === 'Welcome Bot'">
           <optionStep></optionStep>
-          <md-button class="md-primary md-raised" @click="deploy">{{$t('botarmy.deploy')}}</md-button>
+          <md-button class="md-primary md-raised buttonRight" @click="deploy">{{$t('botarmy.deploy')}}</md-button>
         </div>
 
         <div v-else-if="template === 'FAQ Bot'" id="faqdiv">

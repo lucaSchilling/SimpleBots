@@ -48,5 +48,4 @@ export default {
   clear:both;
   padding-block-end: 50px;
 }
-
 </style>

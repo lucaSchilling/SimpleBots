@@ -1,16 +1,16 @@
 <template>
   <div to='/history' id="historydiv">
-    <md-content class="md-scrollbar">
       <h1>{{$t('history.ourBots')}}</h1>
       <div class="cardDiv">
           <div class="left" v-for="bot in history" v-bind:key="bot">
         <md-card>
           <md-card-header>
-            <div class="md-title">
+            <div>
                 <md-menu md-direction="bottom-start" class="menu">
                   <md-button md-menu-trigger class="md-icon-button">
                     <md-icon>more_vert</md-icon>
                   </md-button>
+                  
 
                   <md-menu-content>
                     <md-menu-item><span class="span" @click="setBotInfo(bot)">{{$t('history.info')}}</span></md-menu-item>
@@ -27,6 +27,7 @@
           </md-card-content>
 
           <h3 class = "name">{{bot.name}}</h3>
+          <h3 class="name">{{bot.lastedit}}</h3>
 
         </md-card>
         </div>
@@ -57,8 +58,6 @@
         </md-dialog-actions>
       </md-dialog>
       
-      </md-content>
-
   </div>
 </template>
 
@@ -230,6 +229,7 @@ span {
   color: #f68b1f
 }
 #historydiv {
+  position: absolute;
   z-index: 2;
   width: 100vw;
   top: 48px;

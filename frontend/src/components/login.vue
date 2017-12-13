@@ -4,7 +4,9 @@
     <form novalidate class="md-layout-row md-gutter" @submit.prevent="validateUser" id="inner">
       <md-card class="md-flex-50 md-flex-small-100">
         <md-card-header>
-          <img src="../../assets/logo.png" width="400">
+          <div id="logodiv">
+            <img src="../../assets/logo.jpg" width="400" id="logoPic">
+          </div>
           <div class="md-title-primary"><h3>{{$t('login.login')}}</h3></div>
         </md-card-header>
 
@@ -125,6 +127,14 @@
     position: relative;
     left: calc(50vw - 200px);
     top: calc(50vh - 250px);
+  }
+  #logoPic {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+  }
+  #logodiv {
+    width: 100%;
   }
 
 </style>

@@ -13,8 +13,11 @@
       </div>
      </md-dialog>
      <h3>{{$t('uterances.addQuestion')}}</h3>
-     <input v-model="uterance" v-on:keyup.enter="addUterance"></input>
-      <h3>{{$t('uterances.setEntities')}} </h3>
+     <input v-model="uterance" v-on:keyup.enter="addUterance" :placeholder="this.$t('uterances.placeholder')"></input>
+     <span @click="addUterance">
+      <md-icon class="md-primary" >add</md-icon>
+    </span>
+      <h3>{{$t('uterances.setEntities')}}</h3>
       <ol>
     <div v-for="(ut, index) in uterances" v-bind:key="ut">
       <li><span class="span" v-for="word in ut" v-bind:key="word" @click="openDialog(sentences[index], word)">

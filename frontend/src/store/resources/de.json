@@ -23,7 +23,8 @@
         "intent": "Absicht",
         "answer": "Antwort",
         "entities": "Entitäten",
-        "entity": "Entität"
+        "entity": "Entität",
+        "typeEntity": "Gib deine Entitäten hier ein"
     },
     "history": {
         "ourBots": "Deine Bots",
@@ -37,7 +38,8 @@
         "deleteTooltip": "Lösche die Optionen dieser Nachricht",
         "redirectTooltip": "Füge der Nachricht eine Weiterleitung hinzu",
         "faq": "F.A.Q. Bot",
-        "wb": "Wilkommens Bot"
+        "wb": "Wilkommens Bot",
+        "placeholder": "Tragen sie hier ihre Optionsmöglichkeit ein"
     },
     "launch": {
         "news": "Nachrichten"
@@ -58,7 +60,8 @@
         "next": "Weiter"
     },
     "nameStep": {
-        "chooseName": "Wähle einen Namen für deinen"
+        "chooseName": "Wähle einen Namen für deinen",
+        "placeholder": "Trage hier den Namen deines Bots ein"
     },
     "optionStep": {
         "setMenu": "Setze das Auswahlmenü" 
@@ -68,7 +71,7 @@
         "id": "ID",
         "template": "Template",
         "name": "Name",
-        "lastEdit": "Letzte Änderung"
+        "lastEdit": "Erstellt am"
     },
     "tablerow": {
         "delete": "löschen"
@@ -87,6 +90,10 @@
     "uterances": {
         "setEntity": "Setze eine Entität für",
         "addQuestion": "Füge deine Fragen hier hinzu",
-        "setEntities": "Setze deine Entities hier"
+        "setEntities": "Setze deine Entities hier",
+        "placeholder": "Trage deine möglichen Nutzerfragen hier ein"
+    },
+    "welcomeStep": {
+        "placeholder": "Trage hier die Nachricht ein, mit der dein Bot deine Kunden begrüßen soll"
     }
 }

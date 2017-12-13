@@ -8,7 +8,7 @@
       <span v-if="(isFolder && !open) || (isRedirect && !open)" @click="toggle">
          <md-icon class="md-primary">expand_more</md-icon>  </span>
 
-          <md-input v-model="model.message"> </md-input>
+          <input v-model="model.message" :placeholder="this.$t('item.placeholder')"></input>
           <span>
             <md-menu md-direction="bottom-start" class="menu" v-show="!isFolder && model.redirect === null">
                     <md-icon class="md-primary" md-menu-trigger>

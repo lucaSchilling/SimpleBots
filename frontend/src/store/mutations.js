@@ -38,7 +38,7 @@ export default {
         status: response.data[i].status,
         template: response.data[i].template,
         name: response.data[i].name,
-        lastedit: response.data[i].lastEdit
+        lastedit: response.data[i].lastEdit.slice(5, 7) + '.' + response.data[i].lastEdit.slice(8, 10) + '.' + response.data[i].lastEdit.slice(2, 4) + ', ' + response.data[i].lastEdit.slice(11, 16)
       })
     }
   },
@@ -49,14 +49,14 @@ export default {
           welcomeMessage: response.data[i].welcomeMessage,
           template: response.data[i].template,
           name: response.data[i].name,
-          lastedit: response.data[i].lastEdit,
+          lastedit: response.data[i].lastEdit.slice(5, 7) + '.' + response.data[i].lastEdit.slice(8, 10) + '.' + response.data[i].lastEdit.slice(2, 4) + ', ' + response.data[i].lastEdit.slice(11, 16),
           options: response.data[i].options})
       } else if (response.data[i].template === 'FAQ Bot') {
         state.history.push({ID: response.data[i]._id,
           welcomeMessage: response.data[i].welcomeMessage,
           template: response.data[i].template,
           name: response.data[i].name,
-          lastedit: response.data[i].lastEdit,
+          lastedit: response.data[i].lastEdit.slice(5, 7) + '.' + response.data[i].lastEdit.slice(8, 10) + '.' + response.data[i].lastEdit.slice(2, 4) + ', ' + response.data[i].lastEdit.slice(11, 16),
           intents: response.data[i].intents,
           entities: response.data[i].entities,
           examples: response.data[i].examples
