@@ -5,7 +5,7 @@ let username = process.argv[3]
 console.log(username)
 // MongoDB module
 const db = require('./db');
-const mongoURL = 'mongodb://141.19.142.6:27017/' + username
+var mongoURL = process.env.MONGOURL + username;
 
 db.connect(mongoURL, function (err) {
     if (err) {
