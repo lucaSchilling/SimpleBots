@@ -26,7 +26,7 @@ exports.createContainer = function (config) {
       Tty: true,
       RestartPolicy: {
         Name: 'always',
-        MaximumRetryCount: 10
+        MaximumRetryCount: 0
       },
       Cmd: ["sh", "-c", `node botStart.js ${config._id} ${config.username}`]
     };
