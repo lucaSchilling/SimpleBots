@@ -28,6 +28,7 @@ exports.createContainer = function (config) {
         Name: 'always',
         MaximumRetryCount: 0
       },
+        NetworkMode: 'sepslitherin_slitherin',
       Cmd: ["sh", "-c", `node botStart.js ${config._id} ${config.username}`]
     };
 

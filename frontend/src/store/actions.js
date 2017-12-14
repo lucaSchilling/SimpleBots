@@ -1,5 +1,8 @@
 var axios = require('axios')
-var url = 'http://127.0.0.1:3000'
+// Loading .env File which contains all enviroment variables with values
+const { config } = require('dotenv')
+config()
+var url = process.env.BACKENDURL
 
 export default {
   deploy: (context) => {

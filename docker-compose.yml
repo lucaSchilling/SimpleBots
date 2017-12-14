@@ -14,20 +14,24 @@ services:
       - slitherin
     volumes: 
       - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
   database: # name of the service
     image: mongo # specify image to build container from
     ports:
       - "27017:27017"
     networks:
       - slitherin
+    restart: always
   frontend:
     build: ./frontend/
+    env_file: ./frontend/.env
     ports:
       - "8080:8080"
     depends_on:
       - runtime
     networks:
       - slitherin
+    restart: always
 networks:
   slitherin:
     
