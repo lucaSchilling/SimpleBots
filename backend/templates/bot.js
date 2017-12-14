@@ -174,7 +174,11 @@ class Bot {
         console.log('Left conversation ' + conversationId);
     }
     
-    timeout(ms = 3000) {
+    /**
+     * Halts the code execution for the given amout of milliseconds.
+     * @param {int} ms The delay in milliseconds.
+     */
+    timeout(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 }

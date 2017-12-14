@@ -18,7 +18,8 @@ const dockerode = require('./dockerService');
 var docker = new Docker();
 
 var state = {
-    loadedTemplates: {}
+    loadedTemplates: {},
+    loadedTemplateParams: {}
 };
 
 var logo = fs.readFileSync(__dirname + '/logo.txt').toString();
@@ -27,9 +28,10 @@ var logo = fs.readFileSync(__dirname + '/logo.txt').toString();
 var installedTemplates = JSON.parse(fs.readFileSync(__dirname + '/templates.json'));
 
 for (key in installedTemplates) {
-    let name = installedTemplates[key];
+    let name = installedTemplates[key].fileName;
     let template = require('./templates/' + name);
     state.loadedTemplates[name] = template;
+    state.loadedTemplateParams[name] = installedTemplates[key].params;
     dockerode.buildImage(name);
 }
 
@@ -102,9 +104,13 @@ server.post('/deploy/:user', function (req, res) {
                 botConfig.username = user;
                 botConfig.status = false;
                 botConfig.lastEdit = new Date();
-                botConfig.luisReqUrl = process.env.LUIS_REQ_URL;
-                botConfig.luisApiUrl = process.env.LUIS_API_URL;
-                botConfig.luisKey = process.env.LUIS_KEY;
+                
+                // Write template parameters into config
+                let templateParams = state.loadedTemplateParams[installedTemplates[template]];
+
+                for (let paramName in templateParams) {
+                    botConfig[paramName] = templateParams[paramName];
+                }
     
                 let updatedId = {
                     $set: { id: id }

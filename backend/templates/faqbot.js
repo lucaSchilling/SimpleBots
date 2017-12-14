@@ -5,25 +5,25 @@ const axios = require('axios');
 
 axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = '4d44af468562465b828ff3ecfb651475';
 
-function timeout(ms = 3000) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 /**
  * A bot that uses Microsoft LUIS to get the user's intent and answers frequently asked questions.
  */
 class FAQBot extends Bot {
 
+    /**
+     * @override 
+     * @see bot.js
+     */
     constructor(accountId, username, password, config) {
         super(accountId, username, password, config);
 
         axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = config.luisKey;
 
-        this.createLuisApp();
+        this.initLuisApp();
     }
 
     /**
-     * Initializes the bot's dialogs. Child classes must override this function to implement case specific responses.
+     * Initializes the bot's dialogs.
      * @override
      */
     init() {
@@ -33,8 +33,7 @@ class FAQBot extends Bot {
         this.agent.on('cqm.ExConversationChangeNotification', body => {
             // Bot joins any conversation marked with its skill
             body.changes
-                //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert (?)
-                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '999352232')
+                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === this.config.skillId)
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
                     await this.joinConversation(change.result.convId, 'MANAGER');
@@ -89,7 +88,7 @@ class FAQBot extends Bot {
                                 'conversationField': [{
                                     field: "Skill",
                                     type: "UPDATE",
-                                    skill: '1008076832'
+                                    skill: this.config.humanSkillId
                                 }]
                             });
 
@@ -116,7 +115,8 @@ class FAQBot extends Bot {
      * @override
      */
     async start() {
-        while (!this.isTrainingComplete) {
+        while (!this.isLuisReady) {
+            console.log('Waiting for LUIS App to be ready...');
             await this.timeout(5000);
         }
 
@@ -124,10 +124,9 @@ class FAQBot extends Bot {
     }
 
     /**
-     * Creates a LUIS application and submits the required training data, then starts it.
-     * @param {JSON} config 
+     * Checks if a LUIS app is already existing for this bot. If not, creates a LUIS application and submits the required training data, then starts it.
      */
-    async createLuisApp() {
+    async initLuisApp() {
         // Check for existing app
         let getApplicationsRes = await axios.get(this.config.luisApiUrl);
 
@@ -136,7 +135,7 @@ class FAQBot extends Bot {
                 if (app.name === this.config._id) {
                     this.luisAppId = app.id;
                     this.init();
-                    this.isTrainingComplete = true;
+                    this.isLuisReady = true;
                     return;
                 }
             }
@@ -244,10 +243,12 @@ class FAQBot extends Bot {
             return;
         }
 
-        // Await training completion
+        // Await training completion and app release
         while (true) {
             await this.timeout(5000);
+
             let trainCompleteRes = await axios.get(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train');
+
             if (trainCompleteRes.status === 200) {
                 let publishRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/publish', {
                     versionId: '1.0',
@@ -269,7 +270,7 @@ class FAQBot extends Bot {
                 }
 
                 this.init();
-                this.isTrainingComplete = true;
+                this.isLuisReady = true;
                 break;
             }
             else if (trainCompleteRes.status === 429) {

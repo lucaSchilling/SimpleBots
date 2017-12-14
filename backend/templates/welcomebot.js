@@ -6,6 +6,10 @@ const Bot = require('./bot');
  */
 class WelcomeBot extends Bot {
 
+    /**
+     * @override 
+     * @see bot.js
+     */
     constructor(accountId, username, password, config) {
         super(accountId, username, password, config);
 
@@ -23,7 +27,7 @@ class WelcomeBot extends Bot {
         this.agent.on('cqm.ExConversationChangeNotification', body => {
             // Bot joins any conversation with unspecified skill as soon as the user sends the first message, and answers with the welcome message and first set of options
             body.changes
-                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '-1')
+                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === this.config.skillId)
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
                     this.conversationStates[change.result.convId] = this.config.options;
@@ -50,10 +54,27 @@ class WelcomeBot extends Bot {
                 .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
                 .forEach(async change => {
                     let userMessage = change.event.message;
+                    
+                    // Fallback to human agent if answer could not be parsed
+                    if (parseInt(userMessage) === NaN) {
+                        await this.agent.updateConversationField({
+                            'conversationId': change.dialogId,
+                            'conversationField': [{
+                                field: "Skill",
+                                type: "UPDATE",
+                                skill: this.config.humanSkillId
+                            }]
+                        });
+
+                        console.log('Updated skill field of conversation ' + change.dialogId + ' to: ' + this.config.humanSkillId);
+
+                        await this.timeout(50);
+                        await this.leaveConversation(change.dialogId);
+
+                        return;
+                    }
+
                     let index = parseInt(userMessage) - 1;
-
-                    // TODO: index == NAN => human agent
-
                     let convState = this.conversationStates[change.dialogId];
 
                     if (convState[index].options) {
