@@ -2,23 +2,23 @@ version: '2'
 
 # Define the services/containers to be run
 services:
-  Runtime: #name of your service
+  runtime: #name of your service
     build: ./backend/ # specify the directory of the Dockerfile
     ports:
       - "3000:3000" #specify ports forwarding
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     depends_on:
-      - Database
+      - database
       
-  Database: # name of the service
+  database: # name of the service
     image: mongo # specify image to build container from
     ports:
       - "27017:27017"
 
-  Frontend:
+  frontend:
     build: ./frontend/
     ports:
       - "8080:8080"
     depends_on:
-      - devRuntime   
+      - runtime   
