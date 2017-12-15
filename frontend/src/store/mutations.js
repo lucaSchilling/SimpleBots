@@ -123,7 +123,12 @@ export default {
     state.options = []
     state.treeData = {
       isRoot: true,
-      options: []
+      options: [{
+        message: '',
+        isDeletable: false,
+        redirect: null,
+        options: null
+      }]
     }
     state.intents = []
     state.entities = []
@@ -133,5 +138,16 @@ export default {
   },
   setTheme: (state, val) => {
     state.theme = val
+  },
+  clearTreeData: (state) => {
+    state.treeData = {
+      isRoot: true,
+      options: [{
+        message: '',
+        isDeletable: false,
+        redirect: null,
+        options: null
+      }]
+    }
   }
 }

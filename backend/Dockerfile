@@ -4,4 +4,4 @@ COPY package.json /app
 RUN npm install
 COPY . /app
 CMD node runtime.js
-EXPOSE 3001
+EXPOSE 3000

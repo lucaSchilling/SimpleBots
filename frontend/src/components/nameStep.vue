@@ -49,6 +49,14 @@ export default {
       set (val) {
         this.$store.commit('setTheme', val)
       }
+    },
+    nameError: {
+      get () {
+        return this.$store.state.nameError
+      },
+      set (val) {
+        this.$store.commit('setnameError', val)
+      }
     }
   },
   methods: {

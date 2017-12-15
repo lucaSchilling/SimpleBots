@@ -11,7 +11,7 @@
 
           <md-dialog-actions>
             <md-button class="md-primary" @click="active = false">{{$t('tablerow.cancel')}}</md-button>
-            <md-button class="md-primary" @click="deleteConfig(bot.ID)">{{$t('tablerow.confirm')}}</md-button>
+            <md-button class="md-primary" @click="deleteConfig(id)">{{$t('tablerow.confirm')}}</md-button>
           </md-dialog-actions>
         </md-dialog>
 
@@ -27,7 +27,7 @@
                   <md-menu-content>
                     <md-menu-item><span class="span" @click="edit(bot)">{{$t('history.edit')}}</span></md-menu-item>
                     <md-menu-item><span class="span" @click="clone(bot)">{{$t('history.clone')}}</span></md-menu-item>
-                    <md-menu-item><span class="span" @click="active=true">{{$t('history.delete')}}</span></md-menu-item>
+                    <md-menu-item><span class="span" @click="showDeletion(bot.ID)">{{$t('history.delete')}}</span></md-menu-item>
                   </md-menu-content>
                 </md-menu>
             </div>
@@ -46,12 +46,13 @@
 
           <h3 class = "name">{{bot.name}}</h3>
           <h3 class="name">{{bot.lastedit}}</h3>
+          <h3 class="name">{{bot.ID}}</h3>
 
         </md-card>
         </div>
       </div>
       <md-speed-dial md-direction="bottom" id="dial">
-      <md-speed-dial-target to="/simplebots/template">
+      <md-speed-dial-target to="/simplebots">
         <md-icon>add</md-icon>
       </md-speed-dial-target>
       </md-speed-dial>
@@ -75,7 +76,8 @@ export default {
     showDialog: false,
     showDialogClone: false,
     botInfo: {},
-    active: false
+    active: false,
+    id: null
   }),
   computed: {
     history: {
@@ -212,9 +214,13 @@ export default {
     clear: function () {
       this.$store.commit('clear')
     },
-    deleteConfig: function (id) {
-      this.$store.dispatch('deleteConfig', id)
+    deleteConfig: function () {
+      this.$store.dispatch('deleteConfig', this.id)
       this.active = false
+    },
+    showDeletion (id) {
+      this.active = true
+      this.id = id
     }
   },
   beforeMount () {

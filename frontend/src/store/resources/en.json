@@ -103,7 +103,10 @@
         "setEntity": "Set an entity for",
         "addQuestion": "Add your questions here",
         "setEntities": "Set your entities here",
-        "placeholder": "Type in your possible user questions here"
+        "placeholder": "Type in your possible user questions here",
+        "title": "Do you really want to delete this sentence?",
+        "content": "You can't restore sentences which were removed. You can still add new sentences.",
+        "set": "set"
     },
     "welcomeStep": {
         "placeholder": "Type in your message here, which will greet your customer at the beginning of the chat"

@@ -25,7 +25,8 @@
         "answer": "Antwort",
         "entities": "Schlagwörter",
         "entity": "Entität",
-        "typeEntity": "Gib hier Schlagwörter ein, welche die Absichten näher definieren"
+        "typeEntity": "Gib hier Schlagwörter ein, welche die Absichten näher definieren",
+        "title": "Füge eine Absicht hinzu"
     },
     "history": {
         "ourBots": "Deine Bots",
@@ -100,7 +101,10 @@
         "setEntity": "Klicke auf die passende Absicht und das zugehörige Schlagwort",
         "addQuestion": "Füge deine Fragen hier hinzu",
         "setEntities": "Klicke auf das wichtigste Wort in jedem Satz...",
-        "placeholder": "Trage die möglichen Nutzerfragen ein"
+        "placeholder": "Trage die möglichen Nutzerfragen ein",
+        "title": "Möchten Sie diesen Satz wirklich löschen?",
+        "content": "Gelöschte Sätze können nicht wiederhergestellt werden. Sie können jedoch weiterhin neue Sätze hinzufügen",
+        "set": "Setzen"
     },
     "welcomeStep": {
         "placeholder": "Trage hier die Nachricht ein, mit der dein Bot deine Kunden begrüßen soll"

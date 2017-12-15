@@ -3,7 +3,7 @@
   <div id="launch">
     <h4 id="news">{{$t('launch.news')}}</h4>
   <video width="800" controls>
-    <source src="../../assets/intro.mp4" type="video/mp4">
+    <source src="../../assets/simplebots.mp4" type="video/mp4">
   </video>
   <h4 id="text">Bots</h4>
   <div class="elevation-demo" align="center">

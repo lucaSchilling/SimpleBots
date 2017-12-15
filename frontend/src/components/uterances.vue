@@ -1,15 +1,42 @@
 <template>
-  <div>
-    <md-dialog :md-active.sync="showDialog">
-      <div id="dialog">
-        <md-dialog-title>{{$t('uterances.setEntity')}} {{uterance}}</md-dialog-title>
-        <h3>Intents:</h3>
-        <p class="pHover" v-for="intent in intents" v-bind:key="intent" @click="setIntent(intent.name)">{{intent.name}}</p>
-        <h3>Entities:</h3>
-        <p class="pHover" v-for="entity in entities" v-bind:key="entity" @click="setEntity(sentence, selected, entity.name)">{{entity.name}}</p>
+  <div id="utteranceWrap">
 
-      </div>
+    <md-dialog :md-active.sync="active">
+
+      <md-dialog-title>{{$t('uterances.title')}}</md-dialog-title>
+      <p class="padding">{{$t('uterances.content')}}</p>
+
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="active = false">{{$t('tablerow.cancel')}}</md-button>
+        <md-button class="md-primary" @click="deleteUterance(uteranceIndex)">{{$t('tablerow.confirm')}}</md-button>
+      </md-dialog-actions>
+
+    </md-dialog>
+
+    <md-dialog :md-active.sync="showDialog">
+        <md-dialog-title>{{$t('uterances.setEntity')}}</md-dialog-title>
+        <div class="margin">
+        <h3>Intents:</h3>
+        <md-field>
+          <md-select v-model="example.intentName">
+            <md-option v-for="intent in intents" v-bind:key="intent" :value="intent.name">{{intent.name}}</md-option>
+          </md-select>
+        </md-field>
+        
+        <h3>Entities:</h3>
+        <md-field>
+          <md-select v-model="entityName">
+            <md-option v-for="entity in entities" v-bind:key="entity" :value="entity.name">{{entity.name}}</md-option>
+          </md-select>
+        </md-field>
+        </div>
+      <md-dialog-actions>
+      <md-button class="md-primary" @click="showDialog = false">{{$t('tablerow.cancel')}}</md-button>
+      <md-button class="md-primary" @click="setEntity(sentence, selected, entityName)">{{$t('uterances.set')}}</md-button>
+    </md-dialog-actions>
      </md-dialog>
+
+     
      <h3>{{$t('uterances.addQuestion')}}</h3>
      <input v-model="uterance" v-on:keyup.enter="addUterance" :placeholder="this.$t('uterances.placeholder')"></input>
      <span @click="addUterance">
@@ -21,10 +48,10 @@
       <li><span class="span" v-for="word in ut" v-bind:key="word" @click="openDialog(sentences[index], word)">
         {{word}}
       </span>
+      <span class="span" @click="triggerDialog(index)"><md-icon>delete</md-icon></span>
       </li>
     </div>
     </ol>
-    <md-button class="md-primary md-raised buttonRight" @click="deploy">Deploy</md-button>
   </div>
 </template>
 
@@ -33,13 +60,16 @@ export default {
   name: 'uterances',
   data: () => ({
     showDialog: false,
+    active: false,
     uterance: null,
     selected: null,
     sentences: [],
     sentence: null,
     start: null,
     end: null,
-    example: {text: null, intentName: null, entityLabels: []}
+    entityName: null,
+    example: {text: null, intentName: null, entityLabels: []},
+    uteranceIndex: null
   }),
   computed: {
     entities: {
@@ -111,6 +141,14 @@ export default {
     },
     setUndone (index) {
       this.$store.commit('setUndone', index)
+    },
+    deleteUterance (index) {
+      this.uterances.splice(index, 1)
+      this.active = false
+    },
+    triggerDialog (index) {
+      this.active = true
+      this.uteranceIndex = index
     }
   }
 }
@@ -129,5 +167,21 @@ h3 {
 }
 .buttonRight {
   float: right;
+}
+.padding {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.md-menu-content {
+  z-index: 111;
+}
+.margin {
+  width: 50vw;
+  margin-right: 30px;
+  margin-left: 30px;
+}
+#utteranceWrap {
+  height: 60vh;
+  overflow: scroll;
 }
 </style>

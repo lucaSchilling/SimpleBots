@@ -1,32 +1,47 @@
 <template>
-  <div>
-    <div id="intents">
-    <md-table md-card>
-      <md-table-toolbar>
-        <div id="intentHead">
-          <h1 class="md-title">{{$t('faq.intents')}}</h1>
-        </div>
-        <div id="intentText">
-          <md-field>
-            <label>{{$t('faq.typeIntent')}}</label>
-            <md-input v-model="intent"></md-input>
+  <div id="faqWrap">
+
+     <md-dialog-prompt
+      :md-active.sync="activeEntity"
+      v-model="entity"
+      md-title="Add an Entity"
+      md-input-maxlength="30"
+      md-input-placeholder="Type your Entity..."
+      md-confirm-text="Add" 
+      @md-confirm="addEntity"/>
+
+      <md-dialog :md-active.sync="activeIntent">
+      <md-dialog-title>Add an Intent</md-dialog-title>
+
+      <div id="fielddiv">
+        <md-field>
+          <label>{{$t('faq.typeIntent')}}</label>
+          <md-input v-model="intent"></md-input>
         </md-field>
-        </div>
-        <div id="answer">
+
         <md-field>
           <label>{{$t('faq.typeAnswer')}}</label>
           <md-input v-model="message"></md-input>
-          <span @click="addIntent" class="hover">
+        </md-field>
+      </div>
+
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="activeIntent = false">Close</md-button>
+        <md-button class="md-primary" @click="addIntent">Add</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
+    <md-table md-card class="table">
+      <md-table-toolbar>
+          <h1 class="md-title">{{$t('faq.intents')}}</h1>
+          <span @click="activeIntent = true" class="hover">
             <md-icon>add</md-icon>
           </span>
-        </md-field>
-        </div>
       </md-table-toolbar>
 
       <md-table-row>
         <md-table-head>{{$t('faq.intent')}}</md-table-head>
         <md-table-head>{{$t('faq.answer')}}</md-table-head>
-        <md-table-head></md-table-head>
         <md-table-head></md-table-head>
       </md-table-row>
 
@@ -41,13 +56,11 @@
         </md-table-cell>
 
         <md-table-cell>
-          <md-button @click="editObject('intent', int)" class="md-icon-button">
+          <md-button @click="editObject('intent', int)" class="md-icon-button buttonRight">
             <md-icon>create</md-icon>
           </md-button>
-        </md-table-cell>
 
-        <md-table-cell>
-          <md-button @click="deleteObject('intent', int)" class="md-icon-button">
+          <md-button @click="deleteObject('intent', int)" class="md-icon-button buttonRight">
             <md-icon>delete</md-icon>
           </md-button>
         </md-table-cell>
@@ -55,24 +68,17 @@
       </md-table-row>
     </md-table>
 
-    </div>
 
-    <div id="entities">
-    <md-table md-card>
+    <md-table md-card class="table">
       <md-table-toolbar>
         <h1 class="md-title">{{$t('faq.entities')}}</h1>
-        <md-field>
-          <label>{{$t('faq.typeEntity')}}</label>
-          <md-input v-model="entity"></md-input>
-          <span @click="addEntity" class="hover">
+          <span @click="activeEntity = true" class="hover">
             <md-icon>add</md-icon>
           </span>
-        </md-field>
       </md-table-toolbar>
 
       <md-table-row>
         <md-table-head>{{$t('faq.entity')}}</md-table-head>
-        <md-table-head></md-table-head>
         <md-table-head></md-table-head>
       </md-table-row>
 
@@ -81,19 +87,15 @@
           <p>{{ent.name}}</p>
         </md-table-cell>
         <md-table-cell>
-          <md-button @click="editObject('entity', ent)" class="md-icon-button">
+          <md-button @click="editObject('entity', ent)" class="md-icon-button buttonRight">
             <md-icon>create</md-icon>
           </md-button>
-        </md-table-cell>
-        <md-table-cell>
-          <md-button @click="deleteObject('entity', ent)" class="md-icon-button">
+          <md-button @click="deleteObject('entity', ent)" class="md-icon-button buttonRight">
             <md-icon>delete</md-icon>
           </md-button>
         </md-table-cell>
       </md-table-row>
     </md-table>
-    <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'forth', index: 'fifth'})">{{$t('messageStep.next')}}</md-button>
-    </div>
   </div>
 </template>
 
@@ -103,7 +105,9 @@ export default {
   data: () => ({
     intent: null,
     entity: null,
-    message: null
+    message: null,
+    activeEntity: false,
+    activeIntent: false
   }),
   computed: {
     entities: {
@@ -125,11 +129,15 @@ export default {
   },
   methods: {
     addIntent: function () {
+      this.activeIntent = false
       this.intents.push({name: this.intent,
         message: this.message})
+      this.intent = null
+      this.message = null
     },
     addEntity: function () {
       this.entities.push({name: this.entity})
+      this.entity = null
     },
     deleteObject: function (name, object) {
       if (name === 'intent') {
@@ -142,9 +150,11 @@ export default {
       if (name === 'intent') {
         this.intent = object.name
         this.message = object.message
+        this.activeIntent = true
         this.intents.pop(object)
       } else if (name === 'entity') {
         this.entity = object.name
+        this.activeEntity = true
         this.entities.pop(object)
       }
     },
@@ -157,20 +167,17 @@ export default {
 
 <style>
 #intents {
-  width: 45%;
-  float: left;
+  width: 90vw;
 }
 #entities {
-  width: 45%;
-  float: right;
+  width: 90vw;
 }
 #intentText {
   width: 42%;
-  float: left;
 }
 #answer {
   padding-left: 3%;
-  width: 45%;
+  width: 54vw;
   float: right;
 }
 #intentHead {
@@ -181,5 +188,22 @@ export default {
 }
 .hover:hover {
   font-weight: bold;
+}
+#fielddiv {
+  width: 50vw;
+  margin-right: 30px;
+  margin-left: 30px;
+}
+.buttonRight {
+  float: right;
+}
+.table {
+  margin-bottom: 40px;
+  width: 48.5vw;
+  margin-left: 24vw;
+}
+#faqWrap {
+  height: 60vh;
+  overflow: scroll;
 }
 </style>

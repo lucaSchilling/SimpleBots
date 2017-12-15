@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <md-tabs md-sync-route md-alignment="fixed" id="tabs" >
+    <md-tabs md-sync-route md-alignment="fixed" id="tabs">
 
 
       <md-tab id="tab-launch" class="tabs" :md-label="this.$t('tabs.launch')" to="/launch">

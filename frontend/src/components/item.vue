@@ -10,7 +10,7 @@
 
           <input v-model="model.message" :placeholder="this.$t('item.placeholder')"></input>
           <span id="addSpan">
-            <md-menu md-direction="bottom-start" class="menu" v-show="!isFolder && model.redirect === null">
+            <md-menu md-direction="bottom-start" v-show="!isFolder && model.redirect === null">
                     <md-icon class="md-primary" md-menu-trigger>
                 add
                 <md-tooltip md-direction="top">{{$t('item.changeTooltip')}}</md-tooltip>
@@ -34,15 +34,17 @@
         :model="model"
         v-bind:key = "model">
         </item>
-      <li class="add" @click="addChild">
-        <md-icon class="md-primary">add</md-icon> 
+      <li class="add">
+        <span @click="addChild"><md-icon class="md-primary">add</md-icon></span> 
       </li>
     </ul>
     <ul v-show="open && model.redirect !== null" id="list">
-      <md-select  class="redirect" v-model="model.redirect"> 
-        <md-option value="faqbot">F.A.Q. Bot</md-option>
-        <md-option value="welcomebot">Welcome Bot</md-option>        
+      <md-select class="redirect" v-model="model.redirect"> 
+        <md-option value="999352232">F.A.Q. Bot</md-option>
+        <md-option value="-1">Human Agent</md-option>  
+        <md-option value="1008076832">Welcome Bot</md-option>      
       </md-select>
+      
     </ul>
   </li>
   </div>
