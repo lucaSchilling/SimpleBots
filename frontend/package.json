@@ -20,7 +20,7 @@
     "Test": "node test/e2e/Test.js",
     "Live": "node test/e2e/Live.js",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "lintfix": "eslint --fix src/components/tabs.vue src/components/launch.vue src/components/elevationcontent.vue src/router/index.js src/components/botarmy.vue src/components/tablehead.vue src/components/tablerow.vue src/components/treeinput.vue src/components/tree.vue src/components/item.vue src/components/faq.vue src/components/uterances.vue src/components/history.vue src/store/state.js"
+    "lintfix": "eslint --fix src/components/tabs.vue src/components/launch.vue src/components/elevationcontent.vue src/router/index.js src/components/botarmy.vue src/components/tablehead.vue src/components/tablerow.vue src/components/treeinput.vue src/components/tree.vue src/components/item.vue src/components/faq.vue src/components/uterances.vue src/components/history.vue src/store/state.js src/App.vue"
   },
   "dependencies": {
     "axios": "^0.17.0",

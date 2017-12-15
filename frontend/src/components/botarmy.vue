@@ -1,38 +1,50 @@
 <template>
   <div>
-    <md-steppers v-if="template==='Welcome Bot'" md-sync-route :md-active-step.sync="active" md-linear id="steppers">
-      <md-step id="first" md-label="Name" :md-done.sync="first">
+    <md-steppers md-sync-route :md-active-step.sync="active" md-linear id="steppers">
+
+      <md-step id="first" md-label="Template" :md-done.sync="first">
+        <templateStep></templateStep>
+      </md-step>
+
+      <md-step id="second" md-label="Name" :md-done.sync="second">
         <nameStep></nameStep>
       </md-step>
 
-      <md-step id="second" :md-label="this.$t('botarmy.welcomeMessage')" :md-done.sync="second">
+      <md-step id="third" :md-label="this.$t('botarmy.welcomeMessage')" :md-done.sync="third">
         <messageStep></messageStep>
       </md-step>
 
-      <md-step id="third" :md-label="this.$t('botarmy.options')" :md-done.sync="third">
+      <md-step v-if="template === 'Welcome Bot'" id="forth" :md-label="this.$t('botarmy.options')" :md-done.sync="forth">
           <optionStep></optionStep>
-          <md-button class="md-primary md-raised buttonRight" @click="deploy">{{$t('botarmy.deploy')}}</md-button>
-      </md-step>
-    </md-steppers>
+          <div class="buttonRight">
+            <md-button class="md-primary md-raised" @click="activeClear=true">Clear</md-button>
+            <md-button class="md-primary md-raised" @click="setDone({id: 'forth', index: 'fifth'})">{{$t('messageStep.next')}}</md-button>
+          </div>
 
-    <md-steppers v-if="template==='FAQ Bot'" md-sync-route :md-active-step.sync="active" md-linear id="steppers">
-      
-      <md-step id="first" md-label="Name" :md-done.sync="first">
-        <nameStep></nameStep>
+          <md-dialog-confirm
+      :md-active.sync="activeClear"
+      md-title="Do you really want to restart your selection?"
+      md-content="You wont be able to restart your previously added selections. Only click clear if you want to start over."
+      md-confirm-text="Clear"
+      md-cancel-text="Cancel"
+      @md-cancel="activeClear = false"
+      @md-confirm="clearTreeData" />
+          
       </md-step>
 
-      <md-step id="second" :md-label="this.$t('botarmy.welcomeMessage')" :md-done.sync="second">
-        <messageStep></messageStep>
-      </md-step>
-
-        <md-step id="third" :md-label="this.$t('botarmy.options')" :md-done.sync="third">
+      <md-step v-else id="forth" :md-label="this.$t('botarmy.options')" :md-done.sync="forth">
           <faq></faq>
-          <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'third', index: 'forth'})" id="sixth">{{$t('next')}}</md-button>
-        </md-step>
+          <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'forth', index: 'fifth'})">{{$t('messageStep.next')}}</md-button>
+      </md-step>
 
-        <md-step id="forth" :md-label="this.$t('botarmy.questions')" :md-done.sync="forth">
-          <uterances></uterances>
-        </md-step>
+      <md-step v-if="template === 'FAQ Bot'" id="fifth" :md-label="this.$t('botarmy.questions')" :md-done.sync="fifth">
+        <uterances></uterances>
+        <md-button id="fix" class="md-primary md-raised buttonRight" @click="deploy">Deploy</md-button>
+      </md-step>
+
+      <md-step v-else id="fifth" :md-label="this.$t('botarmy.redirect')" :md-done.sync="fifth">
+        <redirectStep></redirectStep>
+      </md-step>
 
     </md-steppers>
     
@@ -48,9 +60,13 @@ import nameStep from './nameStep.vue'
 import languageStep from './languageStep.vue'
 import messageStep from './messageStep.vue'
 import optionStep from './optionStep.vue'
+import redirectStep from './redirectStep.vue'
 
 export default {
   name: 'botarmy',
+  data: () => ({
+    activeClear: false
+  }),
   components: {
     item,
     faq,
@@ -59,7 +75,8 @@ export default {
     nameStep,
     languageStep,
     messageStep,
-    optionStep
+    optionStep,
+    redirectStep
   },
   computed: {
     template: {
@@ -126,14 +143,6 @@ export default {
         this.$store.commit('setFifth', val)
       }
     },
-    sixth: {
-      get () {
-        return this.$store.state.sixth
-      },
-      set (val) {
-        this.$store.commit('setSixth', val)
-      }
-    },
     treeData: {
       get () {
         return this.$store.state.treeData
@@ -161,6 +170,9 @@ export default {
     },
     setUndone (index) {
       this.$store.commit('setUndone', index)
+    },
+    clearTreeData () {
+      this.$store.commit('clearTreeData')
     }
   }
 }

@@ -5,6 +5,7 @@ export default {
   lastedit: null,
   welcomeMessage: null,
   options: [],
+  redirectMessage: null,
   bots: [],
   history: [],
   i: null,

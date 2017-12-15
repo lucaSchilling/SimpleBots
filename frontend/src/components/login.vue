@@ -97,7 +97,7 @@
       },
       saveUser () {
         this.$i18n.set(localStorage.getItem(this.form.language))
-        localStorage.setItem('username', this.form.username)
+        localStorage.setItem('username', this.form.username.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s/g, ''))
         localStorage.setItem('lang', this.form.language)
         this.$router.push('/launch')
       },

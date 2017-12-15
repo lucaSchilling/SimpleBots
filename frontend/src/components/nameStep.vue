@@ -15,10 +15,10 @@
     <img src="../../assets/faq-night.png" v-show="theme === true" height="150" width="150" alt="Welcome Bot" class="img">
     <md-field>
       <label for="name">Name</label>
-        <md-input v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'forth'})"></md-input>
+        <md-input v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'third'})"></md-input>
     </md-field>
   </div>
-  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'first', index: 'second'})">Next</md-button>
+  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'second', index: 'third'})">Next</md-button>
   </div>
 </template>
 
@@ -48,6 +48,14 @@ export default {
       },
       set (val) {
         this.$store.commit('setTheme', val)
+      }
+    },
+    nameError: {
+      get () {
+        return this.$store.state.nameError
+      },
+      set (val) {
+        this.$store.commit('setnameError', val)
       }
     }
   },
