@@ -45,6 +45,7 @@ export default {
   getConfigs: (state, response) => {
     for (let i = 0; i < response.data.length; i++) {
       if (response.data[i].template === 'Welcome Bot') {
+        // alert(JSON.stringify(response.data[i].options))
         state.history.push({ID: response.data[i]._id,
           welcomeMessage: response.data[i].welcomeMessage,
           template: response.data[i].template,
@@ -125,5 +126,9 @@ export default {
     state.entities = []
     state.lastedit = null
     state.examples = []
+    state.uterances = []
+  },
+  setTheme: (state, val) => {
+    state.theme = val
   }
 }

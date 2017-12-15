@@ -31,7 +31,10 @@
         "info": "info",
         "edit": "edit",
         "clone": "clone",
-        "add": "add"
+        "add": "add",
+        "delete": "delete",
+        "title": "Do you really want to delete this configuration?",
+        "content": "This configuration will be permanently deleted. You wont be able to restore it. "
     },
     "item": {
         "changeTooltip": "Add an option to this message",
@@ -74,12 +77,17 @@
         "lastEdit": "Created at"
     },
     "tablerow": {
-        "delete": "delete"
+        "delete": "delete",
+        "title": "Do you want to delete this Bot?",
+        "confirm": "Delete",
+        "cancel": "Cancel",
+        "content": "This Bot will be deleted from the Bot Status. You can still clone and edit it in the History.",
+        "titleOn": "You can't delete a running Bot",
+        "contentOn": "It is not possible to delete a Bot which is currently running. If you want to delete this Bot, you have to turn it off first."
     },
     "tabs": {
         "launch": "LAUNCH",
         "history": "HISTORY",
-        "botarmy": "BOTARMY",
         "botStatus": "BOT STATUS"
     },
     "templateStep": {

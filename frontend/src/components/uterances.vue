@@ -2,7 +2,7 @@
   <div>
     <md-dialog :md-active.sync="showDialog">
       <div id="dialog">
-        <md-dialog-title>{{$t('uterances.setEntity')}} "{{selected}}"</md-dialog-title>
+        <md-dialog-title>{{$t('uterances.setEntity')}}</md-dialog-title>
       <div id="intents">
         <p class="pHover" v-for="intent in intents" v-bind:key="intent" @click="setIntent(intent.name)">{{intent.name}}</p>
       </div>
@@ -121,10 +121,6 @@ export default {
 <style>
 .span, .pHover {
   cursor: pointer;
-}
-.span:hover, .pHover:hover {
-    font-weight: bold;
-    color: #f68b1f
 }
 #dialog {
   width: 300px;

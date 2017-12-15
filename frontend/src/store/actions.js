@@ -8,7 +8,7 @@ export default {
         'template': context.state.template,
         'name': context.state.name,
         'welcomeMessage': context.state.welcomeMessage,
-        'options': context.state.options
+        'options': context.state.treeData.options
       }).then(function (response) {
         context.dispatch('getBots')
       })
@@ -38,10 +38,16 @@ export default {
       context.commit('getConfigs', response)
     })
   },
-  delete: (context, id) => {
+  undeploy: (context, id) => {
     axios.delete(url + '/undeploy/' + localStorage.getItem('username') + '/' + id
     ).then(function (response) {
       context.dispatch('getBots')
+    })
+  },
+  deleteConfig: (context, id) => {
+    axios.delete(url + '/delete/' + localStorage.getItem('username') + '/' + id
+    ).then(function () {
+      context.dispatch('getConfigs')
     })
   },
   postStatus (context, object) {

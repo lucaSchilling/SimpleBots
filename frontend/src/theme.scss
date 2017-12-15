@@ -4,5 +4,10 @@
   primary: #f68b1f, // The primary color of your application
   accent: #f8bc16 // The accent and secondary color
 ));
+@include md-register-theme("night", (
+  primary: #f68b1f, // The primary color of your brand
+  accent: #f8bc16, // The secondary color of your brand
+  theme: dark
+));
 
 @import "~vue-material/dist/theme/all"; // Apply the theme

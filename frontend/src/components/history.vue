@@ -1,8 +1,20 @@
 <template>
   <div to='/history' id="historydiv">
-      <h1>{{$t('history.ourBots')}}</h1>
+      <h1 id="our">{{$t('history.ourBots')}}</h1>
       <div class="cardDiv">
           <div class="left" v-for="bot in history" v-bind:key="bot">
+
+            <md-dialog :md-active.sync="active">
+              <md-dialog-title>{{$t('history.title')}}</md-dialog-title>
+
+              <p id="content">{{$t('history.content')}}</p>
+
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="active = false">{{$t('tablerow.cancel')}}</md-button>
+            <md-button class="md-primary" @click="deleteConfig(bot.ID)">{{$t('tablerow.confirm')}}</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+
         <md-card>
           <md-card-header>
             <div>
@@ -13,17 +25,23 @@
                   
 
                   <md-menu-content>
-                    <md-menu-item><span class="span" @click="setBotInfo(bot)">{{$t('history.info')}}</span></md-menu-item>
                     <md-menu-item><span class="span" @click="edit(bot)">{{$t('history.edit')}}</span></md-menu-item>
                     <md-menu-item><span class="span" @click="clone(bot)">{{$t('history.clone')}}</span></md-menu-item>
+                    <md-menu-item><span class="span" @click="active=true">{{$t('history.delete')}}</span></md-menu-item>
                   </md-menu-content>
                 </md-menu>
             </div>
           </md-card-header>
 
           <md-card-content>
-            <img src="../../assets/bot_lila.jpg" v-if="bot.template === 'FAQ Bot'"></img>
-            <img src="../../assets/bot_gelb.jpg" v-else-if="bot.template === 'Welcome Bot'"></img>
+            <div v-if="bot.template === 'FAQ Bot'">
+              <img src="../../assets/bot_lila_k.png" v-show="theme === false"></img>
+              <img src="../../assets/faq-night.png" v-show="theme === true">
+            </div>
+            <div v-else-if="bot.template === 'Welcome Bot'">
+              <img src="../../assets/bot_gelb_k.png" v-show="theme === false"></img>
+              <img src="../../assets/welcome-night.png" v-show="theme === true"></img>
+            </div>
           </md-card-content>
 
           <h3 class = "name">{{bot.name}}</h3>
@@ -33,22 +51,11 @@
         </div>
       </div>
       <md-speed-dial md-direction="bottom" id="dial">
-      <md-speed-dial-target to="/botarmy">
+      <md-speed-dial-target to="/simplebots/template">
         <md-icon>add</md-icon>
       </md-speed-dial-target>
       </md-speed-dial>
 
-      <md-dialog :md-active.sync="showDialog">
-        <md-dialog-title>Information</md-dialog-title>
-
-        <p class="padding"><strong>Name:</strong> {{botInfo.name}}</p>
-        <p class="padding"><strong>Template:</strong> {{botInfo.template}}</p>
-        <p class="padding"><strong>Last edited:</strong> {{botInfo.lastedit}}</p>
-        
-        <md-dialog-actions>
-          <md-button class="md-primary" @click="showDialog = false">Close</md-button>
-        </md-dialog-actions>
-      </md-dialog>
 
       <md-dialog :md-active.sync="showDialogClone">
         <md-dialog-title>Clone - Are you sure?</md-dialog-title>
@@ -67,7 +74,8 @@ export default {
   data: () => ({
     showDialog: false,
     showDialogClone: false,
-    botInfo: {}
+    botInfo: {},
+    active: false
   }),
   computed: {
     history: {
@@ -138,15 +146,19 @@ export default {
       set (val) {
         this.$store.commit('setUterances', val)
       }
+    },
+    theme: {
+      get () {
+        return this.$store.state.theme
+      },
+      set (val) {
+        this.$store.commit('setTheme', val)
+      }
     }
   },
   methods: {
     getConfigs: function () {
       this.$store.dispatch('getConfigs')
-    },
-    setBotInfo: function (bot) {
-      this.showDialog = true
-      this.botInfo = bot
     },
     clone: function (bot) {
       this.template = bot.template
@@ -168,7 +180,7 @@ export default {
       this.$router.push('/status')
     },
     edit: function (bot) {
-      this.$router.push('/botarmy')
+      this.$router.push('/simplebots/steps')
       this.setDone({id: 'first', index: 'second'})
       this.template = bot.template
       this.name = bot.name
@@ -189,6 +201,10 @@ export default {
     },
     clear: function () {
       this.$store.commit('clear')
+    },
+    deleteConfig: function (id) {
+      this.$store.dispatch('deleteConfig', id)
+      this.active = false
     }
   },
   beforeMount () {
@@ -236,5 +252,12 @@ span {
 }
 .md-content {
   overflow: auto;
+}
+#content {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+#our {
+  text-align: center;
 }
 </style>

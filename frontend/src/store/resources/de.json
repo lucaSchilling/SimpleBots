@@ -17,21 +17,24 @@
     },
     "faq": {
         "intents": "Absichten",
-        "typeIntent": "Gib deine Absicht hier ein",
-        "typeAnswer": "Gib deine Antwort hier ein",
+        "typeIntent": "Beschreibe mit einem Wort, was das Ziel des Benutzers ist",
+        "typeAnswer": "Gib ein, was der Benutzer als Antwort erhalten soll",
         "add": "hinzufügen",
         "intent": "Absicht",
         "answer": "Antwort",
-        "entities": "Entitäten",
+        "entities": "Schlagwörter",
         "entity": "Entität",
-        "typeEntity": "Gib deine Entitäten hier ein"
+        "typeEntity": "Gib hier Schlagwörter ein, welche die Absichten näher definieren"
     },
     "history": {
         "ourBots": "Deine Bots",
         "info": "info",
         "edit": "bearbeiten",
         "clone": "klonen",
-        "add": "hinzufügen"
+        "add": "hinzufügen",
+        "delete": "löschen",
+        "title": "Möchten Sie diese Konfiguration wirklich löschen?",
+        "content" :"Diese Konfiguration wird permanent gelöscht. Sie werden nicht die Möglichkeit haben, diese wiederherzustellen."
     },
     "item": {
         "changeTooltip": "Füge der Nachricht eine Option hinzu",
@@ -74,12 +77,17 @@
         "lastEdit": "Erstellt am"
     },
     "tablerow": {
-        "delete": "löschen"
+        "delete": "löschen",
+        "title": "Möchten Sie diesen Bot wirklich löschen?",
+        "confirm": "Löschen",
+        "cancel": "Abbrechen",
+        "content": "Dieser Bot wird aus dem Bot Status gelöscht. In der Historie kann er noch geklont und bearbeitet werden",
+        "titleOn": "Sie können keinen laufenden Bot löschen",
+        "contentOn": "Es ist nicht möglich, einen Bot zu löschen, der momentan aktiv ist. Schalten Sie ihn zuerst aus, um ihn zu löschen."
     },
     "tabs": {
         "launch": "START",
         "history": "GESCHICHTE",
-        "botarmy": "BOTARMEE",
         "botStatus": "BOT STATUS"
     },
     "templateStep": {
@@ -88,10 +96,10 @@
         "faq": "F.A.Q. Bot"
     },
     "uterances": {
-        "setEntity": "Setze eine Entität für",
+        "setEntity": "Klicke auf die passende Absicht und das zugehörige Schlagwort",
         "addQuestion": "Füge deine Fragen hier hinzu",
-        "setEntities": "Setze deine Entities hier",
-        "placeholder": "Trage deine möglichen Nutzerfragen hier ein"
+        "setEntities": "Klicke auf das wichtigste Wort in jedem Satz...",
+        "placeholder": "Trage die möglichen Nutzerfragen ein"
     },
     "welcomeStep": {
         "placeholder": "Trage hier die Nachricht ein, mit der dein Bot deine Kunden begrüßen soll"

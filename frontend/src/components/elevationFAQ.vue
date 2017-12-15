@@ -2,7 +2,8 @@
 <div id="carddiv">
     <div>
     <h4 id="head">{{$t('elevationBots.greeting')}} {{$t('elevationBots.faq')}}</h4>
-    <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150">
+    <img src="../../assets/bot_lila_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150">
+    <img src="../../assets/faq-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150">
     <div id="buttondiv">
         <md-button @click="showDialog = true" class="md-raised md-primary" id="more">{{$t('elevationBots.more')}}</md-button>
     </div>
@@ -11,9 +12,10 @@
       <md-dialog-title>{{$t('elevationBots.faq')}}</md-dialog-title>
       <div id="wrap">
         <div id="left">
-            <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" id="botimg">
+            <img src="../../assets/bot_lila_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
+            <img src="../../assets/faq-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
             <div id="textdiv">{{$t('elevationBots.text')}}</div>
-            <md-button class="md-raised md-primary" @click="setTemp" to="/botarmy">
+            <md-button class="md-raised md-primary" @click="create">
               {{$t('elevationBots.create')}}
               </md-button> 
         </div>
@@ -50,11 +52,23 @@ export default {
       set (val) {
         this.$store.commit('setTemplate', val)
       }
+    },
+    theme: {
+      get () {
+        return this.$store.state.theme
+      },
+      set (val) {
+        this.$store.commit('setTheme', val)
+      }
     }
   },
   methods: {
-    setTemp: () => {
+    create () {
       this.template = 'FAQ Bot'
+      this.$router.push('/simplebots/steps')
+    },
+    setDone (object) {
+      this.$store.commit('setDone', object)
     }
   }
 }
@@ -102,6 +116,7 @@ export default {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 25px;
 }
 #line {
     display: block;
@@ -117,5 +132,8 @@ export default {
 }
 .feat {
   padding-bottom: 10px;
+}
+.botimg {
+  padding-bottom: 25px;
 }
 </style>

@@ -9,7 +9,7 @@
          <md-icon class="md-primary">expand_more</md-icon>  </span>
 
           <input v-model="model.message" :placeholder="this.$t('item.placeholder')"></input>
-          <span>
+          <span id="addSpan">
             <md-menu md-direction="bottom-start" class="menu" v-show="!isFolder && model.redirect === null">
                     <md-icon class="md-primary" md-menu-trigger>
                 add
@@ -22,7 +22,7 @@
             </md-menu>
           </span>
 
-            <span @click="deleteThis(model.id)">
+            <span @click="deleteThis(model.id)" v-show="!(model.isDeletable === false)">
               <md-icon class="md-primary" >delete</md-icon>
               <md-tooltip md-direction="top">{{$t('item.deleteTooltip')}}</md-tooltip>
             </span>
@@ -157,5 +157,10 @@ input {
   width: 280px;
   height: 40px;
    margin: 0 0 13px;
+}
+.span:hover, .pHover:hover {
+  cursor: pointer;
+  font-weight: bold;
+  color: #f68b1f
 }
 </style>

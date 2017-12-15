@@ -1,7 +1,7 @@
 <template>
 <div id="tab">
   <div id="launch">
-          <h4 id="news">{{$t('launch.news')}}</h4>
+    <h4 id="news">{{$t('launch.news')}}</h4>
   <video width="800" controls>
     <source src="../../assets/intro.mp4" type="video/mp4">
   </video>
@@ -20,6 +20,9 @@ import elevationFAQ from './elevationFAQ.vue'
 
 export default {
   name: 'launch',
+  data: () => ({
+    bool: false
+  }),
   components: {
     elevationWelcome,
     elevationFAQ
@@ -38,8 +41,8 @@ export default {
     display: flex;
 }
 
-#text {
-  color: #e47e25;
+#text, #news {
+  color: #f68b1f;
 }
 #launch {
   background: transparent;
@@ -47,5 +50,9 @@ export default {
   margin: 0 auto;
   clear:both;
   padding-block-end: 50px;
+  position: absolute;
+  width: 100vw;
+  top: 48px;
+  left: 18vw;
 }
 </style>
