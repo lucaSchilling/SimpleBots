@@ -1,6 +1,8 @@
 # SimpleBots Backend
 
-This is the repository for the software development project from the University of Applied Science in Mannheim. Our customer is LivePerson and we are the team Slitherin. In this folder u find everything for our different bot types.
+This is the repository for the software development project from the University of Applied Science in Mannheim. Our customer is LivePerson and we are the team Slitherin. In this folder u find everything for our backend and the belonging bot templates.
+<img align="right" width="120" height="178"
+     title="SimpleBots logo" src="./logo.png">
 
 ## Getting Started
 
@@ -31,29 +33,31 @@ Now you should be able to start an easy configured welcome bot with an easy conf
 First `POST` the following config with a REST-Client to the following address: 
 ```
 http://[IP where your backend is running]:3000/deploy/helloWorld
+{    
+    "_id": "1",   
+    "template": "Welcome Bot",   
+    "name": "Hello World Bot",    
+    "welcomeMessage": "Hello I am the Hello World Bot",    
+    "options": [{   
+        "message" : "Joke 1", "options" : [{    
+            "message" : "Wer ist eigentlich dieser LAN und warum macht er so viele Partys?"}]}]        
+}   
 ```
-{
-    "_id": "1",
-    "template": "Welcome Bot",
-    "name": "Hello World Bot",
-    "welcomeMessage": "Hello I am the Hello World Bot",
-    "options": [{"message" : "Joke 1", "options" : [{"message" : "Wer ist eigentlich dieser LAN und warum macht er so viele Partys?"}]}]
-}
 In the next step you need to turn him on with:
 ```
 http://[IP where your backend is running]:3000/setStatus/helloWorld
 ```
 and the following `JSON`
 ```
-{
-    "status": "true",
-    "_id": "1"
-}
+{    
+    "status": "true",    
+    "_id": "1"    
+}    
 ```
 Now your bot should be running and you can test him with the following code pen:
 * [Test suite](https://codepen.io/liveperson/full/xRzXXd/)
 Just enter your accountnumber and connect, now you can write anything and the Hello World Bot should anwser.
-Enter a 1 for the first option, now the Hello World Bot is telling you a small joke. 
+Enter a 1 for the first option, now the Hello World Bot will tell you a small joke. 
 
 ## Deployment
 
