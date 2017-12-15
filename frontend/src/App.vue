@@ -2,7 +2,6 @@
   <div id="app">
      <tabs v-show="!('/' === this.$route.path)"></tabs>
     <router-view/>
-
   </div>
 </template>
 
@@ -12,6 +11,11 @@ import tabs from './components/tabs.vue'
 export default {
   components: {
     tabs
+  },
+  updated () {
+    if (localStorage.getItem('lang') !== null) {
+      this.$i18n.set(localStorage.getItem('lang'))
+    }
   },
   name: 'app'
 }

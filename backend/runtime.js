@@ -1,5 +1,3 @@
-// Used to transform the existing callback based functions into promise based functions
-// const { promisify } = require('util');
 // Loading .env File which contains all enviroment variables with values
 const { config } = require('dotenv');
 // Express server module
@@ -13,26 +11,31 @@ const fs = require('fs');
 // Docker module
 const Docker = require('dockerode');
 // MongoDB module
-var db = require('./db');
+const db = require('./db');
 // Dockerode Service
-const dockerode = require('./dockerService')
+const dockerode = require('./dockerService');
 
 var docker = new Docker();
 
 var state = {
-    loadedTemplates: {}
+    loadedTemplates: {},
+    loadedTemplateParams: {}
 };
+
+var logo = fs.readFileSync(__dirname + '/logo.txt').toString();
 
 // Load all registered templates, build new docker image for each
 var installedTemplates = JSON.parse(fs.readFileSync(__dirname + '/templates.json'));
 
 for (key in installedTemplates) {
-    let name = installedTemplates[key];
+    let name = installedTemplates[key].fileName;
     let template = require('./templates/' + name);
     state.loadedTemplates[name] = template;
-    dockerode.buildImage(name)
+    state.loadedTemplateParams[name] = installedTemplates[key].params;
+    dockerode.buildImage(name);
 }
 
+// Load config from .env
 config();
 var accountId = process.env.LP_ACCOUNT;
 var username = process.env.LP_USER;
@@ -40,43 +43,27 @@ var password = process.env.LP_PASS;
 var port = process.env.PORT;
 var mongoURL = process.env.MONGOURL;
 
+db.setUrl(mongoURL);
+
+// Create and set up express server
 var server = express();
 server.use(cors());
 server.use(bodyParser.json());
 
-// Connect to DB and start listening
-db.connect(mongoURL, function (err) {
-    if (err) {
-        console.error(err);
-        process.exit(1);
-    }
-    else {
-        db.get().collection('botids').findOne({ name: 'botids' }, function (err, result) {
-            if (err) {
-                console.error(err);
-                process.exit(1);
-            }
-
-            if (!result) {
-                db.get().collection('botids').insertOne({ name: 'botids', id: 0 }, function (err) {
-                    if (err) {
-                        console.error(err);
-                        process.exit(1);
-                    }
-                });
-            }
-        })
-        server.listen(port, function () {
-            console.log('Bot Runtime listening on port ' + port);
-        });
-    }
+// Start listening
+server.listen(port, function () {
+    setTimeout(function () {
+    console.log(logo);
+    console.log('Simple Bots backend services listening on port ' + port);}, 5000)
 });
 
-// Deploys the bot into a ready state and saves it in the database. Expects valid JSON bot config file
-server.post('/deploy', function (req, res) {
+// Deploys the bot into a ready state and saves it in the database. Expects valid JSON
+server.post('/deploy/:user', function (req, res) {
     try {
+        let user = req.params.user;
+        
         // No JSON
-        if (!typeof req.body === 'object') {
+        if (!typeof req.body === 'object' || !user) {
             res.sendStatus(400);
             return;
         }
@@ -84,12 +71,12 @@ server.post('/deploy', function (req, res) {
         let template = req.body.template;
 
         // Invalid JSON
-        if (!template) {
+        if (!template || !user) {
             res.sendStatus(422);
             return;
         }
 
-        let botClass = state.loadedTemplates[installedTemplates[template]];
+        let botClass = state.loadedTemplates[installedTemplates[template].fileName];
 
         // Template not installed
         if (!botClass) {
@@ -97,52 +84,73 @@ server.post('/deploy', function (req, res) {
             return;
         }
 
-        // Get incremental bot id
         let id;
         let querry = {
             name: 'botids'
         }
-        let botJson = req.body;
+        let botConfig = req.body;
 
-        db.get().collection('botids').findOne(querry, function (err, result) {
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
-            }
-
-            id = result.id + 1;
-
-            botJson._id = id + "";
-            botJson.status = false;
-            botJson.lastEdit = new Date();
-            botJson.luisReqUrl = process.env.LUIS_REQ_URL;
-            botJson.luisApiUrl = process.env.LUIS_API_URL;
-            botJson.luisKey = process.env.LUIS_KEY;
-
-            // Update incremental bot id
-            let updatedId = {
-                $set: { id: id }
-            }
-
-            db.get().collection('botids').updateOne(querry, updatedId, function (err, result) {
+        db.operate(user, function(connection) {
+            // Get incremental bot id
+            connection.collection('botids').findOne(querry, function (err, result) {
                 if (err) {
                     console.error(err);
                     res.sendStatus(503);
                     return;
                 }
+    
+                id = result.id + 1;
+    
+                botConfig._id = id + "";
+                botConfig.username = user;
+                botConfig.status = false;
+                botConfig.lastEdit = new Date();
+                
+                // Write template parameters into config
+                let templateParams = state.loadedTemplateParams[installedTemplates[template].fileName];
 
-                // Save bot in database
-                db.get().collection('deployedBots').insertOne(botJson, function (err) {
-                    // Can't connect to database
+                for (let paramName in templateParams) {
+                    botConfig[paramName] = templateParams[paramName];
+                }
+    
+                let updatedId = {
+                    $set: { id: id }
+                }
+
+                // Update incremental bot id
+                connection.collection('botids').updateOne(querry, updatedId, function (err, result) {
                     if (err) {
                         console.error(err);
                         res.sendStatus(503);
                         return;
                     }
-                    // Instantiate new bot of the specified template
-                    dockerode.createContainer(botJson);
-                    res.sendStatus(201);
+    
+                    // Save config in database
+                    connection.collection('configs').insertOne(botConfig, function (err) {
+                        if (err) {
+                            console.error(err);
+                            res.sendStatus(503);
+                            return;
+                        }
+    
+                        console.log('Created bot ' + id + ' in database collection configs');
+    
+                        // Save bot config in database
+                        connection.collection('deployedBots').insertOne(botConfig, function (err) {
+                            if (err) {
+                                console.error(err);
+                                res.sendStatus(503);
+                                return;
+                            }
+    
+                            console.log('Created bot ' + id + ' in database collection deployedBots');
+
+                            // Instantiate new bot of the specified template
+                            dockerode.createContainer(botConfig);
+                            
+                            res.sendStatus(201);
+                        });
+                    });
                 });
             });
         });
@@ -154,8 +162,10 @@ server.post('/deploy', function (req, res) {
 });
 
 // Turns bots on or off. Expects valid JSON
-server.post('/setStatus', function (req, res) {
+server.post('/setStatus/:user', function (req, res) {
     try {
+        let user = req.params.user;
+
         // No JSON
         if (!typeof req.body === 'object') {
             res.sendStatus(400);
@@ -164,22 +174,11 @@ server.post('/setStatus', function (req, res) {
 
         let id = req.body._id;
         let status = req.body.status;
-        let config = {
-            _id: id
-        }
 
         // Invalid JSON
-        if (!id) {
+        if (!id || !user) {
             res.sendStatus(422);
             return;
-        }
-        // Start bot
-        else if (status) {
-            dockerode.start(config)
-        }
-        // Stop bot
-        else {
-            dockerode.stop(config)
         }
 
         let querry = {
@@ -190,15 +189,34 @@ server.post('/setStatus', function (req, res) {
             $set: { status: status }
         }
 
-        db.get().collection('deployedBots').updateOne(querry, updatedStatus, function (err, res) {
-            if (err) {
-                console.log(err);
-                res.sendStatus(503);
-                return;
-            }
-        });
+        // Update bot status in database
+        db.operate(user, function(connection) {
+            connection.collection('deployedBots').updateOne(querry, updatedStatus, function (err, result) {
+                if (err) {
+                    console.error(err);
+                    result.sendStatus(503);
+                    return;
+                }
+    
+                console.log('Set running status of bot ' + id  + ' to ' + status);
 
-        res.sendStatus(200);
+                let dockerodeConfig = {
+                    _id: id,
+                    username: user
+                }
+        
+                if (status) {
+                    // Start bot
+                    dockerode.start(dockerodeConfig);
+                }
+                else {
+                    // Stop bot
+                    dockerode.stop(dockerodeConfig);
+                }
+
+                res.sendStatus(200);
+            });
+        });
     }
     catch (e) {
         console.error(e);
@@ -206,47 +224,50 @@ server.post('/setStatus', function (req, res) {
     }
 });
 
-// Deletes bots from the runtime. Expects valid JSON
-server.delete('/delete/:id', function (req, res) {
+// Deletes bot config from the config database
+server.delete('/delete/:user/:id', function (req, res) {
     try {
         let id = req.params.id;
-        let config = {
-            _id: id
-        }
-        // No id
-        if (!id) {
+        let user = req.params.user;
+
+        // No id or no user
+        if (!id || !user) {
             res.sendStatus(400);
             return;
         }
 
-        // Delete from database
         let querry = {
             _id: id
-        };
-        db.get().collection('deployedBots').findOne(querry, function(err, result) {
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
-            }
-            if(result === null){
-                // Can't find bot in database
-                res.sendStatus(404);
-                return;
         }
-        db.get().collection('deployedBots').deleteOne(querry, function(err, obj) {
 
-            // Can't connect to database
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
-            }
-            dockerode.delete(config)
+        db.operate(user, function (connection) {
+            // Find config in database
+            connection.collection('configs').findOne(querry, function (err, result) {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+
+                // Can't find config in database
+                if (!result) {
+                    res.sendStatus(404);
+                    return;
+                }
+
+                // Delete from config database
+                connection.collection('configs').deleteOne(querry, function (err, result) {
+                    if (err) {
+                        console.error(err);
+                        res.sendStatus(503);
+                        return;
+                    }
+    
+                    console.log('Deleted bot ' + id + ' from database collection configs');
+                    res.sendStatus(200);
+                });
+            });
         });
-
-        res.sendStatus(200);
-    })
     }
     catch (e) {
         console.error(e);
@@ -254,24 +275,128 @@ server.delete('/delete/:id', function (req, res) {
     }
 });
 
-// Returns all bot configs that are in the database
-server.get('/getAll', function (req, res) {
+// Deletes bot from the runtime
+server.delete('/undeploy/:user/:id', function (req, res) {
     try {
-        db.get().collection('deployedBots').find({}).toArray(function (err, result) {
-            // Can't connect to database
-            if (err) {
-                console.error(err);
-                res.sendStatus(503);
-                return;
-            }
+        let id = req.params.id;
+        let user = req.params.user;
 
-            // No bots deployed
-            if (!result) {
-                res.sendStatus(204);
-                return;
-            }
+        // No id or no user
+        if (!id || !user) {
+            res.sendStatus(400);
+            return;
+        }
 
-            res.status(200).send(result);
+        let querry = {
+            _id: id
+        }
+
+        db.operate(user, function (connection) {
+            // Find bot in database
+            connection.collection('deployedBots').findOne(querry, function (err, result) {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+
+                // Can't find bot in database
+                if (!result) {
+                    res.sendStatus(404);
+                    return;
+                }
+
+                // Delete from bot database
+                connection.collection('deployedBots').deleteOne(querry, function (err, result) {
+                    if (err) {
+                        console.error(err);
+                        res.sendStatus(503);
+                        return;
+                    }
+
+                    console.log('Deleted bot ' + id + ' from database collection deployedBots');
+    
+                    let dockerodeConfig = {
+                        _id: id,
+                        username: user
+                    }
+    
+                    dockerode.delete(dockerodeConfig);
+                    res.sendStatus(200);
+                });
+            });
+        });
+    }
+    catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+// Returns all configs of the specified user that are in the database
+server.get('/getConfigs/:user', function (req, res) {
+    try {
+        let user = req.params.user;
+
+        // No user
+        if (!user) {
+            res.sendStatus(400);
+            return;
+        }
+
+        db.operate(user, function(connection) {
+            // Find all configs in config database
+            connection.collection('configs').find({}).toArray(function (err, result) {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+    
+                // No configs found
+                if (!result) {
+                    res.sendStatus(204);
+                    return;
+                }
+    
+                res.status(200).send(result);
+            });
+        });
+    }
+    catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+// Returns all deployed bots of the specified user that are in the database
+server.get('/getBots/:user', function (req, res) {
+    try {
+        let user = req.params.user;
+        
+        // No user
+        if (!user) {
+            res.sendStatus(400);
+            return;
+        }
+        
+        db.operate(user, function (connection) {
+            // Find all deployed bots in bot database
+            connection.collection('deployedBots').find({}).toArray(function (err, result) {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(503);
+                    return;
+                }
+    
+                // No bots deployed
+                if (!result) {
+                    res.sendStatus(204);
+                    return;
+                }
+    
+                res.status(200).send(result);
+            });
         });
     }
     catch (e) {

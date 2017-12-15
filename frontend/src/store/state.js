@@ -11,6 +11,7 @@ export default {
   intents: [],
   entities: [],
   examples: [],
+  uterances: [],
   active: 'first',
   first: false,
   second: false,
@@ -22,8 +23,11 @@ export default {
     isRoot: true,
     options: [{
       message: '',
+      isDeletable: false,
       redirect: null,
       options: null
     }]},
-  username: ''
+  username: '',
+  itemID: 0,
+  theme: false
 }

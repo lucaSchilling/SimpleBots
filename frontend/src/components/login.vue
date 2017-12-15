@@ -1,10 +1,13 @@
 <template>
-  <div>
+  <div id="loginWrap">
     <!--@submit.prevent="validateUser"-->
     <form novalidate class="md-layout-row md-gutter" @submit.prevent="validateUser" id="inner">
       <md-card class="md-flex-50 md-flex-small-100">
         <md-card-header>
-          <div class="md-title-primary">{{$t('login.login')}}</div>
+          <div id="logodiv">
+            <img src="../../assets/logo.jpg" width="400" id="logoPic">
+          </div>
+          <div class="md-title-primary"><h3>{{$t('login.login')}}</h3></div>
         </md-card-header>
 
         <md-card-content>
@@ -27,9 +30,9 @@
           
           <md-field>
             <label for="language">{{$t('login.language')}}</label>
-            <md-select v-model="form.Language" name="language" id="language">
-            <md-option value="de">{{$t('login.de')}}</md-option>
-            <md-option value="en">{{$t('login.en')}}</md-option>
+            <md-select v-model="form.language" name="language" id="language">
+            <md-option  id="de" value="de">{{$t('login.de')}}</md-option>
+            <md-option id="en" value="en">{{$t('login.en')}}</md-option>
           
           </md-select>
           </md-field>
@@ -93,9 +96,9 @@
         this.form.password = null
       },
       saveUser () {
-        this.$store.state.username = this.form.username
-        this.$i18n.set('de')
-        alert('Test')
+        this.$i18n.set(localStorage.getItem(this.form.language))
+        localStorage.setItem('username', this.form.username)
+        localStorage.setItem('lang', this.form.language)
         this.$router.push('/launch')
       },
       validateUser () {
@@ -116,5 +119,22 @@
     margin: 10px;
     display: flex;
 }
+  #loginWrap {
+    width: 700px;
+    min-width: 700px;
+    height: 344px;
+    min-height: 344px;
+    position: relative;
+    left: calc(50vw - 200px);
+    top: calc(50vh - 250px);
+  }
+  #logoPic {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+  }
+  #logodiv {
+    width: 100%;
+  }
 
 </style>

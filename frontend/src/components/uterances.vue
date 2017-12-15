@@ -2,7 +2,7 @@
   <div>
     <md-dialog :md-active.sync="showDialog">
       <div id="dialog">
-        <md-dialog-title>{{$t('uterances.setEntity')}} "{{selected}}"</md-dialog-title>
+        <md-dialog-title>{{$t('uterances.setEntity')}}</md-dialog-title>
       <div id="intents">
         <p class="pHover" v-for="intent in intents" v-bind:key="intent" @click="setIntent(intent.name)">{{intent.name}}</p>
       </div>
@@ -12,9 +12,12 @@
 
       </div>
      </md-dialog>
-     <h3>{{$t('uterances.addQuestion')}} </h3>
-     <input v-model="uterance" v-on:keyup.enter="addUterance"></input>
-      <h3>{{$t('uterances.setEntities')}} </h3>
+     <h3>{{$t('uterances.addQuestion')}}</h3>
+     <input v-model="uterance" v-on:keyup.enter="addUterance" :placeholder="this.$t('uterances.placeholder')"></input>
+     <span @click="addUterance">
+      <md-icon class="md-primary" >add</md-icon>
+    </span>
+      <h3>{{$t('uterances.setEntities')}}</h3>
       <ol>
     <div v-for="(ut, index) in uterances" v-bind:key="ut">
       <li><span class="span" v-for="word in ut" v-bind:key="word" @click="openDialog(sentences[index], word)">
@@ -32,7 +35,6 @@ export default {
   name: 'uterances',
   data: () => ({
     showDialog: false,
-    uterances: [],
     uterance: null,
     selected: null,
     sentences: [],
@@ -65,6 +67,14 @@ export default {
       set (val) {
         this.$store.commit('setExamples', val)
       }
+    },
+    uterances: {
+      get () {
+        return this.$store.state.uterances
+      },
+      set (val) {
+        this.$store.commit('setUterances', val)
+      }
     }
   },
   methods: {
@@ -93,6 +103,7 @@ export default {
       this.$store.dispatch('deploy')
       this.clear()
       this.setUndone('first')
+      this.$router.push('/status')
     },
     clear: function () {
       this.$store.commit('clear')
@@ -110,9 +121,6 @@ export default {
 <style>
 .span, .pHover {
   cursor: pointer;
-}
-.span:hover, .pHover:hover {
-    font-weight: bold;
 }
 #dialog {
   width: 300px;

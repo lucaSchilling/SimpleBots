@@ -3,10 +3,10 @@
     <h2 id="welcomeMsg">{{$t('messageStep.message')}}</h2>
     <div id="textcontainer">
       <md-field>
-        <md-textarea v-model="welcomeMessage"></md-textarea>
+        <md-textarea :placeholder="this.$t('welcomeStep.placeholder')" id="textA" v-model="welcomeMessage"></md-textarea>
       </md-field>
   </div>
-  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'forth', index: 'fifth'})">{{$t('messageStep.next')}}</md-button>
+  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'second', index: 'third'})">{{$t('messageStep.next')}}</md-button>
 </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="tablediv">
   <md-table>
       <md-table-row>
       <md-table-head></md-table-head>
@@ -39,15 +39,15 @@ export default {
     search: null
   }),
   methods: {
-    getAll: function () {
-      this.$store.dispatch('getAll')
+    getBots: function () {
+      this.$store.dispatch('getBots')
     },
     searchOnTable () {
       this.searched = searchByName(this.bots, this.search)
     }
   },
   beforeMount () {
-    this.getAll()
+    this.getBots()
   },
   computed: {
     bots () {
@@ -64,5 +64,10 @@ export default {
 </script>
 
 <style>
-
+#tablediv {
+  position: absolute;
+  z-index: 2;
+  width: 100vw;
+  top: 48px;
+}
 </style>

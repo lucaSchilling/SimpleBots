@@ -21,10 +21,15 @@ exports.createContainer = function (config) {
     let image = config.template.replace(" ", "").toLowerCase();
     // Sets the options for the creation 
     const createOptions = {
-      name: `${'b' + config._id}`,
+      name: `${config.username + config._id}`,
       Image: `${image}`,
       Tty: true,
-      Cmd: ["sh", "-c", `node botStart.js ${config._id}`]
+      RestartPolicy: {
+        Name: 'always',
+        MaximumRetryCount: 0
+      },
+        NetworkMode: 'sepslitherin_slitherin',
+      Cmd: ["sh", "-c", `node botStart.js ${config._id} ${config.username}`]
     };
 
     docker.createContainer(createOptions).then((container) => {
@@ -64,8 +69,8 @@ exports.buildImage = function (template) {
  */
 exports.start = function (config) {
   return new Promise((resolve) => {
-    console.log(`Starting bot  (b${config._id})...`);
-    const container = docker.getContainer('b' + config._id);
+    console.log(`Starting bot  (${config.username} ${config._id})...`);
+    const container = docker.getContainer(config.username + config._id);
     container.start();
     resolve();
   });
@@ -80,8 +85,8 @@ exports.start = function (config) {
  */
 exports.stop = function (config) {
   return new Promise((resolve) => {
-    console.log(`Stopping bot (b${config._id})...`);
-    const container = docker.getContainer('b' + config._id);
+    console.log(`Stopping bot (${config.username} ${config._id})...`);
+    const container = docker.getContainer(config.username + config._id);
     // Stops the Container.
     container.stop((err) => {
       if (err) {
@@ -101,9 +106,9 @@ exports.stop = function (config) {
  */
 exports.delete = function (config) {
   return new Promise((resolve) => {
-    console.log(`Deleting bot (b${config._id})...`);
+    console.log(`Deleting bot (${config.username} ${config._id})...`);
 
-    const container = docker.getContainer('b' + config._id);
+    const container = docker.getContainer(config.username + config._id);
     // Removes the container
         container.remove((err) => {
           if (err) {

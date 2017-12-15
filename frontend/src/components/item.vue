@@ -3,26 +3,28 @@
   <li>
     <div
       :class="{bold: isFolder}" v-show="!model.isRoot">
-      <span v-if="isFolder && open" @click="toggle">
+      <span v-if="(isFolder && open) || (isRedirect && open)" @click="toggle">
          <md-icon class="md-primary">expand_less</md-icon>  </span>
-      <span v-if="isFolder && !open" @click="toggle">
+      <span v-if="(isFolder && !open) || (isRedirect && !open)" @click="toggle">
          <md-icon class="md-primary">expand_more</md-icon>  </span>
 
-          <md-input v-model="model.message"> </md-input>
-
-            <span @click="changeType">
-              <md-icon class="md-primary" v-show="!isFolder && model.redirect === null">
+          <input v-model="model.message" :placeholder="this.$t('item.placeholder')"></input>
+          <span id="addSpan">
+            <md-menu md-direction="bottom-start" class="menu" v-show="!isFolder && model.redirect === null">
+                    <md-icon class="md-primary" md-menu-trigger>
                 add
                 <md-tooltip md-direction="top">{{$t('item.changeTooltip')}}</md-tooltip>
               </md-icon>
-            </span>
-            <span @click="deleteChild">
+              <md-menu-content>
+                <md-menu-item><span class="span" @click="changeType">option</span></md-menu-item>
+                <md-menu-item><span class="span" @click="addRedirect">redirect</span></md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </span>
+
+            <span @click="deleteThis(model.id)" v-show="!(model.isDeletable === false)">
               <md-icon class="md-primary" >delete</md-icon>
               <md-tooltip md-direction="top">{{$t('item.deleteTooltip')}}</md-tooltip>
-            </span>
-             <span @click="addRedirect">
-              <md-icon class="md-primary" v-show="(model.redirect === null) && (model.options === null)">trending_flat</md-icon>
-              <md-tooltip md-direction="top">{{$t('item.redirectTooltip')}}</md-tooltip>
             </span>
     </div>
     <ul v-show="open || model.isRoot" v-if="isFolder">
@@ -36,10 +38,11 @@
         <md-icon class="md-primary">add</md-icon> 
       </li>
     </ul>
-    <ul v-show="open && model.redirect !== null">
+    <ul v-show="open && model.redirect !== null" id="list">
       <md-select  class="redirect" v-model="model.redirect"> 
-        <md-option value="faqbot"> {{$t('item.faq')}}</md-option>
-        <md-option value="welcomebot">{{$t('item.wb')}}</md-option>        
+        <md-option value="999352232">F.A.Q. Bot</md-option>
+        <md-option value="-1">Human Agent</md-option>  
+        <md-option value="1008076832">Welcome Bot</md-option>      
       </md-select>
     </ul>
   </li>
@@ -51,6 +54,9 @@ import Vue from 'vue'
 
 export default {
   name: 'item',
+  mounted () {
+    this.model.id = this.itemID++
+  },
   props: {
     model: Object
   },
@@ -63,11 +69,27 @@ export default {
     isFolder: function () {
       return this.model.options &&
         this.model.options.length
+    },
+    isRedirect: function () {
+      return this.model.redirect !== null
+    },
+    treeData: {
+      get () {
+        return this.$store.state.treeData
+      }
+    },
+    itemID: {
+      get () {
+        return this.$store.state.itemID
+      },
+      set (val) {
+        this.$store.commit('setitemID', val)
+      }
     }
   },
   methods: {
     toggle: function () {
-      if (this.isFolder) {
+      if (this.isFolder || this.model.redirect !== null) {
         this.open = !this.open
       }
     },
@@ -80,10 +102,29 @@ export default {
     },
     deleteChild: function () {
       if (this.isFolder) {
-        this.model.options = null
+        this.treeData.options[0].options[0].options.splice(0, 1)
       }
       this.model.redirect = null
-      this.open = false
+      // this.open = false
+    },
+    deleteThis (id) {
+      this.delete(this.treeData.options, id)
+    },
+    delete (array, id) {
+      // this.$store.state.treeData.options
+      for (let i = 0; i < array.length; i++) {
+        if (array[i].id === id) {
+          array.splice(i, 1)
+          return
+        } else {
+          if (array === null) {
+            return
+          }
+          if (array[i].options !== null) {
+            this.delete(array[i].options, id)
+          }
+        }
+      }
     },
     addChild: function () {
       this.model.options.push({
@@ -117,5 +158,10 @@ input {
   width: 280px;
   height: 40px;
    margin: 0 0 13px;
+}
+.span:hover, .pHover:hover {
+  cursor: pointer;
+  font-weight: bold;
+  color: #f68b1f
 }
 </style>

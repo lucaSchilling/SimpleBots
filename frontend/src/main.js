@@ -6,11 +6,9 @@ import 'vue-material/dist/vue-material.min.css'
 import App from './App'
 import './theme.scss'
 import store from './store'
-import BootstrapVue from 'bootstrap-vue'
 import router from './router'
 
 Vue.use(VueMaterial)
-Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 

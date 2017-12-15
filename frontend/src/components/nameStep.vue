@@ -2,21 +2,23 @@
 <div>
   <div v-if="template === 'Welcome Bot'" class="picDiv">
     <h2>{{$t('nameStep.chooseName')}} {{template}}</h2>
-    <img src="../../assets/bot_gelb.jpg" height="150" width="150" class="img">
+    <img src="../../assets/bot_gelb_k.png" v-show="theme === false" height="150" width="150" class="img">
+    <img src="../../assets/welcome-night.png" v-show="theme === true" height="150" width="150" alt="Welcome Bot" class="img">
     <md-field>
       <label for="name">Name</label>
-        <md-input  v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'forth'})"></md-input>
+        <md-input  id="wName" :placeholder="this.$t('nameStep.placeholder')" v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'forth'})"></md-input>
     </md-field>
   </div>
   <div v-else-if="template === 'FAQ Bot'" class="picDiv">
     <h2>{{$t('nameStep.chooseName')}} {{template}}</h2>
-    <img src="../../assets/bot_lila.jpg" height="150" width="150" class="img">
+    <img src="../../assets/bot_lila_k.png" v-show="theme === false" height="150" width="150" class="img">
+    <img src="../../assets/faq-night.png" v-show="theme === true" height="150" width="150" alt="Welcome Bot" class="img">
     <md-field>
       <label for="name">Name</label>
-        <md-input  v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'forth'})"></md-input>
+        <md-input v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'forth'})"></md-input>
     </md-field>
   </div>
-  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'second', index: 'forth'})">Next</md-button>
+  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'first', index: 'second'})">Next</md-button>
   </div>
 </template>
 
@@ -38,6 +40,14 @@ export default {
       },
       set (val) {
         this.$store.commit('setName', val)
+      }
+    },
+    theme: {
+      get () {
+        return this.$store.state.theme
+      },
+      set (val) {
+        this.$store.commit('setTheme', val)
       }
     }
   },

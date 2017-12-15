@@ -1,36 +1,41 @@
 <template>
-    <md-steppers md-sync-route :md-active-step.sync="active" md-linear>
-      <md-step id="first" md-label="Template" :md-done.sync="first">
-        <templateStep></templateStep>
-      </md-step>
-
-      <md-step id="second" md-label="Name" :md-done.sync="second">
+  <div>
+    <md-steppers v-if="template==='Welcome Bot'" md-sync-route :md-active-step.sync="active" md-linear id="steppers">
+      <md-step id="first" md-label="Name" :md-done.sync="first">
         <nameStep></nameStep>
       </md-step>
 
-      <md-step id="forth" :md-label="this.$t('botarmy.welcomeMessage')" :md-done.sync="forth">
+      <md-step id="second" :md-label="this.$t('botarmy.welcomeMessage')" :md-done.sync="second">
         <messageStep></messageStep>
       </md-step>
 
-      <md-step id="fifth" :md-label="this.$t('botarmy.options')" :md-done.sync="fifth">
-        <div v-if="template === 'Welcome Bot'">
+      <md-step id="third" :md-label="this.$t('botarmy.options')" :md-done.sync="third">
           <optionStep></optionStep>
-          <md-button class="md-primary md-raised" @click="deploy">{{$t('botarmy.deploy')}}</md-button>
-        </div>
+          <md-button class="md-primary md-raised buttonRight" @click="deploy">{{$t('botarmy.deploy')}}</md-button>
+      </md-step>
+    </md-steppers>
 
-        <div v-else-if="template === 'FAQ Bot'" id="faqdiv">
+    <md-steppers v-if="template==='FAQ Bot'" md-sync-route :md-active-step.sync="active" md-linear id="steppers">
+      
+      <md-step id="first" md-label="Name" :md-done.sync="first">
+        <nameStep></nameStep>
+      </md-step>
+
+      <md-step id="second" :md-label="this.$t('botarmy.welcomeMessage')" :md-done.sync="second">
+        <messageStep></messageStep>
+      </md-step>
+
+        <md-step id="third" :md-label="this.$t('botarmy.options')" :md-done.sync="third">
           <faq></faq>
-        </div>
-        <md-button v-if="template === 'FAQ Bot'" class="md-primary md-raised buttonRight" @click="setDone({id: 'fifth', index: 'sixth'})" id="sixth">{{$t('next')}}</md-button>
+          <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'third', index: 'forth'})" id="sixth">{{$t('next')}}</md-button>
         </md-step>
 
-        <md-step id="sixth" :md-label="this.$t('botarmy.questions')" :md-done.sync="sixth">
+        <md-step id="forth" :md-label="this.$t('botarmy.questions')" :md-done.sync="forth">
           <uterances></uterances>
-        </md-step>             
+        </md-step>
+
     </md-steppers>
-  </div>
-      </md-step>            
-    </md-steppers>
+    
   </div>
 </template>
 
@@ -143,7 +148,7 @@ export default {
       this.options = this.treeData.options
       this.$store.dispatch('deploy')
       this.clear()
-      this.setUndone('first')
+      this.$router.push('/status')
     },
     add: function () {
       this.tree.push({message: null, options: [], redirect: null})
@@ -222,5 +227,11 @@ ul {
 }
 .buttonRight {
   float: right;
+}
+#steppers {
+  position: fixed;
+  z-index: 2;
+  width: 100vw;
+  top: 48px;
 }
 </style>

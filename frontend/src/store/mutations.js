@@ -11,6 +11,9 @@ export default {
   setOptions: (state, val) => {
     state.options = val
   },
+  setUterances: (state, val) => {
+    state.uterances = val
+  },
   setIntents: (state, val) => {
     state.intents = val
   },
@@ -26,28 +29,35 @@ export default {
   setLastEdit: (state, val) => {
     state.lastedit = val
   },
-  getAll: (state, response) => {
-    state.history = []
+  setitemID: (state, val) => {
+    state.itemID = val
+  },
+  getBots: (state, response) => {
     for (let i = 0; i < response.data.length; i++) {
       state.bots.push({ID: response.data[i]._id,
         status: response.data[i].status,
         template: response.data[i].template,
         name: response.data[i].name,
-        lastedit: response.data[i].lastEdit
+        lastedit: response.data[i].lastEdit.slice(5, 7) + '.' + response.data[i].lastEdit.slice(8, 10) + '.' + response.data[i].lastEdit.slice(2, 4) + ', ' + response.data[i].lastEdit.slice(11, 16)
       })
+    }
+  },
+  getConfigs: (state, response) => {
+    for (let i = 0; i < response.data.length; i++) {
       if (response.data[i].template === 'Welcome Bot') {
+        // alert(JSON.stringify(response.data[i].options))
         state.history.push({ID: response.data[i]._id,
-          status: response.data[i].status,
+          welcomeMessage: response.data[i].welcomeMessage,
           template: response.data[i].template,
           name: response.data[i].name,
-          lastedit: response.data[i].lastEdit,
+          lastedit: response.data[i].lastEdit.slice(5, 7) + '.' + response.data[i].lastEdit.slice(8, 10) + '.' + response.data[i].lastEdit.slice(2, 4) + ', ' + response.data[i].lastEdit.slice(11, 16),
           options: response.data[i].options})
       } else if (response.data[i].template === 'FAQ Bot') {
         state.history.push({ID: response.data[i]._id,
-          status: response.data[i].status,
+          welcomeMessage: response.data[i].welcomeMessage,
           template: response.data[i].template,
           name: response.data[i].name,
-          lastedit: response.data[i].lastEdit,
+          lastedit: response.data[i].lastEdit.slice(5, 7) + '.' + response.data[i].lastEdit.slice(8, 10) + '.' + response.data[i].lastEdit.slice(2, 4) + ', ' + response.data[i].lastEdit.slice(11, 16),
           intents: response.data[i].intents,
           entities: response.data[i].entities,
           examples: response.data[i].examples
@@ -57,6 +67,7 @@ export default {
   },
   clearBotsFromArray: (state) => {
     state.bots = []
+    state.history = []
   },
   setDone: (state, object) => {
     state[object.id] = true
@@ -108,12 +119,16 @@ export default {
     state.welcomeMessage = null
     state.options = []
     state.treeData = {
-      message: '',
+      isRoot: true,
       options: []
     }
     state.intents = []
     state.entities = []
     state.lastedit = null
     state.examples = []
+    state.uterances = []
+  },
+  setTheme: (state, val) => {
+    state.theme = val
   }
 }
