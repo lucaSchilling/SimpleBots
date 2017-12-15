@@ -1,6 +1,6 @@
 {
     "botarmy": {
-        "welcomeMessage": "Wilkommensnachricht",
+        "welcomeMessage": "Willkommensnachricht",
         "options": "Optionen",
         "deploy": "Veröffentlichen",
         "next": "Weiter",
@@ -10,8 +10,9 @@
         "greeting": "Hallo ich bin der",
         "more": "Mehr",
         "faq": "F.A.Q. Bot",
-        "wb": "Wilkommens Bot",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        "wb": "Willkommens Bot",
+        "wbText": "Der Willkommens Bot ermöglicht es Ihnen den Empfang Ihrer Kunden zu vereinfachen und leitet diese an den Agent weiter, der Ihre Probleme am besten lösen kann - entweder Mensch oder Bot. Sie können eine Willkommensnachricht erstellen und Optionen zur Verfügung stellen, aus denen Ihre Kunden auswählen können. Nachdem Ihre Kunden eine Auswahl getroffen haben, werden die Anfragen von der festgelegten Weiterleitung bearbeitet.",
+        "faqText": "Der F.A.Q. Bot ist ein spezialisierter Bot, der auf häufig gestellte Fragen antworten kann. Die Fragen und dazugehörigen Antworten können Sie editieren, indem Sie bestimmte Absichten und Schlagwörter für die jeweiligen Fragen bestimmen, auf die der F.A.Q. Bot achten soll.",
         "create": "Bot erstellen",
         "feature1": "Hoher Sicherheitsstandard"
     },
@@ -41,7 +42,7 @@
         "deleteTooltip": "Lösche die Optionen dieser Nachricht",
         "redirectTooltip": "Füge der Nachricht eine Weiterleitung hinzu",
         "faq": "F.A.Q. Bot",
-        "wb": "Wilkommens Bot",
+        "wb": "Willkommens Bot",
         "placeholder": "Tragen sie hier ihre Optionsmöglichkeit ein"
     },
     "launch": {
@@ -56,10 +57,10 @@
         "de": "Deutsch",
         "en": "Englisch",
         "login": "Einloggen",
-        "success": "Erfolgreich eingelogt"
+        "success": "Erfolgreich eingeloggt"
     },
     "messageStep": {
-        "message": "Wilkommensnachricht",
+        "message": "Willkommensnachricht",
         "next": "Weiter"
     },
     "nameStep": {
@@ -81,18 +82,18 @@
         "title": "Möchten Sie diesen Bot wirklich löschen?",
         "confirm": "Löschen",
         "cancel": "Abbrechen",
-        "content": "Dieser Bot wird aus dem Bot Status gelöscht. In der Historie kann er noch geklont und bearbeitet werden",
+        "content": "Dieser Bot wird aus dem Bot Status gelöscht. In der Historie kann er noch geklont und bearbeitet werden.",
         "titleOn": "Sie können keinen laufenden Bot löschen",
         "contentOn": "Es ist nicht möglich, einen Bot zu löschen, der momentan aktiv ist. Schalten Sie ihn zuerst aus, um ihn zu löschen."
     },
     "tabs": {
         "launch": "START",
-        "history": "GESCHICHTE",
+        "history": "HISTORIE",
         "botStatus": "BOT STATUS"
     },
     "templateStep": {
         "chooseTemplate": "Wähle ein Template",
-        "wb": "Wilkommens Bot",
+        "wb": "Willkommens Bot",
         "faq": "F.A.Q. Bot"
     },
     "uterances": {

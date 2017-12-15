@@ -11,20 +11,21 @@
         "more": "More",
         "faq": "F.A.Q. Bot",
         "wb": "Welcome Bot",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        "wbText": "",
+        "faqText": "",        
         "create": "Create Bot",
         "feature1": "High Security Standard"
     },
     "faq": {
         "intents": "Intents",
-        "typeIntent": "Type in your intent here",
-        "typeAnswer": "Type in your Answer here",
+        "typeIntent": "Type your intent here",
+        "typeAnswer": "Type your answer here",
         "add": "add",
         "intent": "Intent",
         "answer": "Answer",
         "entities": "Entities",
         "entity": "Entity",
-        "typeEntity": "Type in your entity here"
+        "typeEntity": "Type your entity here"
     },
     "history": {
         "ourBots": "Our Bots",
@@ -34,7 +35,7 @@
         "add": "add",
         "delete": "delete",
         "title": "Do you really want to delete this configuration?",
-        "content": "This configuration will be permanently deleted. You wont be able to restore it. "
+        "content": "This configuration will be permanently deleted. You won't be able to restore it. "
     },
     "item": {
         "changeTooltip": "Add an option to this message",
@@ -42,7 +43,7 @@
         "redirectTooltip": "Add a redirect to this message",
         "faq": "F.A.Q. Bot",
         "wb": "Welcome Bot",
-        "placeholder": "Type in your possible option here"
+        "placeholder": "Type your possible option here"
     },
     "launch": {
         "news": "News"
@@ -56,7 +57,7 @@
         "de": "German",
         "en": "English",
         "login": "Login",
-        "success": "Sucessfully loged in"
+        "success": "Successfully logged in"
     },
     "messageStep": {
         "message": "Welcome Message",
@@ -64,7 +65,7 @@
     },
     "nameStep": {
         "chooseName": "Choose a name for your",
-        "placeholder": "Type in your name here"
+        "placeholder": "Type your name here"
     },
     "optionStep": {
         "setMenu": "Set selection menu" 
@@ -99,9 +100,9 @@
         "setEntity": "Set an entity for",
         "addQuestion": "Add your questions here",
         "setEntities": "Set your entities here",
-        "placeholder": "Type in your possible user questions here"
+        "placeholder": "Type your possible user questions here"
     },
     "welcomeStep": {
-        "placeholder": "Type in your message here, which will greet your customer at the beginning of the chat"
+        "placeholder": "Type your message here, which will greet your customer at the beginning of the chat"
     }
 }
