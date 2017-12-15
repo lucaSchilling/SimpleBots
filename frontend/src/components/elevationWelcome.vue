@@ -3,8 +3,8 @@
     <div>
       <h4 id="head">{{$t('elevationBots.greeting')}} {{$t('elevationBots.wb')}}</h4>
 
-      <img src="../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150">
-      <img src="../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150">
+      <img src="../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
+      <img src="../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
     <div id="buttondiv">
         <md-button @click="showDialog = true" class="md-raised md-primary">{{$t('elevationBots.more')}}</md-button>
     </div>
@@ -29,10 +29,9 @@
         </div>
         <hr id="line">
       <div id="features">
-        <h4>Features</h4>
-        <p class="feat"><md-icon class="md-primary">verified_user</md-icon> {{$t('elevationBots.feature1')}}</p>
-        <p class="feat"><md-icon class="md-primary">verified_user</md-icon> {{$t('elevationBots.feature1')}}</p>
-        <p class="feat"><md-icon class="md-primary">verified_user</md-icon> {{$t('elevationBots.feature1')}}</p>
+        <p class="feat"><md-icon class="md-primary">message</md-icon> {{$t('elevationBots.feature1')}}</p>
+        <p class="feat"><md-icon class="md-primary">call_made</md-icon> {{$t('elevationBots.feature2')}}</p>
+        <p class="feat"><md-icon class="md-primary">mouse</md-icon> {{$t('elevationBots.feature3')}}</p>
       </div>
       </div>
      </md-dialog>
@@ -114,7 +113,7 @@ export default {
 #textdiv {
     padding-bottom: 30px;
 }
-#botimg, #dialogbtn {
+#botimg, #dialogbtn, .botimg {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -129,10 +128,12 @@ export default {
 }
 #features {
   color: #f68b1f;
-  padding-left: 30px;
+  padding-top: 5vh;
+  padding-left: 6.5vw;
 }
 .feat {
-  padding-bottom: 10px;
+  padding-right: 8vw;
+  display: inline;
 }
 .botimg {
   padding-bottom: 25px;
