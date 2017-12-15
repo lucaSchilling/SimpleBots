@@ -1,4 +1,19 @@
 {
-    "Welcome Bot": "welcomebot",
-    "FAQ Bot": "faqbot"
+    "Welcome Bot": {
+        "fileName": "welcomebot",
+        "params": {
+            "skillId": "-1",
+            "humanSkillId": "1008076832"
+        }
+    },
+    "FAQ Bot": {
+        "fileName": "faqbot",
+        "params": {
+            "skillId": "999352232",
+            "humanSkillId": "1008076832",
+            "luisApiUrl": "https://westus.api.cognitive.microsoft.com/luis/api/v2.0/apps/",
+            "luisReqUrl": "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/",
+            "luisKey": "4d44af468562465b828ff3ecfb651475"
+        }
+    }
 }
