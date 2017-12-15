@@ -49,7 +49,7 @@ db.setUrl(mongoURL);
 // Start listening
 server.listen(port, function () {
     setTimeout(function () {
-    console.log(logo);
+    //console.log(logo);
     console.log('Simple Bots backend services listening on port ' + port);}, 5000)
 });
 
