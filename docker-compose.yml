@@ -2,36 +2,52 @@ version: '3.3'
 
 # Define the services/containers to be run
 services:
-  runtime: #name of your service
-    build: ./backend/ # specify the directory of the Dockerfile
+  backend:
+    # directory of the Dockerfile
+    build: ./backend/
+    # port forwarding
     ports:
-      - "3000:3000" #specify ports forwarding
+      - "3000:3000" 
+    # links the backend with the database container  
     links:
       - database
+    # starts the backend only if the database container is already running  
     depends_on:
       - database
+    # our own standard network  
     networks: 
       - slitherin
+    # mounts the docker.sock from the backend container to the host system (permission needed)  
     volumes: 
       - /var/run/docker.sock:/var/run/docker.sock
+    # restarts the backend if the container crashes or if the host has rebootet 
     restart: always
-  database: # name of the service
-    image: mongo # specify image to build container from
+  database:
+    # using a small mongo image for this container
+    image: mongo
+    # port forwarding
     ports:
       - "27017:27017"
+    # our own standard network  
     networks:
       - slitherin
+    # restarts the backend if the container crashes or if the host has rebootet 
     restart: always
   frontend:
+    # directory of the docker file
     build: ./frontend/
-    env_file: ./frontend/.env
+    # port forwarding
     ports:
       - "8080:8080"
+    # starts the frontend only if the backend is running  
     depends_on:
-      - runtime
+      - backend
+    # our standard network  
     networks:
       - slitherin
+    # restarts the backend if the container crashes or if the host has rebootet 
     restart: always
+# defining a standard network for our docker-compose so we dont use the default docker network    
 networks:
   slitherin:
     
