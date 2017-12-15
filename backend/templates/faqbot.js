@@ -5,45 +5,43 @@ const axios = require('axios');
 
 axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = '4d44af468562465b828ff3ecfb651475';
 
+function timeout(ms = 3000) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 /**
  * A bot that uses Microsoft LUIS to get the user's intent and answers frequently asked questions.
  */
 class FAQBot extends Bot {
 
-    /**
-     * @override 
-     * @see bot.js
-     */
     constructor(accountId, username, password, config) {
         super(accountId, username, password, config);
 
         axios.defaults.headers.common['Ocp-Apim-Subscription-Key'] = config.luisKey;
 
-        this.initLuisApp();
+        this.createLuisApp();
     }
 
     /**
-     * Initializes the bot's dialogs.
+     * Initializes the bot's dialogs. Child classes must override this function to implement case specific responses.
      * @override
      */
     init() {
         super.init();
 
-        // React to conversation changes
+        // 'UPSERT' apparently means that the chat user has sent a new message
         this.agent.on('cqm.ExConversationChangeNotification', body => {
-            // Bot joins any conversation marked with its skill
+            // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options
             body.changes
-                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === this.config.skillId)
+                //hier kann man erreichen das nur ein agent drin ist indem man das hinten erweitert (?)
+                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '999352232')
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
                     await this.joinConversation(change.result.convId, 'MANAGER');
-
-                    console.log('FAQ Bot ' + this.config._id + ' joined conversation ' + change.result.convId);
-
                     await this.sendMessage(change.result.convId, 'Hello, I am the FAQ Bot. What is your question?');
                 });
 
-            // On conversation termination, remove all temporary data of that conversation
+            // On conversation termination, remove all temporary data about that conversation
             body.changes
                 .filter(change => change.type === 'DELETE' && this.openConversations[change.result.convId])
                 .forEach(async change => {
@@ -51,24 +49,22 @@ class FAQBot extends Bot {
                 });
         });
 
-        // React to messages in already joined conversations
         this.agent.on('ms.MessagingEventNotification', body => {
+            console.log('MessagingEventNotification: ' + JSON.stringify(body));
+            console.log('AgentID' + this.agent.agentId);
             body.changes
                 .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
                 .forEach(async change => {
+                    console.log('change: ' + JSON.stringify(change));
                     let userMessage = change.event.message;
-
-                    // Get user intent via LUIS
+                    console.log(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage)
                     let getPredictionsRes = await axios.get(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
-
                     if (getPredictionsRes.status === 200) {
-                        // Compare top scoring intent to the predefined intents
                         for (let intent of this.config.intents) {
+
                             if (intent.name === getPredictionsRes.data.topScoringIntent.intent) {
-                                // Answer the user's question
                                 await this.sendMessage(change.dialogId, intent.message);
 
-                                // Terminate the conversation
                                 await this.agent.updateConversationField({
                                     'conversationId': change.dialogId,
                                     'conversationField': [{
@@ -80,19 +76,7 @@ class FAQBot extends Bot {
                                 return;
                             }
 
-                            // If the top scoring intent wasn't predefined, redirect the chat partner to a human agent
-                            await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question.\nA human agent will be with you momentarily...');
-
-                            await this.agent.updateConversationField({
-                                'conversationId': change.dialogId,
-                                'conversationField': [{
-                                    field: "Skill",
-                                    type: "UPDATE",
-                                    skill: this.config.humanSkillId
-                                }]
-                            });
-
-                            await this.leaveConversation(change.result.convId);
+                            await this.sendMessage(change.dialogId, 'I\'m sorry, but I couldn\'t understand your question');
                         }
                     }
                     else if (getPredictionsRes.status === 429) {
@@ -106,7 +90,7 @@ class FAQBot extends Bot {
                         await this.sendMessage('This service is currently not available due to technical difficulties');
                         return;
                     }
-            });
+                });
         });
     }
 
@@ -115,8 +99,7 @@ class FAQBot extends Bot {
      * @override
      */
     async start() {
-        while (!this.isLuisReady) {
-            console.log('Waiting for LUIS App to be ready...');
+        while (!this.isTrainingComplete) {
             await this.timeout(5000);
         }
 
@@ -124,9 +107,10 @@ class FAQBot extends Bot {
     }
 
     /**
-     * Checks if a LUIS app is already existing for this bot. If not, creates a LUIS application and submits the required training data, then starts it.
+     * Creates a LUIS application and submits the required training data, then starts it.
+     * @param {JSON} config 
      */
-    async initLuisApp() {
+    async createLuisApp() {
         // Check for existing app
         let getApplicationsRes = await axios.get(this.config.luisApiUrl);
 
@@ -135,7 +119,7 @@ class FAQBot extends Bot {
                 if (app.name === this.config._id) {
                     this.luisAppId = app.id;
                     this.init();
-                    this.isLuisReady = true;
+                    this.isTrainingComplete = true;
                     return;
                 }
             }
@@ -243,12 +227,10 @@ class FAQBot extends Bot {
             return;
         }
 
-        // Await training completion and app release
+        // Await training completion
         while (true) {
             await this.timeout(5000);
-
             let trainCompleteRes = await axios.get(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train');
-
             if (trainCompleteRes.status === 200) {
                 let publishRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/publish', {
                     versionId: '1.0',
@@ -270,7 +252,7 @@ class FAQBot extends Bot {
                 }
 
                 this.init();
-                this.isLuisReady = true;
+                this.isTrainingComplete = true;
                 break;
             }
             else if (trainCompleteRes.status === 429) {
