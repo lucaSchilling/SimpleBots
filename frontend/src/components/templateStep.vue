@@ -30,11 +30,11 @@ export default {
   methods: {
     setTemplateWelcome () {
       this.template = 'Welcome Bot'
-      this.$router.push('/simplebots/steps')
+      this.setDone({id: 'first', index: 'second'})
     },
     setTemplateFAQBot () {
       this.template = 'FAQ Bot'
-      this.$router.push('/simplebots/steps')
+      this.setDone({id: 'first', index: 'second'})
     },
     setDone (object) {
       this.$store.commit('setDone', object)
@@ -63,10 +63,7 @@ export default {
 
 <style>
 #box {
-  height: 500px;
-  position: absolute;
   width: 100vw;
-  top: 100px;
 }
 #choose {
   color: gray;

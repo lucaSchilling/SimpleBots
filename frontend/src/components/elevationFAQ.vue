@@ -65,7 +65,8 @@ export default {
   methods: {
     create () {
       this.template = 'FAQ Bot'
-      this.$router.push('/simplebots/steps')
+      this.$router.push('/simplebots')
+      this.setDone({id: 'first', index: 'second'})
     },
     setDone (object) {
       this.$store.commit('setDone', object)
@@ -76,11 +77,11 @@ export default {
 
 <style lang="scss" scoped>
   #head {
-    color: gray;
+    color: #f68b1f;
   }
   #dialog {
-    width: 80%;
-    height: 70%;
+    width: 80vw;
+    height: 70vh;
   }
   #wrap {
     width: auto;
@@ -93,12 +94,12 @@ export default {
   }
 
   #right {
-    width: 600px; 
+    width: 40vw; 
     float: left;
     padding-right: 30px;
   }
   #left {
-    width: 400px; 
+    width: 38vw; 
     float: left;
     padding-left: 30px;
     padding-right: 30px;   
@@ -122,12 +123,12 @@ export default {
     display: block;
     height: 1px;
     border: 0;
-    border-top: 1px solid #e47e25;
+    border-top: 1px solid #f68b1f;
     margin: 1em 0;
     padding: 0;
 }
 #features {
-  color: #e47e25;
+  color: #f68b1f;
   padding-left: 30px;
 }
 .feat {

@@ -6,6 +6,7 @@ var state = {
 
 /**
  * Builds a connection to the requested database.
+ * 
  * @param url The url and port of the MongoDB server
  * @param done Callback function
  */
@@ -33,6 +34,7 @@ exports.get = function () {
 
 /**
  * Closes the connection to the database if it was established previously and deletes the reference.
+ * 
  * @param done Callback function
  */
 

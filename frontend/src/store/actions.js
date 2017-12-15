@@ -1,5 +1,5 @@
 var axios = require('axios')
-var url = 'http://localhost:3000'
+var url = 'http://141.19.142.6:3000'
 
 export default {
   deploy: (context) => {
@@ -8,7 +8,8 @@ export default {
         'template': context.state.template,
         'name': context.state.name,
         'welcomeMessage': context.state.welcomeMessage,
-        'options': context.state.treeData.options
+        'options': context.state.treeData.options,
+        'redirectMessage': context.state.redirectMessage
       }).then(function (response) {
         context.dispatch('getBots')
       })
