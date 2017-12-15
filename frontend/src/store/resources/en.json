@@ -104,7 +104,7 @@
         "setEntity": "Set an entity for",
         "addQuestion": "Add your questions here",
         "setEntities": "Set your entities here",
-        "placeholder": "Type your possible user questions here"
+        "placeholder": "Type your possible user questions here",
         "title": "Do you really want to delete this sentence?",
         "content": "You can't restore sentences which were removed. You can still add new sentences.",
         "set": "set"

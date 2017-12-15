@@ -15,7 +15,7 @@
         <div id="left">
           <img src="../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
           <img src="../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
-          <div id="textdiv">{{$t('elevationBots.text')}}</div>
+          <div id="textdiv">{{$t('elevationBots.wbText')}}</div>
             <md-button class="md-raised md-primary" @click="create">
              {{$t('elevationBots.create')}}
             </md-button> 
