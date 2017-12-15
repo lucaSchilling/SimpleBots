@@ -1,7 +1,9 @@
+// Node Agent SDK module
 const { Agent } = require('node-agent-sdk');
-// Used to transform the existing callback based functions into promise based functions
-const { promisify } = require('util');
 
+/**
+ * A generic bot that uses the Node Agent SDK to connect to the LiveEngage platform.
+ */
 class Bot {
     /**
      * Creates a new bot that can join conversations via the specified agent.
@@ -158,10 +160,9 @@ class Bot {
      * @param {string} conversationId The id of the conversation
      */
     async leaveConversation(conversationId) {
-        console.log('Bot ' + this.config._id + ' has left conversation ' + conversationId)
         delete this.openConversations[conversationId];
 
-        return await this.agent.updateConversationField({
+        await this.agent.updateConversationField({
             'conversationId': conversationId,
             'conversationField': [{
                 field: 'ParticipantsChange',
@@ -169,9 +170,15 @@ class Bot {
                 role: 'MANAGER'
             }]
         });
+
+        console.log('Left conversation ' + conversationId);
     }
     
-    timeout(ms = 3000) {
+    /**
+     * Halts the code execution for the given amout of milliseconds.
+     * @param {int} ms The delay in milliseconds.
+     */
+    timeout(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
