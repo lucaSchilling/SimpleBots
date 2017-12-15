@@ -1,8 +1,10 @@
 <template>
-<div id="carddiv">
+  <div id="carddiv">
     <div>
-    <h4 id="head">{{$t('elevationBots.greeting')}} {{$t('elevationBots.wb')}}</h4>
-    <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150">
+      <h4 id="head">{{$t('elevationBots.greeting')}} {{$t('elevationBots.wb')}}</h4>
+
+      <img src="../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150">
+      <img src="../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150">
     <div id="buttondiv">
         <md-button @click="showDialog = true" class="md-raised md-primary">{{$t('elevationBots.more')}}</md-button>
     </div>
@@ -11,9 +13,10 @@
       <md-dialog-title>{{$t('elevationBots.wb')}}</md-dialog-title>
       <div id="wrap">
         <div id="left">
-          <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" id="botimg">
+          <img src="../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
+          <img src="../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
           <div id="textdiv">{{$t('elevationBots.text')}}</div>
-            <md-button class="md-raised md-primary" to="/botarmy">
+            <md-button class="md-raised md-primary" @click="create">
              {{$t('elevationBots.create')}}
             </md-button> 
         </div>
@@ -33,7 +36,7 @@
       </div>
       </div>
      </md-dialog>
-</div>
+  </div>
 </template>
 
 <script>
@@ -50,11 +53,23 @@ export default {
       set (val) {
         this.$store.commit('setTemplate', val)
       }
+    },
+    theme: {
+      get () {
+        return this.$store.state.theme
+      },
+      set (val) {
+        this.$store.commit('setTheme', val)
+      }
     }
   },
   methods: {
-    setTemp: () => {
+    create () {
       this.template = 'Welcome Bot'
+      this.$router.push('/simplebots/steps')
+    },
+    setDone (object) {
+      this.$store.commit('setDone', object)
     }
   }
 }
@@ -117,5 +132,8 @@ export default {
 }
 .feat {
   padding-bottom: 10px;
+}
+.botimg {
+  padding-bottom: 25px;
 }
 </style>

@@ -4,12 +4,12 @@
     <md-table md-card>
       <md-table-toolbar>
         <div id="intentHead">
-        <h1 class="md-title">{{$t('faq.intents')}}</h1>
+          <h1 class="md-title">{{$t('faq.intents')}}</h1>
         </div>
         <div id="intentText">
-        <md-field>
-          <label>{{$t('faq.typeIntent')}}</label>
-          <md-input v-model="intent"></md-input>
+          <md-field>
+            <label>{{$t('faq.typeIntent')}}</label>
+            <md-input v-model="intent"></md-input>
         </md-field>
         </div>
         <div id="answer">
@@ -31,22 +31,27 @@
       </md-table-row>
 
       <md-table-row v-for="int in intents" v-bind:key="int">
+
         <md-table-cell>
           <p>{{int.name}}</p>
         </md-table-cell>
+
         <md-table-cell>
           <p>{{int.message}}</p>
         </md-table-cell>
+
         <md-table-cell>
           <md-button @click="editObject('intent', int)" class="md-icon-button">
             <md-icon>create</md-icon>
           </md-button>
         </md-table-cell>
+
         <md-table-cell>
           <md-button @click="deleteObject('intent', int)" class="md-icon-button">
             <md-icon>delete</md-icon>
           </md-button>
         </md-table-cell>
+
       </md-table-row>
     </md-table>
 
@@ -57,6 +62,7 @@
       <md-table-toolbar>
         <h1 class="md-title">{{$t('faq.entities')}}</h1>
         <md-field>
+          <label>{{$t('faq.typeEntity')}}</label>
           <md-input v-model="entity"></md-input>
           <span @click="addEntity" class="hover">
             <md-icon>add</md-icon>

@@ -22,8 +22,8 @@ export default new Router({
       component: launch
     },
     {
-      path: '/botarmy',
-      name: 'Steppers',
+      path: '/simplebots/steps',
+      name: 'Simplebots',
       component: botarmy
     },
     {
@@ -37,7 +37,7 @@ export default new Router({
       component: tablehead
     },
     {
-      path: '/botarmy/template',
+      path: '/simplebots/template',
       name: 'Template',
       component: templateStep
     }

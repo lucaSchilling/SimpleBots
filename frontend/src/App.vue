@@ -2,7 +2,6 @@
   <div id="app">
      <tabs v-show="!('/' === this.$route.path)"></tabs>
     <router-view/>
-
   </div>
 </template>
 
@@ -13,11 +12,10 @@ export default {
   components: {
     tabs
   },
-  beforeMount () {
-    if (localStorage.getItem('lang') === null) {
-      this.$i18n.set('en')
+  updated () {
+    if (localStorage.getItem('lang') !== null) {
+      this.$i18n.set(localStorage.getItem('lang'))
     }
-    this.$i18n.set(localStorage.getItem('lang'))
   },
   name: 'app'
 }
