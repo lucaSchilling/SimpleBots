@@ -1,6 +1,13 @@
 {
-  "name": "runtime",
-  "version": "0.1.0",
+  "name": "backend",
+  "main": "backend.js",
+  "version": "1.0.0",
+  "description": "Express Server which can execute docker build, create, run, start, stop and remove for our SimpleBots Application",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lucaSchilling/SEP-Slitherin.git"
+  },
   "dependencies": {
     "axios": "^0.17.1",
     "cors": "^2.8.4",
