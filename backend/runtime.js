@@ -53,7 +53,7 @@ server.use(bodyParser.json());
 // Start listening
 server.listen(port, function () {
     setTimeout(function () {
-    //console.log(logo);
+    console.log(logo);
     console.log('Simple Bots backend services listening on port ' + port);}, 5000)
 });
 
@@ -76,7 +76,7 @@ server.post('/deploy/:user', function (req, res) {
             return;
         }
 
-        let botClass = state.loadedTemplates[installedTemplates[template]];
+        let botClass = state.loadedTemplates[installedTemplates[template].fileName];
 
         // Template not installed
         if (!botClass) {
@@ -107,7 +107,7 @@ server.post('/deploy/:user', function (req, res) {
                 botConfig.lastEdit = new Date();
                 
                 // Write template parameters into config
-                let templateParams = state.loadedTemplateParams[installedTemplates[template]];
+                let templateParams = state.loadedTemplateParams[installedTemplates[template].fileName];
 
                 for (let paramName in templateParams) {
                     botConfig[paramName] = templateParams[paramName];

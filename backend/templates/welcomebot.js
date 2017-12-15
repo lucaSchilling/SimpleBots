@@ -83,7 +83,12 @@ class WelcomeBot extends Bot {
                     }
                     else {
                         // Redirect the chat partner to another bot by marking the conversation with the demanded skill
-                        await this.sendMessage(change.dialogId, this.config.redirectMessage);
+                        let message = this.config.redirectMessage;
+
+                        if (!message) {
+                            message = 'You will be redirected to the FAQ Bot'
+                        }
+                        await this.sendMessage(change.dialogId, message);
 
                         await this.agent.updateConversationField({
                             'conversationId': change.dialogId,
