@@ -92,6 +92,7 @@
         </md-table-cell>
       </md-table-row>
     </md-table>
+    <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'forth', index: 'fifth'})">{{$t('messageStep.next')}}</md-button>
     </div>
   </div>
 </template>
@@ -146,6 +147,9 @@ export default {
         this.entity = object.name
         this.entities.pop(object)
       }
+    },
+    setDone (object) {
+      this.$store.commit('setDone', object)
     }
   }
 }

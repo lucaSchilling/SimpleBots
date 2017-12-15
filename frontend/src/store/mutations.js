@@ -32,6 +32,9 @@ export default {
   setitemID: (state, val) => {
     state.itemID = val
   },
+  setredirectMessage: (state, val) => {
+    state.redirectMessage = val
+  },
   getBots: (state, response) => {
     for (let i = 0; i < response.data.length; i++) {
       state.bots.push({ID: response.data[i]._id,
@@ -45,13 +48,13 @@ export default {
   getConfigs: (state, response) => {
     for (let i = 0; i < response.data.length; i++) {
       if (response.data[i].template === 'Welcome Bot') {
-        // alert(JSON.stringify(response.data[i].options))
         state.history.push({ID: response.data[i]._id,
           welcomeMessage: response.data[i].welcomeMessage,
           template: response.data[i].template,
           name: response.data[i].name,
           lastedit: response.data[i].lastEdit.slice(5, 7) + '.' + response.data[i].lastEdit.slice(8, 10) + '.' + response.data[i].lastEdit.slice(2, 4) + ', ' + response.data[i].lastEdit.slice(11, 16),
-          options: response.data[i].options})
+          options: response.data[i].options,
+          redirectMessage: response.data[i].redirectMessage})
       } else if (response.data[i].template === 'FAQ Bot') {
         state.history.push({ID: response.data[i]._id,
           welcomeMessage: response.data[i].welcomeMessage,

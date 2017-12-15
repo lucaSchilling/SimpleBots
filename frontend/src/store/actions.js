@@ -8,7 +8,8 @@ export default {
         'template': context.state.template,
         'name': context.state.name,
         'welcomeMessage': context.state.welcomeMessage,
-        'options': context.state.treeData.options
+        'options': context.state.treeData.options,
+        'redirectMessage': context.state.redirectMessage
       }).then(function (response) {
         context.dispatch('getBots')
       })

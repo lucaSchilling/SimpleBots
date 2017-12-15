@@ -10,7 +10,7 @@
       <md-tab id="tab-history" class="tabs" :md-label="this.$t('tabs.history')" to="/history">
       </md-tab>
       
-      <md-tab id="tab-botarmy" class="tabs" md-label="SIMPLEBOTS" to="/simplebots/template">
+      <md-tab id="tab-botarmy" class="tabs" md-label="SIMPLEBOTS" to="/simplebots">
       </md-tab>
 
       <md-tab id="tab-status" class="tabs" :md-label="this.$t('tabs.botStatus')" to="/status">
@@ -65,6 +65,7 @@ export default {
       } else {
         Vue.material.theming.theme = 'default'
       }
+      localStorage.setItem('theme', this.theme)
     }
   }
 }

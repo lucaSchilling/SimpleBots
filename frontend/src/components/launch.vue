@@ -34,9 +34,9 @@ export default {
     display: flex;
   }
 
-.md-content{   
-    width: 390px;
-    height: 300px;
+.md-content {   
+    width: 30vw;
+    height: 35vh;
     margin: 10px;
     display: flex;
 }
@@ -46,12 +46,11 @@ export default {
 }
 #launch {
   background: transparent;
-  width: 800px;
   margin: 0 auto;
   clear:both;
   padding-block-end: 50px;
   position: absolute;
-  width: 100vw;
+  width: 80vw;
   top: 48px;
   left: 18vw;
 }

@@ -2,13 +2,11 @@
   <div>
     <md-dialog :md-active.sync="showDialog">
       <div id="dialog">
-        <md-dialog-title>{{$t('uterances.setEntity')}}</md-dialog-title>
-      <div id="intents">
+        <md-dialog-title>{{$t('uterances.setEntity')}} {{uterance}}</md-dialog-title>
+        <h3>Intents:</h3>
         <p class="pHover" v-for="intent in intents" v-bind:key="intent" @click="setIntent(intent.name)">{{intent.name}}</p>
-      </div>
-        <div id="entities">
-          <p class="pHover" v-for="entity in entities" v-bind:key="entity" @click="setEntity(sentence, selected, entity.name)">{{entity.name}}</p>
-        </div>
+        <h3>Entities:</h3>
+        <p class="pHover" v-for="entity in entities" v-bind:key="entity" @click="setEntity(sentence, selected, entity.name)">{{entity.name}}</p>
 
       </div>
      </md-dialog>
@@ -121,10 +119,6 @@ export default {
 <style>
 .span, .pHover {
   cursor: pointer;
-}
-#dialog {
-  width: 300px;
-  height: 300px;
 }
 #intents, #entities {
   width: 50%;

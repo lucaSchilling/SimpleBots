@@ -80,8 +80,8 @@ export default {
     color: gray;
   }
   #dialog {
-    width: 80%;
-    height: 70%;
+    width: 80vw;
+    height: 70vh;
   }
   #wrap {
     width: auto;
@@ -94,12 +94,12 @@ export default {
   }
 
   #right {
-    width: 600px; 
+    width: 40vw; 
     float: left;
     padding-right: 30px;
   }
   #left {
-    width: 400px; 
+    width: 38vw; 
     float: left;
     padding-left: 30px;
     padding-right: 30px;   

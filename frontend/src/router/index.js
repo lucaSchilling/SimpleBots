@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import launch from '@/components/launch.vue'
 import botarmy from '@/components/botarmy.vue'
 import tablehead from '@/components/tablehead.vue'
-import templateStep from '@/components/templateStep.vue'
 import history from '@/components/history.vue'
 import login from '@/components/login.vue'
 
@@ -22,7 +21,7 @@ export default new Router({
       component: launch
     },
     {
-      path: '/simplebots/steps',
+      path: '/simplebots',
       name: 'Simplebots',
       component: botarmy
     },
@@ -35,11 +34,6 @@ export default new Router({
       path: '/status',
       name: 'Status',
       component: tablehead
-    },
-    {
-      path: '/simplebots/template',
-      name: 'Template',
-      component: templateStep
     }
   ]
 })

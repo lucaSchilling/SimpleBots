@@ -154,6 +154,14 @@ export default {
       set (val) {
         this.$store.commit('setTheme', val)
       }
+    },
+    redirectMessage: {
+      get () {
+        return this.$store.state.redirectMessage
+      },
+      set (val) {
+        this.$store.commit('setredirectMessage', val)
+      }
     }
   },
   methods: {
@@ -166,6 +174,7 @@ export default {
       this.welcomeMessage = bot.welcomeMessage
       if (bot.template === 'Welcome Bot') {
         this.treeData.options = bot.options
+        this.redirectMessage = bot.redirectMessage
       } else if (bot.template === 'FAQ Bot') {
         this.intents = bot.intents
         this.entities = bot.entities
@@ -180,13 +189,14 @@ export default {
       this.$router.push('/status')
     },
     edit: function (bot) {
-      this.$router.push('/simplebots/steps')
+      this.$router.push('/simplebots')
       this.setDone({id: 'first', index: 'second'})
       this.template = bot.template
       this.name = bot.name
       this.welcomeMessage = bot.welcomeMessage
       if (bot.template === 'Welcome Bot') {
         this.treeData.options = bot.options
+        this.redirectMessage = bot.redirectMessage
       } else if (bot.template === 'FAQ Bot') {
         this.intents = bot.intents
         this.entities = bot.entities

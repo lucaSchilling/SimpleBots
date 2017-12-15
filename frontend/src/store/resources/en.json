@@ -4,7 +4,8 @@
         "options": "Options",
         "deploy": "Deploy",
         "next": "Next",
-        "questions": "Questions"
+        "questions": "Questions",
+        "redirect": "Redirect message"
     },
     "elevationBots": {
         "greeting": "Hi I am the",
@@ -89,6 +90,9 @@
         "launch": "LAUNCH",
         "history": "HISTORY",
         "botStatus": "BOT STATUS"
+    },
+    "redirectStep": {
+        "placeholder": "Type in your message here, which will displayed when the Bot redirects to another Bot or a human agent"
     },
     "templateStep": {
         "chooseTemplate": "Choose a template",

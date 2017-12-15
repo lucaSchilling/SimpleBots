@@ -4,7 +4,8 @@
         "options": "Optionen",
         "deploy": "Veröffentlichen",
         "next": "Weiter",
-        "questions": "Fragen"
+        "questions": "Fragen",
+        "redirect": "Weiterleitungsnachricht"
     },
     "elevationBots": {
         "greeting": "Hallo ich bin der",
