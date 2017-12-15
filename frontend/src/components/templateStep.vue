@@ -6,7 +6,8 @@
         <md-card md-with-hover>
           <div @click="setTemplateWelcome" id="wlcmdiv">
             <h3 id="welcomeText">{{$t('templateStep.wb')}}</h3>
-            <img src="../../assets/bot_gelb.jpg" alt="Welcome Bot" height="150" width="150" class="img">
+            <img src="../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="img">
+            <img src="../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="img">
           </div>
         </md-card>
       </div>
@@ -14,7 +15,8 @@
         <md-card md-with-hover>
           <div @click="setTemplateFAQBot" id="faqdiv">
             <h3 id="faqText">{{$t('templateStep.faq')}}</h3>
-            <img src="../../assets/bot_lila.jpg" alt="Welcome Bot" height="150" width="150" class="img">
+            <img src="../../assets/bot_lila_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="img">
+            <img src="../../assets/faq-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="img">
           </div>
         </md-card>
       </div>
@@ -28,11 +30,11 @@ export default {
   methods: {
     setTemplateWelcome () {
       this.template = 'Welcome Bot'
-      this.setDone({id: 'first', index: 'second'})
+      this.$router.push('/simplebots/steps')
     },
     setTemplateFAQBot () {
       this.template = 'FAQ Bot'
-      this.setDone({id: 'first', index: 'second'})
+      this.$router.push('/simplebots/steps')
     },
     setDone (object) {
       this.$store.commit('setDone', object)
@@ -46,6 +48,14 @@ export default {
       set (val) {
         this.$store.commit('setTemplate', val)
       }
+    },
+    theme: {
+      get () {
+        return this.$store.state.theme
+      },
+      set (val) {
+        this.$store.commit('setTheme', val)
+      }
     }
   }
 }
@@ -54,6 +64,9 @@ export default {
 <style>
 #box {
   height: 500px;
+  position: absolute;
+  width: 100vw;
+  top: 100px;
 }
 #choose {
   color: gray;

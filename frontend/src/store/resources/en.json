@@ -17,27 +17,32 @@
     },
     "faq": {
         "intents": "Intents",
-        "typeIntent": "Type your intent here",
-        "typeAnswer": "Type your Answer here",
+        "typeIntent": "Type in your intent here",
+        "typeAnswer": "Type in your Answer here",
         "add": "add",
         "intent": "Intent",
         "answer": "Answer",
         "entities": "Entities",
-        "entity": "Entity"
+        "entity": "Entity",
+        "typeEntity": "Type in your entity here"
     },
     "history": {
         "ourBots": "Our Bots",
         "info": "info",
         "edit": "edit",
         "clone": "clone",
-        "add": "add"
+        "add": "add",
+        "delete": "delete",
+        "title": "Do you really want to delete this configuration?",
+        "content": "This configuration will be permanently deleted. You wont be able to restore it. "
     },
     "item": {
         "changeTooltip": "Add an option to this message",
         "deleteTooltip": "Delete the options from this message",
         "redirectTooltip": "Add a redirect to this message",
         "faq": "F.A.Q. Bot",
-        "wb": "Welcome Bot"
+        "wb": "Welcome Bot",
+        "placeholder": "Type in your possible option here"
     },
     "launch": {
         "news": "News"
@@ -58,7 +63,8 @@
         "next": "Next"
     },
     "nameStep": {
-        "chooseName": "Choose a name for your"
+        "chooseName": "Choose a name for your",
+        "placeholder": "Type in your name here"
     },
     "optionStep": {
         "setMenu": "Set selection menu" 
@@ -68,15 +74,20 @@
         "id": "ID",
         "template": "Template",
         "name": "Name",
-        "lastEdit": "Last edit"
+        "lastEdit": "Created at"
     },
     "tablerow": {
-        "delete": "delete"
+        "delete": "delete",
+        "title": "Do you want to delete this Bot?",
+        "confirm": "Delete",
+        "cancel": "Cancel",
+        "content": "This Bot will be deleted from the Bot Status. You can still clone and edit it in the History.",
+        "titleOn": "You can't delete a running Bot",
+        "contentOn": "It is not possible to delete a Bot which is currently running. If you want to delete this Bot, you have to turn it off first."
     },
     "tabs": {
         "launch": "LAUNCH",
         "history": "HISTORY",
-        "botarmy": "BOTARMY",
         "botStatus": "BOT STATUS"
     },
     "templateStep": {
@@ -87,6 +98,10 @@
     "uterances": {
         "setEntity": "Set an entity for",
         "addQuestion": "Add your questions here",
-        "setEntities": "Set your entities here"
+        "setEntities": "Set your entities here",
+        "placeholder": "Type in your possible user questions here"
+    },
+    "welcomeStep": {
+        "placeholder": "Type in your message here, which will greet your customer at the beginning of the chat"
     }
 }

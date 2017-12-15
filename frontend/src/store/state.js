@@ -23,8 +23,11 @@ export default {
     isRoot: true,
     options: [{
       message: '',
+      isDeletable: false,
       redirect: null,
       options: null
     }]},
-  username: ''
+  username: '',
+  itemID: 0,
+  theme: false
 }
