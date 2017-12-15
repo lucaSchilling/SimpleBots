@@ -42,8 +42,7 @@ connect = function (user, callback) {
               if (err) {
                   throw err;
               }
-
-              console.log('Created file in database: botids');
+              console.log('/db.js 45 - Created file in database: botids');
               callback(db);
           });
       }
@@ -58,7 +57,6 @@ connect = function (user, callback) {
  * Closes the connection to the database if it was established previously and deletes the reference.
  * @param callback Callback function
  */
-
 exports.close = function (callback) {
   for (let user in userConnections) {
     let connection = userConnections[user];
@@ -66,10 +64,8 @@ exports.close = function (callback) {
       if (err) {
         return callback(err);
       }
-
       delete userConnections[user];
     });
   }
-  
   return callback();
 }
