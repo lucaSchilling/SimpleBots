@@ -52,8 +52,9 @@ server.use(bodyParser.json());
 
 // Start listening
 server.listen(port, function () {
+    setTimeout(function () {
     console.log(logo);
-    console.log('Simple Bots backend services listening on port ' + port);
+    console.log('Simple Bots backend services listening on port ' + port);}, 5000)
 });
 
 // Deploys the bot into a ready state and saves it in the database. Expects valid JSON
