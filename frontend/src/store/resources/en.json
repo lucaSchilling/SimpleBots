@@ -11,21 +11,21 @@
         "more": "More",
         "faq": "F.A.Q. Bot",
         "wb": "Welcome Bot",
-        "wbText": "",
-        "faqText": "",        
+        "wbText": "The Welcome Bot is designed to offer you a way to greet new customers and direct them to the most suitable agent available - be it a human or a bot. It allows you to fully customize a welcome message and add various options for your customers to choose from. Once your customer has chosen an option, the bot will proceed to redirect them to your pre-defined destinations.",
+        "faqText": "The F.A.Q. Bot is a specialized bot who is able to answer frequently asked questions with ease. You are able to customize the questions and the corresponding answers to your needs. The bot itself uses user-created intents and entities to specify what exactly he needs to look out for.",        
         "create": "Create Bot",
         "feature1": "High Security Standard"
     },
     "faq": {
         "intents": "Intents",
-        "typeIntent": "Type your intent here",
-        "typeAnswer": "Type your answer here",
+        "typeIntent": "Use one word to describe what the user is looking for",
+        "typeAnswer": "Type the answer that the user will receive",
         "add": "add",
         "intent": "Intent",
         "answer": "Answer",
         "entities": "Entities",
         "entity": "Entity",
-        "typeEntity": "Type your entity here"
+        "typeEntity": "Type keywords that narrow down your intents"
     },
     "history": {
         "ourBots": "Our Bots",

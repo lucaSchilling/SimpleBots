@@ -12,7 +12,7 @@
         "faq": "F.A.Q. Bot",
         "wb": "Willkommens Bot",
         "wbText": "Der Willkommens Bot ermöglicht es Ihnen den Empfang Ihrer Kunden zu vereinfachen und leitet diese an den Agent weiter, der Ihre Probleme am besten lösen kann - entweder Mensch oder Bot. Sie können eine Willkommensnachricht erstellen und Optionen zur Verfügung stellen, aus denen Ihre Kunden auswählen können. Nachdem Ihre Kunden eine Auswahl getroffen haben, werden die Anfragen von der festgelegten Weiterleitung bearbeitet.",
-        "faqText": "Der F.A.Q. Bot ist ein spezialisierter Bot, der auf häufig gestellte Fragen antworten kann. Die Fragen und dazugehörigen Antworten können Sie editieren, indem Sie bestimmte Absichten und Schlagwörter für die jeweiligen Fragen bestimmen, auf die der F.A.Q. Bot achten soll.",
+        "faqText": "Der F.A.Q. Bot ist ein spezialisierter Bot, der auf häufig gestellte Fragen antworten kann. Die Fragen und dazugehörigen Antworten können Sie editieren. Der Bot benutzt von Ihnen festgelegte Absichten und Schlagwörter, um den Kern der Frage zu bestimmen.",
         "create": "Bot erstellen",
         "feature1": "Hoher Sicherheitsstandard"
     },
