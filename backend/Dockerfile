@@ -3,5 +3,5 @@ WORKDIR /app
 COPY package.json /app
 RUN npm install
 COPY . /app
-CMD node runtime.js
+CMD node backend.js
 EXPOSE 3000
