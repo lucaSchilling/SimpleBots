@@ -2,7 +2,12 @@
   "name": "runtime",
   "version": "0.1.0",
   "dependencies": {
+    "axios": "^0.17.1",
+    "cors": "^2.8.4",
+    "dockerode": "^2.5.3",
     "dotenv": "^4.0.0",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mongodb": "^3.0.0-rc0",
+    "node-agent-sdk": "^0.3.0"
   }
 }
