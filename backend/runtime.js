@@ -74,7 +74,7 @@ server.post('/deploy/:user', function (req, res) {
             return;
         }
 
-        let botClass = state.loadedTemplates[installedTemplates[template].fileName];
+        let botClass = state.loadedTemplates[installedTemplates[template]];
 
         // Template not installed
         if (!botClass) {
