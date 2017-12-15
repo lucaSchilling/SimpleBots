@@ -41,7 +41,7 @@
     <ul v-show="open && model.redirect !== null" id="list">
       <md-select  class="redirect" v-model="model.redirect"> 
         <md-option value="999352232">F.A.Q. Bot</md-option>
-        <md-option value="-1">Welcome Bot</md-option>  
+        <md-option value="-1">Human Agent</md-option>  
         <md-option value="1008076832">Welcome Bot</md-option>      
       </md-select>
     </ul>
