@@ -33,7 +33,7 @@
 
         <md-dialog-actions>
           <md-button class="md-primary" @click="showDialog = false">{{$t('tablerow.cancel')}}</md-button>
-          <md-button class="md-primary" @click="setEntity(sentence, selected, entityName)">{{$t('uterances.set')}}</md-button>
+          <md-button class="md-primary" @click="createExample(sentence, selected, entityName)">{{$t('uterances.set')}}</md-button>
         </md-dialog-actions>
         
     </md-dialog>
@@ -125,7 +125,8 @@ export default {
     setIntent (intent) {
       this.example.intentName = intent
     },
-    setEntity (uterance, word, entity) {
+    // Creates the correct exampe JSON structure
+    createExample (uterance, word, entity) {
       this.start = uterance.indexOf(word)
       this.end = uterance.indexOf(word) + word.length - 1
       this.example.text = uterance

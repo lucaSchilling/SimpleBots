@@ -19,7 +19,7 @@
             <md-button class="md-raised md-primary" @click="create">
              {{$t('elevationBots.create')}}
             </md-button> 
-        </div>
+          </div>
 
         <div id="right">
           <video width="700" controls>

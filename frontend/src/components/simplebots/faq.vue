@@ -128,6 +128,7 @@ export default {
     }
   },
   methods: {
+    // Pushes into the intent table and clears the inputs
     addIntent: function () {
       this.activeIntent = false
       this.intents.push({name: this.intent,
@@ -135,10 +136,12 @@ export default {
       this.intent = null
       this.message = null
     },
+    // Pushes into the entity table and clears the inputs
     addEntity: function () {
       this.entities.push({name: this.entity})
       this.entity = null
     },
+    // Removes an intent or an entity from the table
     deleteObject: function (name, object) {
       if (name === 'intent') {
         this.intents.pop(object)
@@ -146,6 +149,7 @@ export default {
         this.entities.pop(object)
       }
     },
+    // Pops the intent or the entity from the table and sets the input fields correctly
     editObject: function (name, object) {
       if (name === 'intent') {
         this.intent = object.name

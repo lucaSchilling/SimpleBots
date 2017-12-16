@@ -49,6 +49,7 @@ export default {
     deleteBot: function () {
       this.$store.dispatch('undeploy', this.ID)
     },
+    // get both bots and configurations for the status and the history
     getAll: function () {
       this.getBots()
       this.getConfigs()
@@ -70,6 +71,7 @@ export default {
     onCancel () {
       this.isActive = false
     },
+    // Checks whether the bot is running or not, sets dialog variables
     show () {
       if (this.status === false) {
         this.isActive = true
@@ -87,7 +89,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .circleYellow {
     background: #ffde00;

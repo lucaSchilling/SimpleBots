@@ -95,7 +95,8 @@
         this.form.username = null
         this.form.password = null
       },
-      saveUser () {
+      // Caches the user information and redirects to the application
+      loginUser () {
         this.$i18n.set(localStorage.getItem(this.form.language))
         localStorage.setItem('username', this.form.username.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s/g, ''))
         localStorage.setItem('lang', this.form.language)
@@ -105,7 +106,7 @@
         this.$v.$touch()
 
         if (!this.$v.$invalid) {
-          this.saveUser()
+          this.loginUser()
         }
       }
     }

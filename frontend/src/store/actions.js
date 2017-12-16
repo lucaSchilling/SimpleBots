@@ -2,6 +2,7 @@ var axios = require('axios')
 var url = 'http://141.19.142.6:3000'
 
 export default {
+  // Deploys the Bot with the gathered information
   deploy: (context) => {
     if (context.state.bot.template === 'Welcome Bot') {
       axios.post(url + '/deploy/' + localStorage.getItem('username'), {
@@ -27,30 +28,35 @@ export default {
       })
     }
   },
+  // Get Bots from the Bot collection
   getBots: (context) => {
     axios.get(url + '/getBots/' + localStorage.getItem('username')).then((response) => {
       context.commit('clearBotsFromArray')
       context.commit('getBots', response)
     })
   },
+  // Get configs from the history collection
   getConfigs: (context) => {
     axios.get(url + '/getConfigs/' + localStorage.getItem('username')).then((response) => {
       context.commit('clearBotsFromArray')
       context.commit('getConfigs', response)
     })
   },
+  // Removes the bot from bot status
   undeploy: (context, id) => {
     axios.delete(url + '/undeploy/' + localStorage.getItem('username') + '/' + id
     ).then(function (response) {
       context.dispatch('getBots')
     })
   },
+  // Removes the bot from the history
   deleteConfig: (context, id) => {
     axios.delete(url + '/delete/' + localStorage.getItem('username') + '/' + id
     ).then(function () {
       context.dispatch('getConfigs')
     })
   },
+  // Posts the status of the Bot
   postStatus (context, object) {
     axios.post(url + '/setStatus/' + localStorage.getItem('username'), {
       '_id': object.id,

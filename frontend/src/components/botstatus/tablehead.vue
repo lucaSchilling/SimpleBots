@@ -26,6 +26,7 @@ import tablerow from './tablerow.vue'
 export default {
   name: 'tablehead',
   methods: {
+    // Gets the Bots from the database
     getBots: function () {
       this.$store.dispatch('getBots')
     }

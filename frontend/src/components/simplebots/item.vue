@@ -95,11 +95,13 @@ export default {
     }
   },
   methods: {
+    // Opens or closes the folder
     toggle: function () {
       if (this.isFolder || this.model.redirect !== null) {
         this.isOpen = !this.isOpen
       }
     },
+    // Adds a child if the node is not a folder
     changeType: function () {
       if (!this.isFolder) {
         Vue.set(this.model, 'options', [])
@@ -107,15 +109,11 @@ export default {
         this.isOpen = true
       }
     },
-    deleteChild: function () {
-      if (this.isFolder) {
-        this.treeData.options[0].options[0].options.splice(0, 1)
-      }
-      this.model.redirect = null
-    },
+    // Deletes the node
     deleteThis (id) {
       this.delete(this.treeData.options, id)
     },
+    // Recursive function in order to search the correct node and to call deleteThis(id)
     delete (array, id) {
       for (let i = 0; i < array.length; i++) {
         if (array[i].id === id) {
@@ -131,6 +129,7 @@ export default {
         }
       }
     },
+    // Adds a child to the node
     addChild: function () {
       this.model.options.push({
         message: '',
@@ -138,6 +137,7 @@ export default {
         options: null
       })
     },
+    // Adds a redirect selection menu to the node
     addRedirect: function () {
       this.model.redirect = ''
       this.isOpen = true

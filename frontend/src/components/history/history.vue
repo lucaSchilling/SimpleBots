@@ -170,6 +170,7 @@ export default {
     getConfigs: function () {
       this.$store.dispatch('getConfigs')
     },
+    // Sets the state variables with the values of the Bot the user wants to copy
     clone: function (bot) {
       this.template = bot.template
       this.name = bot.name
@@ -190,6 +191,8 @@ export default {
       this.showDialogClone = false
       this.$router.push('/status')
     },
+    // Sets the state variables with the values of the Bot the user wants to edit,
+    // sets the template and routes to toe second step of Bot creation
     edit: function (bot) {
       this.$router.push('/simplebots')
       this.setDone({id: 'first', index: 'second'})
