@@ -30,7 +30,8 @@
         "answer": "Answer",
         "entities": "Entities",
         "entity": "Entity",
-        "typeEntity": "Type keywords that narrow down your intents"
+        "typeEntity": "Type keywords that narrow down your intents",
+        "error": "You have to type in something!"
     },
     "history": {
         "ourBots": "Our Bots",

@@ -1,35 +1,45 @@
 <template>
   <div id="faqWrap">
 
-     <md-dialog-prompt
-      :md-active.sync="activeEntity"
-      v-model="entity"
-      md-title="Add an Entity"
-      md-input-maxlength="30"
-      md-input-placeholder="Type your Entity..."
-      md-confirm-text="Add" 
-      @md-confirm="addEntity"/>
+     <md-dialog :md-active.sync="activeEntity">
+        <md-dialog-title>Add an Intent</md-dialog-title>
+
+        <div id="fielddiv">
+          <md-field :class="messageClass">
+            <label>{{$t('faq.typeIntent')}}</label>
+            <md-input v-model="entity" required maxlength="30"></md-input>
+            <span class="md-error">{{$t('faq.error')}}</span>
+          </md-field>
+        </div>
+
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="clearError">Close</md-button>
+          <md-button class="md-primary" @click="addEntity">Add</md-button>
+        </md-dialog-actions>
+      </md-dialog>
 
       <md-dialog :md-active.sync="activeIntent">
-      <md-dialog-title>Add an Intent</md-dialog-title>
+        <md-dialog-title>Add an Intent</md-dialog-title>
 
-      <div id="fielddiv">
-        <md-field>
-          <label>{{$t('faq.typeIntent')}}</label>
-          <md-input v-model="intent"></md-input>
-        </md-field>
+        <div id="fielddiv">
+          <md-field :class="messageClass">
+            <label>{{$t('faq.typeIntent')}}</label>
+            <md-input v-model="intent" required maxlength="30"></md-input>
+            <span class="md-error">{{$t('faq.error')}}</span>
+          </md-field>
 
-        <md-field>
-          <label>{{$t('faq.typeAnswer')}}</label>
-          <md-input v-model="message"></md-input>
-        </md-field>
-      </div>
+          <md-field :class="messageClass">
+            <label>{{$t('faq.typeAnswer')}}</label>
+            <md-input v-model="message" required maxlength="150"></md-input>
+            <span class="md-error">{{$t('faq.error')}}</span>
+          </md-field>
+        </div>
 
-      <md-dialog-actions>
-        <md-button class="md-primary" @click="activeIntent = false">Close</md-button>
-        <md-button class="md-primary" @click="addIntent">Add</md-button>
-      </md-dialog-actions>
-    </md-dialog>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="clearError">Close</md-button>
+          <md-button class="md-primary" @click="addIntent">Add</md-button>
+        </md-dialog-actions>
+      </md-dialog>
 
     <md-table md-card class="table">
       <md-table-toolbar>
@@ -107,7 +117,8 @@ export default {
     entity: null,
     message: null,
     activeEntity: false,
-    activeIntent: false
+    activeIntent: false,
+    hasInput: false
   }),
   computed: {
     entities: {
@@ -125,21 +136,45 @@ export default {
       set (val) {
         this.$store.commit('setIntents', val)
       }
+    },
+    messageClass () {
+      return {
+        'md-invalid': this.hasInput
+      }
     }
   },
   methods: {
     // Pushes into the intent table and clears the inputs
     addIntent: function () {
-      this.activeIntent = false
-      this.intents.push({name: this.intent,
-        message: this.message})
-      this.intent = null
-      this.message = null
+      // Checks if the strings are empty or only contain white spaces
+      if (this.intent !== null && this.intent !== '' &&
+       this.intent.replace(/\s/g, '').length &&
+       this.message !== null && this.message !== '' &&
+        this.message.replace(/\s/g, '').length) {
+        this.activeIntent = false
+        this.intents.push({name: this.intent,
+          message: this.message})
+        this.intent = null
+        this.message = null
+      // Throws error is the fields are empty
+      } else {
+        this.hasInput = true
+      }
     },
     // Pushes into the entity table and clears the inputs
     addEntity: function () {
-      this.entities.push({name: this.entity})
-      this.entity = null
+      if (this.entity !== null && this.entity !== '' && this.entity.replace(/\s/g, '').length) {
+        this.activeEntity = false
+        this.entities.push({name: this.entity})
+        this.entity = null
+      } else {
+        this.hasInput = true
+      }
+    },
+    clearError () {
+      this.activeEntity = false
+      this.activeIntent = false
+      this.hasInput = false
     },
     // Removes an intent or an entity from the table
     deleteObject: function (name, object) {
@@ -151,6 +186,7 @@ export default {
     },
     // Pops the intent or the entity from the table and sets the input fields correctly
     editObject: function (name, object) {
+      this.hasInput = false
       if (name === 'intent') {
         this.intent = object.name
         this.message = object.message
@@ -208,6 +244,6 @@ export default {
 }
 #faqWrap {
   height: 60vh;
-  overflow: scroll;
+  overflow: auto;
 }
 </style>

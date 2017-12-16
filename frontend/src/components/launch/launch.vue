@@ -2,7 +2,7 @@
 <div id="tab">
   <div id="launch">
     <h4 id="news">{{$t('launch.news')}}</h4>
-  <video width="800" controls>
+  <video controls id="launchvideo">
     <source src="../../../assets/simplebots.mp4" type="video/mp4">
   </video>
   <h4 id="text">Bots</h4>
@@ -32,6 +32,10 @@ export default {
   <style lang="scss" scoped>
   .elevation-demo {
     display: flex;
+  }
+
+  #launchvideo {
+    width: 63vw;
   }
 
 .md-content {   
