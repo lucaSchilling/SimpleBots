@@ -1,5 +1,5 @@
 var axios = require('axios')
-var url = 'http://localhost:3000'
+var url = 'http://192.168.178.111:3000'
 
 export default {
   // Deploys the Bot with the gathered information
