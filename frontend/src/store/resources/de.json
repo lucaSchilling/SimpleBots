@@ -31,7 +31,8 @@
         "entities": "Schlagwörter",
         "entity": "Entität",
         "typeEntity": "Gib hier Schlagwörter ein, welche die Absichten näher definieren",
-        "title": "Füge eine Absicht hinzu"
+        "title": "Füge eine Absicht hinzu",
+        "error": "Du musst etwas eintippen!"
     },
     "history": {
         "ourBots": "Deine Bots",

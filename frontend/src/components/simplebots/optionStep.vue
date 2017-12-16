@@ -45,7 +45,7 @@ export default {
 #bla {
   display: block;
   height: 500px;
-  overflow: scroll;
+  overflow: auto;
 }
 .md-avatar {
     width: 40px;
