@@ -7,7 +7,7 @@
           <md-icon class="md-primary">expand_less</md-icon>
         </span>
 
-        <span v-if="(isFolder && !isisOpen) || (isRedirect && !isisOpen)" @click="toggle">
+        <span v-if="(isFolder && !isOpen) || (isRedirect && !isisOpen)" @click="toggle">
           <md-icon class="md-primary">expand_more</md-icon>  
         </span>
 
@@ -32,7 +32,7 @@
 
       </div>
 
-      <ul v-show="isisOpen || model.isRoot" v-if="isFolder">
+      <ul v-show="isOpen || model.isRoot" v-if="isFolder">
         <item
           class="item"
           v-for="model in model.options"
@@ -45,7 +45,7 @@
         </li>
       </ul>
 
-      <ul v-show="isisOpen && model.redirect !== null" id="list">
+      <ul v-show="isOpen && model.redirect !== null" id="list">
         <md-select class="redirect" v-model="model.redirect"> 
           <md-option value="999352232">F.A.Q. Bot</md-option>
           <md-option value="-1">Human Agent</md-option>  
