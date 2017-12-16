@@ -1,23 +1,21 @@
 {
-  "name": "runtime",
-  "version": "0.1.0",
+  "name": "backend",
+  "main": "backend.js",
+  "version": "1.0.0",
+  "description": "Express Server which can execute docker build, create, run, start, stop and remove for our SimpleBots Application",
+  "author": "Luca Schilling <1610927@stud.hs-mannheim.de>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lucaSchilling/SEP-Slitherin.git"
+  },
   "dependencies": {
     "axios": "^0.17.1",
-    "axios-debug": "0.0.4",
-    "body-parser": "^1.18.2",
-    "chai": "^4.1.2",
     "cors": "^2.8.4",
     "dockerode": "^2.5.3",
     "dotenv": "^4.0.0",
-    "eslint": "^4.11.0",
     "express": "^4.16.2",
-    "hashmap": "^2.3.0",
-    "mocha": "^4.0.1",
-    "mongodb": "^2.2.33",
-    "node-agent-sdk": "^0.2.20",
-    "request": "^2.83.0"
-  },
-  "scripts": {
-    "test": "mocha"
+    "mongodb": "^3.0.0-rc0",
+    "node-agent-sdk": "^0.3.0"
   }
 }
