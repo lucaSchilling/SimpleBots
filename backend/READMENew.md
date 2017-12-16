@@ -1,8 +1,6 @@
 # SimpleBots Backend
-
+<img align="right" "title="SimpleBots logo" src="./logo.png">
 This is the repository for the software development project from the University of Applied Science in Mannheim. Our customer is LivePerson and we are the team Slitherin. In this folder u find everything for our backend and the belonging bot templates.
-<img align="right" width="120" height="178"
-     title="SimpleBots logo" src="./logo.png">
 
 ## Getting Started
 
@@ -65,8 +63,12 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* **Luca Schilling** - *Scrum Master* - [find me here](https://github.com/lucaSchilling)
+* **Luca Schilling** - *Team Leader* - [find me here](https://github.com/lucaSchilling)
 * **Raphael Lubaschewski** - *Frontend Leader* - [find me here](https://github.com/Raphi1524694)
+* **Christopher Rotter** - *Backend Leader* - [find me here](https://github.com/ChristopherRotter)
+* **Ibrahim Dursun** - *Tester* - [find me here](https://github.com/ibdursun)
+* **Lucas Englert** - *Tester* - [find me here](https://github.com/Lucas964)
+* **Markus Klatt** - *Organisation and Documentation* - [find me here](https://github.com/TPEMarkus)
 
 See also the list of [contributors](https://github.com/lucaSchilling/SEP-Slitherin/contributors) who participated in this project.
 
