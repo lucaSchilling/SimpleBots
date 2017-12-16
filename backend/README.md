@@ -24,16 +24,16 @@ otherwise you need to change the `MONGOURL` in the `.env` file to the ip your mo
 
 Step into the backend folder,
 then install the dependencies:
-```sh
+```
 $ npm install
 ```
 Start the backend with:
-```sh
+```
 $ node backend.js
 ```
 Now you should be able to start an easy configured welcome bot with an easy config
 First `POST` the following config with a REST-Client to the following address: 
-```
+```javascript
 http://[IP where your backend is running]:3000/deploy/helloWorld
 {    
     "_id": "1",   
@@ -46,11 +46,11 @@ http://[IP where your backend is running]:3000/deploy/helloWorld
 }   
 ```
 In the next step you need to turn him on with:
-```
+```javascript
 http://[IP where your backend is running]:3000/setStatus/helloWorld
 ```
 and the following `JSON`
-```
+```javascript
 {    
     "status": "true",    
     "_id": "1"    
@@ -92,6 +92,6 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE.md](../
 
 ## Acknowledgments
 
-* Thanks a lot to my whole team and all other participant of the SEP in the WS 17/18.
+* Thanks a lot to my whole team and all other participants of the SEP in the WS 17/18.
 It would be an honor to work with you again.   
 `Luca Schilling`
