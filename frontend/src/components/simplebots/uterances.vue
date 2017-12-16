@@ -19,14 +19,14 @@
           <h3>Intents:</h3>
           <md-field>
             <md-select v-model="example.intentName">
-              <md-option v-for="intent in intents" v-bind:key="intent" :value="intent.name">{{intent.name}}</md-option>
+              <md-option id="chooseIntent" v-for="intent in intents" v-bind:key="intent" :value="intent.name">{{intent.name}}</md-option>
             </md-select>
           </md-field>
         
           <h3>Entities:</h3>
           <md-field>
             <md-select v-model="entityName">
-              <md-option v-for="entity in entities" v-bind:key="entity" :value="entity.name">{{entity.name}}</md-option>
+              <md-option id="chooseEntity" v-for="entity in entities" v-bind:key="entity" :value="entity.name">{{entity.name}}</md-option>
             </md-select>
           </md-field>
         </div>

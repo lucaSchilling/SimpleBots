@@ -18,11 +18,11 @@
 
     <md-field>
       <label for="name">Name</label>
-      <md-input v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'third'})"></md-input>
+      <md-input id="faqName" v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'third'})"></md-input>
     </md-field>
 
   </div>
-  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'second', index: 'third'})">Next</md-button>
+  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'second', index: 'third'})">{{$t('nameStep.next')}}</md-button>
   </div>
 </template>
 

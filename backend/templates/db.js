@@ -14,12 +14,10 @@ exports.connect = function (url, done) {
   if (state.db) {
     return done();
   }
-
   MongoClient.connect(url, function (err, db) {
     if (err) {
       return done(err);
     }
-
     state.db = db;
     done();
   })
@@ -37,7 +35,6 @@ exports.get = function () {
  * 
  * @param done Callback function
  */
-
 exports.close = function (done) {
   if (state.db) {
     state.db.close(function (err, result) {
