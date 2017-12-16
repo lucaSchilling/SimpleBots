@@ -15,8 +15,10 @@ $ git clone http://github.com/lucaSchilling/SEP-Slitherin.git
 
 ### Prerequisites
 
-For using our backend u have to have a mongo database, either you have one local then it should work fine,
+* For using our backend u have to have a mongo database, either you have one local then it should work fine,
 otherwise you need to change the `MONGOURL` in the `.env` file to the ip your mongo is running.
+* To use the `LivePerson` messaging system you need to enter your `LivePerson` credentials to the .env file
+* To use the F.A.Q. bot template you need to register by [Microsoft LUIS](https://www.luis.ai/) and add your LUIS key into the .env file
 
 ### Installing
 
