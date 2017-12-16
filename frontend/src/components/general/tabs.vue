@@ -32,9 +32,9 @@
 
 <script>
 import Vue from 'vue'
-import launch from './launch.vue'
-import botarmy from './botarmy.vue'
-import tablehead from './tablehead.vue'
+import launch from '../launch/launch.vue'
+import botarmy from '../simplebots/simplebots.vue'
+import tablehead from '../botstatus/tablehead.vue'
 
 export default {
   name: 'tabs',
@@ -46,7 +46,7 @@ export default {
   computed: {
     theme: {
       get () {
-        return this.$store.state.theme
+        return this.$store.state.general.theme
       },
       set (val) {
         this.$store.commit('setTheme', val)

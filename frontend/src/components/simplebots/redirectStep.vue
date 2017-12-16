@@ -7,7 +7,7 @@
       </md-field>
   </div>
   <md-button class="md-primary md-raised buttonRight" @click="deploy">Deploy</md-button>
-</div>
+  </div>
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
   computed: {
     redirectMessage: {
       get () {
-        return this.$store.state.redirectMessage
+        return this.$store.state.welcomeBot.redirectMessage
       },
       set (val) {
         this.$store.commit('setredirectMessage', val)

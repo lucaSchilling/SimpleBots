@@ -21,14 +21,14 @@
             <md-button class="md-primary md-raised" @click="setDone({id: 'forth', index: 'fifth'})">{{$t('messageStep.next')}}</md-button>
           </div>
 
-          <md-dialog-confirm
-      :md-active.sync="activeClear"
-      md-title="Do you really want to restart your selection?"
-      md-content="You wont be able to restart your previously added selections. Only click clear if you want to start over."
-      md-confirm-text="Clear"
-      md-cancel-text="Cancel"
-      @md-cancel="activeClear = false"
-      @md-confirm="clearTreeData" />
+      <md-dialog-confirm
+        :md-active.sync="activeClear"
+        md-title="Do you really want to restart your selection?"
+        md-content="You wont be able to restart your previously added selections. Only click clear if you want to start over."
+        md-confirm-text="Clear"
+        md-cancel-text="Cancel"
+        @md-cancel="activeClear = false"
+        @md-confirm="clearTreeData" />
           
       </md-step>
 
@@ -57,7 +57,6 @@ import faq from './faq.vue'
 import uterances from './uterances.vue'
 import templateStep from './templateStep.vue'
 import nameStep from './nameStep.vue'
-import languageStep from './languageStep.vue'
 import messageStep from './messageStep.vue'
 import optionStep from './optionStep.vue'
 import redirectStep from './redirectStep.vue'
@@ -73,7 +72,6 @@ export default {
     uterances,
     templateStep,
     nameStep,
-    languageStep,
     messageStep,
     optionStep,
     redirectStep
@@ -81,7 +79,7 @@ export default {
   computed: {
     template: {
       get () {
-        return this.$store.state.template
+        return this.$store.state.bot.template
       },
       set (val) {
         this.$store.commit('setTemplate', val)
@@ -89,7 +87,7 @@ export default {
     },
     options: {
       get () {
-        return this.$store.state.options
+        return this.$store.state.welcomeBot.options
       },
       set (val) {
         this.$store.commit('setOptions', val)
@@ -97,7 +95,7 @@ export default {
     },
     active: {
       get () {
-        return this.$store.state.active
+        return this.$store.state.general.active
       },
       set (val) {
         this.$store.commit('setActive', val)
@@ -105,7 +103,7 @@ export default {
     },
     first: {
       get () {
-        return this.$store.state.first
+        return this.$store.state.general.first
       },
       set (val) {
         this.$store.commit('setFirst', val)
@@ -113,7 +111,7 @@ export default {
     },
     second: {
       get () {
-        return this.$store.state.second
+        return this.$store.state.general.second
       },
       set (val) {
         this.$store.commit('setSecond', val)
@@ -121,7 +119,7 @@ export default {
     },
     third: {
       get () {
-        return this.$store.state.third
+        return this.$store.state.general.third
       },
       set (val) {
         this.$store.commit('setThird', val)
@@ -129,7 +127,7 @@ export default {
     },
     forth: {
       get () {
-        return this.$store.state.forth
+        return this.$store.state.general.forth
       },
       set (val) {
         this.$store.commit('setForth', val)
@@ -137,7 +135,7 @@ export default {
     },
     fifth: {
       get () {
-        return this.$store.state.fifth
+        return this.$store.state.general.fifth
       },
       set (val) {
         this.$store.commit('setFifth', val)
@@ -145,7 +143,7 @@ export default {
     },
     treeData: {
       get () {
-        return this.$store.state.treeData
+        return this.$store.state.welcomeBot.treeData
       },
       set (val) {
         this.$store.commit('setTreeData', val)
@@ -166,7 +164,7 @@ export default {
       this.$store.commit('setDone', object)
     },
     clear: function () {
-      this.$store.commit('clear')
+      this.$store.commit('general.clear')
     },
     setUndone (index) {
       this.$store.commit('setUndone', index)
