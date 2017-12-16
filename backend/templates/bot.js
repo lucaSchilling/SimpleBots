@@ -30,21 +30,16 @@ class Bot {
         this.agent.on('connected', () => {
             this.isConnected = true;
         });
-
         this.agent.on('error', err => {
             this.isConnected = false;
-            console.error('/bot.js 35 - Bot ' + this.config._id + ': Connection to UMS closed with err', err.message); 
+            console.error('/bot.js 35 - Bot ' + this.config._id + ': Connection to UMS closed with err', err.message);
         });
-
         // If losing connection to LiveEngage, retry to connect.
         this.agent.on('closed', reason => {
             this.isConnected = false;
-
-            console.error('/bot.js 42 - Bot ' + this.config._id + ': Connection to UMS closed with reason', reason); 
-          
+            console.error('/bot.js 42 - Bot ' + this.config._id + ': Connection to UMS closed with reason', reason);
             if (this.retries > 0) {
                 this.retries--;
-                
                 setTimeout(() => {
                     this.agent.reconnect(reason !== 4401 || reason !== 4407);
                 }, 5000);
@@ -62,11 +57,9 @@ class Bot {
         if (!this.agent) {
             this.init();
         }
-
         while (!this.isConnected) {
             await this.timeout(3000);
         }
-
         let response;
         response = await this.setStateOfAgent('AWAY');
         response = await this.subscribeToConversations();
@@ -89,11 +82,10 @@ class Bot {
      * @param {string} convState the conversation state for which should be subscribed
      * @param {boolean} agentOnly if true, the bot only subscribes to conversations in which the agent is or which are suitable for his skills
      */
-    async subscribeToConversations(convState = 'OPEN', agentOnly = false) { 
+    async subscribeToConversations(convState = 'OPEN', agentOnly = false) {
         if (!this.isConnected) {
             return;
         }
-
         return await this.agent.subscribeExConversations({ 'convState': [convState] });
     }
 
@@ -107,7 +99,6 @@ class Bot {
         if (!this.isConnected) {
             return;
         }
-
         return await this.agent.setAgentState({ availability: state });
     }
 
@@ -122,7 +113,6 @@ class Bot {
         if (!this.isConnected) {
             return;
         }
-
         return await this.agent.updateConversationField({
             'conversationId': conversationId,
             'conversationField': [{
@@ -144,7 +134,6 @@ class Bot {
         if (!this.isConnected) {
             return;
         }
-
         await this.agent.publishEvent({
             dialogId: conversationId,
             event: {
@@ -153,7 +142,6 @@ class Bot {
                 message: message
             }
         });
-
         console.log(this.config.template + ' ' + this.config._id + ' sent a message in conversation ' + conversationId + ': ' + message);
         return;
     }
@@ -166,7 +154,6 @@ class Bot {
     async leaveConversation(conversationId) {
         console.log('/bot.js 161 - Bot ' + this.config._id + ' has left conversation ' + conversationId)
         delete this.openConversations[conversationId];
-
         return await this.agent.updateConversationField({
             'conversationId': conversationId,
             'conversationField': [{
@@ -176,7 +163,6 @@ class Bot {
             }]
         });
     }
-    
     timeout(ms = 3000) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }

@@ -13,7 +13,6 @@ function timeout(ms = 3000) {
  * A bot that uses Microsoft LUIS to get the user's intent and answers frequently asked questions.
  */
 class FAQBot extends Bot {
-
     constructor(accountId, username, password, config) {
         super(accountId, username, password, config);
 
@@ -45,7 +44,6 @@ class FAQBot extends Bot {
                     await this.leaveConversation(change.result.convId);
                 });
         });
-
         this.agent.on('ms.MessagingEventNotification', body => {
             body.changes
                 .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
@@ -101,7 +99,6 @@ class FAQBot extends Bot {
     async createLuisApp() {
         // Check for existing app.
         let getApplicationsRes = await axios.get(this.config.luisApiUrl);
-
         if (getApplicationsRes.status === 200) {
             for (let app of getApplicationsRes.data) {
                 if (app.name === this.config._id) {
@@ -128,7 +125,6 @@ class FAQBot extends Bot {
             usageScenario: 'IoT',
             initialVersionId: this.config.initialVersionId
         });
-
         if (createAppRes.status === 201) {
             this.luisAppId = createAppRes.data;
             console.log('/faqbot.js 131 - Created LUIS app');
@@ -145,7 +141,6 @@ class FAQBot extends Bot {
         // Create intents.
         for (let intent of this.config.intents) {
             let createIntentRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/intents', intent);
-
             if (createIntentRes.status === 201) {
                 console.log('/faqbot.js 147 - Created intent: ' + JSON.stringify(intent));
             }
@@ -162,7 +157,6 @@ class FAQBot extends Bot {
         // Create entities.
         for (let entity of this.config.entities) {
             let createEntityRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/entities', entity);
-
             if (createEntityRes.status === 201) {
                 console.log('/faqbot.js 164 - Created entity: ' + JSON.stringify(entity));
             }
@@ -179,7 +173,6 @@ class FAQBot extends Bot {
         // Create examples.
         for (let example of this.config.examples) {
             let createExampleRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/example', example);
-
             if (createExampleRes.status === 201) {
                 console.log('/faqbot.js 181 - Created example: ' + JSON.stringify(example));
             }
@@ -195,7 +188,6 @@ class FAQBot extends Bot {
 
         // Train LUIS.
         let trainRes = await axios.post(this.config.luisApiUrl + this.luisAppId + '/versions/' + this.config.initialVersionId + '/train');
-
         if (trainRes.status === 202) {
             console.log('/faqbot.js 197 - Started LUIS training');
         }
@@ -218,7 +210,6 @@ class FAQBot extends Bot {
                     isStaging: false,
                     region: 'westus'
                 });
-
                 if (publishRes.status === 201) {
                     console.log('/faqbot.js 220 - LUIS app published');
                 }
@@ -231,7 +222,6 @@ class FAQBot extends Bot {
                     console.log(publishRes);
                     return;
                 }
-
                 this.init();
                 this.isTrainingComplete = true;
                 break;

@@ -19,7 +19,6 @@ db.connect(mongoURL, function (err) {
                 if (err) {
                     console.error('/botStart.js 20 - Error: ' + err);
                 }
-
                 if (result) {
                     let config = result
                     console.log('/botStart.js 25 - Die Config für diesen Bot ist: ' + JSON.stringify(config))

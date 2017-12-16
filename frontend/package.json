@@ -1,35 +1,34 @@
 {
   "name": "frontend",
+  "main": "index.html",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "Luca-Heim <luca.schilling@bwedu.de>",
-  "private": true,
-  "scripts": {
-    "dev": "npm run lintfix && node build/dev-server.js",
-    "start": "node server.js",
-    "build": "node build/build.js",
-    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "e2e": "node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e",
-    "Bot-C_WB_deployen": "node test/e2e/Bot-C_WB_deployen.js",
-    "Bot-C_FAQ_deployen": "node test/e2e/Bot-C_FAQ_deployen.js",
-    "Bot-R_an_aus": "node test/e2e/Bot-R_an_aus.js",
-    "Bot-R_löschen_an": "node test/e2e/Bot-R_löschen_an.js",
-    "Bot-R_löschen_aus": "node test/e2e/Bot-R_löschen_aus.js",
-    "Selenium_Gesamt": "node test/e2e/Selenium_Gesamt.js",
-    "Test": "node test/e2e/Test.js",
-    "Live": "node test/e2e/Live.js",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "lintfix": "eslint --fix src/components/general/tabs.vue src/components/launch/launch.vue src/components/launch/elevationcontent.vue src/router/index.js src/components/simplebots/botarmy.vue src/components/botstatus/tablehead.vue src/components/botstatus/tablerow.vue  src/components/simplebots/item.vue src/components/simplebots/faq.vue src/components/simplebots/uterances.vue src/components/history/history.vue src/store/state.js src/App.vue"
+  "description": "A frontend based on vue-material for managing a bot network",
+  "author": "Luca Schilling <1610927@stud.hs-mannheim.de>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lucaSchilling/SEP-Slitherin.git"
   },
+  "scripts": {
+    "dev": "node build/dev-server.js",
+    "start": "node server.js",
+    "build": "node build/build.js"
+  },
+  "engines": {
+    "node": ">= 8.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
   "dependencies": {
     "axios": "^0.17.0",
     "opn": "^5.1.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.3.0",
     "portfinder": "^1.0.13",
-    "selenium-webdriver": "^3.6.0",
-    "selenium-webdriver-selector": "^1.0.3",
     "vue": "^2.5.2",
     "vue-material": "^1.0.0-beta-5",
     "vue-router": "^3.0.1",
@@ -79,14 +78,5 @@
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.18.2",
     "webpack-merge": "^4.1.0"
-  },
-  "engines": {
-    "node": ">= 8.0.0",
-    "npm": ">= 3.0.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  }
 }
