@@ -5,7 +5,11 @@
         "deploy": "Deploy",
         "next": "Next",
         "questions": "Questions",
-        "redirect": "Redirect message"
+        "redirect": "Redirect message",
+        "clear": "CLEAR",
+        "cancel": "CANCEL",
+        "title": "Do you really want to restart your selection?",
+        "content": "You won't be able to restart your previously added selections. Only click clear if you want to start over."
     },
     "elevationBots": {
         "greeting": "Hi I am the",
@@ -31,6 +35,9 @@
         "entities": "Entities",
         "entity": "Entity",
         "typeEntity": "Type keywords that narrow down your intents",
+        "titleIntent": "Add an intent",
+        "titleEntity": "Add an entity",
+        "close": "Close"      
         "error": "You have to type in something!"
     },
     "history": {
@@ -71,7 +78,8 @@
     },
     "nameStep": {
         "chooseName": "Choose a name for your",
-        "placeholder": "Type your name here"
+        "placeholder": "Type your name here",
+        "next": "Next"
     },
     "optionStep": {
         "setMenu": "Set selection menu" 
@@ -95,10 +103,12 @@
     "tabs": {
         "launch": "LAUNCH",
         "history": "HISTORY",
-        "botStatus": "BOT STATUS"
+        "botStatus": "BOT STATUS",
+        "logout": "LOGOUT"
     },
     "redirectStep": {
-        "placeholder": "Type in your message here, which will displayed when the Bot redirects to another Bot or a human agent"
+        "placeholder": "Type in your message here, which will displayed when the Bot redirects to another Bot or a human agent",
+        "deploy": "Deploy"        
     },
     "templateStep": {
         "chooseTemplate": "Choose a template",

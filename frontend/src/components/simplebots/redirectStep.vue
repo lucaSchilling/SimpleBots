@@ -6,7 +6,7 @@
         <md-textarea :placeholder="this.$t('redirectStep.placeholder')" id="textA" v-model="redirectMessage"></md-textarea>
       </md-field>
   </div>
-  <md-button class="md-primary md-raised buttonRight" @click="deploy">Deploy</md-button>
+  <md-button class="md-primary md-raised buttonRight" @click="deploy">{{$t('redirectStep.deploy')}}</md-button>
   </div>
 </template>
 

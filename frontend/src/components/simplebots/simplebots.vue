@@ -17,16 +17,16 @@
       <md-step v-if="template === 'Welcome Bot'" id="forth" :md-label="this.$t('botarmy.options')" :md-done.sync="forth">
           <optionStep></optionStep>
           <div class="buttonRight">
-            <md-button class="md-primary md-raised" @click="activeClear=true">Clear</md-button>
+            <md-button class="md-primary md-raised" @click="activeClear=true">{{$t('botarmy.clear')}}</md-button>
             <md-button class="md-primary md-raised" @click="setDone({id: 'forth', index: 'fifth'})">{{$t('messageStep.next')}}</md-button>
           </div>
 
       <md-dialog-confirm
         :md-active.sync="activeClear"
-        md-title="Do you really want to restart your selection?"
-        md-content="You wont be able to restart your previously added selections. Only click clear if you want to start over."
-        md-confirm-text="Clear"
-        md-cancel-text="Cancel"
+        :md-title="this.$t('botarmy.title')"
+        :md-content="this.$t('botarmy.content')"
+        :md-confirm-text="this.$t('botarmy.clear')"
+        :md-cancel-text="this.$t('botarmy.cancel')"
         @md-cancel="activeClear = false"
         @md-confirm="clearTreeData" />
           
@@ -39,7 +39,7 @@
 
       <md-step v-if="template === 'FAQ Bot'" id="fifth" :md-label="this.$t('botarmy.questions')" :md-done.sync="fifth">
         <uterances></uterances>
-        <md-button id="fix" class="md-primary md-raised buttonRight" @click="deploy">Deploy</md-button>
+        <md-button id="fix" class="md-primary md-raised buttonRight" @click="deploy">{{$t('botarmy.deploy')}}</md-button>
       </md-step>
 
       <md-step v-else id="fifth" :md-label="this.$t('botarmy.redirect')" :md-done.sync="fifth">
