@@ -6,8 +6,8 @@
         <md-card md-with-hover>
           <div @click="setTemplateWelcome" id="wlcmdiv">
             <h3 id="welcomeText">{{$t('templateStep.wb')}}</h3>
-            <img src="../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="img">
-            <img src="../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="img">
+            <img src="../../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="img">
+            <img src="../../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="img">
           </div>
         </md-card>
       </div>
@@ -15,8 +15,8 @@
         <md-card md-with-hover>
           <div @click="setTemplateFAQBot" id="faqdiv">
             <h3 id="faqText">{{$t('templateStep.faq')}}</h3>
-            <img src="../../assets/bot_lila_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="img">
-            <img src="../../assets/faq-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="img">
+            <img src="../../../assets/bot_lila_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="img">
+            <img src="../../../assets/faq-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="img">
           </div>
         </md-card>
       </div>
@@ -43,7 +43,7 @@ export default {
   computed: {
     template: {
       get () {
-        return this.$store.state.template
+        return this.$store.state.bot.template
       },
       set (val) {
         this.$store.commit('setTemplate', val)
@@ -51,7 +51,7 @@ export default {
     },
     theme: {
       get () {
-        return this.$store.state.theme
+        return this.$store.state.general.theme
       },
       set (val) {
         this.$store.commit('setTheme', val)

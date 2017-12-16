@@ -5,7 +5,7 @@
       <md-card class="md-flex-50 md-flex-small-100">
         <md-card-header>
           <div id="logodiv">
-            <img src="../../assets/logo.jpg" width="400" id="logoPic">
+            <img src="../../../assets/logo.jpg" width="400" id="logoPic">
           </div>
           <div class="md-title-primary"><h3>{{$t('login.login')}}</h3></div>
         </md-card-header>

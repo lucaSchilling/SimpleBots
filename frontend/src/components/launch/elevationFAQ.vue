@@ -1,40 +1,45 @@
 <template>
-<div id="carddiv">
+  <div id="carddiv">
     <div>
-    <h4 id="head">{{$t('elevationBots.greeting')}} {{$t('elevationBots.faq')}}</h4>
-    <img src="../../assets/bot_lila_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
-    <img src="../../assets/faq-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
-    <div id="buttondiv">
+      <h4 id="head">{{$t('elevationBots.greeting')}} {{$t('elevationBots.faq')}}</h4>
+      <img src="../../../assets/bot_lila_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
+      <img src="../../../assets/faq-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
+
+      <div id="buttondiv">
         <md-button @click="showDialog = true" class="md-raised md-primary" id="more">{{$t('elevationBots.more')}}</md-button>
+      </div> 
     </div>
-    </div>
-     <md-dialog :md-active.sync="showDialog" id="dialog">
+
+    <md-dialog :md-active.sync="showDialog" id="dialog">
       <md-dialog-title>{{$t('elevationBots.faq')}}</md-dialog-title>
       <div id="wrap">
         <div id="left">
-            <img src="../../assets/bot_lila_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
-            <img src="../../assets/faq-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
-            <div id="textdiv">{{$t('elevationBots.faqText')}}</div>
+          <img src="../../../assets/bot_lila_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
+          <img src="../../../assets/faq-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
+          <div id="textdiv">{{$t('elevationBots.faqText')}}</div>
             <md-button class="md-raised md-primary" @click="create">
               {{$t('elevationBots.create')}}
-              </md-button> 
+            </md-button> 
         </div>
+
         <div id="right">
           <video width="700" controls>
-          <source src="../../assets/intro.mp4" type="video/mp4">
+            <source src="../../../assets/intro.mp4" type="video/mp4">
           </video>
-        </div> 
+        </div>
+        
         <div id="below">
         </div>
         <hr id="line">
-      <div id="features">
-        <p class="feat"><md-icon class="md-primary">face</md-icon>  {{$t('elevationBots.feature4')}}</p>
-        <p class="feat"><md-icon class="md-primary">call_made</md-icon>  {{$t('elevationBots.feature5')}}</p>
-        <p class="feat"><md-icon class="md-primary">mouse</md-icon>  {{$t('elevationBots.feature3')}}</p>
+
+        <div id="features">
+          <p class="feat"><md-icon class="md-primary">face</md-icon>  {{$t('elevationBots.feature4')}}</p>
+          <p class="feat"><md-icon class="md-primary">call_made</md-icon>  {{$t('elevationBots.feature5')}}</p>
+          <p class="feat"><md-icon class="md-primary">mouse</md-icon>  {{$t('elevationBots.feature3')}}</p>
+        </div>
       </div>
-      </div>
-     </md-dialog>
-</div>
+    </md-dialog>
+  </div>
 </template>
 
 <script>
@@ -46,7 +51,7 @@ export default {
   computed: {
     template: {
       get () {
-        return this.$store.state.template
+        return this.$store.state.bot.template
       },
       set (val) {
         this.$store.commit('setTemplate', val)
@@ -54,7 +59,7 @@ export default {
     },
     theme: {
       get () {
-        return this.$store.state.theme
+        return this.$store.state.general.theme
       },
       set (val) {
         this.$store.commit('setTheme', val)

@@ -3,25 +3,25 @@ var url = 'http://141.19.142.6:3000'
 
 export default {
   deploy: (context) => {
-    if (context.state.template === 'Welcome Bot') {
+    if (context.state.bot.template === 'Welcome Bot') {
       axios.post(url + '/deploy/' + localStorage.getItem('username'), {
-        'template': context.state.template,
-        'name': context.state.name,
-        'welcomeMessage': context.state.welcomeMessage,
-        'options': context.state.treeData.options,
-        'redirectMessage': context.state.redirectMessage
+        'template': context.state.bot.template,
+        'name': context.state.bot.name,
+        'welcomeMessage': context.state.bot.welcomeMessage,
+        'options': context.state.welcomeBot.treeData.options,
+        'redirectMessage': context.state.welcomeBot.redirectMessage
       }).then(function (response) {
         context.dispatch('getBots')
       })
-    } else if (context.state.template === 'FAQ Bot') {
+    } else if (context.state.bot.template === 'FAQ Bot') {
       axios.post(url + '/deploy/' + localStorage.getItem('username'), {
-        'template': context.state.template,
-        'name': context.state.name,
+        'template': context.state.bot.template,
+        'name': context.state.bot.name,
         'initialVersionId': '1.0',
-        'welcomeMessage': context.state.welcomeMessage,
-        'intents': context.state.intents,
-        'entities': context.state.entities,
-        'examples': context.state.examples
+        'welcomeMessage': context.state.bot.welcomeMessage,
+        'intents': context.state.faqBot.intents,
+        'entities': context.state.faqBot.entities,
+        'examples': context.state.faqBot.examples
       }).then(function (response) {
         context.dispatch('getBots')
       })

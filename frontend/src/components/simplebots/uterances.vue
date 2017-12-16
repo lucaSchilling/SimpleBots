@@ -14,43 +14,50 @@
     </md-dialog>
 
     <md-dialog :md-active.sync="showDialog">
-        <md-dialog-title>{{$t('uterances.setEntity')}}</md-dialog-title>
+      <md-dialog-title>{{$t('uterances.setEntity')}}</md-dialog-title>
         <div class="margin">
-        <h3>Intents:</h3>
-        <md-field>
-          <md-select v-model="example.intentName">
-            <md-option v-for="intent in intents" v-bind:key="intent" :value="intent.name">{{intent.name}}</md-option>
-          </md-select>
-        </md-field>
+          <h3>Intents:</h3>
+          <md-field>
+            <md-select v-model="example.intentName">
+              <md-option v-for="intent in intents" v-bind:key="intent" :value="intent.name">{{intent.name}}</md-option>
+            </md-select>
+          </md-field>
         
-        <h3>Entities:</h3>
-        <md-field>
-          <md-select v-model="entityName">
-            <md-option v-for="entity in entities" v-bind:key="entity" :value="entity.name">{{entity.name}}</md-option>
-          </md-select>
-        </md-field>
+          <h3>Entities:</h3>
+          <md-field>
+            <md-select v-model="entityName">
+              <md-option v-for="entity in entities" v-bind:key="entity" :value="entity.name">{{entity.name}}</md-option>
+            </md-select>
+          </md-field>
         </div>
-      <md-dialog-actions>
-      <md-button class="md-primary" @click="showDialog = false">{{$t('tablerow.cancel')}}</md-button>
-      <md-button class="md-primary" @click="setEntity(sentence, selected, entityName)">{{$t('uterances.set')}}</md-button>
-    </md-dialog-actions>
-     </md-dialog>
+
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="showDialog = false">{{$t('tablerow.cancel')}}</md-button>
+          <md-button class="md-primary" @click="setEntity(sentence, selected, entityName)">{{$t('uterances.set')}}</md-button>
+        </md-dialog-actions>
+        
+    </md-dialog>
 
      
-     <h3>{{$t('uterances.addQuestion')}}</h3>
-     <input v-model="uterance" v-on:keyup.enter="addUterance" :placeholder="this.$t('uterances.placeholder')"></input>
-     <span @click="addUterance">
+    <h3>{{$t('uterances.addQuestion')}}</h3>
+    <input v-model="uterance" v-on:keyup.enter="addUterance" :placeholder="this.$t('uterances.placeholder')"></input>
+    <span @click="addUterance">
       <md-icon class="md-primary" >add</md-icon>
     </span>
-      <h3>{{$t('uterances.setEntities')}}</h3>
-      <ol>
-    <div v-for="(ut, index) in uterances" v-bind:key="ut">
-      <li><span class="span" v-for="word in ut" v-bind:key="word" @click="openDialog(sentences[index], word)">
-        {{word}}
-      </span>
-      <span class="span" @click="triggerDialog(index)"><md-icon>delete</md-icon></span>
-      </li>
-    </div>
+
+    <h3>{{$t('uterances.setEntities')}}</h3>
+    <ol>
+      <div v-for="(ut, index) in uterances" v-bind:key="ut">
+        <li>
+          <span class="span" v-for="word in ut" v-bind:key="word" @click="openDialog(sentences[index], word)">
+            {{word}}
+          </span>
+
+          <span class="span" @click="triggerDialog(index)">
+            <md-icon>delete</md-icon>
+          </span>
+        </li>
+      </div>
     </ol>
   </div>
 </template>
@@ -74,7 +81,7 @@ export default {
   computed: {
     entities: {
       get () {
-        return this.$store.state.entities
+        return this.$store.state.faqBot.entities
       },
       set (val) {
         this.$store.commit('setEntities', val)
@@ -82,7 +89,7 @@ export default {
     },
     intents: {
       get () {
-        return this.$store.state.intents
+        return this.$store.state.faqBot.intents
       },
       set (val) {
         this.$store.commit('setIntents', val)
@@ -90,7 +97,7 @@ export default {
     },
     examples: {
       get () {
-        return this.$store.state.examples
+        return this.$store.state.faqBot.examples
       },
       set (val) {
         this.$store.commit('setExamples', val)
@@ -98,7 +105,7 @@ export default {
     },
     uterances: {
       get () {
-        return this.$store.state.uterances
+        return this.$store.state.faqBot.uterances
       },
       set (val) {
         this.$store.commit('setUterances', val)

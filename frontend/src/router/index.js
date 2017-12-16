@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import launch from '@/components/launch.vue'
-import botarmy from '@/components/botarmy.vue'
-import tablehead from '@/components/tablehead.vue'
-import history from '@/components/history.vue'
-import login from '@/components/login.vue'
+import launch from '@/components/launch/launch.vue'
+import botarmy from '@/components/simplebots/simplebots.vue'
+import tablehead from '@/components/botstatus/tablehead.vue'
+import history from '@/components/history/history.vue'
+import login from '@/components/general/login.vue'
 
 Vue.use(Router)
 

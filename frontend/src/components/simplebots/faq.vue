@@ -112,7 +112,7 @@ export default {
   computed: {
     entities: {
       get () {
-        return this.$store.state.entities
+        return this.$store.state.faqBot.entities
       },
       set (val) {
         this.$store.commit('setEntities', val)
@@ -120,7 +120,7 @@ export default {
     },
     intents: {
       get () {
-        return this.$store.state.intents
+        return this.$store.state.faqBot.intents
       },
       set (val) {
         this.$store.commit('setIntents', val)

@@ -12,13 +12,13 @@
           <md-icon>delete</md-icon>
         </md-button>
 
-        <md-dialog v-if="status === false" :md-active.sync="active">
+        <md-dialog v-if="status === false" :md-active.sync="isActive">
           <md-dialog-title>{{$t('tablerow.title')}}</md-dialog-title>
 
           <p id="content">{{$t('tablerow.content')}}</p>
 
           <md-dialog-actions>
-            <md-button class="md-primary" @click="active = false">{{$t('tablerow.cancel')}}</md-button>
+            <md-button class="md-primary" @click="isActive = false">{{$t('tablerow.cancel')}}</md-button>
             <md-button class="md-primary" @click="deleteBot">{{$t('tablerow.confirm')}}</md-button>
           </md-dialog-actions>
         </md-dialog>
@@ -33,8 +33,6 @@
           </md-dialog-actions>
         </md-dialog>
 
-
-
       </md-table-cell>
 
     </md-table-row>
@@ -44,8 +42,7 @@
 export default {
   name: 'tablerow',
   data: () => ({
-    active: false,
-    value: null,
+    isActive: false,
     showDialog: false
   }),
   methods: {
@@ -71,11 +68,11 @@ export default {
       this.$store.dispatch('getConfigs')
     },
     onCancel () {
-      this.active = false
+      this.isActive = false
     },
     show () {
       if (this.status === false) {
-        this.active = true
+        this.isActive = true
       } else if (this.status === true) {
         this.showDialog = true
       }

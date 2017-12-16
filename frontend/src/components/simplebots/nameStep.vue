@@ -1,22 +1,26 @@
 <template>
-<div>
-  <div v-if="template === 'Welcome Bot'" class="picDiv">
-    <h2>{{$t('nameStep.chooseName')}} {{template}}</h2>
-    <img src="../../assets/bot_gelb_k.png" v-show="theme === false" height="150" width="150" class="img">
-    <img src="../../assets/welcome-night.png" v-show="theme === true" height="150" width="150" alt="Welcome Bot" class="img">
-    <md-field>
-      <label for="name">Name</label>
+  <div>
+    <div v-if="template === 'Welcome Bot'" class="picDiv">
+      <h2>{{$t('nameStep.chooseName')}} {{template}}</h2>
+      <img src="../../../assets/bot_gelb_k.png" v-show="theme === false" height="150" width="150" class="img">
+      <img src="../../../assets/welcome-night.png" v-show="theme === true" height="150" width="150" alt="Welcome Bot" class="img">
+
+      <md-field>
+        <label for="name">Name</label>
         <md-input  id="wName" :placeholder="this.$t('nameStep.placeholder')" v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'forth'})"></md-input>
-    </md-field>
-  </div>
+      </md-field>
+
+    </div>
   <div v-else-if="template === 'FAQ Bot'" class="picDiv">
     <h2>{{$t('nameStep.chooseName')}} {{template}}</h2>
-    <img src="../../assets/bot_lila_k.png" v-show="theme === false" height="150" width="150" class="img">
-    <img src="../../assets/faq-night.png" v-show="theme === true" height="150" width="150" alt="Welcome Bot" class="img">
+    <img src="../../../assets/bot_lila_k.png" v-show="theme === false" height="150" width="150" class="img">
+    <img src="../../../assets/faq-night.png" v-show="theme === true" height="150" width="150" alt="Welcome Bot" class="img">
+
     <md-field>
       <label for="name">Name</label>
-        <md-input v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'third'})"></md-input>
+      <md-input v-model="name" v-on:keyup.enter="setDone({id: 'second', index: 'third'})"></md-input>
     </md-field>
+
   </div>
   <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'second', index: 'third'})">Next</md-button>
   </div>
@@ -28,7 +32,7 @@ export default {
   computed: {
     template: {
       get () {
-        return this.$store.state.template
+        return this.$store.state.bot.template
       },
       set (val) {
         this.$store.commit('setTemplate', val)
@@ -36,7 +40,7 @@ export default {
     },
     name: {
       get () {
-        return this.$store.state.name
+        return this.$store.state.bot.name
       },
       set (val) {
         this.$store.commit('setName', val)
@@ -44,18 +48,10 @@ export default {
     },
     theme: {
       get () {
-        return this.$store.state.theme
+        return this.$store.state.general.theme
       },
       set (val) {
         this.$store.commit('setTheme', val)
-      }
-    },
-    nameError: {
-      get () {
-        return this.$store.state.nameError
-      },
-      set (val) {
-        this.$store.commit('setnameError', val)
       }
     }
   },
