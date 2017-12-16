@@ -38,6 +38,7 @@
         "titleIntent": "Add an intent",
         "titleEntity": "Add an entity",
         "close": "Close"      
+        "error": "You have to type in something!"
     },
     "history": {
         "ourBots": "Our Bots",

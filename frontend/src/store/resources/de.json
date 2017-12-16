@@ -38,6 +38,7 @@
         "titleIntent": "Füge eine Absicht hinzu",
         "titleEntity": "Füge eine Entität hinzu",
         "close": "Schließen"              
+        "error": "Du musst etwas eintippen!"
     },
     "history": {
         "ourBots": "Deine Bots",

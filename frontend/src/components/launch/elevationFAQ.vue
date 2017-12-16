@@ -11,22 +11,22 @@
     </div>
 
     <md-dialog :md-active.sync="showDialog" id="dialog">
-      <md-dialog-title>{{$t('elevationBots.faq')}}</md-dialog-title>
       <div id="wrap">
         <div id="left">
+          <h2 id="headline">{{$t('elevationBots.faq')}}</h2>
           <img src="../../../assets/bot_lila_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
           <img src="../../../assets/faq-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
           <div id="textdiv">{{$t('elevationBots.faqText')}}</div>
-            <md-button class="md-raised md-primary" @click="create">
-              {{$t('elevationBots.create')}}
-            </md-button> 
-        </div>
+            <div id="createBtn">
+              <md-button class="md-raised md-primary" @click="create">
+                {{$t('elevationBots.create')}}
+              </md-button> 
+            </div>
+          </div>
 
-        <div id="right">
-          <video width="700" controls>
-            <source src="../../../assets/intro.mp4" type="video/mp4">
-          </video>
-        </div>
+        <video id="faqvideo" controls>
+          <source src="../../../assets/intro.mp4" type="video/mp4">
+        </video>
         
         <div id="below">
         </div>
@@ -80,66 +80,68 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  #head {
-    color: #f68b1f;
-  }
-  #dialog {
-    width: 80vw;
-    height: 70vh;
-  }
-  #wrap {
-    width: auto;
-    position: relative;
-    margin: auto;
-  }
-  #below {
-    padding-left: 120px;
-    clear: left;
-  }
-
-  #right {
-    width: 40vw; 
-    float: left;
-    padding-right: 30px;
-  }
-  #left {
-    width: 38vw; 
-    float: left;
-    padding-left: 30px;
-    padding-right: 30px;   
-  }
+#head {
+  color: #f68b1f;
+}
+#dialog {
+  width: 80vw;
+  height: 70vh;
+}
+#faqvideo {
+  width: 50%;
+  position: absolute;
+  top: 10%;
+  left: 43%;
+}
+#wrap {
+  width: auto;
+  position: relative;
+  margin: auto;
+  overflow: auto;
+}
+#below {
+  clear: left;
+}
+#left {
+  width: 40%; 
+  float: left;
+  padding-left: 80px;
+  padding-right: 30px;     
+}
 #buttondiv {
     clear: left;
 }
 #carddiv {
-    margin: auto;
+  margin: auto;
 }
 #textdiv {
-    padding-bottom: 30px;
+  padding-bottom: 30px;
 }
 #botimg, #dialogbtn, .botimg {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 #line {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #f68b1f;
-    margin: 1em 0;
-    padding: 0;
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #f68b1f;
+  margin: 1em 0;
+  padding: 0;
 }
 #features {
   color: #f68b1f;
-  padding-top: 5vh;
-  padding-left: 6.5vw;
-}
-.feat {
-  padding-right: 8vw;
-  display: inline;
+  padding-left: 80px;
+  padding-top: 15px;
 }
 .botimg {
   padding-bottom: 25px;
+}
+#createBtn, #headline {
+  text-align: center;
+}
+#headline {
+  padding-bottom: 30px;
 }
 </style>
