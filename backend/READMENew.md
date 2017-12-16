@@ -1,6 +1,6 @@
 # SimpleBots Backend
 
-<img align="right" "title="SimpleBots logo" src="./logo.png">
+<img align="right" "title="SimpleBots logo" width="120" height="178" src="./logo.png">
 
 This is the repository for the software development project from the University of Applied Science in Mannheim. Our customer is LivePerson and we are the team Slitherin. In this folder u find everything for our backend and the belonging bot templates.
 
