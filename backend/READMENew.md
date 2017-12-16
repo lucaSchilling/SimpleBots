@@ -1,6 +1,6 @@
 # SimpleBots Backend
 
-![SimpleBots Logo](https://github.com/lucaSchilling/SEP-Slitherin/backend/logo.png)
+![SimpleBots Logo](logo.png)
 
 This is the repository for the software development project from the University of Applied Science in Mannheim. Our customer is LivePerson and we are the team Slitherin. In this folder u find everything for our backend and the belonging bot templates.
 
