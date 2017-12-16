@@ -37,7 +37,7 @@
         "typeEntity": "Type keywords that narrow down your intents",
         "titleIntent": "Add an intent",
         "titleEntity": "Add an entity",
-        "close": "Close"      
+        "close": "Close"     , 
         "error": "You have to type in something!"
     },
     "history": {
