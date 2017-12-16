@@ -4,14 +4,14 @@
      <md-dialog-prompt
       :md-active.sync="activeEntity"
       v-model="entity"
-      md-title="Add an Entity"
+      :md-title="this.$t('faq.titleEntity')"
       md-input-maxlength="30"
-      md-input-placeholder="Type your Entity..."
-      md-confirm-text="Add" 
+      :md-input-placeholder="this.$t('faq.typeEntity')"
+      :md-confirm-text="this.$t('faq.add')"
       @md-confirm="addEntity"/>
 
       <md-dialog :md-active.sync="activeIntent">
-      <md-dialog-title>Add an Intent</md-dialog-title>
+      <md-dialog-title>{{$t('faq.titleIntent')}}</md-dialog-title>
 
       <div id="fielddiv">
         <md-field>
@@ -26,8 +26,8 @@
       </div>
 
       <md-dialog-actions>
-        <md-button class="md-primary" @click="activeIntent = false">Close</md-button>
-        <md-button class="md-primary" @click="addIntent">Add</md-button>
+        <md-button class="md-primary" @click="activeIntent = false">{{$t('faq.close')}}</md-button>
+        <md-button class="md-primary" @click="addIntent">{{$t('faq.add')}}</md-button>
       </md-dialog-actions>
     </md-dialog>
 

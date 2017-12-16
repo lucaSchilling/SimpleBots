@@ -24,7 +24,7 @@
     </div>
 
     <div id="logout">
-      <md-button class="md-primary" @click="logout">logout</md-button>
+      <md-button class="md-primary" @click="logout">{{$t('tabs.logout')}}</md-button>
     </div>
 
   </div>

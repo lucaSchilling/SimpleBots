@@ -5,7 +5,11 @@
         "deploy": "Veröffentlichen",
         "next": "Weiter",
         "questions": "Fragen",
-        "redirect": "Weiterleitungsnachricht"
+        "redirect": "Weiterleitungsnachricht",
+        "clear": "LÖSCHEN",
+        "cancel": "ABBRECHEN",
+        "title": "Möchten Sie Ihre Auswahl wirklich zurücksetzen?",
+        "content": "Sie werden nicht die Möglichkeit haben, Ihre Auswahl wiederherzustellen. Klicken Sie nur auf LÖSCHEN, wenn Sie neu anfangen wollen."
     },
     "elevationBots": {
         "greeting": "Hallo ich bin der",
@@ -31,7 +35,9 @@
         "entities": "Schlagwörter",
         "entity": "Entität",
         "typeEntity": "Gib hier Schlagwörter ein, welche die Absichten näher definieren",
-        "title": "Füge eine Absicht hinzu"
+        "titleIntent": "Füge eine Absicht hinzu",
+        "titleEntity": "Füge eine Entität hinzu",
+        "close": "Schließen"              
     },
     "history": {
         "ourBots": "Deine Bots",
@@ -71,7 +77,8 @@
     },
     "nameStep": {
         "chooseName": "Wähle einen Namen für deinen",
-        "placeholder": "Trage hier den Namen deines Bots ein"
+        "placeholder": "Trage hier den Namen deines Bots ein",
+        "next": "Weiter"        
     },
     "optionStep": {
         "setMenu": "Setze das Auswahlmenü" 
@@ -95,7 +102,12 @@
     "tabs": {
         "launch": "START",
         "history": "HISTORIE",
-        "botStatus": "BOT STATUS"
+        "botStatus": "BOT STATUS",
+        "logout": "AUSLOGGEN"
+    },
+    "redirectStep": {
+        "placeholder": "Trage hier die Nachricht ein, die bei einer Weiterleitung zu einem anderen Agent angezeigt wird.",
+        "deploy": "Veröffentlichen"
     },
     "templateStep": {
         "chooseTemplate": "Wähle ein Template",
