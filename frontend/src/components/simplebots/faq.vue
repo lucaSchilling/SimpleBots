@@ -16,12 +16,12 @@
       <div id="fielddiv">
         <md-field>
           <label>{{$t('faq.typeIntent')}}</label>
-          <md-input v-model="intent"></md-input>
+          <md-input id="intentWord" v-model="intent"></md-input>
         </md-field>
 
         <md-field>
           <label>{{$t('faq.typeAnswer')}}</label>
-          <md-input v-model="message"></md-input>
+          <md-input id="intentAnswer" v-model="message"></md-input>
         </md-field>
       </div>
 
