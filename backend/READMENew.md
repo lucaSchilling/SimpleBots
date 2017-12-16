@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 First, get you a copy of the whole repository:
 ```
-git clone http://github.com/lucaSchilling/SEP-Slitherin.git
+$ git clone http://github.com/lucaSchilling/SEP-Slitherin.git
 ```
 
 ### Prerequisites
@@ -23,11 +23,11 @@ otherwise you need to change the `MONGOURL` in the `.env` file to the ip your mo
 Step into the backend folder,
 then install the dependencies:
 ```sh
-npm install
+$ npm install
 ```
 Start the backend with:
 ```sh
-node backend.js
+$ node backend.js
 ```
 Now you should be able to start an easy configured welcome bot with an easy config
 First `POST` the following config with a REST-Client to the following address: 
@@ -59,9 +59,15 @@ Now your bot should be running and you can test him with the following code pen:
 Just enter your accountnumber and connect, now you can write anything and the Hello World Bot should anwser.
 Enter a 1 for the first option, now the Hello World Bot will tell you a small joke. 
 
-## Deployment
+## Docker
 
-Add additional notes about how to deploy this on a live system
+You can use all of our softwar components as `docker container`.
+For our backend you simply run in the backend folder:
+
+``
+docker build -t backend .
+docker run -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock backend
+``
 
 ## Authors
 
@@ -72,6 +78,10 @@ Add additional notes about how to deploy this on a live system
 * **Lucas Englert** - *Tester* - [find me here](https://github.com/Lucas964)
 * **Markus Klatt** - *Organisation and Documentation* - [find me here](https://github.com/TPEMarkus)
 
+## Designer
+
+**Marlene Jung**,**Joceline Lampe**,**Maria Belov**,**Christina Deck**
+
 See also the list of [contributors](https://github.com/lucaSchilling/SEP-Slitherin/contributors) who participated in this project.
 
 ## License
@@ -81,4 +91,5 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE.md](LIC
 ## Acknowledgments
 
 * Thanks a lot to my whole team and all other participant of the SEP in the WS 17/18.
-* It would be an honor to work with you again.
+It would be an honor to work with you again.   
+`Luca Schilling`
