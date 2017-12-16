@@ -1,35 +1,35 @@
-# SimpleBots Backend
+# SimpleBots FrontEnd
 
 ![SimpleBots Logo](../logo.png)
 
-This is the repository for the software development project from the University of Applied Science in Mannheim. Our customer is LivePerson and we are the team Slitherin. In this folder u find everything for our frontend.
+This is the repository for the software development project from the `University of Applied Science in Mannheim`. Our customer is LivePerson and we are team Slitherin. In this folder you can find everything for our frontend.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+The following instructions will enable you to set up a copy of our project and run it on your local machine for development and testing purposes.
+See deployment for notes on how to deploy the project on a live system.
 
-First, get you a copy of the whole repository:
+To start off, you'll need to grab a copy of our repository:
 ```
 $ git clone http://github.com/lucaSchilling/SEP-Slitherin.git
 ```
 
 ### Prerequisites
 
-* For using our frontend u have to have a running backend connected to a mongo database more about that in the backend folder.
-* To use our frontend from an other ip then the backend you need to change the URL in `/src/store/actions.js` in line 2
+* It is mandatory to have a running backend connected to a MongoDB. If you're unsure how to do it, feel free to take a look in our backend folder.
+* To use our frontend from another ip then the backend, all you need to do is changing the URL in `/src/store/actions.js` in line 2.
 
 ### Installing
 
-Step into the frontend folder,
-then install the dependencies:
+Step into the frontend folder and install the necessary dependencies by running:
 ```
 $ npm install
 ```
-Start the frontend with:
+Start the frontend by using:
 ```
 $ npm run dev
 ```
-Now your browser should open and you will see our frontend, you can click through it and have fun.
+When everything is done, your browser will open and you can freely click through the frontend and have fun.
 
 ## Deployment
 
@@ -37,17 +37,17 @@ For deployment you can either build our frontend with:
 ``
 npm run build
 ``
-and put the now generated files in `/dist` onto an apache, or you can run it as docker, therefore look into the next paragraph `Docker`
+and put the newly generated files in `/dist` onto an apache, or you can run it as docker. Take a look at the next paragraph for more information on `Docker`.
 
 ## Docker
 
-You can use all of our softwar components as `docker container`.
-For our frontend you simply run in the frontend folder:
+You can use all of our software components as `docker container`.
+In case of our frontend, all you have to do is running the following in the frontend folder:
 
 ``
 npm run build
 ``
-Wait for the build to finish
+Wait for the build to finish.
 ``
 docker build -t frontend .
 docker run -p 8080:8080 frontend
@@ -62,7 +62,7 @@ docker run -p 8080:8080 frontend
 * **Lucas Englert** - *Tester* - [find me here](https://github.com/Lucas964)
 * **Markus Klatt** - *Organisation and Documentation* - [find me here](https://github.com/TPEMarkus)
 
-See also the list of [contributors](https://github.com/lucaSchilling/SEP-Slitherin/contributors) who participated in this project.
+Take a look at the list of [contributors](https://github.com/lucaSchilling/SEP-Slitherin/contributors) to see participated in this project.
 
 ## Designer
 

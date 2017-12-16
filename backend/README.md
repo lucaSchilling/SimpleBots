@@ -2,36 +2,35 @@
 
 ![SimpleBots Logo](../logo.png)
 
-This is the repository for the software development project from the University of Applied Science in Mannheim. Our customer is LivePerson and we are the team Slitherin. In this folder u find everything for our backend and the belonging bot templates.
+This is the repository for the software development project from the `University of Applied Science in Mannheim`. Our customer is LivePerson and we are team Slitherin. In this folder you can find everything for our backend and the used bot templates.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+The following instructions will enable you to set up a copy of our project and run it on your local machine for development and testing purposes.
+See deployment in the frontend README.md file for notes on how to deploy the project on a live system.
 
-First, get you a copy of the whole repository:
+To start off, you'll need to grab a copy of our repository:
 ```
 $ git clone http://github.com/lucaSchilling/SEP-Slitherin.git
 ```
 
 ### Prerequisites
 
-* For using our backend u have to have a mongo database, either you have one local then it should work fine,
-otherwise you need to change the `MONGOURL` in the `.env` file to the ip your mongo is running.
-* To use the `LivePerson` messaging system you need to enter your `LivePerson` credentials to the .env file
-* To use the F.A.Q. bot template you need to register by [Microsoft LUIS](https://www.luis.ai/) and add your LUIS key into the .env file
+* It is mandatory to have a running MongoDB, either locally or by changing the `MONGOURL` in the `.env` file to the ip your MongoDB is running on.
+* To use the `LivePerson` messaging system you need to enter your `LivePerson` credentials to the `.env` file
+* To use the F.A.Q. bot template you need to register at [Microsoft LUIS](https://www.luis.ai/) and add your LUIS key into the `.env` file.
 
 ### Installing
 
-Step into the backend folder,
-then install the dependencies:
+Step into the backend folder and install the necessary dependencies by running:
 ```
 $ npm install
 ```
-Start the backend with:
+Start the backend by using:
 ```
 $ node backend.js
 ```
-Now you should be able to start an easy configured welcome bot with an easy config
+Now you should be able to create and deploy a simple welcome bot with an easy config.
 First `POST` the following config with a REST-Client to the following address: 
 ```javascript
 http://[IP where your backend is running]:3000/deploy/helloWorld
@@ -42,10 +41,10 @@ http://[IP where your backend is running]:3000/deploy/helloWorld
     "welcomeMessage": "Hello I am the Hello World Bot",    
     "options": [{   
         "message" : "Joke 1", "options" : [{    
-            "message" : "Wer ist eigentlich dieser LAN und warum macht er so viele Partys?"}]}]        
+            "message" : "I love the F5 key. It´s just so refreshing."}]}]        
 }   
 ```
-In the next step you need to turn him on with:
+In the next step you need to start it and enable it to respond to messages:
 ```javascript
 http://[IP where your backend is running]:3000/setStatus/helloWorld
 ```
@@ -56,15 +55,15 @@ and the following `JSON`
     "_id": "1"    
 }    
 ```
-Now your bot should be running and you can test him with the following code pen:
+Now your bot should be running and you are able to test it by using the following code pen:
 * [Test suite](https://codepen.io/liveperson/full/xRzXXd/)
-Just enter your accountnumber and connect, now you can write anything and the Hello World Bot should anwser.
-Enter a 1 for the first option, now the Hello World Bot will tell you a small joke. 
+Just enter your `LivePerson` account number and click on connect. Your previously created Hello World Bot should be able to answer your message.
+Simply enter a 1 for the first option and you'll receive a small joke from the Hello World Bot.
 
 ## Docker
 
-You can use all of our softwar components as `docker container`.
-For our backend you simply run in the backend folder:
+You can use all of our software components as `docker container`.
+In case of our backend, all you have to do is running the following in the backend folder:
 
 ``
 docker build -t backend .
@@ -80,7 +79,7 @@ docker run -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock backend
 * **Lucas Englert** - *Tester* - [find me here](https://github.com/Lucas964)
 * **Markus Klatt** - *Organisation and Documentation* - [find me here](https://github.com/TPEMarkus)
 
-See also the list of [contributors](https://github.com/lucaSchilling/SEP-Slitherin/contributors) who participated in this project.
+Take a look at the list of [contributors](https://github.com/lucaSchilling/SEP-Slitherin/contributors) to see participated in this project.
 
 ## Designer
 
