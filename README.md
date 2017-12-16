@@ -1,13 +1,14 @@
-# SimpleBots Backend
+# SimpleBots
 
 ![SimpleBots Logo](/logo.png)
 
-This is the repository for the software development project from the `University of Applied Science in Mannheim`. Our customer is `LivePerson` and we are the team `Slitherin`. In this repository you can find everything about our product, `SimpleBots`.
-`SimpleBots` was created to simplify the life of the `LivePerson` employees.
-They should be able to create, manage and edit messaging bots from a user friendly website.
-The bots should be small in size, good in performance and easy in creation.
-In here you find our solution for this problem, we had about 10 weeks for the whole project and the most of us didnt knew any of the frameworks we were using.
-If you have any questions about this project feel free to contact me:   
+This is the repository for the software development project from the `University of Applied Science in Mannheim`. Our customer is `LivePerson` and we are team `Slitherin`. In this repository you can find everything about our product, `SimpleBots`.
+`SimpleBots` was created to simplify the life of `LivePerson` employees.
+Our task was to develop a product that allows its users to easily create, manage and edit messaging bots from a user friendly website.
+The bots themselves were supposed to fit three criteria: small in size, good in performance and easy in creation.
+This repository contains our solution for the given task.
+We were given a total time span of roughly 10 weeks to complete the project and most of us didn't have any prior experience with most frameworks that are being used as of right now.
+If you have any questions about our project, feel free to contact me:   
 * Luca Schilling   
 <1612711@stud.hs-mannheim.de>  
 <https://github.com/lucaSchilling>
@@ -15,36 +16,37 @@ If you have any questions about this project feel free to contact me:
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+The following instructions will enable you to set up a copy of our project and run it on your local machine for development and testing purposes.
+See deployment in the frontend README.md file for notes on how to deploy the project on a live system.
 
-First, get you a copy of the whole repository:
+To start off, you'll need to grab a copy of our repository:
 ```
 $ git clone http://github.com/lucaSchilling/SEP-Slitherin.git
 ```
 
 ### Prerequisites
 
-* For using our software u have to have docker installed:     
+* It is mandatory to install docker before you use our software:     
 Linux:   
 ``
 sudo apt-get install docker    
 ``     
 [Windows](https://docs.docker.com/docker-for-windows/install/)      
-* If you want to use our frontend from an other location then the backend just change the url in `/frontend/src/store/actions.js` to the url where  you run the backend.
-* Our software uses a mongo database, when you use the docker-compose file you dont need to change something.
-But if you want to use your own mongo database just change the `MONGOURL` in the `/backend/.env` file to the ip your mongo is running.
-* To use the `LivePerson` messaging system you need to enter your `LivePerson` credentials to the `/backend/.env` file.
-* To use the F.A.Q. bot template you need to register by [Microsoft LUIS](https://www.luis.ai/) and add your LUIS key into the `/backend/.env` file.
+* If you want to use our frontend from another location then the backend just change the url in `/frontend/src/store/actions.js` to the url where you run the backend.
+* Our software uses MongoDB as a database, removing the need to change anything when you use the docker-compose file.
+If you want to use your own MongoDB, simply change the `MONGOURL` in the `/backend/.env` file to the ip your MongoDB is running on.
+* To use the `LivePerson` messaging system you need to enter your `LivePerson` credentials into the `/backend/.env` file.
+* To use the F.A.Q. bot template you need to register at [Microsoft LUIS](https://www.luis.ai/) and add your LUIS key into the `/backend/.env` file.
 
 ### Installing
 
-Thanked to docker you just need to run:
+Thanks to docker, all you need to do is run the next command:
 ```
 docker-compose up
 ```
-When our the slitherin logo appears everything should be running and you can test it by creating a bot and test this bot with the following code pen:
+When our Slitherin logo appears, everything should be running and you are able to test it by creating a bot and use the following code pen to connect with it:
 * [Test suite](https://codepen.io/liveperson/full/xRzXXd/)
-Just enter your `LivePerson` accountnumber and connect, now you can write anything and the before created Bot should anwser.
+Just enter your `LivePerson` account number and click on connect. Your previously created bot should be able to answer your message.
 
 ## Authors
 
@@ -55,7 +57,7 @@ Just enter your `LivePerson` accountnumber and connect, now you can write anythi
 * **Lucas Englert** - *Tester* - [find me here](https://github.com/Lucas964)
 * **Markus Klatt** - *Organisation and Documentation* - [find me here](https://github.com/TPEMarkus)
 
-See also the list of [contributors](https://github.com/lucaSchilling/SEP-Slitherin/contributors) who participated in this project.
+Take a look at the list of [contributors](https://github.com/lucaSchilling/SEP-Slitherin/contributors) to see participated in this project.
 
 ## Designer
 
@@ -63,7 +65,7 @@ See also the list of [contributors](https://github.com/lucaSchilling/SEP-Slither
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE.md](/LICENSE.md) file for details
+This project is licensed under the Apache 2.0 License - see the [LICENSE.md](/LICENSE.md) file for details.
 
 ## Acknowledgments
 
