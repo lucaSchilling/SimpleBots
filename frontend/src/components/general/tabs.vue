@@ -70,7 +70,11 @@ export default {
     setUndone (activeTab) {
       if (activeTab === 'tab-botarmy') {
         this.$store.commit('setUndone', 'first')
+        this.clear()
       }
+    },
+    clear () {
+      this.$store.commit('clear')
     }
   }
 }

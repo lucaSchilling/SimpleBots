@@ -206,9 +206,8 @@ export default {
         this.intents = bot.intents
         this.entities = bot.entities
         this.examples = bot.examples
-        this.uterances = []
-        for (let i = 0; i < this.examples.length; i++) {
-          this.uterances.push(this.examples[i].text.split(' '))
+        for (let i = 0; i < bot.examples.length; i++) {
+          this.uterances.push(bot.examples[i].text.split(' '))
         }
       }
     },
