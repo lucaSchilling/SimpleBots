@@ -5,9 +5,9 @@
       <md-field>
         <md-textarea :placeholder="this.$t('welcomeStep.placeholder')" id="textA" v-model="welcomeMessage"></md-textarea>
       </md-field>
+    </div>
+    <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'third', index: 'forth'})">{{$t('messageStep.next')}}</md-button>
   </div>
-  <md-button class="md-primary md-raised buttonRight" @click="setDone({id: 'third', index: 'forth'})">{{$t('messageStep.next')}}</md-button>
-</div>
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
   computed: {
     welcomeMessage: {
       get () {
-        return this.$store.state.welcomeMessage
+        return this.$store.state.bot.welcomeMessage
       },
       set (val) {
         this.$store.commit('setWelcomeMessage', val)

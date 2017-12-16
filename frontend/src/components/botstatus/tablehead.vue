@@ -23,35 +23,22 @@
 <script>
 import tablerow from './tablerow.vue'
 
-const toLower = text => {
-  return text.toString().toLowerCase()
-}
-
-const searchByName = (items, term) => {
-  if (term) {
-    return items.filter(item => toLower(item.name).includes(toLower(term)))
-  }
-  return items
-}
 export default {
   name: 'tablehead',
-  data: () => ({
-    search: null
-  }),
   methods: {
+    // Gets the Bots from the database
     getBots: function () {
       this.$store.dispatch('getBots')
-    },
-    searchOnTable () {
-      this.searched = searchByName(this.bots, this.search)
     }
   },
   beforeMount () {
     this.getBots()
   },
   computed: {
-    bots () {
-      return this.$store.state.bots
+    bots: {
+      get () {
+        return this.$store.state.general.bots
+      }
     },
     getStatus () {
       return this.$store.getters.getStatus

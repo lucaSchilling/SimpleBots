@@ -1,15 +1,15 @@
 <template>
 <div>
-    <h2>{{$t('optionStep.setMenu')}}</h2>
+  <h2>{{$t('optionStep.setMenu')}}</h2>
     <div id="bla">
       <ul id="demo">
         <item
-            class="item"
-            :model="treeData">
+          class="item"
+          :model="treeData">
         </item>
       </ul>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -23,7 +23,7 @@ export default {
   computed: {
     template: {
       get () {
-        return this.$store.state.template
+        return this.$store.state.bot.template
       },
       set (val) {
         this.$store.commit('setTemplate', val)
@@ -31,7 +31,7 @@ export default {
     },
     treeData: {
       get () {
-        return this.$store.state.treeData
+        return this.$store.state.welcomeBot.treeData
       },
       set (val) {
         this.$store.commit('setTreeData', val)

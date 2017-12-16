@@ -2,40 +2,42 @@
   <div id="carddiv">
     <div>
       <h4 id="head">{{$t('elevationBots.greeting')}} {{$t('elevationBots.wb')}}</h4>
-
-      <img src="../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150">
-      <img src="../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150">
-    <div id="buttondiv">
+      <img src="../../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
+      <img src="../../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
+      <div id="buttondiv">
         <md-button @click="showDialog = true" class="md-raised md-primary">{{$t('elevationBots.more')}}</md-button>
+      </div>
     </div>
-    </div>
-     <md-dialog :md-active.sync="showDialog" id="dialog">
+
+    <md-dialog :md-active.sync="showDialog" id="dialog">
       <md-dialog-title>{{$t('elevationBots.wb')}}</md-dialog-title>
       <div id="wrap">
         <div id="left">
-          <img src="../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
-          <img src="../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
+          <img src="../../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
+          <img src="../../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
           <div id="textdiv">{{$t('elevationBots.wbText')}}</div>
             <md-button class="md-raised md-primary" @click="create">
              {{$t('elevationBots.create')}}
             </md-button> 
-        </div>
+          </div>
+
         <div id="right">
           <video width="700" controls>
-          <source src="../../assets/welcome-bot.mp4" type="video/mp4">
+            <source src="../../../assets/welcome-bot.mp4" type="video/mp4">
           </video>
-        </div> 
+        </div>
+
         <div id="below">
         </div>
         <hr id="line">
-      <div id="features">
-        <h4>Features</h4>
-        <p class="feat"><md-icon class="md-primary">verified_user</md-icon> {{$t('elevationBots.feature1')}}</p>
-        <p class="feat"><md-icon class="md-primary">verified_user</md-icon> {{$t('elevationBots.feature1')}}</p>
-        <p class="feat"><md-icon class="md-primary">verified_user</md-icon> {{$t('elevationBots.feature1')}}</p>
+
+        <div id="features">
+          <p class="feat"><md-icon class="md-primary">message</md-icon> {{$t('elevationBots.feature1')}}</p>
+          <p class="feat"><md-icon class="md-primary">call_made</md-icon> {{$t('elevationBots.feature2')}}</p>
+          <p class="feat"><md-icon class="md-primary">mouse</md-icon> {{$t('elevationBots.feature3')}}</p>
+        </div>
       </div>
-      </div>
-     </md-dialog>
+    </md-dialog>
   </div>
 </template>
 
@@ -48,7 +50,7 @@ export default {
   computed: {
     template: {
       get () {
-        return this.$store.state.template
+        return this.$store.state.bot.template
       },
       set (val) {
         this.$store.commit('setTemplate', val)
@@ -56,7 +58,7 @@ export default {
     },
     theme: {
       get () {
-        return this.$store.state.theme
+        return this.$store.state.general.theme
       },
       set (val) {
         this.$store.commit('setTheme', val)
@@ -114,7 +116,7 @@ export default {
 #textdiv {
     padding-bottom: 30px;
 }
-#botimg, #dialogbtn {
+#botimg, #dialogbtn, .botimg {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -129,10 +131,12 @@ export default {
 }
 #features {
   color: #f68b1f;
-  padding-left: 30px;
+  padding-top: 5vh;
+  padding-left: 6.5vw;
 }
 .feat {
-  padding-bottom: 10px;
+  padding-right: 8vw;
+  display: inline;
 }
 .botimg {
   padding-bottom: 25px;

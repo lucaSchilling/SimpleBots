@@ -5,7 +5,7 @@
       <md-card class="md-flex-50 md-flex-small-100">
         <md-card-header>
           <div id="logodiv">
-            <img src="../../assets/logo.jpg" width="400" id="logoPic">
+            <img src="../../../assets/logo.jpg" width="400" id="logoPic">
           </div>
           <div class="md-title-primary"><h3>{{$t('login.login')}}</h3></div>
         </md-card-header>
@@ -95,7 +95,8 @@
         this.form.username = null
         this.form.password = null
       },
-      saveUser () {
+      // Caches the user information and redirects to the application
+      loginUser () {
         this.$i18n.set(localStorage.getItem(this.form.language))
         localStorage.setItem('username', this.form.username.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s/g, ''))
         localStorage.setItem('lang', this.form.language)
@@ -105,7 +106,7 @@
         this.$v.$touch()
 
         if (!this.$v.$invalid) {
-          this.saveUser()
+          this.loginUser()
         }
       }
     }

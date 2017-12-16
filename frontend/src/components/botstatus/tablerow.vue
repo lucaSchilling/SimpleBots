@@ -12,13 +12,13 @@
           <md-icon>delete</md-icon>
         </md-button>
 
-        <md-dialog v-if="status === false" :md-active.sync="active">
+        <md-dialog v-if="status === false" :md-active.sync="isActive">
           <md-dialog-title>{{$t('tablerow.title')}}</md-dialog-title>
 
           <p id="content">{{$t('tablerow.content')}}</p>
 
           <md-dialog-actions>
-            <md-button class="md-primary" @click="active = false">{{$t('tablerow.cancel')}}</md-button>
+            <md-button class="md-primary" @click="isActive = false">{{$t('tablerow.cancel')}}</md-button>
             <md-button class="md-primary" @click="deleteBot">{{$t('tablerow.confirm')}}</md-button>
           </md-dialog-actions>
         </md-dialog>
@@ -33,8 +33,6 @@
           </md-dialog-actions>
         </md-dialog>
 
-
-
       </md-table-cell>
 
     </md-table-row>
@@ -44,14 +42,14 @@
 export default {
   name: 'tablerow',
   data: () => ({
-    active: false,
-    value: null,
+    isActive: false,
     showDialog: false
   }),
   methods: {
     deleteBot: function () {
       this.$store.dispatch('undeploy', this.ID)
     },
+    // get both bots and configurations for the status and the history
     getAll: function () {
       this.getBots()
       this.getConfigs()
@@ -71,11 +69,12 @@ export default {
       this.$store.dispatch('getConfigs')
     },
     onCancel () {
-      this.active = false
+      this.isActive = false
     },
+    // Checks whether the bot is running or not, sets dialog variables
     show () {
       if (this.status === false) {
-        this.active = true
+        this.isActive = true
       } else if (this.status === true) {
         this.showDialog = true
       }
@@ -90,7 +89,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .circleYellow {
     background: #ffde00;

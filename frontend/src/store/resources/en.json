@@ -15,7 +15,11 @@
         "wbText": "The Welcome Bot is designed to offer you a way to greet new customers and direct them to the most suitable agent available - be it a human or a bot. It allows you to fully customize a welcome message and add various options for your customers to choose from. Once your customer has chosen an option, the bot will proceed to redirect them to your pre-defined destinations.",
         "faqText": "The F.A.Q. Bot is a specialized bot who is able to answer frequently asked questions with ease. You are able to customize the questions and the corresponding answers to your needs. The bot itself uses user-created intents and entities to specify what exactly he needs to look out for.",        
         "create": "Create Bot",
-        "feature1": "High Security Standard"
+        "feature1": "Greets your customer at the start",
+        "feature2": "Redirects to a Bot or human agent",
+        "feature3": "Fully customizable",
+        "feature4": "Intent recognition",
+        "feature5": "Redirects to a human agent in case of emergency"
     },
     "faq": {
         "intents": "Intents",
