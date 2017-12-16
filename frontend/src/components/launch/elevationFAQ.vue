@@ -109,7 +109,7 @@ export default {
   padding-right: 30px;     
 }
 #buttondiv {
-    clear: left;
+  clear: left;
 }
 #carddiv {
   margin: auto;

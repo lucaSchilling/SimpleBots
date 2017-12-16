@@ -2,7 +2,7 @@
   <div to='/history' id="historydiv">
     <h1 id="our">{{$t('history.ourBots')}}</h1>
     <div class="cardDiv">
-      <div class="left" v-for="bot in history" v-bind:key="bot">
+      <div class="left" v-for="bot in history" v-bind:key="bot.ID">
 
         <md-dialog :md-active.sync="active">
           <md-dialog-title>{{$t('history.title')}}</md-dialog-title>

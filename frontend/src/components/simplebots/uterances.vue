@@ -190,6 +190,6 @@ h3 {
 }
 #utteranceWrap {
   height: 60vh;
-  overflow: scroll;
+  overflow: auto;
 }
 </style>
