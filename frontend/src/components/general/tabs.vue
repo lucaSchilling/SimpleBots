@@ -57,6 +57,7 @@ export default {
     logout: function () {
       localStorage.clear()
       this.$router.push('/')
+      location.reload()
     },
     changeTheme () {
       this.theme = !this.theme
