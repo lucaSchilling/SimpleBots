@@ -19,27 +19,27 @@
       </md-dialog>
 
       <md-dialog :md-active.sync="activeIntent">
-        <md-dialog-title>Add an Intent</md-dialog-title>
+      <md-dialog-title>Add an Intent</md-dialog-title>
 
-        <div id="fielddiv">
-          <md-field :class="messageClass">
-            <label>{{$t('faq.typeIntent')}}</label>
-            <md-input v-model="intent" required maxlength="30"></md-input>
-            <span class="md-error">{{$t('faq.error')}}</span>
-          </md-field>
+      <div id="fielddiv">
+        <md-field :class="messageClass">
+          <label>{{$t('faq.typeIntent')}}</label>
+          <md-input id="intentWord" v-model="intent" required maxlength="30"></md-input>
+          <span class="md-error">{{$t('faq.error')}}</span>
+        </md-field>
 
-          <md-field :class="messageClass">
-            <label>{{$t('faq.typeAnswer')}}</label>
-            <md-input v-model="message" required maxlength="150"></md-input>
-            <span class="md-error">{{$t('faq.error')}}</span>
-          </md-field>
-        </div>
+        <md-field :class="messageClass">
+          <label>{{$t('faq.typeAnswer')}}</label>
+          <md-input id="intentAnswer" v-model="message" required maxlength="150"></md-input>
+          <span class="md-error">{{$t('faq.error')}}</span>
+        </md-field>
+      </div>
 
-        <md-dialog-actions>
-          <md-button class="md-primary" @click="clearError">Close</md-button>
-          <md-button class="md-primary" @click="addIntent">Add</md-button>
-        </md-dialog-actions>
-      </md-dialog>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="clearError">Close</md-button>
+        <md-button class="md-primary" @click="addIntent">Add</md-button>
+      </md-dialog-actions>
+    </md-dialog>
 
     <md-table md-card class="table">
       <md-table-toolbar>
