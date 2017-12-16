@@ -2,7 +2,7 @@
   <div to='/history' id="historydiv">
     <h1 id="our">{{$t('history.ourBots')}}</h1>
     <div class="cardDiv">
-      <div class="left" v-for="bot in history" v-bind:key="bot">
+      <div class="left" v-for="bot in history" v-bind:key="bot.ID">
 
         <md-dialog :md-active.sync="active">
           <md-dialog-title>{{$t('history.title')}}</md-dialog-title>
@@ -206,9 +206,8 @@ export default {
         this.intents = bot.intents
         this.entities = bot.entities
         this.examples = bot.examples
-        this.uterances = []
-        for (let i = 0; i < this.examples.length; i++) {
-          this.uterances.push(this.examples[i].text.split(' '))
+        for (let i = 0; i < bot.examples.length; i++) {
+          this.uterances.push(bot.examples[i].text.split(' '))
         }
       }
     },

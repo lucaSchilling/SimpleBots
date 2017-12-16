@@ -49,7 +49,7 @@
     <ol>
       <div v-for="(ut, index) in uterances" v-bind:key="ut">
         <li>
-          <span class="span" v-for="word in ut" v-bind:key="word" @click="openDialog(sentences[index], word)">
+          <span class="span" v-for="word in ut" v-bind:key="word" @click="openDialog(ut.join(' '), word)">
             {{word}}
           </span>
 
@@ -125,7 +125,7 @@ export default {
     setIntent (intent) {
       this.example.intentName = intent
     },
-    // Creates the correct exampe JSON structure
+    // Creates the correct examlpe JSON structure
     createExample (uterance, word, entity) {
       this.start = uterance.indexOf(word)
       this.end = uterance.indexOf(word) + word.length - 1
@@ -190,6 +190,6 @@ h3 {
 }
 #utteranceWrap {
   height: 60vh;
-  overflow: scroll;
+  overflow: auto;
 }
 </style>

@@ -3,11 +3,11 @@
     <li>
       <div :class="{bold: isFolder}" v-show="!model.isRoot">
 
-        <span v-if="(isFolder && isOpen) || (isRedirect && isisOpen)" @click="toggle">
+        <span v-if="(isFolder && isOpen) || (isRedirect && isOpen)" @click="toggle">
           <md-icon class="md-primary">expand_less</md-icon>
         </span>
 
-        <span v-if="(isFolder && !isOpen) || (isRedirect && !isisOpen)" @click="toggle">
+        <span v-if="(isFolder && !isOpen) || (isRedirect && !isOpen)" @click="toggle">
           <md-icon class="md-primary">expand_more</md-icon>  
         </span>
 

@@ -4,6 +4,7 @@
       <h4 id="head">{{$t('elevationBots.greeting')}} {{$t('elevationBots.wb')}}</h4>
       <img src="../../../assets/bot_gelb_k.png" v-show="theme === false" alt="Welcome Bot" height="150" width="150" class="botimg">
       <img src="../../../assets/welcome-night.png" v-show="theme === true" alt="Welcome Bot" height="150" width="150" class="botimg">
+
       <div id="buttondiv">
         <md-button @click="showDialog = true" class="md-raised md-primary">{{$t('elevationBots.more')}}</md-button>
       </div>
@@ -23,9 +24,9 @@
             </div>
           </div>
 
-          <video id="welcomeVideo" controls>
-            <source src="../../../assets/welcome-bot.mp4" type="video/mp4">
-          </video>
+        <video id="welcomeVideo" controls>
+          <source src="../../../assets/welcome-bot.mp4" type="video/mp4">
+        </video>
 
         <div id="below">
         </div>
@@ -135,7 +136,6 @@ export default {
   padding-left: 80px;
   padding-top: 15px;
 }
-
 .botimg {
   padding-bottom: 25px;
 }

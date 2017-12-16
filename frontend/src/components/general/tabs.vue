@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <md-tabs md-sync-route md-alignment="fixed" id="tabs">
+    <md-tabs md-sync-route md-alignment="fixed" id="tabs" @md-changed="setUndone">
 
 
       <md-tab id="tab-launch" class="tabs" :md-label="this.$t('tabs.launch')" to="/launch">
@@ -66,6 +66,15 @@ export default {
         Vue.material.theming.theme = 'default'
       }
       localStorage.setItem('theme', this.theme)
+    },
+    setUndone (activeTab) {
+      if (activeTab === 'tab-botarmy') {
+        this.$store.commit('setUndone', 'first')
+        this.clear()
+      }
+    },
+    clear () {
+      this.$store.commit('clear')
     }
   }
 }
