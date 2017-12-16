@@ -2,12 +2,15 @@
 
 ![SimpleBots Logo](/logo.png)
 
-This is the repository for the software development project from the University of Applied Science in Mannheim. Our customer is LivePerson and we are the team Slitherin. In this repository you can find everything about our product, `SimpleBots`.
-`SimpleBots` was created to simplify the life of the LivePerson employies.
+This is the repository for the software development project from the `University of Applied Science in Mannheim`. Our customer is `LivePerson` and we are the team `Slitherin`. In this repository you can find everything about our product, `SimpleBots`.
+`SimpleBots` was created to simplify the life of the `LivePerson` employees.
 They should be able to create, manage and edit messaging bots from a user friendly website.
 The bots should be small in size, good in performance and easy in creation.
-In here you find our solution for this problem, we had about 10 weeks for the whole project and the most of us didnt know any of the frameworks we were using.
-If you have any questions you can contact me at any time Luca Schilling <1612711@stud.hs-mannheim.de><https://github.com/lucaSchilling>
+In here you find our solution for this problem, we had about 10 weeks for the whole project and the most of us didnt knew any of the frameworks we were using.
+If you have any questions about this project feel free to contact me:   
+* Luca Schilling   
+<1612711@stud.hs-mannheim.de>  
+<https://github.com/lucaSchilling>
 
 
 ## Getting Started
@@ -21,12 +24,12 @@ $ git clone http://github.com/lucaSchilling/SEP-Slitherin.git
 
 ### Prerequisites
 
-* For using our software u have to have docker installed:
-Linux
+* For using our software u have to have docker installed:     
+Linux:   
 ``
-sudo apt-get install docker
-``
-[Windows](https://docs.docker.com/docker-for-windows/install/) 
+sudo apt-get install docker    
+``     
+[Windows](https://docs.docker.com/docker-for-windows/install/)      
 * If you want to use our frontend from an other location then the backend just change the url in `/frontend/src/store/actions.js` to the url where  you run the backend.
 * Our software uses a mongo database, when you use the docker-compose file you dont need to change something.
 But if you want to use your own mongo database just change the `MONGOURL` in the `/backend/.env` file to the ip your mongo is running.
