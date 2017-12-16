@@ -1,43 +1,97 @@
-# Backend
-In this Folder you will find everything about the backend of our runtime.
+# SimpleBots Backend
 
-## Structure
+![SimpleBots Logo](logo.png)
 
-/templates: here you will find all implemented bot templates like "bot.js" or "welcomebot.js"
+This is the repository for the software development project from the University of Applied Science in Mannheim. Our customer is LivePerson and we are the team Slitherin. In this folder u find everything for our backend and the belonging bot templates.
 
-.env: here you will find all environment variables of this project
+## Getting Started
 
-db.js: here you will find all methods for the communication with our database like "connect" or "close"
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-package.json: here you will find all dependencies and other package information
-
-runtime.js: here you will find all methods for our runtime like the restfull service points 
-
-template.json: here you will find all implemented template names, add new templates here so the runtime uses them directly
-
-
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+First, get you a copy of the whole repository:
 ```
+$ git clone http://github.com/lucaSchilling/SEP-Slitherin.git
+```
+
+### Prerequisites
+
+* For using our backend u have to have a mongo database, either you have one local then it should work fine,
+otherwise you need to change the `MONGOURL` in the `.env` file to the ip your mongo is running.
+* To use the `LivePerson` messaging system you need to enter your `LivePerson` credentials to the .env file
+* To use the F.A.Q. bot template you need to register by [Microsoft LUIS](https://www.luis.ai/) and add your LUIS key into the .env file
+
+### Installing
+
+Step into the backend folder,
+then install the dependencies:
+```sh
+$ npm install
+```
+Start the backend with:
+```sh
+$ node backend.js
+```
+Now you should be able to start an easy configured welcome bot with an easy config
+First `POST` the following config with a REST-Client to the following address: 
+```
+http://[IP where your backend is running]:3000/deploy/helloWorld
+{    
+    "_id": "1",   
+    "template": "Welcome Bot",   
+    "name": "Hello World Bot",    
+    "welcomeMessage": "Hello I am the Hello World Bot",    
+    "options": [{   
+        "message" : "Joke 1", "options" : [{    
+            "message" : "Wer ist eigentlich dieser LAN und warum macht er so viele Partys?"}]}]        
+}   
+```
+In the next step you need to turn him on with:
+```
+http://[IP where your backend is running]:3000/setStatus/helloWorld
+```
+and the following `JSON`
+```
+{    
+    "status": "true",    
+    "_id": "1"    
+}    
+```
+Now your bot should be running and you can test him with the following code pen:
+* [Test suite](https://codepen.io/liveperson/full/xRzXXd/)
+Just enter your accountnumber and connect, now you can write anything and the Hello World Bot should anwser.
+Enter a 1 for the first option, now the Hello World Bot will tell you a small joke. 
+
+## Docker
+
+You can use all of our softwar components as `docker container`.
+For our backend you simply run in the backend folder:
+
+``
+docker build -t backend .
+docker run -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock backend
+``
+
+## Authors
+
+* **Luca Schilling** - *Team Leader* - [find me here](https://github.com/lucaSchilling)
+* **Raphael Lubaschewski** - *Frontend Leader* - [find me here](https://github.com/Raphi1524694)
+* **Christopher Rotter** - *Backend Leader* - [find me here](https://github.com/ChristopherRotter)
+* **Ibrahim Dursun** - *Tester* - [find me here](https://github.com/ibdursun)
+* **Lucas Englert** - *Tester* - [find me here](https://github.com/Lucas964)
+* **Markus Klatt** - *Organisation and Documentation* - [find me here](https://github.com/TPEMarkus)
+
+See also the list of [contributors](https://github.com/lucaSchilling/SEP-Slitherin/contributors) who participated in this project.
+
+## Designer
+
+**Marlene Jung**, **Joceline Lampe**, **Maria Belov**, **Christina Deck**
+
+## License
+
+This project is licensed under the Apache 2.0 License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Thanks a lot to my whole team and all other participant of the SEP in the WS 17/18.
+It would be an honor to work with you again.   
+`Luca Schilling`
