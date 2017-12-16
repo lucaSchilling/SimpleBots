@@ -1,6 +1,6 @@
 # SimpleBots Backend
 
-<img align="right" "title="SimpleBots logo" width="120" height="178" src="./logo.png">
+![SimpleBots Logo](https://github.com/lucaSchilling/SEP-Slitherin/logo.png)
 
 This is the repository for the software development project from the University of Applied Science in Mannheim. Our customer is LivePerson and we are the team Slitherin. In this folder u find everything for our backend and the belonging bot templates.
 
@@ -81,4 +81,4 @@ This project is licensed under the Apache 2.0 License - see the [LICENSE.md](LIC
 ## Acknowledgments
 
 * Thanks a lot to my whole team and all other participant of the SEP in the WS 17/18.
-* It would be a honor to work with you again.
+* It would be an honor to work with you again.
