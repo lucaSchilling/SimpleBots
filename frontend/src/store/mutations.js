@@ -1,40 +1,44 @@
 export default {
   setId: (state, val) => {
-    state._id = val
+    state.bot._id = val
   },
   setName: (state, val) => {
-    state.name = val
+    state.bot.name = val
   },
   setTemplate: (state, val) => {
-    state.template = val
+    state.bot.template = val
   },
   setOptions: (state, val) => {
-    state.options = val
+    state.welcomeBot.options = val
   },
   setUterances: (state, val) => {
-    state.uterances = val
+    state.faqBot.uterances = val
   },
   setIntents: (state, val) => {
-    state.intents = val
+    state.faqBot.intents = val
   },
   setEntities: (state, val) => {
-    state.entities = val
+    state.faqBot.entities = val
   },
   setExamples: (state, val) => {
-    state.examples = val
+    state.faqBot.examples = val
   },
   setWelcomeMessage: (state, val) => {
-    state.welcomeMessage = val
+    state.bot.welcomeMessage = val
   },
   setLastEdit: (state, val) => {
-    state.lastedit = val
+    state.bot.lastedit = val
   },
   setitemID: (state, val) => {
-    state.itemID = val
+    state.welcomeBot.itemID = val
   },
+  setredirectMessage: (state, val) => {
+    state.welcomeBot.redirectMessage = val
+  },
+  // Pushes the bots from the server into bot[].
   getBots: (state, response) => {
     for (let i = 0; i < response.data.length; i++) {
-      state.bots.push({ID: response.data[i]._id,
+      state.general.bots.push({ID: response.data[i]._id,
         status: response.data[i].status,
         template: response.data[i].template,
         name: response.data[i].name,
@@ -42,18 +46,19 @@ export default {
       })
     }
   },
+  // Pushes the configs from the server into history[].
   getConfigs: (state, response) => {
     for (let i = 0; i < response.data.length; i++) {
       if (response.data[i].template === 'Welcome Bot') {
-        // alert(JSON.stringify(response.data[i].options))
-        state.history.push({ID: response.data[i]._id,
+        state.general.history.push({ID: response.data[i]._id,
           welcomeMessage: response.data[i].welcomeMessage,
           template: response.data[i].template,
           name: response.data[i].name,
           lastedit: response.data[i].lastEdit.slice(5, 7) + '.' + response.data[i].lastEdit.slice(8, 10) + '.' + response.data[i].lastEdit.slice(2, 4) + ', ' + response.data[i].lastEdit.slice(11, 16),
-          options: response.data[i].options})
+          options: response.data[i].options,
+          redirectMessage: response.data[i].redirectMessage})
       } else if (response.data[i].template === 'FAQ Bot') {
-        state.history.push({ID: response.data[i]._id,
+        state.general.history.push({ID: response.data[i]._id,
           welcomeMessage: response.data[i].welcomeMessage,
           template: response.data[i].template,
           name: response.data[i].name,
@@ -65,70 +70,92 @@ export default {
       }
     }
   },
+  // Clears both the bot and the history array in order to prevent redundant displays.
   clearBotsFromArray: (state) => {
-    state.bots = []
-    state.history = []
+    state.general.bots = []
+    state.general.history = []
   },
+  // Sets the steps in the component "simplebots".
   setDone: (state, object) => {
-    state[object.id] = true
+    state.general[object.id] = true
 
     if (object.index) {
-      state.active = object.index
+      state.general.active = object.index
     }
   },
+  // Clears the steps in the component "simplebots".
   setUndone: (state, index) => {
-    state.first = false
-    state.second = false
-    state.third = false
-    state.forth = false
-    state.fifth = false
+    state.general.first = false
+    state.general.second = false
+    state.general.third = false
+    state.general.forth = false
+    state.general.fifth = false
 
     if (index) {
-      state.active = index
+      state.general.active = index
     }
   },
   setActive: (state, val) => {
-    state.active = val
+    state.general.active = val
   },
   setFirst: (state, val) => {
-    state.first = val
+    state.general.first = val
   },
   setSecond: (state, val) => {
-    state.second = val
+    state.general.second = val
   },
   setThird: (state, val) => {
-    state.third = val
+    state.general.third = val
   },
   setForth: (state, val) => {
-    state.forth = val
+    state.general.forth = val
   },
   setFifth: (state, val) => {
-    state.fifth = val
+    state.general.fifth = val
   },
   setSixth: (state, val) => {
-    state.sixth = val
+    state.general.sixth = val
   },
   setTreeData: (state, val) => {
-    state.treeData.message = val.message
-    state.treeData.options = val.options
+    state.welcomeBot.treeData.message = val.message
+    state.welcomeBot.treeData.options = val.options
   },
+  // Clears all Bot information from the state.
   clear: (state) => {
-    state._id = null
-    state.name = null
-    state.template = null
-    state.welcomeMessage = null
-    state.options = []
-    state.treeData = {
+    state.bot._id = null
+    state.bot.name = null
+    state.bot.template = null
+    state.bot.welcomeMessage = null
+    state.welcomeBot.options = []
+    state.welcomeBot.treeData = {
       isRoot: true,
-      options: []
+      options: [{
+        message: '',
+        isDeletable: false,
+        redirect: null,
+        options: null
+      }]
     }
-    state.intents = []
-    state.entities = []
-    state.lastedit = null
-    state.examples = []
-    state.uterances = []
+    state.welcomeBot.redirectMessage = null
+    state.faqBot.intents = []
+    state.faqBot.entities = []
+    state.bot.lastedit = null
+    state.faqBot.examples = []
+    state.faqBot.uterances = []
   },
   setTheme: (state, val) => {
-    state.theme = val
+    state.general.theme = val
+  },
+  // Clears the treeData structure to make a restart of the option step possible
+  clearTreeData: (state) => {
+    state.welcomeBot.treeData = {
+      isRoot: true,
+      options: [{
+        message: '',
+        isDeletable: false,
+        redirect: null,
+        options: null
+      }]
+    }
   }
 }

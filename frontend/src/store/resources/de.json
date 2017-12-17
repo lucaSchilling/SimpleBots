@@ -1,19 +1,29 @@
 {
     "botarmy": {
-        "welcomeMessage": "Wilkommensnachricht",
+        "welcomeMessage": "Willkommensnachricht",
         "options": "Optionen",
         "deploy": "Veröffentlichen",
         "next": "Weiter",
-        "questions": "Fragen"
+        "questions": "Fragen",
+        "redirect": "Weiterleitungsnachricht",
+        "clear": "LÖSCHEN",
+        "cancel": "ABBRECHEN",
+        "title": "Möchten Sie Ihre Auswahl wirklich zurücksetzen?",
+        "content": "Sie werden nicht die Möglichkeit haben, Ihre Auswahl wiederherzustellen. Klicken Sie nur auf LÖSCHEN, wenn Sie neu anfangen wollen."
     },
     "elevationBots": {
         "greeting": "Hallo ich bin der",
         "more": "Mehr",
         "faq": "F.A.Q. Bot",
-        "wb": "Wilkommens Bot",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        "wb": "Willkommens Bot",
+        "wbText": "Der Willkommens Bot ermöglicht es Ihnen den Empfang Ihrer Kunden zu vereinfachen und leitet diese an den Agent weiter, der Ihre Probleme am besten lösen kann - entweder Mensch oder Bot. Sie können eine Willkommensnachricht erstellen und Optionen zur Verfügung stellen, aus denen Ihre Kunden auswählen können. Nachdem Ihre Kunden eine Auswahl getroffen haben, werden die Anfragen von der festgelegten Weiterleitung bearbeitet.",
+        "faqText": "Der F.A.Q. Bot ist ein spezialisierter Bot, der auf häufig gestellte Fragen antworten kann. Die Fragen und dazugehörigen Antworten können Sie editieren. Der Bot benutzt von Ihnen festgelegte Absichten und Schlagwörter, um den Kern der Frage zu bestimmen.",
         "create": "Bot erstellen",
-        "feature1": "Hoher Sicherheitsstandard"
+        "feature1": "Begrüßt den Kunden",
+        "feature2": "Weiterleitung an Bot oder Menschen",
+        "feature3": "Komplett anpassbar",
+        "feature4": "Absichtserkennung",
+        "feature5": "Weiterleitung an Menschen im Notfall"
     },
     "faq": {
         "intents": "Absichten",
@@ -24,7 +34,11 @@
         "answer": "Antwort",
         "entities": "Schlagwörter",
         "entity": "Entität",
-        "typeEntity": "Gib hier Schlagwörter ein, welche die Absichten näher definieren"
+        "typeEntity": "Gib hier Schlagwörter ein, welche die Absichten näher definieren",
+        "titleIntent": "Füge eine Absicht hinzu",
+        "titleEntity": "Füge eine Entität hinzu",
+        "close": "Schließen",              
+        "error": "Du musst etwas eintippen!"
     },
     "history": {
         "ourBots": "Deine Bots",
@@ -41,7 +55,7 @@
         "deleteTooltip": "Lösche die Optionen dieser Nachricht",
         "redirectTooltip": "Füge der Nachricht eine Weiterleitung hinzu",
         "faq": "F.A.Q. Bot",
-        "wb": "Wilkommens Bot",
+        "wb": "Willkommens Bot",
         "placeholder": "Tragen sie hier ihre Optionsmöglichkeit ein"
     },
     "launch": {
@@ -56,15 +70,16 @@
         "de": "Deutsch",
         "en": "Englisch",
         "login": "Einloggen",
-        "success": "Erfolgreich eingelogt"
+        "success": "Erfolgreich eingeloggt"
     },
     "messageStep": {
-        "message": "Wilkommensnachricht",
+        "message": "Willkommensnachricht",
         "next": "Weiter"
     },
     "nameStep": {
         "chooseName": "Wähle einen Namen für deinen",
-        "placeholder": "Trage hier den Namen deines Bots ein"
+        "placeholder": "Trage hier den Namen deines Bots ein",
+        "next": "Weiter"        
     },
     "optionStep": {
         "setMenu": "Setze das Auswahlmenü" 
@@ -81,25 +96,33 @@
         "title": "Möchten Sie diesen Bot wirklich löschen?",
         "confirm": "Löschen",
         "cancel": "Abbrechen",
-        "content": "Dieser Bot wird aus dem Bot Status gelöscht. In der Historie kann er noch geklont und bearbeitet werden",
+        "content": "Dieser Bot wird aus dem Bot Status gelöscht. In der Historie kann er noch geklont und bearbeitet werden.",
         "titleOn": "Sie können keinen laufenden Bot löschen",
         "contentOn": "Es ist nicht möglich, einen Bot zu löschen, der momentan aktiv ist. Schalten Sie ihn zuerst aus, um ihn zu löschen."
     },
     "tabs": {
         "launch": "START",
-        "history": "GESCHICHTE",
-        "botStatus": "BOT STATUS"
+        "history": "HISTORIE",
+        "botStatus": "BOT STATUS",
+        "logout": "AUSLOGGEN"
+    },
+    "redirectStep": {
+        "placeholder": "Trage hier die Nachricht ein, die bei einer Weiterleitung zu einem anderen Agent angezeigt wird.",
+        "deploy": "Veröffentlichen"
     },
     "templateStep": {
         "chooseTemplate": "Wähle ein Template",
-        "wb": "Wilkommens Bot",
+        "wb": "Willkommens Bot",
         "faq": "F.A.Q. Bot"
     },
     "uterances": {
         "setEntity": "Klicke auf die passende Absicht und das zugehörige Schlagwort",
         "addQuestion": "Füge deine Fragen hier hinzu",
         "setEntities": "Klicke auf das wichtigste Wort in jedem Satz...",
-        "placeholder": "Trage die möglichen Nutzerfragen ein"
+        "placeholder": "Trage die möglichen Nutzerfragen ein",
+        "title": "Möchten Sie diesen Satz wirklich löschen?",
+        "content": "Gelöschte Sätze können nicht wiederhergestellt werden. Sie können jedoch weiterhin neue Sätze hinzufügen",
+        "set": "Setzen"
     },
     "welcomeStep": {
         "placeholder": "Trage hier die Nachricht ein, mit der dein Bot deine Kunden begrüßen soll"

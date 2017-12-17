@@ -1,13 +1,17 @@
 {
-  "name": "runtime",
-  "version": "0.1.0",
+  "name": "bot.js",
+  "main": "botStart.js.js",
+  "version": "1.0.0",
+  "description": "different bots with different functions written for the use with node-agent-sdk",  
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lucaSchilling/SEP-Slitherin.git"
+  },
   "dependencies": {
     "axios": "^0.17.1",
-    "axios-debug": "0.0.4",
-    "cors": "^2.8.4",
-    "dotenv": "^4.0.0",
-    "es6-promisify": "^5.0.0",
     "mongodb": "^2.2.33",
-    "node-agent-sdk": "^0.2.20"
+    "node-agent-sdk": "^0.3.0",
+    "util": "^0.10.3"
   }
 }

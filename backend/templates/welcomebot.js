@@ -1,4 +1,4 @@
-// Bot module
+// Bot module.
 const Bot = require('./bot');
 
 /**
@@ -6,10 +6,6 @@ const Bot = require('./bot');
  */
 class WelcomeBot extends Bot {
 
-    /**
-     * @override 
-     * @see bot.js
-     */
     constructor(accountId, username, password, config) {
         super(accountId, username, password, config);
 
@@ -18,28 +14,25 @@ class WelcomeBot extends Bot {
 
     /**
      * Initializes the bot's dialogs.
+     * 
      * @override
      */
     init() {
         super.init();
-
-        // React to conversation changes
+        // 'UPSERT' apparently means that the chat user has sent a new message.
         this.agent.on('cqm.ExConversationChangeNotification', body => {
-            // Bot joins any conversation with unspecified skill as soon as the user sends the first message, and answers with the welcome message and first set of options
+            // Bot joins any conversation as soon as the user sends the first message and answers with the welcome message and first set of options.
             body.changes
-                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === this.config.skillId)
+                .filter(change => change.type === 'UPSERT' && !this.openConversations[change.result.convId] && change.result.conversationDetails.skillId === '-1')
                 .forEach(async change => {
                     this.openConversations[change.result.convId] = change.result.conversationDetails;
                     this.conversationStates[change.result.convId] = this.config.options;
+                    console.log('/welcomebot.js 30 - Welcome Bot joined; ID: ' + change.result.conversationDetails.skillId);
                     await this.joinConversation(change.result.convId, 'MANAGER');
-
-                    console.log('Joined conversation ' + change.result.convId);
-
                     await this.sendMessage(change.result.convId, this.config.welcomeMessage);
                     await this.sendMessage(change.result.convId, this.generateOptionsMessage(change.result.convId));
                 });
-
-            // On conversation termination, remove all temporary data of that conversation
+            // On conversation termination, remove all temporary data about that conversation.
             body.changes
                 .filter(change => change.type === 'DELETE' && this.openConversations[change.result.convId])
                 .forEach(async change => {
@@ -47,15 +40,13 @@ class WelcomeBot extends Bot {
                 });
         });
 
-        // React to messages in already joined conversations
         this.agent.on('ms.MessagingEventNotification', body => {
-            // If the user sends a message, send the next set of options or redirect them to another agent
+            // If the bot has already joined the conversation and the user sends a message, send the next set of options or redirect them to another agent.
             body.changes
-                .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
+                .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId && body.changes[0].__isMe === false)
                 .forEach(async change => {
                     let userMessage = change.event.message;
-                    
-                    // Fallback to human agent if answer could not be parsed
+                    // Fallback to human agent if answer could not be parsed.
                     if (parseInt(userMessage) === NaN) {
                         await this.agent.updateConversationField({
                             'conversationId': change.dialogId,
@@ -65,15 +56,11 @@ class WelcomeBot extends Bot {
                                 skill: this.config.humanSkillId
                             }]
                         });
-
-                        console.log('Updated skill field of conversation ' + change.dialogId + ' to: ' + this.config.humanSkillId);
-
+                        console.log('/welcomebot.js 62 - Updated skill field of conversation ' + change.dialogId + ' to: ' + this.config.humanSkillId);
                         await this.timeout(50);
                         await this.leaveConversation(change.dialogId);
-
                         return;
                     }
-
                     let index = parseInt(userMessage) - 1;
                     let convState = this.conversationStates[change.dialogId];
 
@@ -82,7 +69,7 @@ class WelcomeBot extends Bot {
                         await this.sendMessage(change.dialogId, this.generateOptionsMessage(change.dialogId));
                     }
                     else {
-                        // Redirect the chat partner to another bot by marking the conversation with the demanded skill
+                        // Redirect the chat partner to another bot by marking the conversation with the demanded skill.
                         let message = this.config.redirectMessage;
 
                         if (!message) {
@@ -98,9 +85,7 @@ class WelcomeBot extends Bot {
                                 skill: convState[index].redirect
                             }]
                         });
-
-                        console.log('Updated skill field of conversation ' + change.dialogId + ' to: ' + convState[index].redirect);
-
+                        console.log('/welcomebot.js 95 - Updated skill field of conversation ' + change.dialogId + ' to: ' + convState[index].redirect);
                         await this.timeout(50);
                         await this.leaveConversation(change.dialogId);
                     }
@@ -110,13 +95,14 @@ class WelcomeBot extends Bot {
 
     /**
      * Generates the next reply from the bot's options.
-     * @param convId The Id of the conversation that the string should be generated for.
+     * 
+     * @param convId The Id of the conversation that the string should be generated for
      */
     generateOptionsMessage(convId) {
         let state = this.conversationStates[convId];
 
         if (!state) {
-            throw new Error('Conversation not found');
+            throw new Error('/welcomebot.js 104 - Conversation not found');
         }
         else {
             let message = '';
@@ -124,7 +110,6 @@ class WelcomeBot extends Bot {
             for (let option of state) {
                 message += '\n' + option.message;
             }
-
             return message;
         }
     }

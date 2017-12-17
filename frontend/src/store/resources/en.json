@@ -4,27 +4,41 @@
         "options": "Options",
         "deploy": "Deploy",
         "next": "Next",
-        "questions": "Questions"
+        "questions": "Questions",
+        "redirect": "Redirect message",
+        "clear": "CLEAR",
+        "cancel": "CANCEL",
+        "title": "Do you really want to restart your selection?",
+        "content": "You won't be able to restart your previously added selections. Only click clear if you want to start over."
     },
     "elevationBots": {
         "greeting": "Hi I am the",
         "more": "More",
         "faq": "F.A.Q. Bot",
         "wb": "Welcome Bot",
-        "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        "wbText": "The Welcome Bot is designed to offer you a way to greet new customers and direct them to the most suitable agent available - be it a human or a bot. It allows you to fully customize a welcome message and add various options for your customers to choose from. Once your customer has chosen an option, the bot will proceed to redirect them to your pre-defined destinations.",
+        "faqText": "The F.A.Q. Bot is a specialized bot who is able to answer frequently asked questions with ease. You are able to customize the questions and the corresponding answers to your needs. The bot itself uses user-created intents and entities to specify what exactly he needs to look out for.",        
         "create": "Create Bot",
-        "feature1": "High Security Standard"
+        "feature1": "Greets your customer at the start",
+        "feature2": "Redirects to a Bot or human agent",
+        "feature3": "Fully customizable",
+        "feature4": "Intent recognition",
+        "feature5": "Redirects to a human agent in case of emergency"
     },
     "faq": {
         "intents": "Intents",
-        "typeIntent": "Type in your intent here",
-        "typeAnswer": "Type in your Answer here",
+        "typeIntent": "Use one word to describe what the user is looking for",
+        "typeAnswer": "Type the answer that the user will receive",
         "add": "add",
         "intent": "Intent",
         "answer": "Answer",
         "entities": "Entities",
         "entity": "Entity",
-        "typeEntity": "Type in your entity here"
+        "typeEntity": "Type keywords that narrow down your intents",
+        "titleIntent": "Add an intent",
+        "titleEntity": "Add an entity",
+        "close": "Close"     , 
+        "error": "You have to type in something!"
     },
     "history": {
         "ourBots": "Our Bots",
@@ -34,7 +48,7 @@
         "add": "add",
         "delete": "delete",
         "title": "Do you really want to delete this configuration?",
-        "content": "This configuration will be permanently deleted. You wont be able to restore it. "
+        "content": "This configuration will be permanently deleted. You won't be able to restore it. "
     },
     "item": {
         "changeTooltip": "Add an option to this message",
@@ -42,7 +56,7 @@
         "redirectTooltip": "Add a redirect to this message",
         "faq": "F.A.Q. Bot",
         "wb": "Welcome Bot",
-        "placeholder": "Type in your possible option here"
+        "placeholder": "Type your possible option here"
     },
     "launch": {
         "news": "News"
@@ -56,7 +70,7 @@
         "de": "German",
         "en": "English",
         "login": "Login",
-        "success": "Sucessfully loged in"
+        "success": "Successfully logged in"
     },
     "messageStep": {
         "message": "Welcome Message",
@@ -64,7 +78,8 @@
     },
     "nameStep": {
         "chooseName": "Choose a name for your",
-        "placeholder": "Type in your name here"
+        "placeholder": "Type your name here",
+        "next": "Next"
     },
     "optionStep": {
         "setMenu": "Set selection menu" 
@@ -88,7 +103,12 @@
     "tabs": {
         "launch": "LAUNCH",
         "history": "HISTORY",
-        "botStatus": "BOT STATUS"
+        "botStatus": "BOT STATUS",
+        "logout": "LOGOUT"
+    },
+    "redirectStep": {
+        "placeholder": "Type in your message here, which will displayed when the Bot redirects to another Bot or a human agent",
+        "deploy": "Deploy"        
     },
     "templateStep": {
         "chooseTemplate": "Choose a template",
@@ -99,9 +119,13 @@
         "setEntity": "Set an entity for",
         "addQuestion": "Add your questions here",
         "setEntities": "Set your entities here",
-        "placeholder": "Type in your possible user questions here"
+        "placeholder": "Type your possible user questions here",
+        "title": "Do you really want to delete this sentence?",
+        "content": "You can't restore sentences which were removed. You can still add new sentences.",
+        "set": "set"
+
     },
     "welcomeStep": {
-        "placeholder": "Type in your message here, which will greet your customer at the beginning of the chat"
+        "placeholder": "Type your message here, which will greet your customer at the beginning of the chat"
     }
 }
