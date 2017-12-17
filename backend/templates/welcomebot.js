@@ -43,7 +43,7 @@ class WelcomeBot extends Bot {
         this.agent.on('ms.MessagingEventNotification', body => {
             // If the bot has already joined the conversation and the user sends a message, send the next set of options or redirect them to another agent.
             body.changes
-                .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
+                .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId && body.changes[0].__isMe === false)
                 .forEach(async change => {
                     let userMessage = change.event.message;
                     // Fallback to human agent if answer could not be parsed.
