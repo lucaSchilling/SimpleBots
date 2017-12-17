@@ -73,7 +73,6 @@
 export default {
   name: 'history',
   data: () => ({
-    showDialog: false,
     showDialogClone: false,
     botInfo: {},
     active: false,

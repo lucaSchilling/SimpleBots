@@ -136,6 +136,7 @@ export default {
         options: null
       }]
     }
+    state.welcomeBot.redirectMessage = null
     state.faqBot.intents = []
     state.faqBot.entities = []
     state.bot.lastedit = null
