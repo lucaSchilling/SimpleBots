@@ -114,7 +114,7 @@ export default {
   },
   methods: {
     addUterance: function () {
-      this.sentences.push(this.uterance)
+      this.sentences.push(this.uterance.replace('?', ''))
       this.uterances.push(this.uterance.split(' '))
     },
     openDialog (satz, word) {
