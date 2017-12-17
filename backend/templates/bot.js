@@ -82,7 +82,7 @@ class Bot {
      * @param {string} convState the conversation state for which should be subscribed
      * @param {boolean} agentOnly if true, the bot only subscribes to conversations in which the agent is or which are suitable for his skills
      */
-    async subscribeToConversations(convState = 'OPEN', agentOnly = false) {
+    async subscribeToConversations(convState = 'OPEN', agentOnly = true) {
         if (!this.isConnected) {
             return;
         }
