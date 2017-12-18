@@ -30,7 +30,7 @@ db.connect(mongoURL, function (err) {
             // Requires the correct file for the needed template.
             let template = require('./' + config.template.replace(' ', '').toLowerCase())
             // Creates a new bot of the needed template with his config.
-            let bot = new template('25352227', 'christopher', '!Slytherin1g', config);
+            let bot = new template(config.accountId, config.username, config.password, config);
             bot.start();
         }).catch(function (err) {
             console.error('/botStart.js 37 - Error: ' + err)
