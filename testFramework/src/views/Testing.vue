@@ -6,7 +6,7 @@
         </div>
         <div class="bt-chat-logout" @click="close">reload</div>
             </div>
-      <div class="bt-chat-body">
+      <div class="bt-chat-body" id="bt-chat-body">
         <div class="bt-chat-message" :class="message.type" v-for="(message, index) in messages" :key="index">
           <div class="bt-chat-speechbubble" :class="message.type">
             <span>{{ message.content }}</span>
@@ -254,6 +254,9 @@ export default {
 
       return false
     }
+  },
+  updated () {
+    document.getElementById('bt-chat-body').scrollTop = document.getElementById('bt-chat-body').scrollHeight
   }
 }
 </script>
@@ -273,7 +276,9 @@ export default {
 }
 
 .bt-chat-header {
-  height: 70px;
+  position: fixed;
+  height: 12%;
+  width: 100vw;
   background-color: #3DADD0;
   padding: 15px 10px 10px 10px;
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.24);
@@ -324,6 +329,11 @@ export default {
 .bt-chat-body {
   padding: 15px 10px 10px 10px;
   box-sizing: border-box;
+  position: absolute;
+  width: 100vw;
+  top: 12%;
+  bottom: 12%;
+  overflow: auto;
 }
 
 .bt-chat-timestamp {
@@ -376,6 +386,7 @@ export default {
 
 .bt-chat-footer {
   background-color: #3DADD0;
+  height: 12%;
   width: 100%;
   bottom: 0;
   position: fixed;
