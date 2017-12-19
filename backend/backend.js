@@ -36,11 +36,11 @@ for (key in installedTemplates) {
 }
 
 config();
-const accountId = process.env.LP_ACCOUNT;
-const username = process.env.LP_USER;
-const password = process.env.LP_PASS;
-const port = process.env.PORT;
-const mongoURL = process.env.MONGOURL;
+var accountId = process.env.LP_ACCOUNT;
+var username = process.env.LP_USER;
+var password = process.env.LP_PASS;
+var port = process.env.PORT;
+var mongoURL = process.env.MONGOURL;
 
 var server = express();
 server.use(cors());
@@ -50,8 +50,9 @@ db.setUrl(mongoURL);
 
 // Start listening.
 server.listen(port, function () {
+    setTimeout(function () {
     console.log(logo);
-    console.log('/runtime.js 55 - Simple Bots backend services listening on port ' + port);
+    console.log('/runtime.js 55 - Simple Bots backend services listening on port ' + port);}, 5000)
 });
 
 // Deploys the bot into a ready state and saves it in the database. Expects valid JSON.
