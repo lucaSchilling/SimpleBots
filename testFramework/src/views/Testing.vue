@@ -334,6 +334,7 @@ export default {
   top: 12%;
   bottom: 12%;
   overflow: auto;
+  display: block;
 }
 
 .bt-chat-timestamp {
@@ -424,4 +425,5 @@ export default {
   cursor: pointer;
   background-color: #555;
 }
+
 </style>
