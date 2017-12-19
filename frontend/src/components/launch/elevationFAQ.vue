@@ -25,7 +25,7 @@
           </div>
 
         <video id="faqvideo" controls>
-          <source src="../../../assets/intro.mp4" type="video/mp4">
+          <source src="../../../assets/faq-bot.mp4" type="video/mp4">
         </video>
         
         <div id="below">

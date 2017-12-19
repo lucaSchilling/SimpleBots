@@ -101,7 +101,7 @@ class FAQBot extends Bot {
         let getApplicationsRes = await axios.get(this.config.luisApiUrl);
         if (getApplicationsRes.status === 200) {
             for (let app of getApplicationsRes.data) {
-                if (app.name === this.config._id) {
+                if (app.name === this.config.username + this.config._id) {
                     this.luisAppId = app.id;
                     this.init();
                     this.isTrainingComplete = true;
@@ -119,7 +119,7 @@ class FAQBot extends Bot {
 
         // Create app.
         let createAppRes = await axios.post(this.config.luisApiUrl, {
-            name: this.config._id,
+            name: this.config.username + this.config._id,
             description: '',
             culture: 'de-de',
             usageScenario: 'IoT',

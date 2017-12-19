@@ -107,6 +107,9 @@ server.post('/deploy/:user', function (req, res) {
                 botJson.luisReqUrl = process.env.LUIS_REQ_URL;
                 botJson.luisApiUrl = process.env.LUIS_API_URL;
                 botJson.luisKey = process.env.LUIS_KEY;
+                botJson.accountId = accountId;
+                botJson.usernameLP = username;
+                botJson.password = password;
     
                 // Update incremental bot id.
                 let updatedId = {
