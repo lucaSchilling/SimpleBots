@@ -8,9 +8,6 @@ services:
     # port forwarding
     ports:
       - "3000:3000" 
-    # links the backend with the database container  
-    links:
-      - database
     # starts the backend only if the database container is already running  
     depends_on:
       - database

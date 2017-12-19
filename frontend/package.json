@@ -24,6 +24,11 @@
     "not ie <= 8"
   ],
   "dependencies": {
+    "express": "^4.16.2",
+    "ejs": "^2.5.7"
+
+  },
+  "devDependencies": {
     "axios": "^0.17.0",
     "opn": "^5.1.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
@@ -35,9 +40,7 @@
     "vue-router": "^3.0.1",
     "vuelidate": "^0.6.1",
     "vuex": "^3.0.1",
-    "vuex-i18n": "^1.8.0"
-  },
-  "devDependencies": {
+    "vuex-i18n": "^1.8.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
