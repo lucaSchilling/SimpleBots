@@ -47,6 +47,10 @@ services:
       - slitherin
     # restarts the backend if the container crashes or if the host has rebootet 
     restart: always
+  testframework:
+    build: ./testFramework/
+    ports:
+      - "8081:8080"
 # defining a standard network for our docker-compose so we dont use the default docker network    
 networks:
   slitherin:
