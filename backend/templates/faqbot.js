@@ -46,7 +46,7 @@ class FAQBot extends Bot {
         });
         this.agent.on('ms.MessagingEventNotification', body => {
             body.changes
-                .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId)
+                .filter(change => this.openConversations[change.dialogId] && change.event.type === 'ContentEvent' && change.originatorId !== this.agent.agentId && body.changes[0].__isMe === false)
                 .forEach(async change => {
                     let userMessage = change.event.message;
                     let getPredictionsRes = await axios.get(this.config.luisReqUrl + this.luisAppId + '?q=' + userMessage);
