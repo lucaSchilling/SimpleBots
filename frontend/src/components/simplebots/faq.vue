@@ -54,7 +54,7 @@
         <md-table-head></md-table-head>
       </md-table-row>
 
-      <md-table-row v-for="int in intents" v-bind:key="int">
+      <md-table-row v-for="(int, index) in intents" v-bind:key="int">
 
         <md-table-cell>
           <p>{{int.name}}</p>
@@ -65,11 +65,11 @@
         </md-table-cell>
 
         <md-table-cell>
-          <md-button @click="editObject('intent', int)" class="md-icon-button buttonRight">
+          <md-button @click="editObject('intent', int, index)" class="md-icon-button buttonRight">
             <md-icon>create</md-icon>
           </md-button>
 
-          <md-button @click="deleteObject('intent', int)" class="md-icon-button buttonRight">
+          <md-button @click="deleteObject('intent', index)" class="md-icon-button buttonRight">
             <md-icon>delete</md-icon>
           </md-button>
         </md-table-cell>
@@ -91,15 +91,15 @@
         <md-table-head></md-table-head>
       </md-table-row>
 
-      <md-table-row v-for="ent in entities" v-bind:key="ent">
+      <md-table-row v-for="(ent, index) in entities" v-bind:key="ent">
         <md-table-cell>
           <p>{{ent.name}}</p>
         </md-table-cell>
         <md-table-cell>
-          <md-button @click="editObject('entity', ent)" class="md-icon-button buttonRight">
+          <md-button @click="editObject('entity', ent, index)" class="md-icon-button buttonRight">
             <md-icon>create</md-icon>
           </md-button>
-          <md-button @click="deleteObject('entity', ent)" class="md-icon-button buttonRight">
+          <md-button @click="deleteObject('entity', index)" class="md-icon-button buttonRight">
             <md-icon>delete</md-icon>
           </md-button>
         </md-table-cell>
@@ -117,7 +117,9 @@ export default {
     message: null,
     activeEntity: false,
     activeIntent: false,
-    hasInput: false
+    hasInput: false,
+    intentDelete: null,
+    entityDelte: null
   }),
   computed: {
     entities: {
@@ -176,25 +178,25 @@ export default {
       this.hasInput = false
     },
     // Removes an intent or an entity from the table
-    deleteObject: function (name, object) {
+    deleteObject: function (name, index) {
       if (name === 'intent') {
-        this.intents.pop(object)
+        this.intents.splice(index, 1)
       } else if (name === 'entity') {
-        this.entities.pop(object)
+        this.entities.splice(index, 1)
       }
     },
     // Pops the intent or the entity from the table and sets the input fields correctly
-    editObject: function (name, object) {
+    editObject: function (name, object, index) {
       this.hasInput = false
       if (name === 'intent') {
         this.intent = object.name
         this.message = object.message
         this.activeIntent = true
-        this.intents.pop(object)
+        this.intents.splice(index, 1)
       } else if (name === 'entity') {
         this.entity = object.name
         this.activeEntity = true
-        this.entities.pop(object)
+        this.entities.splice(index, 1)
       }
     },
     setDone (object) {
