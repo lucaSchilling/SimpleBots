@@ -77,7 +77,6 @@ docker run -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock backend
 * **Christopher Rotter** - *Backend Leader* - [find me here](https://github.com/ChristopherRotter)
 * **Ibrahim Dursun** - *Tester* - [find me here](https://github.com/ibdursun)
 * **Lucas Englert** - *Tester* - [find me here](https://github.com/Lucas964)
-* **Markus Klatt** - *Organisation and Documentation* - [find me here](https://github.com/TPEMarkus)
 
 Take a look at the list of [contributors](https://github.com/lucaSchilling/SEP-Slitherin/contributors) to see participated in this project.
 
