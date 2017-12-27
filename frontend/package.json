@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "A frontend based on vue-material for managing a bot network",
   "author": "Luca Schilling <1610927@stud.hs-mannheim.de>",
-  "license": "Apache-2.0",
+  "license": "mit",
   "repository": {
     "type": "git",
     "url": "git://github.com/lucaSchilling/SEP-Slitherin.git"

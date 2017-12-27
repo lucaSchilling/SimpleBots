@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Express Server which can execute docker build, create, run, start, stop and remove for our SimpleBots Application",
   "author": "Luca Schilling <1610927@stud.hs-mannheim.de>",
-  "license": "Apache-2.0",
+  "license": "mit",
   "repository": {
     "type": "git",
     "url": "git://github.com/lucaSchilling/SEP-Slitherin.git"
